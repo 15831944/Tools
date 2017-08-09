@@ -1,0 +1,246 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 中文(中华人民共和国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#include ""res\\DCommer.rc2""  // 非 Microsoft Visual C++ 编辑的资源\r\n"
+    "#include ""afxres.rc""     // 标准组件\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\DCommer.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 235, 85
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "关于 DCommer"
+FONT 9, "宋体", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,12,20,20
+    LTEXT           "DCommer",IDC_STATIC,41,13,119,8,SS_NOPREFIX
+    LTEXT           "大工计控荣誉出品",IDC_STATIC,41,31,173,8
+    DEFPUSHBUTTON   "确定",IDOK,178,62,50,16,WS_GROUP
+    LTEXT           "Copyright (C) 2010",IDC_STATIC,41,67,119,8
+    LTEXT           "作者:随鑫所欲 a_tlas@163.com",IDC_STATIC,41,49,173,8
+END
+
+IDD_DCOMMER_DIALOG DIALOGEX 0, 0, 572, 357
+STYLE DS_SETFONT | DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "DCommer"
+FONT 9, "宋体", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_EDIT_SEND,7,57,458,73,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
+    PUSHBUTTON      "CRC校验",IDC_BT_CRC,117,7,41,15
+    DEFPUSHBUTTON   "发送",IDC_BT_SEND,7,7,41,34
+    COMBOBOX        IDC_CB_COM,515,38,43,102,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_CB_BAUD,515,55,43,104,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_CB_CHECK,515,73,43,104,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_CB_DATA,515,90,43,104,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_CB_STOP,515,107,43,104,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_OVERTIME,326,23,32,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "退出",IDCANCEL,524,7,41,15
+    LTEXT           "报文内容:",IDC_STATIC,7,47,41,10
+    LTEXT           "校验",IDC_STATIC_CHECK_PROT,482,75,32,10
+    LTEXT           "收到报文:",IDC_STATIC,7,133,49,10
+    EDITTEXT        IDC_EDIT_RECEIVE,7,146,558,187,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL
+    PUSHBUTTON      "清空收发报文",IDC_BT_CLEAR_REV,53,26,56,15
+    PUSHBUTTON      "整理发送报文",IDC_BT_CLEAN_SEND,53,7,56,15
+    CONTROL         "Hex",IDC_RADIO_TYPE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,65,133,25,10
+    CONTROL         "Asc",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,93,133,34,10
+    LTEXT           "串口",IDC_STATIC_COM_IP,482,41,30,10
+    LTEXT           "波特率",IDC_STATIC,482,57,32,10
+    LTEXT           "数据位",IDC_STATIC_DATA_PORT,482,92,32,10
+    LTEXT           "停止位",IDC_STATIC_STOP,482,109,31,10
+    GROUPBOX        "配置",IDC_STATIC,474,25,91,105
+    LTEXT           "ms",IDC_STATIC,361,27,12,9
+    CONTROL         "发收",IDC_RADIO_SENDTYPE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,184,21,28,10
+    CONTROL         "循环发收",IDC_RADIO_SENDTYPE1,"Button",BS_AUTORADIOBUTTON,225,21,45,10
+    CONTROL         "监听",IDC_CHECK_WATCH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,429,38,29,10
+    EDITTEXT        IDC_EDIT_XUNHUAN,184,36,39,14,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE
+    LTEXT           "次数  延迟",IDC_STATIC_XUNHUAN,225,40,41,10,NOT WS_VISIBLE
+    EDITTEXT        IDC_EDIT_DELAY,268,36,29,14,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE
+    LTEXT           "ms",IDC_STATIC_DELAY,301,40,10,10,NOT WS_VISIBLE
+    CONTROL         "串口",IDC_RADIO_NET1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,429,20,28,10
+    CONTROL         "UDP",IDC_RADIO_NET2,"Button",BS_AUTORADIOBUTTON,385,20,26,10
+    CONTROL         "",IDC_IP,"SysIPAddress32",WS_TABSTOP,482,55,76,14
+    EDITTEXT        IDC_EDIT_PORT,515,73,43,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_PORT2,515,90,43,14,ES_AUTOHSCROLL
+    GROUPBOX        "收发配置",IDC_STATIC,176,7,137,48
+    GROUPBOX        "超时时间",IDC_STATIC,317,7,57,48
+    GROUPBOX        "通信类型",IDC_STATIC,379,7,86,48
+    PUSHBUTTON      "关于",IDABOUT,473,7,41,15
+    PUSHBUTTON      "BCC校验",IDC_BT_BCC,117,26,41,15
+    CONTROL         "TCP",IDC_RADIO_NET3,"Button",BS_AUTORADIOBUTTON,385,38,26,10
+    EDITTEXT        IDC_EDIT_COUNT_SEND,41,336,108,14,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "发送数:",IDC_STATIC,7,337,32,10
+    EDITTEXT        IDC_EDIT_COUNT_RCV,211,336,108,14,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "回复数:",IDC_STATIC,177,337,32,10
+    EDITTEXT        IDC_EDIT_COUNT_BAD,381,336,108,14,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "超时数:",IDC_STATIC,347,337,32,10
+    PUSHBUTTON      "清空",IDC_BT_CLEAN_STATE,517,335,48,15
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,12,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080403a8"
+        BEGIN
+            VALUE "CompanyName", "TODO: <公司名>"
+            VALUE "FileDescription", "TODO: <文件说明>"
+            VALUE "FileVersion", "1.8.0.1"
+            VALUE "InternalName", "DCommer.exe"
+            VALUE "LegalCopyright", "TODO: (C) <公司名>。保留所有权利。"
+            VALUE "OriginalFilename", "DCommer.exe"
+            VALUE "ProductName", "TODO: <产品名>"
+            VALUE "ProductVersion", "1.8.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 936
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 78
+    END
+
+    IDD_DCOMMER_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 565
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 350
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_ABOUTBOX            "关于 DCommer(&A)..."
+    IDP_SOCKETS_INIT_FAILED "Windows 套接字初始化失败。"
+END
+
+#endif    // 中文(中华人民共和国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE 4, 2
+#pragma code_page(936)
+#include "res\DCommer.rc2"  // 非 Microsoft Visual C++ 编辑的资源
+#include "afxres.rc"     // 标准组件
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
