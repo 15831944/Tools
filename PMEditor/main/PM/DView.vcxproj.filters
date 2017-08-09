@@ -1,0 +1,827 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{477d84d2-a326-41cb-b77a-54005509359e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AddItemGroupDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="AlarmProperty.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorParamDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CamDoc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CamFrame.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CamGrid.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CamMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CamView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CloneItemDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Compiler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Config.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CreatProjectDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomItems.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DBMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DCCE_HtmlDialog.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DCCE_Splash.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DCCE_SplashDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DEthernet.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DevCompanyDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceComputer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceInterface.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceLine.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceMapDoc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceMapFrm.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceMapView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceOne.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceParam.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DevMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DMemDC.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DOPCMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DReport.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DSerial.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DTreeCtrl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DXPEditor.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EtherNetSetDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FindDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Gbl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Hmi.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemDoc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemFrame.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemGrid.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemGroup.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemInConfigDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemProperty.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MyHelp.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectInProperty.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="OutputPane.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Project.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjGuideDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyCam.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyDB.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyDevice.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyDOPC.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyEthernet.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyItems.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyParam.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyRongYu.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertySerial.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertySlave.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ReNameDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="RongYuMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ScanMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ScanSetDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ScanSetInfo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptEditDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptItem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptObject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SerialSetDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerCommer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerCtrl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftInfo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftSetCompileDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftSetDeviceXmlDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftSetDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftSetItemGridDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftSetServerDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftSetTuoPuDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceProperty.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceDevice.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceItem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceProject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="StartDoc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="StartFrm.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="StartView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="StringAddDelDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="WriteItemDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlArea.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlBehavior.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlDevice.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlEnum.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlInterface.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParaInfo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlProgramInfo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlProtocol.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlScan.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="XTooltip.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MyCrc.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="MyDes.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="MyMD5.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="AboutDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="NewProjectDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AboutDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="AddItemGroupDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="AlarmProperty.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorParamDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CamDoc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CamFrame.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CamGrid.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CamMgr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CamView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CloneItemDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Compiler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigMgr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CreatProjectDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomItems.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DBMgr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DCCE_HtmlDialog.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DCCE_Splash.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DCCE_SplashDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DEthernet.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DevCompanyDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceComputer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceInterface.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceLine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceMapDoc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceMapFrm.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceMapView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceOne.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceParam.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DevMgr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DMemDC.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DOPCMgr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DReport.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DSerial.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DTreeCtrl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DXPEditor.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EtherNetSetDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FindDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Gbl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Hmi.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemDoc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemFrame.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemGrid.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemGroup.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemInConfigDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemMgr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemProperty.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MyHelp.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectInProperty.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="OutputPane.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Project.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectMgr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjGuideDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyCam.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyDB.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyDevice.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyDOPC.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyEthernet.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyItems.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyParam.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyRongYu.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertySerial.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertySlave.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ReNameDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RongYuMgr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ScanMgr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ScanSetDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ScanSetInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptEditDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptItem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SerialSetDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerCommer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerCtrl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftSetCompileDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftSetDeviceXmlDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftSetDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftSetItemGridDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftSetServerDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftSetTuoPuDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceProperty.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceDevice.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceItem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceProject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="StartDoc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="StartFrm.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="StartView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="StringAddDelDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="WriteItemDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlArea.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlBehavior.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlDevice.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlEnum.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlInterface.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlMgr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParaInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlProgramInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlProtocol.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlScan.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="XTooltip.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MyCrc.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDes.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="MyMD5.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="NewProjectDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\bitmap_add.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\bmp_camera.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\bmp_goup.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\bmp_item_io.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\bmp_item_memory.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\bmp_itemgroup.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\bmpPptSheet.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\ddsfile_icon.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\DeviceDefault.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\DeviceList.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\DevState.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\DXPEditor.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\DXPEditorDoc.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\go_in.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\help.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\home.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\img_filetree.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\item_id.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\item_name.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\item_type.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\left32.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\master.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\Pane_ItemView.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\PopupClose.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\ProjToolBar.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\right32.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\SolutionExplorerPane.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\startpage.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\TB_TMP.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\Toolbar.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\toolbar3.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\TooltipDevice.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\watch.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\WelcomeDXP.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\折叠图标.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\NativeProject.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\WebProject.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DCSEditor.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\heartbeat.avi" />
+    <None Include="DCCE_HtmlDialog.html" />
+    <None Include="res\DXPEditor.rc2">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+</Project>

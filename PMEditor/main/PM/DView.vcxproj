@@ -1,0 +1,410 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>DView</ProjectName>
+    <ProjectGuid>{CC90D064-D01C-48B2-AABE-987B5AA29467}</ProjectGuid>
+    <RootNamespace>DCSEditor</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120_xp</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <PlatformToolset>v120_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <EmbedManifest>true</EmbedManifest>
+    <OutDir>$(SolutionDir)\Bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\Bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/Zm500 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.;..\..\libs\boost_1_55_0;..\..\libs\Xtreme_ToolkitPro_v15.3.1\Source;..\..\libs\Ultimate Grid\Include;..\..\libs\Ultimate Grid\CellTypes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <WarningLevel>Level3</WarningLevel>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0804</Culture>
+      <AdditionalIncludeDirectories>..\..\libs\Xtreme_ToolkitPro_v15.3.1\Source;$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>FileGuide.lib;htmlhelp.lib;ugdodm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <TypeLibraryResourceID>1</TypeLibraryResourceID>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <LargeAddressAware />
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>$(OutDir);..\..\libs\boost_1_55_0\lib\debug;..\..\libs\Xtreme_ToolkitPro_v15.3.1\Lib\vc120;..\..\libs\Ultimate Grid\Lib</AdditionalLibraryDirectories>
+      <ImageHasSafeExceptionHandlers />
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/Zm500 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.;..\..\libs\boost_1_55_0;..\..\libs\Xtreme_ToolkitPro_v15.3.1\Source;..\..\libs\Ultimate Grid\Include;..\..\libs\Ultimate Grid\CellTypes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0804</Culture>
+      <AdditionalIncludeDirectories>..\..\libs\Xtreme_ToolkitPro_v15.3.1\Source;$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>FileGuide.lib;htmlhelp.lib;ugrodm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>$(OutDir);..\..\libs\boost_1_55_0\lib\release;..\..\libs\Xtreme_ToolkitPro_v15.3.1\Lib\vc120;..\..\libs\Ultimate Grid\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AboutDlg.cpp" />
+    <ClCompile Include="AddItemGroupDlg.cpp" />
+    <ClCompile Include="AlarmProperty.cpp" />
+    <ClCompile Include="BehaviorParamDlg.cpp" />
+    <ClCompile Include="CamDoc.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CamFrame.cpp" />
+    <ClCompile Include="CamGrid.cpp" />
+    <ClCompile Include="CamMgr.cpp" />
+    <ClCompile Include="CamView.cpp" />
+    <ClCompile Include="CloneItemDlg.cpp" />
+    <ClCompile Include="Compiler.cpp" />
+    <ClCompile Include="Config.cpp" />
+    <ClCompile Include="ConfigMgr.cpp" />
+    <ClCompile Include="CreatProjectDlg.cpp" />
+    <ClCompile Include="CustomItems.cpp" />
+    <ClCompile Include="DBMgr.cpp" />
+    <ClCompile Include="DCCE_HtmlDialog.cpp" />
+    <ClCompile Include="DCCE_Splash.cpp" />
+    <ClCompile Include="DCCE_SplashDlg.cpp" />
+    <ClCompile Include="DEthernet.cpp" />
+    <ClCompile Include="DevCompanyDlg.cpp" />
+    <ClCompile Include="DeviceComputer.cpp" />
+    <ClCompile Include="DeviceInterface.cpp" />
+    <ClCompile Include="DeviceLine.cpp" />
+    <ClCompile Include="DeviceMapDoc.cpp" />
+    <ClCompile Include="DeviceMapFrm.cpp" />
+    <ClCompile Include="DeviceMapView.cpp" />
+    <ClCompile Include="DeviceOne.cpp" />
+    <ClCompile Include="DeviceParam.cpp" />
+    <ClCompile Include="DevMgr.cpp" />
+    <ClCompile Include="DMemDC.cpp" />
+    <ClCompile Include="DOPCMgr.cpp" />
+    <ClCompile Include="DReport.cpp" />
+    <ClCompile Include="DSerial.cpp" />
+    <ClCompile Include="DTreeCtrl.cpp" />
+    <ClCompile Include="DXPEditor.cpp" />
+    <ClCompile Include="EtherNetSetDlg.cpp" />
+    <ClCompile Include="FindDlg.cpp" />
+    <ClCompile Include="Gbl.cpp" />
+    <ClCompile Include="Hmi.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemDoc.cpp" />
+    <ClCompile Include="ItemFrame.cpp" />
+    <ClCompile Include="ItemGrid.cpp" />
+    <ClCompile Include="ItemGroup.cpp" />
+    <ClCompile Include="ItemInConfigDlg.cpp" />
+    <ClCompile Include="ItemMgr.cpp" />
+    <ClCompile Include="ItemProperty.cpp" />
+    <ClCompile Include="ItemView.cpp" />
+    <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="MyCrc.cpp" />
+    <ClCompile Include="MyDes.cpp" />
+    <ClCompile Include="MyHelp.cpp" />
+    <ClCompile Include="MyMD5.cpp" />
+    <ClCompile Include="NewProjectDlg.cpp" />
+    <ClCompile Include="ObjectInProperty.cpp" />
+    <ClCompile Include="OutputPane.cpp" />
+    <ClCompile Include="ProcessDlg.cpp" />
+    <ClCompile Include="Project.cpp" />
+    <ClCompile Include="ProjectMgr.cpp" />
+    <ClCompile Include="ProjGuideDlg.cpp" />
+    <ClCompile Include="PropertyCam.cpp" />
+    <ClCompile Include="PropertyDB.cpp" />
+    <ClCompile Include="PropertyDevice.cpp" />
+    <ClCompile Include="PropertyDlg.cpp" />
+    <ClCompile Include="PropertyDOPC.cpp" />
+    <ClCompile Include="PropertyEthernet.cpp" />
+    <ClCompile Include="PropertyItems.cpp" />
+    <ClCompile Include="PropertyParam.cpp" />
+    <ClCompile Include="PropertyRongYu.cpp" />
+    <ClCompile Include="PropertySerial.cpp" />
+    <ClCompile Include="PropertySlave.cpp" />
+    <ClCompile Include="ReNameDlg.cpp" />
+    <ClCompile Include="RongYuMgr.cpp" />
+    <ClCompile Include="ScanMgr.cpp" />
+    <ClCompile Include="ScanSetDlg.cpp" />
+    <ClCompile Include="ScanSetInfo.cpp" />
+    <ClCompile Include="ScriptEditDlg.cpp" />
+    <ClCompile Include="ScriptItem.cpp" />
+    <ClCompile Include="ScriptObject.cpp" />
+    <ClCompile Include="SerialSetDlg.cpp" />
+    <ClCompile Include="ServerCommer.cpp" />
+    <ClCompile Include="ServerCtrl.cpp" />
+    <ClCompile Include="SoftInfo.cpp" />
+    <ClCompile Include="SoftSetCompileDlg.cpp" />
+    <ClCompile Include="SoftSetDeviceXmlDlg.cpp" />
+    <ClCompile Include="SoftSetDlg.cpp" />
+    <ClCompile Include="SoftSetItemGridDlg.cpp" />
+    <ClCompile Include="SoftSetServerDlg.cpp" />
+    <ClCompile Include="SoftSetTuoPuDlg.cpp" />
+    <ClCompile Include="SourceProperty.cpp" />
+    <ClCompile Include="SpaceDevice.cpp" />
+    <ClCompile Include="SpaceItem.cpp" />
+    <ClCompile Include="SpaceProject.cpp" />
+    <ClCompile Include="StartDoc.cpp" />
+    <ClCompile Include="StartFrm.cpp" />
+    <ClCompile Include="StartView.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="StringAddDelDlg.cpp" />
+    <ClCompile Include="WriteItemDlg.cpp" />
+    <ClCompile Include="XmlArea.cpp" />
+    <ClCompile Include="XmlBehavior.cpp" />
+    <ClCompile Include="XmlDevice.cpp" />
+    <ClCompile Include="XmlEnum.cpp" />
+    <ClCompile Include="XmlInterface.cpp" />
+    <ClCompile Include="XmlMgr.cpp" />
+    <ClCompile Include="XmlParaInfo.cpp" />
+    <ClCompile Include="XmlProgramInfo.cpp" />
+    <ClCompile Include="XmlProtocol.cpp" />
+    <ClCompile Include="XmlScan.cpp" />
+    <ClCompile Include="XTooltip.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AboutDlg.h" />
+    <ClInclude Include="AddItemGroupDlg.h" />
+    <ClInclude Include="AlarmProperty.h" />
+    <ClInclude Include="BehaviorParamDlg.h" />
+    <ClInclude Include="CamDoc.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CamFrame.h" />
+    <ClInclude Include="CamGrid.h" />
+    <ClInclude Include="CamMgr.h" />
+    <ClInclude Include="CamView.h" />
+    <ClInclude Include="CloneItemDlg.h" />
+    <ClInclude Include="Compiler.h" />
+    <ClInclude Include="Config.h" />
+    <ClInclude Include="ConfigMgr.h" />
+    <ClInclude Include="CreatProjectDlg.h" />
+    <ClInclude Include="CustomItems.h" />
+    <ClInclude Include="DBMgr.h" />
+    <ClInclude Include="DCCE_HtmlDialog.h" />
+    <ClInclude Include="DCCE_Splash.h" />
+    <ClInclude Include="DCCE_SplashDlg.h" />
+    <ClInclude Include="DEthernet.h" />
+    <ClInclude Include="DevCompanyDlg.h" />
+    <ClInclude Include="DeviceComputer.h" />
+    <ClInclude Include="DeviceInterface.h" />
+    <ClInclude Include="DeviceLine.h" />
+    <ClInclude Include="DeviceMapDoc.h" />
+    <ClInclude Include="DeviceMapFrm.h" />
+    <ClInclude Include="DeviceMapView.h" />
+    <ClInclude Include="DeviceOne.h" />
+    <ClInclude Include="DeviceParam.h" />
+    <ClInclude Include="DevMgr.h" />
+    <ClInclude Include="DMemDC.h" />
+    <ClInclude Include="DOPCMgr.h" />
+    <ClInclude Include="DReport.h" />
+    <ClInclude Include="DSerial.h" />
+    <ClInclude Include="DTreeCtrl.h" />
+    <ClInclude Include="DXPEditor.h" />
+    <ClInclude Include="EtherNetSetDlg.h" />
+    <ClInclude Include="FindDlg.h" />
+    <ClInclude Include="Gbl.h" />
+    <ClInclude Include="Hmi.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemDoc.h" />
+    <ClInclude Include="ItemFrame.h" />
+    <ClInclude Include="ItemGrid.h" />
+    <ClInclude Include="ItemGroup.h" />
+    <ClInclude Include="ItemInConfigDlg.h" />
+    <ClInclude Include="ItemMgr.h" />
+    <ClInclude Include="ItemProperty.h" />
+    <ClInclude Include="ItemView.h" />
+    <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="MyCrc.h" />
+    <ClInclude Include="MyDes.h" />
+    <ClInclude Include="MyHelp.h" />
+    <ClInclude Include="MyMD5.h" />
+    <ClInclude Include="NewProjectDlg.h" />
+    <ClInclude Include="ObjectInProperty.h" />
+    <ClInclude Include="OutputPane.h" />
+    <ClInclude Include="ProcessDlg.h" />
+    <ClInclude Include="Project.h" />
+    <ClInclude Include="ProjectMgr.h" />
+    <ClInclude Include="ProjGuideDlg.h" />
+    <ClInclude Include="PropertyCam.h" />
+    <ClInclude Include="PropertyDB.h" />
+    <ClInclude Include="PropertyDevice.h" />
+    <ClInclude Include="PropertyDlg.h" />
+    <ClInclude Include="PropertyDOPC.h" />
+    <ClInclude Include="PropertyEthernet.h" />
+    <ClInclude Include="PropertyItems.h" />
+    <ClInclude Include="PropertyParam.h" />
+    <ClInclude Include="PropertyRongYu.h" />
+    <ClInclude Include="PropertySerial.h" />
+    <ClInclude Include="PropertySlave.h" />
+    <ClInclude Include="ReNameDlg.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="RongYuMgr.h" />
+    <ClInclude Include="ScanMgr.h" />
+    <ClInclude Include="ScanSetDlg.h" />
+    <ClInclude Include="ScanSetInfo.h" />
+    <ClInclude Include="ScriptEditDlg.h" />
+    <ClInclude Include="ScriptItem.h" />
+    <ClInclude Include="ScriptObject.h" />
+    <ClInclude Include="SerialSetDlg.h" />
+    <ClInclude Include="ServerCommer.h" />
+    <ClInclude Include="ServerCtrl.h" />
+    <ClInclude Include="SoftInfo.h" />
+    <ClInclude Include="SoftSetCompileDlg.h" />
+    <ClInclude Include="SoftSetDeviceXmlDlg.h" />
+    <ClInclude Include="SoftSetDlg.h" />
+    <ClInclude Include="SoftSetItemGridDlg.h" />
+    <ClInclude Include="SoftSetServerDlg.h" />
+    <ClInclude Include="SoftSetTuoPuDlg.h" />
+    <ClInclude Include="SourceProperty.h" />
+    <ClInclude Include="SpaceDevice.h" />
+    <ClInclude Include="SpaceItem.h" />
+    <ClInclude Include="SpaceProject.h" />
+    <ClInclude Include="StartDoc.h" />
+    <ClInclude Include="StartFrm.h" />
+    <ClInclude Include="StartView.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StringAddDelDlg.h" />
+    <ClInclude Include="WriteItemDlg.h" />
+    <ClInclude Include="XmlArea.h" />
+    <ClInclude Include="XmlBehavior.h" />
+    <ClInclude Include="XmlDevice.h" />
+    <ClInclude Include="XmlEnum.h" />
+    <ClInclude Include="XmlInterface.h" />
+    <ClInclude Include="XmlMgr.h" />
+    <ClInclude Include="XmlParaInfo.h" />
+    <ClInclude Include="XmlProgramInfo.h" />
+    <ClInclude Include="XmlProtocol.h" />
+    <ClInclude Include="XmlScan.h" />
+    <ClInclude Include="XTooltip.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\bitmap_add.bmp" />
+    <Image Include="res\bmpPptSheet.bmp" />
+    <Image Include="res\bmp_camera.bmp" />
+    <Image Include="res\bmp_goup.bmp" />
+    <Image Include="res\bmp_itemgroup.bmp" />
+    <Image Include="res\bmp_item_io.bmp" />
+    <Image Include="res\bmp_item_memory.bmp" />
+    <Image Include="res\ddsfile_icon.ico" />
+    <Image Include="res\DeviceDefault.bmp" />
+    <Image Include="res\DeviceList.bmp" />
+    <Image Include="res\DevState.bmp" />
+    <Image Include="res\DXPEditor.ico" />
+    <Image Include="res\DXPEditorDoc.ico" />
+    <Image Include="res\go_in.bmp" />
+    <Image Include="res\help.bmp" />
+    <Image Include="res\home.ico" />
+    <Image Include="res\img_filetree.bmp" />
+    <Image Include="res\item_id.bmp" />
+    <Image Include="res\item_name.bmp" />
+    <Image Include="res\item_type.bmp" />
+    <Image Include="res\left32.ico" />
+    <Image Include="res\master.ico" />
+    <Image Include="res\NativeProject.ico" />
+    <Image Include="res\Pane_ItemView.bmp" />
+    <Image Include="res\PopupClose.ico" />
+    <Image Include="res\ProjToolBar.bmp" />
+    <Image Include="res\right32.ico" />
+    <Image Include="res\SolutionExplorerPane.bmp" />
+    <Image Include="res\startpage.bmp" />
+    <Image Include="res\TB_TMP.bmp" />
+    <Image Include="res\Toolbar.bmp" />
+    <Image Include="res\toolbar3.bmp" />
+    <Image Include="res\TooltipDevice.bmp" />
+    <Image Include="res\watch.bmp" />
+    <Image Include="res\WebProject.ico" />
+    <Image Include="res\WelcomeDXP.bmp" />
+    <Image Include="res\折叠图标.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DCSEditor.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DCCE_HtmlDialog.html" />
+    <None Include="res\DXPEditor.rc2" />
+    <None Include="res\heartbeat.avi" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="DCSEditor.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

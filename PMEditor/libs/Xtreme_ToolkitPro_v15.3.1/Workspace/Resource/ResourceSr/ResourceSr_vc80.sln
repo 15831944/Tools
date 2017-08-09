@@ -1,0 +1,4 @@
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceSr", ".\ResourceSr_vc80.vcproj", "{72499421-8182-6548-7373-596244227362}"
+EndProject

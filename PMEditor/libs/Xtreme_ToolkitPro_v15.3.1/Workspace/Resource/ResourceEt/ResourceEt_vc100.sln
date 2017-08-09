@@ -1,0 +1,4 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceEt", ".\ResourceEt_vc100.vcxproj", "{68722153-2121-8343-8459-259526766271}"
+EndProject

@@ -1,0 +1,129 @@
+<HTML xmlns='http://schemas.microsoft.com/intellisense/ie5'>
+	<HEAD>
+		<TITLE>Start Page</TITLE>
+		<meta name="ce_targetSchema" content="Internet Explorer 5.0" charset=gb2312>
+		<link href="cehome.css" type="text/css" rel="StyleSheet" />
+	</HEAD>
+	<BODY bgcolor="white">
+		<!-- These spans are used as style bags in cehome.js since we can't assign classes (flashing problem) -->
+		<span ID="SpanClsTabItem" class="clsTabItem" style="DISPLAY:none"></span><span ID="SpanClsTabItemOver" class="clsTabItemOver" style="DISPLAY:none">
+		</span><span ID="SpanClsTabItemSelected" class="clsTabItemSelected" style="DISPLAY:none">
+		</span>
+		<table height="100%" cellSpacing="0" cellPadding="0" width="100%" border="0">
+			<tr vAlign="top">
+				<td colspan="2" height="71" align="left" nowrap STYLE="BACKGROUND-IMAGE: url(../images/start_gradient.jpg); BACKGROUND-REPEAT: no-repeat">
+					<span ID="StartLogo" style="font-size:36;font-weight:bold;color=white;font-family:arial; TOP: 34px; POSITION: absolute;">
+						&nbsp;大工计控</span> 
+				</td>
+				<td width="10%" height="71" align="right">
+				</td>
+			</tr>
+			<tr align="left">
+				<td class="clsLogo" vAlign="top" align="left" height="5" id="tdSubLogo"
+					bgcolor="#ea9f00">
+				</td>
+				<td colspan="2" id="tdTabFill" noWrap background="../images/droptab.GIF" class="clsTabToolbar">
+					<div class="clsSubPgTlBarHidden" id="spnSubPageToolbar">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="clsLeftNav" vAlign="top" width="151" rowSpan="3" bgcolor="#ea9f00">
+					<br>
+					<TABLE class="clsTabList" id="tblTabEnum" 
+						height="100%" cellSpacing="0" cellPadding="5" border="0" width="151">
+						<TBODY> <!-- filled in by fnEnumMenu -->
+							<TR>
+								<TD class="clsSelTabItem" id="menu" 
+									tabIndex="3" noWrap valign="top">开始</TD>
+							</TR>
+							<TR>
+								<TD class="clsTabItem" id="menu1" tabIndex="4"  noWrap valign="top" onmouseover="this.style.color = 'red';"
+									onfocus="this.style.color = 'red';" onmouseout="this.style.color = '#ffffff';" onclick="window.location.href='Characters.html';">软件简介</TD>
+							</TR>
+							<TR>
+								<TD class="clsTabItem" id="menu2" tabIndex="5" noWrap valign="top" onmouseover="this.style.color = 'red';"
+									onfocus="this.style.color = 'red';" onmouseout="this.style.color = '#ffffff';" onclick="window.location.href='services.html';">公司简介</TD>
+							</TR>
+							<TR>
+								<TD class="clsTabItem" id="menu4" tabIndex="7" noWrap valign="top" onmouseover="this.style.color = 'red';"
+									onfocus="this.style.color = 'red';" onmouseout="this.style.color = '#ffffff';" onclick="window.location.href='http://www.dlia.com.cn';">公司主页</TD>
+							</TR>
+							<TR height="100%">
+								<TD class="clsTabItem" id="menuLast" valign="top">
+								</TD>
+							</TR>
+						</TBODY>
+					</TABLE>
+				</td>
+				<TD vAlign="top" colSpan="3" nowrap STYLE="BACKGROUND-IMAGE: url(../images/watermark1.jpg); BACKGROUND-REPEAT: no-repeat" class="clsTabContent">
+					<br>
+					<br>
+<!--					<DIV class="clsTabRenderArea" id="StartProjDiv" style="DISPLAY: inline">  -->
+					<DIV class="homePageInactive" id="StartProjDiv" style="DISPLAY: inline"><FONT face="宋体" size="5px" color='#0000ff'>
+						<a id="ProjRULList">&nbsp;PROJECT_n</a>
+					</FONT></DIV>
+					<br>
+					<TABLE id="MruList11" cellSpacing="0" cellPadding="0" width="100%" border="0">
+						<tr align="left">
+							<TD vAlign="center" align="right" width="40%">
+								<BUTTON class="buttonface" id="NewProjBtn" onblur="this.style.color = '#5685cd';" onmouseover="this.style.color = 'red';"
+									onfocus="this.style.color = 'red';" onclick="" onmouseout="this.style.color = '#5685cd';"
+									type="button" value="New Platform">新建工程</BUTTON></TD>
+									<td vAlign="center" align="center" width="20%">
+								<BUTTON class="buttonface" id="OpenProjBtn" onblur="this.style.color = '#5685cd';" onmouseover="this.style.color = 'red';"
+									onfocus="this.style.color = 'red';" onclick="" onmouseout="this.style.color = '#5685cd';" type="button" value="Open Workspace">打开工程</BUTTON></td>
+									<td vAlign="center" align ="left" width="40%">
+								<BUTTON class="buttonface" id="OpenHelpBtn" onblur="this.style.color = '#5685cd';" onmouseover="this.style.color = 'red';"
+									onfocus="this.style.color = 'red';" onclick="" onmouseout="this.style.color = '#5685cd';" type="button" value="Help Topics">帮助主题</BUTTON>							<td>
+						</tr>
+					</TABLE>
+				</TD>
+			</tr>
+			<tr>
+				<td vAlign="top" align="left" height="5" class="clsTabToolbar" id="tdTabFill1" noWrap background="../images/droptab.gif">
+				</td>
+			</tr>
+			<tr>
+				<TD vAlign="top" colSpan="3" nowrap STYLE="BACKGROUND-IMAGE: url(../images/watermark1.jpg); BACKGROUND-REPEAT: no-repeat" class="clsStaticItem">
+			<br>
+					<IMG class="homepageimage" height="20" alt="" src="../images/update.bmp" width="20" align="absMiddle"
+						vspace="4">如何开始<BR>
+						<TABLE id="NotificationTable1" cellSpacing="0" cellPadding="0" width="100%" border="0">
+								<TR>
+									<TD width="15%"></TD>
+									<TD vAlign="middle">
+									<A class="homePageInactive" id="notifyListEntry1" href="samples.htm">获取经典工程范例</A></TD>
+								</TR>
+								<TR>
+									<TD width="15%"></TD>
+									<TD vAlign="middle">
+									<A class="homePageInactive" id="notifyListEntry3" href="PEC 7000 可编程控制器系统手册V3.5.pdf">软件的
+									使用说明</A></TD>
+								</TR>
+								<TR>
+								<TD width="15%"></TD>
+									<TD vAlign="middle">
+									<A class="homePageInactive" id="OpenHelpBtn" href="#">更多帮助信息...</A></TD>
+									</TR>
+						</TABLE>
+					<BR clear="all">
+				</TD>
+			</tr>
+			<tr>
+				<td vAlign="top" align="left" height="5" class="clsTabToolbar" id="tdTabFill1" noWrap background="../images/droptab.gif">
+				</td>
+			</tr>
+			</TBODY>
+		</table>
+		</td></tr> </table> 
+		<!--
+		<input type="button" value="menu"  ID="Button1" NAME="Button1">
+		<input type="button" value="content" onclick="showhtml(tdContentCell);" ID="Button2" NAME="Button2">
+		<input type="text" name="outtext" size="80" style="font-size: 10;" /> <a href="start_bak.html">
+			old start</a>
+		-->
+		<div class="clsPopupDisplay" id="divPopupDisplay">
+		</div>
+	</BODY>
+</HTML>

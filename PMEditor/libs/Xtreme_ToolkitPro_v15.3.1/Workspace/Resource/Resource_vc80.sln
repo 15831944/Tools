@@ -1,0 +1,72 @@
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceArSa", ".\ResourceArSa\ResourceArSa_vc80.vcproj", "{17864852-5169-9235-5557-513425888268}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceBg", ".\ResourceBg\ResourceBg_vc80.vcproj", "{42781696-3325-7428-2298-731378317328}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceCs", ".\ResourceCs\ResourceCs_vc80.vcproj", "{17188992-1984-2124-9372-236994449167}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceDa", ".\ResourceDa\ResourceDa_vc80.vcproj", "{94977169-7144-1214-8767-887713294625}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceDe", ".\ResourceDe\ResourceDe_vc80.vcproj", "{97312143-5797-3814-3186-849683892965}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceEl", ".\ResourceEl\ResourceEl_vc80.vcproj", "{22138786-3854-2996-9837-977546211925}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceEn", ".\ResourceEn\ResourceEn_vc80.vcproj", "{87546283-1512-5683-7999-463362353764}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceEs", ".\ResourceEs\ResourceEs_vc80.vcproj", "{74425251-7762-4882-6495-234971297422}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceEt", ".\ResourceEt\ResourceEt_vc80.vcproj", "{78669233-5426-7572-1724-186851794663}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceFi", ".\ResourceFi\ResourceFi_vc80.vcproj", "{13576977-3572-5675-7465-324714224623}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceFr", ".\ResourceFr\ResourceFr_vc80.vcproj", "{68884373-1239-9361-5538-719541256562}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceHe", ".\ResourceHe\ResourceHe_vc80.vcproj", "{65763441-7481-8569-5923-571248111129}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceHr", ".\ResourceHr\ResourceHr_vc80.vcproj", "{68117423-5944-1159-9342-433129717369}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceHu", ".\ResourceHu\ResourceHu_vc80.vcproj", "{83824167-3299-9343-5993-651973127329}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceIt", ".\ResourceIt\ResourceIt_vc80.vcproj", "{58332564-1857-3949-3166-156718259268}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceJa", ".\ResourceJa\ResourceJa_vc80.vcproj", "{45211532-7928-2138-3551-727417914726}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceKo", ".\ResourceKo\ResourceKo_vc80.vcproj", "{48456514-5662-5738-7879-779387611967}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceLt", ".\ResourceLt\ResourceLt_vc80.vcproj", "{73372358-3737-3822-3621-997241931127}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceLv", ".\ResourceLv\ResourceLv_vc80.vcproj", "{38679654-1486-7527-1794-493976162866}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceNl", ".\ResourceNl\ResourceNl_vc80.vcproj", "{83821216-6854-9911-4275-124976867645}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceNo", ".\ResourceNo\ResourceNo_vc80.vcproj", "{77265298-4417-2591-8594-976957464986}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourcePl", ".\ResourcePl\ResourcePl_vc80.vcproj", "{12972833-2663-1794-4245-295719874936}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourcePt", ".\ResourcePt\ResourcePt_vc80.vcproj", "{77488348-8322-4481-2318-699536926785}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourcePtBr", ".\ResourcePtBr\ResourcePtBr_vc80.vcproj", "{64368397-6572-3589-2714-351244761343}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceRo", ".\ResourceRo\ResourceRo_vc80.vcproj", "{67513489-4135-6279-6133-323225467684}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceRu", ".\ResourceRu\ResourceRu_vc80.vcproj", "{92429133-2282-4373-3874-542978787633}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceSk", ".\ResourceSk\ResourceSk_vc80.vcproj", "{57737439-8849-7968-1846-936714829482}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceSl", ".\ResourceSl\ResourceSl_vc80.vcproj", "{29581759-6991-5165-3843-622712794934}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceSr", ".\ResourceSr\ResourceSr_vc80.vcproj", "{47951579-4754-9857-4751-659483371381}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceSv", ".\ResourceSv\ResourceSv_vc80.vcproj", "{72777224-2819-8941-1412-888246781331}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceTh", ".\ResourceTh\ResourceTh_vc80.vcproj", "{47275629-8567-2646-8574-373972723289}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceTr", ".\ResourceTr\ResourceTr_vc80.vcproj", "{19838941-6629-9734-1472-968971716632}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceUk", ".\ResourceUk\ResourceUk_vc80.vcproj", "{37398761-4372-4436-2388-996652374988}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceZhCn", ".\ResourceZhCn\ResourceZhCn_vc80.vcproj", "{62225414-2537-2628-8939-235415693137}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Codejock.ToolkitPro.ResourceZhTw", ".\ResourceZhTw\ResourceZhTw_vc80.vcproj", "{27523711-8295-5325-6113-629241735886}"
+EndProject
