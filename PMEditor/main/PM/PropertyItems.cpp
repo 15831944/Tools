@@ -136,7 +136,7 @@ using namespace MVC;
 using namespace Item;
 CPropertyItems::CPropertyItems(void)
 {
-	m_ShowItem = boost::shared_ptr<CItem>(new CItem(_T("")));
+	m_ShowItem = std::shared_ptr<CItem>(new CItem(_T("")));
 }
 
 CPropertyItems::~CPropertyItems(void)
@@ -155,14 +155,14 @@ void CPropertyItems::ShowInfo(CXTPPropertyGrid& grid)
 	CreateEdit();
 
 	CXTPPropertyGridItem* pGroup;					//!< 属性组
-	boost::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;		//!< 描述信息
+	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;		//!< 描述信息
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	std::list<CString> strList, boolList;			//!< 下拉列表的内容
 	boolList.push_back(_T("No"));
 	boolList.push_back(_T("Yes"));
 	CComVariant cvr = _T("");
-	boost::shared_ptr<CPropertySource> showSrc = m_ShowItem->getSrcInfo();
-	boost::shared_ptr<CPropertyAlarm> showAlarm = m_ShowItem->getAlarmInfo();
+	std::shared_ptr<CPropertySource> showSrc = m_ShowItem->getSrcInfo();
+	std::shared_ptr<CPropertyAlarm> showAlarm = m_ShowItem->getAlarmInfo();
 
 	//!< 变量基本信息
 	pGroup = grid.AddCategory(ITEM_BASE_INFO);
@@ -197,9 +197,9 @@ void CPropertyItems::ShowInfo(CXTPPropertyGrid& grid)
 	//!< 所属变量组
 	strList.clear();
 	CString myGroupName = m_ShowItem->GetGroupName();
-	boost::shared_ptr<CItemGroup> group;
+	std::shared_ptr<CItemGroup> group;
 	int dftGroup = 0;
-	foreach(group, itemMgr->m_vtItemGroup)
+	for (auto group : itemMgr->m_vtItemGroup)
 	{
 		if(!group)			continue;
 		if(group->getName() == myGroupName)		dftGroup = strList.size();
@@ -252,9 +252,9 @@ void CPropertyItems::ShowInfo(CXTPPropertyGrid& grid)
 	//!< 所属设备
 	strList.clear();
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	boost::shared_ptr<MVC::Device::CDeviceOne> myDev;		//!< 本变量所属的设备
+	std::shared_ptr<MVC::Device::CDeviceOne> myDev;		//!< 本变量所属的设备
 	int defIndex = -1;
-	foreach(boost::shared_ptr<MVC::Device::CDeviceOne> device, devMgr->m_vtDevice)
+	for (std::shared_ptr<MVC::Device::CDeviceOne> device : devMgr->m_vtDevice)
 	{
 		if(!device)					continue;
 		if(!device->IsProj())		continue;
@@ -425,15 +425,15 @@ void CPropertyItems::CreateEdit()
 
 	//!< 比较每一个，找到哪些属性一样，哪些属性不一样
 	*m_ShowItem = *m_ltEditItem.front();
-	boost::shared_ptr<CItem> item, front;
+	std::shared_ptr<CItem> item, front;
 	front = m_ltEditItem.front();
-	boost::shared_ptr<CPropertySource> showSrc, itemSrc;
-	boost::shared_ptr<CPropertyAlarm> showAlarm, itemAlarm;
+	std::shared_ptr<CPropertySource> showSrc, itemSrc;
+	std::shared_ptr<CPropertyAlarm> showAlarm, itemAlarm;
 	showSrc = m_ShowItem->getSrcInfo();
 	showAlarm = m_ShowItem->getAlarmInfo();
 	ASSERT(showSrc);
 	ASSERT(showAlarm);
-	foreach(item, m_ltEditItem)
+	for (auto item : m_ltEditItem)
 	{
 		if(item == front)		continue;
 		itemSrc = item->getSrcInfo();
@@ -488,11 +488,11 @@ bool CPropertyItems::OnSaveModify(CXTPPropertyGrid& grid)
 	UINT itemID;
 	CComVariant cvr;
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
-	boost::shared_ptr<CItem> pItem = m_ltEditItem.front();
-	boost::shared_ptr<CPropertySource> itemSrc = pItem->getSrcInfo();
-	boost::shared_ptr<CPropertyAlarm> itemAlarm = pItem->getAlarmInfo();
-	boost::shared_ptr<CPropertySource> showSrc = m_ShowItem->getSrcInfo();
-	boost::shared_ptr<CPropertyAlarm> showAlarm = m_ShowItem->getAlarmInfo();
+	std::shared_ptr<CItem> pItem = m_ltEditItem.front();
+	std::shared_ptr<CPropertySource> itemSrc = pItem->getSrcInfo();
+	std::shared_ptr<CPropertyAlarm> itemAlarm = pItem->getAlarmInfo();
+	std::shared_ptr<CPropertySource> showSrc = m_ShowItem->getSrcInfo();
+	std::shared_ptr<CPropertyAlarm> showAlarm = m_ShowItem->getAlarmInfo();
 	ASSERT(pItem);
 	ASSERT(itemSrc);
 	ASSERT(itemAlarm);
@@ -550,7 +550,7 @@ bool CPropertyItems::OnSaveModify(CXTPPropertyGrid& grid)
 			m_bSrcType = false;
 		}
 		else if(ITEM_GROUP_ID == itemID){					//!< 所属变量组是否相同
-			boost::shared_ptr<CItemGroup> itemGroup = itemMgr->GetGroup(itemValue.Trim());
+			std::shared_ptr<CItemGroup> itemGroup = itemMgr->GetGroup(itemValue.Trim());
 			m_ShowItem->setMyGroupID(itemGroup ? itemGroup->getID() : 0);
 			m_bGroup = false;
 		}
@@ -582,7 +582,7 @@ bool CPropertyItems::OnSaveModify(CXTPPropertyGrid& grid)
 		}
 		else if(SRC_DEVICE_ID == itemID){					//!< 所属设备
 			MVC::Device::CDevMgr* mgr = &MVC::Device::CDevMgr::GetMe();
-			boost::shared_ptr<MVC::Device::CDeviceOne> device;
+			std::shared_ptr<MVC::Device::CDeviceOne> device;
 			device = mgr->GetDevice(itemValue);
 			if(device)
 				showSrc->setDevID(device->getID());
@@ -691,7 +691,7 @@ bool CPropertyItems::OnSaveModify(CXTPPropertyGrid& grid)
 	}
 
 	//!< 开始修改所有设备的属性
-	foreach(pItem, m_ltEditItem)
+	for (auto pItem : m_ltEditItem)
 	{
 		ASSERT(pItem);
 		itemSrc = pItem->getSrcInfo();

@@ -47,7 +47,7 @@ void CPropertyEthernet::DataReady()
 {
 	//!< 获得以太网对象
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	boost::shared_ptr<MVC::Device::InterfaceSet::CDEthernet> ether = devMgr->GetEthernet();
+	std::shared_ptr<MVC::Device::InterfaceSet::CDEthernet> ether = devMgr->GetEthernet();
 	ASSERT(ether);
 	m_uiLocalPort = ether->getLocalPort();
 	m_uiRetryNum = ether->getRetryNum();
@@ -195,7 +195,7 @@ bool CPropertyEthernet::OnSaveModify(CXTPPropertyGrid &grid)
 {
 	//!< 获得当前要显示的以太网
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
- 	boost::shared_ptr<MVC::Device::InterfaceSet::CDEthernet> ether = devMgr->GetEthernet();
+ 	std::shared_ptr<MVC::Device::InterfaceSet::CDEthernet> ether = devMgr->GetEthernet();
 	ASSERT(ether);
 	ether->setLocalPort(m_uiLocalPort);
 	ether->setRetryNum(m_uiRetryNum);

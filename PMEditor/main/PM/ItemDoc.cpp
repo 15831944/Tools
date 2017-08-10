@@ -28,10 +28,10 @@ tagItemUndo::tagItemUndo()
 	m_bEnd = false;
 }
 
-tagItemUndo::tagItemUndo(UINT type, boost::shared_ptr<CItem> item, UINT info)
+tagItemUndo::tagItemUndo(UINT type, std::shared_ptr<CItem> item, UINT info)
 {
 	if(type == CGbl::UNDO_TYPE_UPD){
-		m_Item = boost::shared_ptr<CItem>(new CItem(_T("")));
+		m_Item = std::shared_ptr<CItem>(new CItem(_T("")));
 		*m_Item = *item;
 	}
 	else{m_Item = item;}
@@ -54,7 +54,7 @@ CItemDoc::~CItemDoc()
 			CItemMgr::GetMe().m_pItemDoc = NULL;
 	}
 	else{
-		boost::shared_ptr<CItemGroup> group = CItemMgr::GetMe().GetGroup(m_uiGroupID);
+		std::shared_ptr<CItemGroup> group = CItemMgr::GetMe().GetGroup(m_uiGroupID);
 		if(group)		group->m_ItemDoc = NULL;
 	}
 }
@@ -113,7 +113,7 @@ void CItemDoc::ShowGroup(UINT groupid)
 	pView->m_ItemGrid.RedrawGrid();
 }
 
-void CItemDoc::AddUndoMember(boost::shared_ptr<SItemUndo> itemUndo)
+void CItemDoc::AddUndoMember(std::shared_ptr<SItemUndo> itemUndo)
 {
 	if(!itemUndo)				return;
 	CItemMgr::GetMe().SetModify();
@@ -135,7 +135,7 @@ void CItemDoc::OnUndo()
 	CItemGrid* itemGrid = GetGrid();
 	if(!itemGrid)				return;
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
-	boost::shared_ptr<SItemUndo> undo;
+	std::shared_ptr<SItemUndo> undo;
 	itemMgr->SetModify();
 	itemGrid->EnableUpdate(FALSE);
 	do{
@@ -154,7 +154,7 @@ void CItemDoc::OnUndo()
 
 void CItemDoc::UndoAdd()
 {
-	boost::shared_ptr<SItemUndo> undo = m_stItemUndo.top();
+	std::shared_ptr<SItemUndo> undo = m_stItemUndo.top();
 	m_stItemUndo.pop();
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	CItemGrid* itemGrid = GetGrid();
@@ -166,12 +166,12 @@ void CItemDoc::UndoAdd()
 
 void CItemDoc::UndoDel()
 {
-	boost::shared_ptr<SItemUndo> undo = m_stItemUndo.top();
+	std::shared_ptr<SItemUndo> undo = m_stItemUndo.top();
 	m_stItemUndo.pop();
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	itemMgr->m_vtItem[undo->m_Item->getID()] = undo->m_Item;
 	itemMgr->m_mpItem[undo->m_Item->getName()] = undo->m_Item;
-//	boost::shared_ptr<CItemGroup> group;
+//	std::shared_ptr<CItemGroup> group;
 // 	foreach(UINT id, undo->m_Item->m_ltGroupID)
 // 	{
 // 		group = itemMgr->GetGroup(id);
@@ -183,10 +183,10 @@ void CItemDoc::UndoDel()
 
 // void CItemDoc::UndoGup()
 // {
-// 	boost::shared_ptr<SItemUndo> undo = m_stItemUndo.top();
+// 	std::shared_ptr<SItemUndo> undo = m_stItemUndo.top();
 // 	m_stItemUndo.pop();
 // 	CItemMgr* itemMgr = &CItemMgr::GetMe();
-// 	boost::shared_ptr<CItemGroup> group = itemMgr->GetGroup(undo->m_uiEditInfo);
+// 	std::shared_ptr<CItemGroup> group = itemMgr->GetGroup(undo->m_uiEditInfo);
 // 	ASSERT(group);
 // 
 // 	if(undo->m_uiEditType == CGbl::UNDO_TYPE_GUP_DEL){
@@ -201,13 +201,13 @@ void CItemDoc::UndoDel()
 
 void CItemDoc::UndoUpd()
 {
-	boost::shared_ptr<SItemUndo> undo = m_stItemUndo.top();
+	std::shared_ptr<SItemUndo> undo = m_stItemUndo.top();
 	m_stItemUndo.pop();
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
-//	boost::shared_ptr<CItemGroup> group;
+//	std::shared_ptr<CItemGroup> group;
 
-	boost::shared_ptr<CItem> item = itemMgr->GetItem(undo->m_Item->getID());
-	boost::shared_ptr<SItemUndo> redo = boost::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item, 0));
+	std::shared_ptr<CItem> item = itemMgr->GetItem(undo->m_Item->getID());
+	std::shared_ptr<SItemUndo> redo = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item, 0));
 	redo->m_bEnd = undo->m_bEnd;
 	m_stItemRedo.push(redo);
 
@@ -232,7 +232,7 @@ void CItemDoc::OnRedo()
 	CItemGrid* itemGrid = GetGrid();
 	if(!itemGrid)				return;
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
-	boost::shared_ptr<SItemUndo> redo;
+	std::shared_ptr<SItemUndo> redo;
 	itemMgr->SetModify();
 	itemGrid->EnableUpdate(FALSE);
 	while(!m_stItemRedo.empty() && !m_stItemRedo.top()->m_bEnd){
@@ -255,12 +255,12 @@ void CItemDoc::OnRedo()
 
 void CItemDoc::RedoAdd()
 {
-	boost::shared_ptr<SItemUndo> redo = m_stItemRedo.top();
+	std::shared_ptr<SItemUndo> redo = m_stItemRedo.top();
 	m_stItemRedo.pop();
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	itemMgr->m_vtItem[redo->m_Item->getID()] = redo->m_Item;
 	itemMgr->m_mpItem[redo->m_Item->getName()] = redo->m_Item;
-//	boost::shared_ptr<CItemGroup> group;
+//	std::shared_ptr<CItemGroup> group;
 //	foreach(UINT id, redo->m_Item->m_ltGroupID)
 //	{
 //		group = itemMgr->GetGroup(id);
@@ -272,7 +272,7 @@ void CItemDoc::RedoAdd()
 
 void CItemDoc::RedoDel()
 {
-	boost::shared_ptr<SItemUndo> redo = m_stItemRedo.top();
+	std::shared_ptr<SItemUndo> redo = m_stItemRedo.top();
 	m_stItemRedo.pop();
 	CItemMgr::GetMe().DeleteItem(redo->m_Item->getID());
 	m_stItemUndo.push(redo);
@@ -280,10 +280,10 @@ void CItemDoc::RedoDel()
 
 // void CItemDoc::RedoGup()
 // {
-// 	boost::shared_ptr<SItemUndo> redo = m_stItemRedo.top();
+// 	std::shared_ptr<SItemUndo> redo = m_stItemRedo.top();
 // 	m_stItemRedo.pop();
 // 	CItemMgr* itemMgr = &CItemMgr::GetMe();
-// 	boost::shared_ptr<CItemGroup> group = itemMgr->GetGroup(redo->m_uiEditInfo);
+// 	std::shared_ptr<CItemGroup> group = itemMgr->GetGroup(redo->m_uiEditInfo);
 // 	ASSERT(group);
 // 
 // 	if(redo->m_uiEditType == CGbl::UNDO_TYPE_GUP_DEL){
@@ -298,13 +298,13 @@ void CItemDoc::RedoDel()
 
 void CItemDoc::RedoUpd()
 {
-	boost::shared_ptr<SItemUndo> redo = m_stItemRedo.top();
+	std::shared_ptr<SItemUndo> redo = m_stItemRedo.top();
 	m_stItemRedo.pop();
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
-//	boost::shared_ptr<CItemGroup> group;
+//	std::shared_ptr<CItemGroup> group;
 
-	boost::shared_ptr<CItem> item = itemMgr->GetItem(redo->m_Item->getID());
-	boost::shared_ptr<SItemUndo> undo = boost::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item, 0));
+	std::shared_ptr<CItem> item = itemMgr->GetItem(redo->m_Item->getID());
+	std::shared_ptr<SItemUndo> undo = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item, 0));
 	undo->m_bEnd = redo->m_bEnd;
 	m_stItemUndo.push(undo);
 
@@ -323,7 +323,7 @@ void CItemDoc::RedoUpd()
 //	}
 }
 
-void CItemDoc::RedoOne(boost::shared_ptr<SItemUndo> redo)
+void CItemDoc::RedoOne(std::shared_ptr<SItemUndo> redo)
 {
 }
 
@@ -356,14 +356,14 @@ void CItemDoc::SerializeIn(TiXmlElement* pNode)
 
 	CString name;
 	TiXmlElement* pChild = pNode->FirstChildElement();
-	boost::shared_ptr<CItem> item;
-	std::list<boost::shared_ptr<CItem> > ltItem;
+	std::shared_ptr<CItem> item;
+	std::list<std::shared_ptr<CItem> > ltItem;
 	while(pChild)
 	{
 		CString text = pChild->ValueStr().c_str();
 		if(text == _T("Item"))
 		{
-			item = boost::shared_ptr<CItem>(new CItem(_T("")));
+			item = std::shared_ptr<CItem>(new CItem(_T("")));
 			if(!item->SerializeXml(pChild, true, true))		return;
 			if(item->getSrcType() == CItem::SRC_TYPE_IO)	item->getSrcInfo()->setDevID(devID);
 			ltItem.push_back(item);
@@ -377,73 +377,73 @@ void CItemDoc::SerializeIn(TiXmlElement* pNode)
 //!< 读取PLC_Config导出的变量表文件
 void CItemDoc::SerializePlcConfig(CString strPath, CString strTitle, CString strExt)
 {
-	Dialog::CItemInConfigDlg* dlg = &Dialog::CItemInConfigDlg::GetMe();
-	if(IDOK != dlg->DoModal(Dialog::CItemInConfigDlg::ItemIn, GetView()->m_ItemGrid.GetGroupID()))	return;
-	int devID = dlg->GetDeviceID();
-
-	//!< 启动导入器
-	COperation excelop;
-	if(!excelop.FileGuid(true, strTitle + _T(".") + strExt, strPath))	return;
-	int nCount = excelop.ReadRowCount();
-	int nColCount = excelop.ReadColCount();
-	CString strText;
-	strText = excelop.ReadAll(2, nCount, 1, nColCount);
-	excelop.Close();
-
-	// 解析这个大字符串吧
-	std::vector<CString> vtLines;
-	CGbl::SpliteBy(strText, "\r\n", vtLines);
-	int rowCount = vtLines.size();
-
-	//!< 开始读取每一行,第一行忽略
-	std::list<boost::shared_ptr<CItem> > ltItem;
-	for (int i = 0; i < rowCount; ++i)
-	{
-		boost::shared_ptr<CItem> pItem = boost::shared_ptr<CItem>(new CItem(_T("")));
-		CString strLine = vtLines[i];
-		strLine = strLine.Trim();
-		if (strLine.IsEmpty())	continue;
-		bool b = false;
-		if (nColCount < 20)
-			b = pItem->ReadFromPlcConfig(strLine, devID);
-		else
-			b = pItem->ReadFromDView(strLine, devID);
-		if (b)
-			ltItem.push_back(pItem);
-	}
-
-	//int nPLC_DVIEW = 0;		// 到底是哪个文档,1PLC_Config导出的,2DView导出,否则不管
-//	for (int i = 2; i <= nCount; ++i)
+//	Dialog::CItemInConfigDlg* dlg = &Dialog::CItemInConfigDlg::GetMe();
+//	if(IDOK != dlg->DoModal(Dialog::CItemInConfigDlg::ItemIn, GetView()->m_ItemGrid.GetGroupID()))	return;
+//	int devID = dlg->GetDeviceID();
+//
+//	//!< 启动导入器
+//	COperation excelop;
+//	if(!excelop.FileGuid(true, strTitle + _T(".") + strExt, strPath))	return;
+//	int nCount = excelop.ReadRowCount();
+//	int nColCount = excelop.ReadColCount();
+//	CString strText;
+//	strText = excelop.ReadAll(2, nCount, 1, nColCount);
+//	excelop.Close();
+//
+//	// 解析这个大字符串吧
+//	std::vector<CString> vtLines;
+//	CGbl::SpliteBy(strText, "\r\n", vtLines);
+//	int rowCount = vtLines.size();
+//
+//	//!< 开始读取每一行,第一行忽略
+//	std::list<std::shared_ptr<CItem> > ltItem;
+//	for (int i = 0; i < rowCount; ++i)
 //	{
-//		boost::shared_ptr<CItem> pItem = boost::shared_ptr<CItem>(new CItem(_T("")));
-// 		if (nPLC_DVIEW == 1)			// 确定了是PLC_Config导出的
-// 		{
-// 			bool b = pItem->ReadFromPlcConfig(excelop, i, devID);
-// 			if (!b)	continue;
-// 		}
-// 		else if (nPLC_DVIEW == 2)		// 确定了是DView导出的
-// 		{
-// 			bool b = pItem->ReadFromDView(excelop, i, devID);
-// 			if(!b)	continue;
-// 		}
-// 		else
-// 		{
-// 			if (pItem->ReadFromPlcConfig(excelop, i, devID))
-// 				nPLC_DVIEW = 1;
-// 			else if (pItem->ReadFromDView(excelop, i, devID))
-// 				nPLC_DVIEW = 2;
-// 			else
-// 				continue;
-// 		}
-// 		ltItem.push_back(pItem);
+//		std::shared_ptr<CItem> pItem = std::shared_ptr<CItem>(new CItem(_T("")));
+//		CString strLine = vtLines[i];
+//		strLine = strLine.Trim();
+//		if (strLine.IsEmpty())	continue;
+//		bool b = false;
+//		if (nColCount < 20)
+//			b = pItem->ReadFromPlcConfig(strLine, devID);
+//		else
+//			b = pItem->ReadFromDView(strLine, devID);
+//		if (b)
+//			ltItem.push_back(pItem);
 //	}
-
-	//!< 加载完毕，现在开始导入到表里
-	InItem(ltItem, dlg);
+//
+//	//int nPLC_DVIEW = 0;		// 到底是哪个文档,1PLC_Config导出的,2DView导出,否则不管
+////	for (int i = 2; i <= nCount; ++i)
+////	{
+////		std::shared_ptr<CItem> pItem = std::shared_ptr<CItem>(new CItem(_T("")));
+//// 		if (nPLC_DVIEW == 1)			// 确定了是PLC_Config导出的
+//// 		{
+//// 			bool b = pItem->ReadFromPlcConfig(excelop, i, devID);
+//// 			if (!b)	continue;
+//// 		}
+//// 		else if (nPLC_DVIEW == 2)		// 确定了是DView导出的
+//// 		{
+//// 			bool b = pItem->ReadFromDView(excelop, i, devID);
+//// 			if(!b)	continue;
+//// 		}
+//// 		else
+//// 		{
+//// 			if (pItem->ReadFromPlcConfig(excelop, i, devID))
+//// 				nPLC_DVIEW = 1;
+//// 			else if (pItem->ReadFromDView(excelop, i, devID))
+//// 				nPLC_DVIEW = 2;
+//// 			else
+//// 				continue;
+//// 		}
+//// 		ltItem.push_back(pItem);
+////	}
+//
+//	//!< 加载完毕，现在开始导入到表里
+//	InItem(ltItem, dlg);
 }
 
 //!< 添加多个变量
-void CItemDoc::InItem(std::list<boost::shared_ptr<CItem> > ltItem, Dialog::CItemInConfigDlg* dlg)
+void CItemDoc::InItem(std::list<std::shared_ptr<CItem> > ltItem, Dialog::CItemInConfigDlg* dlg)
 {
 	ItemInAdvanceOptions(ltItem);
 	if(dlg->m_nSameNameType == 0)			ItemInRenameItem(ltItem, dlg->m_uiGroupID);
@@ -454,17 +454,17 @@ void CItemDoc::InItem(std::list<boost::shared_ptr<CItem> > ltItem, Dialog::CItem
 }
 
 //!< 变量导入或粘贴的高级选项处理
-bool CItemDoc::ItemInAdvanceOptions(std::list<boost::shared_ptr<CItem> > ltItem)
+bool CItemDoc::ItemInAdvanceOptions(std::list<std::shared_ptr<CItem> > ltItem)
 {
 	Dialog::CItemInConfigDlg* itemInInfo = &Dialog::CItemInConfigDlg::GetMe();
-	boost::shared_ptr<CItem> item;
+	std::shared_ptr<CItem> item;
 	if(!itemInInfo->m_bUseAdvanceOptions)		return true;
 	//!< 指定编号
 	if(itemInInfo->m_bUseBaseID)
 	{
 		int nBaseID = itemInInfo->m_nBaseID;
 		int id = 0;
-		foreach(item, ltItem)
+		for (auto item : ltItem)
 		{
 			id = item->getID() + nBaseID;
 			if(id < 0)
@@ -481,7 +481,7 @@ bool CItemDoc::ItemInAdvanceOptions(std::list<boost::shared_ptr<CItem> > ltItem)
 	//!< 名称补加字符串
 	if(itemInInfo->m_bNameName)
 	{
-		foreach(item, ltItem){
+		for (auto item : ltItem){
 			if(itemInInfo->m_nNameAddr == 0)	item->setItemName(itemInInfo->m_strNameName + item->getName());
 			else								item->setItemName(item->getName() + itemInInfo->m_strNameName);
 		}
@@ -489,7 +489,7 @@ bool CItemDoc::ItemInAdvanceOptions(std::list<boost::shared_ptr<CItem> > ltItem)
 	//!< 标签补加字符串
 	if(itemInInfo->m_bTagName)
 	{
-		foreach(item, ltItem){
+		for (auto item : ltItem){
 			if(itemInInfo->m_nTagAddr == 0)		item->setTag(itemInInfo->m_strTagName + item->getTag());
 			else								item->setTag(item->getTag() + itemInInfo->m_strTagName);
 		}
@@ -497,7 +497,7 @@ bool CItemDoc::ItemInAdvanceOptions(std::list<boost::shared_ptr<CItem> > ltItem)
 	//!< 备注补加字符串
 	if(itemInInfo->m_bDespName)
 	{
-		foreach(item, ltItem){
+		for (auto item : ltItem){
 			if(itemInInfo->m_nDespAddr == 0)	item->setDescription(itemInInfo->m_strDespName + item->getDescription());
 			else								item->setDescription(item->getDescription() + itemInInfo->m_strDespName);
 		}
@@ -506,16 +506,16 @@ bool CItemDoc::ItemInAdvanceOptions(std::list<boost::shared_ptr<CItem> > ltItem)
 }
 
 //!< 导入变量，自动重命名重名的变量
-void CItemDoc::ItemInRenameItem(std::list<boost::shared_ptr<CItem> > ltItem, UINT groupID/* = 0 */)
+void CItemDoc::ItemInRenameItem(std::list<std::shared_ptr<CItem> > ltItem, UINT groupID/* = 0 */)
 {
 	UINT i = 1;
 	CString name, strFill;
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
-	boost::shared_ptr<SItemUndo> itemUndo;
-	boost::shared_ptr<CItem> item;
+	std::shared_ptr<SItemUndo> itemUndo;
+	std::shared_ptr<CItem> item;
 	int maxID = MAX_ITEM_COUNT;
 
-	foreach(item, ltItem)
+	for (auto item : ltItem)
 	{
 		name = item->getName();
 		while(itemMgr->GetItemFast(item->getName())){
@@ -533,20 +533,20 @@ void CItemDoc::ItemInRenameItem(std::list<boost::shared_ptr<CItem> > ltItem, UIN
 			if(!itemMgr->AddItem(item, maxID, groupID))
 				return;		//!< 如果还返回错，证明是超界，以后的也不同再加了
 		}
-		itemUndo = boost::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_ADD, item, 0));
+		itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_ADD, item, 0));
 		AddUndoMember(itemUndo);
 	}
 }
 
 //!< 导入变量，重名的补加字符串
-void CItemDoc::ItemInRenameStrItem(std::list<boost::shared_ptr<CItem> > ltItem, CString strName, UINT groupID/* = 0 */)
+void CItemDoc::ItemInRenameStrItem(std::list<std::shared_ptr<CItem> > ltItem, CString strName, UINT groupID/* = 0 */)
 {
 	UINT i = 1;
 	CString name;
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
-	boost::shared_ptr<SItemUndo> itemUndo;
+	std::shared_ptr<SItemUndo> itemUndo;
 	int maxID = MAX_ITEM_COUNT;
-	foreach(boost::shared_ptr<CItem> item, ltItem)
+	for (std::shared_ptr<CItem> item : ltItem)
 	{
 		name = item->getName();
 		if(itemMgr->GetItemFast(item->getName()))
@@ -572,18 +572,18 @@ void CItemDoc::ItemInRenameStrItem(std::list<boost::shared_ptr<CItem> > ltItem, 
 				return;		//!< 如果还返回错，证明是超界，以后的也不同再加了
 			}
 		}
-		itemUndo = boost::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_ADD, item, 0));
+		itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_ADD, item, 0));
 		AddUndoMember(itemUndo);
 	}
 }
 
 //!< 导入变量，不导入重名的变量
-void CItemDoc::ItemInDelFileItem(std::list<boost::shared_ptr<CItem> > ltItem, UINT groupID/* = 0 */)
+void CItemDoc::ItemInDelFileItem(std::list<std::shared_ptr<CItem> > ltItem, UINT groupID/* = 0 */)
 {
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
-	boost::shared_ptr<SItemUndo> itemUndo;
+	std::shared_ptr<SItemUndo> itemUndo;
 	int maxID = MAX_ITEM_COUNT;
-	foreach(boost::shared_ptr<CItem> item, ltItem)
+	for (std::shared_ptr<CItem> item : ltItem)
 	{
 		if(itemMgr->GetItemFast(item->getName()))		continue;
 		if(Dialog::CItemInConfigDlg::GetMe().m_bUseAdvanceOptions && Dialog::CItemInConfigDlg::GetMe().m_bUseBaseID)
@@ -593,24 +593,24 @@ void CItemDoc::ItemInDelFileItem(std::list<boost::shared_ptr<CItem> > ltItem, UI
 		}
 		else if(!itemMgr->AddItem(item, maxID, groupID))
 			return;
-		itemUndo = boost::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_ADD, item, 0));
+		itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_ADD, item, 0));
 		AddUndoMember(itemUndo);
 	}
 }
 
 //!< 导入变量，重名时用导入的变量覆盖变量表中的变量
-void CItemDoc::ItemInDelMgrItem(std::list<boost::shared_ptr<CItem> > ltItem, UINT groupID/* = 0 */)
+void CItemDoc::ItemInDelMgrItem(std::list<std::shared_ptr<CItem> > ltItem, UINT groupID/* = 0 */)
 {
-	boost::shared_ptr<CItem> oldItem, newItem;
+	std::shared_ptr<CItem> oldItem, newItem;
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
-	boost::shared_ptr<SItemUndo> itemUndo;
+	std::shared_ptr<SItemUndo> itemUndo;
 	int maxID = MAX_ITEM_COUNT;
-	foreach(newItem, ltItem)
+	for (auto newItem : ltItem)
 	{
 		oldItem = itemMgr->GetItemFast(newItem->getName());
 		if(oldItem)
 		{
-			itemUndo = boost::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_DEL, oldItem, 0));
+			itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_DEL, oldItem, 0));
 			AddUndoMember(itemUndo);
 			itemMgr->DeleteItem(oldItem->getID());
 
@@ -622,7 +622,7 @@ void CItemDoc::ItemInDelMgrItem(std::list<boost::shared_ptr<CItem> > ltItem, UIN
 			else{
 				itemMgr->AddItem(newItem, maxID, groupID);
 			}
-			itemUndo = boost::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_ADD, newItem, 0));
+			itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_ADD, newItem, 0));
 			AddUndoMember(itemUndo);
 		}
 		else
@@ -634,7 +634,7 @@ void CItemDoc::ItemInDelMgrItem(std::list<boost::shared_ptr<CItem> > ltItem, UIN
 			}
 			else if(!itemMgr->AddItem(newItem, maxID, groupID))
 				continue;
-			itemUndo = boost::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_ADD, newItem, 0));
+			itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_ADD, newItem, 0));
 			AddUndoMember(itemUndo);
 		}
 	}
@@ -646,7 +646,7 @@ void MVC::Item::CItemDoc::SetTitle(LPCTSTR lpszTitle)
 	if(m_uiGroupID == UINT(-1))
 		strTitle = _T("变量表一览");
 	else{
-		boost::shared_ptr<CItemGroup> group = CItemMgr::GetMe().GetGroup(m_uiGroupID);
+		std::shared_ptr<CItemGroup> group = CItemMgr::GetMe().GetGroup(m_uiGroupID);
 		ASSERT(group);
 		strTitle = _T("变量组—") + group->getName();
 	}
@@ -657,7 +657,7 @@ void MVC::Item::CItemDoc::SetTitle(LPCTSTR lpszTitle)
 
 //!< 添加变量，指定ID，如果存在是否询问，0问，1不问覆盖，2问跳过
 //!< 因为如果要覆盖变量时，需要再一次操作撤销栈，而在CItemMgr里就不行，所以我搬到这来添加了
-bool MVC::Item::CItemDoc::AddItem(UINT id, boost::shared_ptr<CItem> item, int maxID, UINT groupid/*=0*/, UINT uiAsk/*=0*/)
+bool MVC::Item::CItemDoc::AddItem(UINT id, std::shared_ptr<CItem> item, int maxID, UINT groupid/*=0*/, UINT uiAsk/*=0*/)
 {
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	if(!item)												return false;
@@ -675,9 +675,9 @@ bool MVC::Item::CItemDoc::AddItem(UINT id, boost::shared_ptr<CItem> item, int ma
 		}
 		else if(uiAsk == 1)	//!< 覆盖
 		{
-COVER:		boost::shared_ptr<SItemUndo> itemUndo;
-			boost::shared_ptr<CItem> oldItem = itemMgr->GetItem(id);
-			itemUndo = boost::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_DEL, oldItem, 0));
+COVER:		std::shared_ptr<SItemUndo> itemUndo;
+			std::shared_ptr<CItem> oldItem = itemMgr->GetItem(id);
+			itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_DEL, oldItem, 0));
 			AddUndoMember(itemUndo);
 			itemMgr->DeleteItem(id);
 //			itemMgr->m_vtItemGroup[groupid]->AddItem(id);

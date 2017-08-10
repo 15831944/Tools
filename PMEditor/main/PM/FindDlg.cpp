@@ -81,8 +81,8 @@ END_MESSAGE_MAP()
 BOOL CFindDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	foreach(CString str, m_ltMatchStr)		m_cbFindText.AddString(str);
-	foreach(CString str, m_ltFindArea)		m_cbFindArea.AddString(str);
+	for (CString str : m_ltMatchStr)		m_cbFindText.AddString(str);
+	for (CString str : m_ltFindArea)		m_cbFindArea.AddString(str);
 	m_cbFindText.SetWindowText(m_strMatch);
 	m_cbFindArea.SetCurSel(m_nAreaSel);
 	CheckEnabled();

@@ -19,7 +19,7 @@ public:
 	CXTPPropertyGrid m_PropertyGrid;		//!< 显示串口属性的表格
 
 	MVC::Device::InterfaceSet::CPropertySerial m_Object;	//!< 串口的属性对象
-	std::list<boost::shared_ptr<MVC::Device::InterfaceSet::CDSerial> > m_ltSerial;
+	std::list<std::shared_ptr<MVC::Device::InterfaceSet::CDSerial> > m_ltSerial;
 
 public:
 	CSerialSetDlg(CWnd* pParent = NULL);   // 标准构造函数
@@ -34,7 +34,7 @@ protected:
 	void InitSerialList();								//!< 画串口那个list
 
 public:
-	boost::shared_ptr<MVC::Device::InterfaceSet::CDSerial> GetSerial(CString name);
+	std::shared_ptr<MVC::Device::InterfaceSet::CDSerial> GetSerial(CString name);
 	virtual void OnTreeDblClick(CTreeCtrl*, HTREEITEM){;}
 	virtual void OnTreeLClick(CTreeCtrl*, HTREEITEM);
 	virtual void OnTreeRClick(CTreeCtrl*, HTREEITEM,CPoint);

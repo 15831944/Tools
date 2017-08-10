@@ -13,7 +13,7 @@ public:
 	UINT m_uiParentID;	//!< 所属设备的ID
 
 public:
-	boost::shared_ptr<CDeviceOne> m_ShowDev;
+	std::shared_ptr<CDeviceOne> m_ShowDev;
 
 public:
 	CPropertySlave(void);

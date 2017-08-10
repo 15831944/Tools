@@ -14,7 +14,7 @@ namespace Dialog{
 	DECLARE_DYNAMIC(CBehaviorParamDlg)
 private:
 	UINT m_uiDevID;								//!< Éè±¸µÄIDºÅ
-	boost::shared_ptr<MVC::Device::CDeviceOne> m_ShowDev;
+	std::shared_ptr<MVC::Device::CDeviceOne> m_ShowDev;
 	CStatic m_GridHolder;
 	CXTPPropertyGrid m_PropertyGrid;
 	Tool::CDTreeCtrl m_TreeCtrl;

@@ -49,9 +49,8 @@ BOOL CStringAddDelDlg::OnInitDialog()
 	GetDlgItem(IDC_STATIC_OUT)->SetWindowText(m_strOut);
 	GetDlgItem(IDC_STATIC_IN)->SetWindowText(m_strIn);
 	SetWindowText(m_strTitle);
-	CString str;
-	foreach(str, m_ltOut)		m_OutList.AddString(str);
-	foreach(str, m_ltIn)		m_InList.AddString(str);
+	for (auto str : m_ltOut)		m_OutList.AddString(str);
+	for (auto str : m_ltIn)		m_InList.AddString(str);
 	UpdateData(FALSE);
 
 	return TRUE;

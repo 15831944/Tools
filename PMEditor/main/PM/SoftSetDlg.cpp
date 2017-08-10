@@ -85,8 +85,8 @@ BOOL CSoftSetDlg::OnInitDialog()
 template<class Page>
 void CSoftSetDlg::AddPage(Page* page, CString name, int nImageID)
 {
-	boost::shared_ptr<SPageOne> pageOne = boost::shared_ptr<SPageOne>(new SPageOne);
-	boost::shared_ptr<Page> p = boost::shared_ptr<Page>(new Page);
+	std::shared_ptr<SPageOne> pageOne = std::shared_ptr<SPageOne>(new SPageOne);
+	std::shared_ptr<Page> p = std::shared_ptr<Page>(new Page);
 	pageOne->m_Dialog = p;
 	pageOne->m_strName = name;
 
@@ -105,7 +105,7 @@ void CSoftSetDlg::OnTreeLClick(CTreeCtrl* pTreeCtrl, HTREEITEM hItem)
 	CString itemText = pTreeCtrl->GetItemText(hItem);
 	pTreeCtrl->SelectDropTarget(hItem);
 	pTreeCtrl->SetFocus();
-	foreach(boost::shared_ptr<SPageOne> page, m_vtPage)
+	for (std::shared_ptr<SPageOne> page : m_vtPage)
 	{
 		if(page->m_strName != itemText)		continue;
 		ShowPage(page);
@@ -122,7 +122,7 @@ void CSoftSetDlg::OnTreeKeyDown(CTreeCtrl* pTreeCtrl, HTREEITEM hItem, UINT nCha
 	}
 }
 
-void CSoftSetDlg::ShowPage(boost::shared_ptr<SPageOne> page)
+void CSoftSetDlg::ShowPage(std::shared_ptr<SPageOne> page)
 {
 	ASSERT(page);
 	ASSERT(page->m_Dialog);

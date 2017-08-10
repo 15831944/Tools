@@ -14,10 +14,10 @@ class CItemDoc;
 class CItemMgr
 {
 public:
-	std::vector< boost::shared_ptr<CItem> > m_vtItem;				//!< 变量数组
-	std::map< CString, boost::shared_ptr<CItem> > m_mpItem;			//!< 变量表,这个名称用于快速检索
-	std::list<boost::shared_ptr<CItem> > m_ltItemClipBoard;			//!< 变量的剪贴板
-	std::vector< boost::shared_ptr<CItemGroup> > m_vtItemGroup;		//!< 变量组数组
+	std::vector< std::shared_ptr<CItem> > m_vtItem;				//!< 变量数组
+	std::map< CString, std::shared_ptr<CItem> > m_mpItem;			//!< 变量表,这个名称用于快速检索
+	std::list<std::shared_ptr<CItem> > m_ltItemClipBoard;			//!< 变量的剪贴板
+	std::vector< std::shared_ptr<CItemGroup> > m_vtItemGroup;		//!< 变量组数组
 	std::list<UINT> m_ltEditItemID;									//!< 当前刚刚被修改的变量ID列表
 	CItemDoc* m_pItemDoc;
 	CPropertyItem m_ItemProperty;									//!< 变量的属性
@@ -61,19 +61,19 @@ public:
 	std::list<UINT> GetItemIDAll();
 	std::list<UINT> GetItemIDMem();
 	std::list<UINT> GetItemIDIO();
-	boost::shared_ptr<CItem> GetItem(ULONG id);					//!< 获得id号变量
-	boost::shared_ptr<CItem> GetItem(CString name);				//!< 获得名字等于name的第一个变量
-	boost::shared_ptr<CItem> GetItemFast(CString name);			//!< 获得变量,用快速的获得方式
-	boost::shared_ptr<CItem> GetFirstItem();					//!< 获得第一个变量
-	boost::shared_ptr<CItem> GetLastItem();						//!< 获得最后一个变量
-	boost::shared_ptr<CItemGroup> GetGroup(UINT id);			//!< 获得id号变量组
-	boost::shared_ptr<CItemGroup> GetGroup(CString name);		//!< 获得名字为name的变量组，变量组不能重名
+	std::shared_ptr<CItem> GetItem(ULONG id);					//!< 获得id号变量
+	std::shared_ptr<CItem> GetItem(CString name);				//!< 获得名字等于name的第一个变量
+	std::shared_ptr<CItem> GetItemFast(CString name);			//!< 获得变量,用快速的获得方式
+	std::shared_ptr<CItem> GetFirstItem();					//!< 获得第一个变量
+	std::shared_ptr<CItem> GetLastItem();						//!< 获得最后一个变量
+	std::shared_ptr<CItemGroup> GetGroup(UINT id);			//!< 获得id号变量组
+	std::shared_ptr<CItemGroup> GetGroup(CString name);		//!< 获得名字为name的变量组，变量组不能重名
 	bool FindItem(ULONG id);									//!< 查找编号为id的变量
 	bool FindGroup(UINT id);									//!< 查找编号为id的变量组
-	bool AddGroup(boost::shared_ptr<CItemGroup> group,UINT parentid=0);			//!< 添加变量组，这时变量组还没有ID，不能重名
-	bool AddItem(boost::shared_ptr<CItem> item,int maxID,UINT groupid);//!< 添加变量,这时变量还没有ID，组内变量不能重名
-	bool AddItemBack(boost::shared_ptr<CItem> item, int maxID, UINT groupid);	//!< 在变量的最后边增加
-//	bool AddItem(UINT id, boost::shared_ptr<CItem> item, UINT groupid=0, UINT uiAsk=0);	//!< 添加变量，指定ID，如果存在是否询问，0问，1不问覆盖，2问跳过
+	bool AddGroup(std::shared_ptr<CItemGroup> group,UINT parentid=0);			//!< 添加变量组，这时变量组还没有ID，不能重名
+	bool AddItem(std::shared_ptr<CItem> item,int maxID,UINT groupid);//!< 添加变量,这时变量还没有ID，组内变量不能重名
+	bool AddItemBack(std::shared_ptr<CItem> item, int maxID, UINT groupid);	//!< 在变量的最后边增加
+//	bool AddItem(UINT id, std::shared_ptr<CItem> item, UINT groupid=0, UINT uiAsk=0);	//!< 添加变量，指定ID，如果存在是否询问，0问，1不问覆盖，2问跳过
 	void RemoveItemBackEmpty();									//!< 删除结尾的空变量
 	void DeleteItem(ULONG id);									//!< 删除编号为id的变量
 	void RemoveGroup(UINT groupid);								//!< 移除变量组

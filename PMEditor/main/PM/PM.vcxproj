@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>DView</ProjectName>
+    <ProjectName>PM</ProjectName>
     <ProjectGuid>{CC90D064-D01C-48B2-AABE-987B5AA29467}</ProjectGuid>
     <RootNamespace>DCSEditor</RootNamespace>
     <Keyword>MFCProj</Keyword>
@@ -61,7 +61,7 @@
     <ClCompile>
       <AdditionalOptions>/Zm500 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;..\..\libs\boost_1_55_0;..\..\libs\Xtreme_ToolkitPro_v15.3.1\Source;..\..\libs\Ultimate Grid\Include;..\..\libs\Ultimate Grid\CellTypes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\libs\Xtreme_ToolkitPro_v15.3.1\Source;..\..\libs\Ultimate Grid\Include;..\..\libs\Ultimate Grid\CellTypes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -77,13 +77,13 @@
       <AdditionalIncludeDirectories>..\..\libs\Xtreme_ToolkitPro_v15.3.1\Source;$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>FileGuide.lib;htmlhelp.lib;ugdodm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>htmlhelp.lib;ugdodm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <TypeLibraryResourceID>1</TypeLibraryResourceID>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <LargeAddressAware />
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>$(OutDir);..\..\libs\boost_1_55_0\lib\debug;..\..\libs\Xtreme_ToolkitPro_v15.3.1\Lib\vc120;..\..\libs\Ultimate Grid\Lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);..\..\libs\Xtreme_ToolkitPro_v15.3.1\Lib\vc120;..\..\libs\Ultimate Grid\Lib</AdditionalLibraryDirectories>
       <ImageHasSafeExceptionHandlers />
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
@@ -108,7 +108,7 @@
       <AdditionalIncludeDirectories>..\..\libs\Xtreme_ToolkitPro_v15.3.1\Source;$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>FileGuide.lib;htmlhelp.lib;ugrodm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>htmlhelp.lib;ugrodm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

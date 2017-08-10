@@ -53,59 +53,59 @@ bool CXmlMgr::SaveXml()
 
 bool CXmlMgr::SerializeXml(TiXmlElement* pNode, bool bRead)
 {
-	boost::shared_ptr<CXmlDevice> device;
-	boost::shared_ptr<CXmlScan> scan;
+	std::shared_ptr<CXmlDevice> device;
+	std::shared_ptr<CXmlScan> scan;
 	if(bRead)
 	{
-		std::list<boost::shared_ptr<CXmlDevice> > ltDevice;
+		std::list<std::shared_ptr<CXmlDevice> > ltDevice;
 		TiXmlElement* pElement = pNode->FirstChildElement();
 		CString name;
 		while(pElement)
 		{
 			name = pElement->Value();
 			if(DEVICE == name){
-				device = boost::shared_ptr<CXmlDevice>(new CXmlDevice);
+				device = std::shared_ptr<CXmlDevice>(new CXmlDevice);
 				if(device->SerializeMgr(pElement, true))	ltDevice.push_back(device);
 			}
 			else if(SCAN == name){
-				scan = boost::shared_ptr<CXmlScan>(new CXmlScan);
+				scan = std::shared_ptr<CXmlScan>(new CXmlScan);
 				if(scan->SerializeMgr(pElement, true))		m_ltScan.push_back(scan);
 			}
 			pElement = pElement->NextSiblingElement();
 		}
 
 		UINT maxNum = 0;
-		foreach(device, ltDevice)		maxNum = max(maxNum, device->m_uiID);
+		for (auto device : ltDevice)		maxNum = max(maxNum, device->m_uiID);
 		m_vtDevice.resize(maxNum + 1);
-		foreach(device, ltDevice)		m_vtDevice[device->m_uiID] = device;
+		for (auto device : ltDevice)		m_vtDevice[device->m_uiID] = device;
 	}
 	else
 	{
 		pNode->AddTiXmlChild(_T("Information"));
-		foreach(device, m_vtDevice)
+		for (auto device : m_vtDevice)
 		{
 			if(!device)		continue;
 			device->SerializeMgr(pNode->AddTiXmlChild((LPCTSTR)DEVICE), false);
 		}
-		foreach(scan, m_ltScan)
+		for (auto scan : m_ltScan)
 			scan->SerializeMgr(pNode->AddTiXmlChild((LPCTSTR)SCAN), false);
 	}
 	return true;
 }
 
-boost::shared_ptr<CXmlDevice> CXmlMgr::GetDevice(UINT type)
+std::shared_ptr<CXmlDevice> CXmlMgr::GetDevice(UINT type)
 {
-	boost::shared_ptr<CXmlDevice> empty;
+	std::shared_ptr<CXmlDevice> empty;
 	if(type >= m_vtDevice.size())
 		return empty;
 	return m_vtDevice[type];
 }
 
 //!< 如果有重名的设备，返回第一个
-boost::shared_ptr<CXmlDevice> CXmlMgr::GetDevice(CString name)
+std::shared_ptr<CXmlDevice> CXmlMgr::GetDevice(CString name)
 {
-	boost::shared_ptr<CXmlDevice> device, empty;
-	foreach(device, m_vtDevice){
+	std::shared_ptr<CXmlDevice> device, empty;
+	for (auto device : m_vtDevice){
 		if(!device)		continue;
 		if(device->getName() == name)
 			return device;
@@ -114,10 +114,10 @@ boost::shared_ptr<CXmlDevice> CXmlMgr::GetDevice(CString name)
 }
 
 //!< 如果有重名的设备，返回第一个
-boost::shared_ptr<CXmlDevice> CXmlMgr::GetDevice(CString name, CString companyName)
+std::shared_ptr<CXmlDevice> CXmlMgr::GetDevice(CString name, CString companyName)
 {
-	boost::shared_ptr<CXmlDevice> device, empty;
-	foreach(device, m_vtDevice){
+	std::shared_ptr<CXmlDevice> device, empty;
+	for (auto device : m_vtDevice){
 		if(!device)		continue;
 		if(device->getName() == name && device->getCompany() == companyName)
 			return device;
@@ -126,7 +126,7 @@ boost::shared_ptr<CXmlDevice> CXmlMgr::GetDevice(CString name, CString companyNa
 }
 
 //!< 添加新设备
-bool CXmlMgr::AddDevice(boost::shared_ptr<CXmlDevice> device)
+bool CXmlMgr::AddDevice(std::shared_ptr<CXmlDevice> device)
 {
 	UINT id = device->getDevType();
 	if(GetDevice(id))

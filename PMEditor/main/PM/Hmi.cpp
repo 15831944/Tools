@@ -60,7 +60,7 @@ bool CHmi::RunHmiExe()
 	if (ret)
 	{
 		m_bCreateHmi = true;
-		m_ThreadToWati = new boost::thread(boost::BOOST_BIND(&WaitToHmi, this, &m_pi));
+		m_ThreadToWati = new std::thread(std::bind(&WaitToHmi, this, &m_pi));
 	}
 	SetTimer(SHELL_TIME, 10000, NULL);
 	if (CProjectMgr::GetMe().GetProj())

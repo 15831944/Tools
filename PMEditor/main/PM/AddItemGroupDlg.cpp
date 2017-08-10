@@ -60,7 +60,7 @@ INT_PTR CAddItemGroupDlg::DoModal(CString parentName/* = _T("System")*/, UINT gr
 	if(groupID != -1)
 	{
 		m_uiGroupID = groupID;
-		boost::shared_ptr<MVC::Item::CItemGroup> group = MVC::Item::CItemMgr::GetMe().GetGroup(groupID);
+		std::shared_ptr<MVC::Item::CItemGroup> group = MVC::Item::CItemMgr::GetMe().GetGroup(groupID);
 		if(group){
 			m_strGroupName = group->getName();
 			m_uiParentID = group->getParentID();
@@ -117,7 +117,7 @@ BOOL CAddItemGroupDlg::OnInitDialog()
 	//!< 初始化树形控件
 	m_CulItem = NULL;
 	m_GroupTree.InitImg();
-	boost::shared_ptr<MVC::Item::CItemGroup> group = mgr->GetGroup(0);
+	std::shared_ptr<MVC::Item::CItemGroup> group = mgr->GetGroup(0);
 	if(group){
 		HTREEITEM root = m_GroupTree.InsertItem(group->getName(), 6, 7, TVI_ROOT, TVI_LAST);
 		AddGroupChild(root, group->getID());
@@ -146,7 +146,7 @@ void CAddItemGroupDlg::AddGroupChild(HTREEITEM root, UINT parentID)
 	if(!mgr->GetGroup(parentID))		return;
 	HTREEITEM item = NULL;
 	std::list<UINT> ltChildID = mgr->GetGroup(parentID)->getGroupIDList();
-	foreach(UINT i, ltChildID){
+	for(UINT i : ltChildID){
 		if(!mgr->GetGroup(i))	continue;
 		item = m_GroupTree.InsertItem(mgr->GetGroup(i)->getName(), 6, 7, root, TVI_LAST);
 		AddGroupChild(item, i);
@@ -197,7 +197,7 @@ void CAddItemGroupDlg::OnBnClickedOk()
 	}
 	if(m_uiGroupID == -1)		//!< 新建变量
 	{	//!< 看看新的变量名是否已经存在
-		boost::shared_ptr<MVC::Item::CItemGroup> group = MVC::Item::CItemMgr::GetMe().GetGroup(m_strGroupName);
+		std::shared_ptr<MVC::Item::CItemGroup> group = MVC::Item::CItemMgr::GetMe().GetGroup(m_strGroupName);
 		if(group && group->getID() != m_uiGroupID){
 			MessageBox(_T("名称为“") + m_strGroupName + _T("”的变量组已存在"), _T("错误"), MB_OK|MB_ICONEXCLAMATION);
 			GotoDlgCtrl(GetDlgItem(IDC_GROUP_NAME));
@@ -206,15 +206,15 @@ void CAddItemGroupDlg::OnBnClickedOk()
 	}
 	else						//!< 修改变量
 	{
-		boost::shared_ptr<MVC::Item::CItemGroup> group = MVC::Item::CItemMgr::GetMe().GetGroup(m_uiGroupID);
-		boost::shared_ptr<MVC::Item::CItemGroup> parent = MVC::Item::CItemMgr::GetMe().GetGroup(m_strParentName);
+		std::shared_ptr<MVC::Item::CItemGroup> group = MVC::Item::CItemMgr::GetMe().GetGroup(m_uiGroupID);
+		std::shared_ptr<MVC::Item::CItemGroup> parent = MVC::Item::CItemMgr::GetMe().GetGroup(m_strParentName);
 		if(group->IsChildGroup(parent->getID(), true))
 		{
 			MessageBox(_T("包含关系不能嵌套！"), _T("错误"), MB_OK);
 			GotoDlgCtrl(GetDlgItem(IDC_GROUP_TREE));
 			return;
 		}
-		boost::shared_ptr<MVC::Item::CItemGroup> groupTmp = MVC::Item::CItemMgr::GetMe().GetGroup(m_strGroupName);
+		std::shared_ptr<MVC::Item::CItemGroup> groupTmp = MVC::Item::CItemMgr::GetMe().GetGroup(m_strGroupName);
 		if(m_strGroupName != group->getName() && groupTmp)
 		{
 			MessageBox(_T("名称为“") + m_strGroupName + _T("”的变量组已存在"), _T("错误"), MB_OK|MB_ICONEXCLAMATION);
@@ -252,7 +252,7 @@ void CAddItemGroupDlg::OnTreeKeyDown(CTreeCtrl* treeCtrl, HTREEITEM item, UINT n
 
 void CAddItemGroupDlg::SetParentName(CString name)
 {
-	boost::shared_ptr<MVC::Item::CItemGroup> group;
+	std::shared_ptr<MVC::Item::CItemGroup> group;
 	group = MVC::Item::CItemMgr::GetMe().GetGroup(name);
 	if(!group)		return;
 	m_strParentName = group->getName();

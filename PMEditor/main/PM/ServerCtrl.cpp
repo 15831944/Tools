@@ -190,7 +190,7 @@ void CServerCtrl::OnScanStart(CString cmdLine)
 //!< 启动运行
 void CServerCtrl::OnRun()
 {
-	boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 	if(!proj)				return;
 	OnRunSev(proj->GetWholePathName());
 }
@@ -338,7 +338,7 @@ void CServerCtrl::InitStateXml(COPYDATASTRUCT& pCopyDataStruct)
 	if(vtStr.size() < 2)			{ASSERT(FALSE);		return;}
 	CString str, strL, strR;
 
-	foreach(str, vtStr)
+	for (auto str : vtStr)
 	{
 		vtLR.clear();
 		CGbl::SpliteBy(str, _T("?"), vtLR);
@@ -379,7 +379,7 @@ void CServerCtrl::SetScanState(UINT state)
 bool CServerCtrl::IsSameProj()
 {
 	if(m_strProjSev == _T(""))				return true;		//!< 为了兼容原来没有读这个信息
-	boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 	if(!proj)								return false;
 	CString str = proj->GetWholePathName();
 	if(m_strProjSev == str)					return true;

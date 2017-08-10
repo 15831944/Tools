@@ -60,8 +60,8 @@ CItem::CItem(CString name)
 	m_bAlarmAim = false;				//!< 目标是否报警
 	m_bAlarmShift = false;				//!< 变化率是否报警
 
-	m_spSrcInfo = boost::shared_ptr<CPropertySource>(new CPropertySource(this));
-	m_spAlarmInfo = boost::shared_ptr<CPropertyAlarm>(new CPropertyAlarm(this));
+	m_spSrcInfo = std::shared_ptr<CPropertySource>(new CPropertySource(this));
+	m_spAlarmInfo = std::shared_ptr<CPropertyAlarm>(new CPropertyAlarm(this));
 
 	ChangeVarType(VT_I4);
 	::GetLocalTime(&m_stCreateTime);
@@ -374,11 +374,11 @@ bool CItem::OnCloneMe(CItem& item, int index, int addrUnit, int nType /* = 0 */)
 
 void CItem::OnCloneDealIOInfo(CItem& item, int addrUnit)
 {
-	boost::shared_ptr<MVC::Device::CDeviceOne> projDev = MVC::Device::CDevMgr::GetMe().GetDevice(item.getSrcInfo()->getDeviceID());
+	std::shared_ptr<MVC::Device::CDeviceOne> projDev = MVC::Device::CDevMgr::GetMe().GetDevice(item.getSrcInfo()->getDeviceID());
 	if(!projDev)		return;
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = projDev->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = projDev->GetXmlInfo();
 	if(!xmlDev)			return;
-	boost::shared_ptr<XmlInfo::CXmlArea> xmlArea = xmlDev->getArea(item.getSrcInfo()->getAreaID());
+	std::shared_ptr<XmlInfo::CXmlArea> xmlArea = xmlDev->getArea(item.getSrcInfo()->getAreaID());
 	if(!xmlArea)		return;
 	UINT bitLen = xmlArea->m_uiUnitBitLen;			//!< 获得寻址长度，PEC8000是字寻址，这里是16
 
@@ -437,7 +437,7 @@ CString CItem::GetValTypeStr()
 //!< 返回变量所属组的名称
 CString CItem::GetGroupName()
 {
-	boost::shared_ptr<CItemGroup> group = CItemMgr::GetMe().GetGroup(getMyGroupID());
+	std::shared_ptr<CItemGroup> group = CItemMgr::GetMe().GetGroup(getMyGroupID());
 	ASSERT(group);
 	if(!group)		return _T("");
 	return group->getName();
@@ -542,7 +542,7 @@ bool CItem::DoSearch(CString str, bool bMatchWhole, bool bAllCase, bool bRegex /
 	if(getSrcType() == SRC_TYPE_IO)
 	{
 		MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-		boost::shared_ptr<MVC::Device::CDeviceOne> dev = devMgr->GetDevice(getSrcInfo()->getDeviceID());
+		std::shared_ptr<MVC::Device::CDeviceOne> dev = devMgr->GetDevice(getSrcInfo()->getDeviceID());
 		if(dev){
 			cvr = dev->getName();
 			if(CGbl::SearchT(cvr, str, bMatchWhole, bAllCase, bRegex, _T("所属设备"), strInfo))	++nMatchCount;

@@ -59,8 +59,8 @@ CSize CDeviceMapDoc::GetViewSize()
 {
 	CSize size(110,110);
 	CDevMgr* mgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> device;
-	foreach(device, mgr->m_vtDevice){
+	//std::shared_ptr<CDeviceOne> device;
+	for (auto device : mgr->m_vtDevice){
 		if(!device)		continue;
 		if(size.cx < (device->GetLTPt().x + DEV_WIDTH + 20))
 			size.cx = device->GetLTPt().x + DEV_WIDTH + 20;
@@ -73,10 +73,10 @@ CSize CDeviceMapDoc::GetViewSize()
 void CDeviceMapDoc::OnCountChildPoint()
 {
 	CDevMgr* mgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> pDevice;
-	std::list<boost::shared_ptr<CDeviceOne> > ltMainDev;
-	std::list<boost::shared_ptr<CDeviceOne> > ltMainScanDev;	//!< 为了把扫描上来的设备画在后边
-	foreach(pDevice, mgr->m_vtDevice){
+	//std::shared_ptr<CDeviceOne> pDevice;
+	std::list<std::shared_ptr<CDeviceOne> > ltMainDev;
+	std::list<std::shared_ptr<CDeviceOne> > ltMainScanDev;	//!< 为了把扫描上来的设备画在后边
+	for (auto pDevice : mgr->m_vtDevice){
 		if(!pDevice)		continue;
 		if(pDevice->getParentID() == UINT(-1))
 		{
@@ -86,12 +86,12 @@ void CDeviceMapDoc::OnCountChildPoint()
 		pDevice->SetLTPt(0,0);
 	}
 	for(int i = 0; i < DEV_MAXNUM; ++i)		m_MaxX[i] = m_MaxY[i] = DEV_EDGE;
-	foreach(pDevice, ltMainDev)				pDevice->OnSetLevel(0);
-	foreach(pDevice, ltMainScanDev)			pDevice->OnSetLevel(0);
-	foreach(pDevice, ltMainDev)				pDevice->OnCountLevel();
-	foreach(pDevice, ltMainScanDev)			pDevice->OnCountLevel();
-	foreach(pDevice, ltMainDev)				pDevice->OnCountPoint();
-	foreach(pDevice, ltMainScanDev)			pDevice->OnCountPoint();
+	for(auto pDevice: ltMainDev)				pDevice->OnSetLevel(0);
+	for(auto pDevice: ltMainScanDev)			pDevice->OnSetLevel(0);
+	for(auto pDevice: ltMainDev)				pDevice->OnCountLevel();
+	for(auto pDevice: ltMainScanDev)			pDevice->OnCountLevel();
+	for(auto pDevice: ltMainDev)				pDevice->OnCountPoint();
+	for(auto pDevice: ltMainScanDev)			pDevice->OnCountPoint();
 	UpdateAllViews(NULL);
 }
 
@@ -126,7 +126,7 @@ void MVC::Device::CDeviceMapDoc::ClearRedo()
 
 void MVC::Device::CDeviceMapDoc::UndoAdd()
 {
-	boost::shared_ptr<SDevUndo> undo = m_stDevUndo.top();
+	std::shared_ptr<SDevUndo> undo = m_stDevUndo.top();
 	m_stDevUndo.pop();
 	CDevMgr* devMgr = &CDevMgr::GetMe();
 	devMgr->DeleteDevice(undo->m_Device->getID());
@@ -135,7 +135,7 @@ void MVC::Device::CDeviceMapDoc::UndoAdd()
 
 void MVC::Device::CDeviceMapDoc::UndoDel()
 {
-	boost::shared_ptr<SDevUndo> undo = m_stDevUndo.top();
+	std::shared_ptr<SDevUndo> undo = m_stDevUndo.top();
 	m_stDevUndo.pop();
 	CDevMgr* devMgr = &CDevMgr::GetMe();
 	devMgr->m_vtDevice[undo->m_Device->getID()] = undo->m_Device;
@@ -144,12 +144,12 @@ void MVC::Device::CDeviceMapDoc::UndoDel()
 
 void MVC::Device::CDeviceMapDoc::UndoUpd()
 {
-	boost::shared_ptr<SDevUndo> undo = m_stDevUndo.top();
+	std::shared_ptr<SDevUndo> undo = m_stDevUndo.top();
 	m_stDevUndo.pop();
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> device = boost::shared_ptr<CDeviceOne>(new CDeviceOne);
+	std::shared_ptr<CDeviceOne> device = std::shared_ptr<CDeviceOne>(new CDeviceOne);
 	device->CopyFrom(*devMgr->GetDevice(undo->m_Device->getID()));
-	boost::shared_ptr<SDevUndo> redo = boost::shared_ptr<SDevUndo>(new SDevUndo(CGbl::UNDO_TYPE_UPD, device));
+	std::shared_ptr<SDevUndo> redo = std::shared_ptr<SDevUndo>(new SDevUndo(CGbl::UNDO_TYPE_UPD, device));
 	redo->SetEnd(undo->m_bEnd);
 	m_stDevRedo.push(redo);
 	devMgr->m_vtDevice[undo->m_Device->getID()]->CopyFrom(*undo->m_Device);
@@ -157,7 +157,7 @@ void MVC::Device::CDeviceMapDoc::UndoUpd()
 
 void MVC::Device::CDeviceMapDoc::RedoAdd()
 {
-	boost::shared_ptr<SDevUndo> redo = m_stDevRedo.top();
+	std::shared_ptr<SDevUndo> redo = m_stDevRedo.top();
 	m_stDevRedo.pop();
 	CDevMgr* devMgr = &CDevMgr::GetMe();
 	devMgr->m_vtDevice[redo->m_Device->getID()] = redo->m_Device;
@@ -166,7 +166,7 @@ void MVC::Device::CDeviceMapDoc::RedoAdd()
 
 void MVC::Device::CDeviceMapDoc::RedoDel()
 {
-	boost::shared_ptr<SDevUndo> redo = m_stDevRedo.top();
+	std::shared_ptr<SDevUndo> redo = m_stDevRedo.top();
 	m_stDevRedo.pop();
 	CDevMgr* devMgr = &CDevMgr::GetMe();
 	devMgr->DeleteDevice(redo->m_Device->getID());
@@ -175,12 +175,12 @@ void MVC::Device::CDeviceMapDoc::RedoDel()
 
 void MVC::Device::CDeviceMapDoc::RedoUpd()
 {
-	boost::shared_ptr<SDevUndo> redo = m_stDevRedo.top();
+	std::shared_ptr<SDevUndo> redo = m_stDevRedo.top();
 	m_stDevRedo.pop();
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> device = boost::shared_ptr<CDeviceOne>(new CDeviceOne);
+	std::shared_ptr<CDeviceOne> device = std::shared_ptr<CDeviceOne>(new CDeviceOne);
 	device->CopyFrom(*devMgr->GetDevice(redo->m_Device->getID()));
-	boost::shared_ptr<SDevUndo> undo = boost::shared_ptr<SDevUndo>(new SDevUndo(CGbl::UNDO_TYPE_UPD, device));
+	std::shared_ptr<SDevUndo> undo = std::shared_ptr<SDevUndo>(new SDevUndo(CGbl::UNDO_TYPE_UPD, device));
 	undo->SetEnd(redo->m_bEnd);
 	m_stDevUndo.push(undo);
 	devMgr->m_vtDevice[redo->m_Device->getID()]->CopyFrom(*redo->m_Device);
@@ -190,7 +190,7 @@ void MVC::Device::CDeviceMapDoc::OnUndo()
 {
 	if(m_stDevUndo.empty())	return;
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<SDevUndo> undo;
+	std::shared_ptr<SDevUndo> undo;
 	bool bNeedFresh = false;
 	CDeviceMapView* pView = GetView();
 	devMgr->SetModify();
@@ -212,7 +212,7 @@ void MVC::Device::CDeviceMapDoc::OnRedo()
 {
 	if(m_stDevRedo.empty())	return;
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<SDevUndo> redo;
+	std::shared_ptr<SDevUndo> redo;
 	bool bNeedFresh = false;
 	CDeviceMapView* pView = GetView();
 	devMgr->SetModify();
@@ -237,7 +237,7 @@ void MVC::Device::CDeviceMapDoc::OnRedo()
 	FreshMap();
 }
 
-void MVC::Device::CDeviceMapDoc::AddUndoMember(boost::shared_ptr<SDevUndo> devUndo)
+void MVC::Device::CDeviceMapDoc::AddUndoMember(std::shared_ptr<SDevUndo> devUndo)
 {
 	if(!devUndo)				return;
 	CDevMgr::GetMe().SetModify();

@@ -9,7 +9,7 @@ private:
 	HWND m_hHmiWnd;										//!< 服务器程序的句柄
 	bool m_bCreateHmi;									//!< 打开HMI进行,强行等待一段时间
 	PROCESS_INFORMATION m_pi;
-	boost::thread* m_ThreadToWati;
+	std::thread* m_ThreadToWati;
 
 private:
 	CHmi(void);

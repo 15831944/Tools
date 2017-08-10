@@ -71,7 +71,7 @@ MVC::Device::CDeviceOne::CDeviceOne()
 
 	//!< 默认使用一个接口
 	m_vtInterface.clear();
-	boost::shared_ptr<CDeviceInterface> inf = boost::shared_ptr<CDeviceInterface>(new CDeviceInterface(this));
+	std::shared_ptr<CDeviceInterface> inf = std::shared_ptr<CDeviceInterface>(new CDeviceInterface(this));
 	inf->SetID(0);
 	m_vtInterface.push_back(inf);
 }
@@ -91,8 +91,8 @@ void MVC::Device::CDeviceOne::OnAddNew()
 bool MVC::Device::CDeviceOne::InitDevType(UINT devType)
 {
 	if(!setDevType(devType))				return false;
-	boost::shared_ptr<CDeviceParam> param;
-	boost::shared_ptr<XmlInfo::CXmlParaInfo> xmlParam;
+	std::shared_ptr<CDeviceParam> param;
+	std::shared_ptr<XmlInfo::CXmlParaInfo> xmlParam;
 
 	//!< 创建所有参数
 	int pCount = m_spXmlDevice->m_vtPara.size();
@@ -101,19 +101,19 @@ bool MVC::Device::CDeviceOne::InitDevType(UINT devType)
 	for(int i = 0; i < pCount; ++i)
 	{
 		if(!m_spXmlDevice->m_vtPara[i])		continue;
-		param = boost::shared_ptr<CDeviceParam>(new CDeviceParam());
+		param = std::shared_ptr<CDeviceParam>(new CDeviceParam());
 		param->InitParaType(m_spXmlDevice->m_vtPara[i],1);
 		m_vtParam[i] = param;
 	}
 
 	//!< 遍历所有行为，为设置参数的数值数组
-	boost::shared_ptr<XmlInfo::CXmlBehavior> xmlBehavior;
-	foreach(xmlBehavior, m_spXmlDevice->m_vtBehavior)
+	std::shared_ptr<XmlInfo::CXmlBehavior> xmlBehavior;
+	for (auto xmlBehavior : m_spXmlDevice->m_vtBehavior)
 	{
 		if(!xmlBehavior)					continue;
 		if(!xmlBehavior->m_bShowUser)		continue;		//!< 不显示的行为我先不生成参数
 		if(xmlBehavior->m_uiArrayNum < 1)	continue;		//!< 小于1不合法
-		foreach(UINT id, xmlBehavior->m_ltParaID)
+		for (UINT id : xmlBehavior->m_ltParaID)
 		{
 			if(id >= pCount)				AfxMessageBox("参数错误");
 			if(!m_vtParam[id])				continue;
@@ -127,8 +127,8 @@ bool MVC::Device::CDeviceOne::InitDevType(UINT devType)
 bool MVC::Device::CDeviceOne::setDevType(UINT type)
 {
 	m_uiType = type;
-	boost::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = xmlMgr->GetDevice(getDevType());
+	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = xmlMgr->GetDevice(getDevType());
 	if(!xmlDev)								return false;
 	if(!xmlDev->OpenXml())					return false;	//!< 如果这个设备没有解析设备描述文件
 	m_spXmlDevice = xmlDev;
@@ -154,9 +154,9 @@ int MVC::Device::CDeviceOne::IsInMyRect(CPoint point)
 void MVC::Device::CDeviceOne::OnSetLevel(UINT level)
 {
 	m_uiLevel = level;
-	boost::shared_ptr<CDeviceOne> device;
+	std::shared_ptr<CDeviceOne> device;
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	foreach(UINT id, m_ltChildID){
+	for (UINT id : m_ltChildID){
 		device = devMgr->GetDevice(id);
 		ASSERT(device);
 		device->OnSetLevel(level + 1);
@@ -168,8 +168,8 @@ void MVC::Device::CDeviceOne::OnCountLevel()
 {
 	//!< 自己的层次得到了，该计算自己孩子的了
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> device;
-	foreach(UINT id, m_ltChildID){
+	std::shared_ptr<CDeviceOne> device;
+	for (UINT id : m_ltChildID){
 		device = devMgr->GetDevice(id);
 		ASSERT(device);
 		device->OnCountLevel();
@@ -185,22 +185,22 @@ void MVC::Device::CDeviceOne::OnCountPoint()
 {
 	CPoint point=m_Point;
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> device, empty;
+	std::shared_ptr<CDeviceOne> device, empty;
 	CDeviceMapDoc* pDoc = devMgr->m_DevMapDoc;
 	if(!pDoc)		return;
-	std::list<boost::shared_ptr<CDeviceOne> > ltScanChild;
+	std::list<std::shared_ptr<CDeviceOne> > ltScanChild;
 
 	if(!m_ltChildID.empty() && m_bExpand)	//!< 如果有下属设备，计算它们的坐标
 	{
-		foreach(UINT id, m_ltChildID){
+		for (UINT id : m_ltChildID){
 			device = devMgr->GetDevice(id);
 			ASSERT(device);
 			if(device->IsProj())		device->OnCountPoint();
 			else						ltScanChild.push_back(device);
 		}
-		foreach(device, ltScanChild)	device->OnCountPoint();		//!< 扫描设备要画到后头去
+		for (auto device : ltScanChild)	device->OnCountPoint();		//!< 扫描设备要画到后头去
 		device = empty;
-		foreach(UINT id, m_ltChildID)
+		for (UINT id : m_ltChildID)
 		{
 			if(!devMgr->GetDevice(id)->IsProj())	continue;
 			device = devMgr->GetDevice(id);
@@ -283,7 +283,7 @@ void MVC::Device::CDeviceOne::OnDrawWord(CDC *pDC)
 		if(SoftInfo::CSoftInfo::GetMe().getShowAddr())
 		{	// 画地址
 			int i = 0;
-			foreach(boost::shared_ptr<CDeviceInterface> inf, m_vtInterface)
+			for (std::shared_ptr<CDeviceInterface> inf : m_vtInterface)
 			{
 				if(!inf)					continue;
 				CString strInterface =inf->GetName();
@@ -302,7 +302,7 @@ void MVC::Device::CDeviceOne::OnDrawWord(CDC *pDC)
 		if(SoftInfo::CSoftInfo::GetMe().getShowAddr())
 		{	// 画地址
 			int i = 0;
-			foreach(boost::shared_ptr<CDeviceInterface> inf, m_vtInterface)
+			for (std::shared_ptr<CDeviceInterface> inf : m_vtInterface)
 			{
 				if(!inf)					continue;
 				CString strInterface =inf->GetName();
@@ -322,7 +322,7 @@ void MVC::Device::CDeviceOne::OnDrawToParent(CDC* pDC)
 		OnDrawToHostLine(pDC);
 		return;
 	}
-	boost::shared_ptr<CDeviceOne> device = CDevMgr::GetMe().GetDevice(m_uiParentID);
+	std::shared_ptr<CDeviceOne> device = CDevMgr::GetMe().GetDevice(m_uiParentID);
 	ASSERT(device);
 	if(!device)					return;
 	CPen *pOldPen;
@@ -359,10 +359,10 @@ void MVC::Device::CDeviceOne::OnDrawToParent(CDC* pDC)
 void MVC::Device::CDeviceOne::OnDrawToHostLine(CDC* pDC)
 {
 	CPen *pOldPen = NULL;
-	boost::shared_ptr<CDeviceInterface> inf;
+	std::shared_ptr<CDeviceInterface> inf;
 	int index = 0;
 	bool bWatch = CProjectMgr::GetMe().IsWatch();
-	foreach(inf, m_vtInterface)
+	for (auto inf : m_vtInterface)
 	{
 		if(!inf)							continue;
 		if(bWatch && inf->GetState() == 0)	continue;	//!< 监控状态下,不在线的接口不划线
@@ -437,11 +437,11 @@ void MVC::Device::CDeviceOne::OnDrawPic(CDC* pDC)
 void MVC::Device::CDeviceOne::ShowHideChild(bool show)
 {
 	SetShow(show);
-	boost::shared_ptr<CDeviceOne> device;
+	std::shared_ptr<CDeviceOne> device;
 	CDevMgr* mgr = &CDevMgr::GetMe();
 	if(!show)	//!< 不显示很好办，就是把他们都隐藏了
 	{
-		foreach(UINT id, m_ltChildID){
+		for (UINT id : m_ltChildID){
 			device = mgr->GetDevice(id);
 			ASSERT(device);
 			device->ShowHideChild(show);
@@ -450,7 +450,7 @@ void MVC::Device::CDeviceOne::ShowHideChild(bool show)
 	else		//!< 显示的话，就要看自己是不是折叠的了
 	{
 		if(!m_bExpand)		return;
-		foreach(UINT id, m_ltChildID){
+		for (UINT id : m_ltChildID){
 			device = mgr->GetDevice(id);
 			ASSERT(device);
 			device->SetShow(show);
@@ -504,12 +504,12 @@ bool MVC::Device::CDeviceOne::SerializeXmlGeneral(TiXmlElement* pNode, bool bRea
 		}
 		m_vtInterface.clear();
 		TiXmlElement* pChild = pNode->FirstChildElement();
-		boost::shared_ptr<CDeviceInterface> inf;
+		std::shared_ptr<CDeviceInterface> inf;
 		while(pChild)
 		{
 			name = pChild->Value();
 			if(INTERFACES == name){
-				inf = boost::shared_ptr<CDeviceInterface>(new CDeviceInterface(this));
+				inf = std::shared_ptr<CDeviceInterface>(new CDeviceInterface(this));
 				if(inf->SerializeXml(pChild, bRead))	m_vtInterface.push_back(inf);
 			}
 			for(int i = 0; i < (int)m_vtInterface.size(); ++i)
@@ -533,8 +533,8 @@ bool MVC::Device::CDeviceOne::SerializeXmlGeneral(TiXmlElement* pNode, bool bRea
 		pNode->SetAttribute(INTERFACE_SORT, m_bInterfaceSort?1:0);
 		pNode->SetAttribute(PARA2USER, m_spXmlDevice->IsPara2User()?1:0);
 
-		boost::shared_ptr<CDeviceInterface> inf;
-		foreach(inf, m_vtInterface){
+		//std::shared_ptr<CDeviceInterface> inf;
+		for (auto inf : m_vtInterface){
 			if(!inf)				continue;
 			if(!inf->IsProj())		continue;
 			inf->SerializeXml(pNode->AddTiXmlChild((LPCTSTR)INTERFACES), bRead);
@@ -587,7 +587,7 @@ bool MVC::Device::CDeviceOne::SaveXmlFile()
 	if(!m_bLoadDcfg)				return true;								//!< 如果都没打开过,就不用保存了
 	if(IsModify())																//!< 如果没做修改,就不用保存
 	{
-		boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+		std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 		CString pathAll = proj->GetPath() + m_strName + _T(".") + DEV_EXPAND_NAME;
 		TiXmlDocument pTiXml(pathAll);
 		TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "GB2312", "" );	//!< 起始声明
@@ -617,15 +617,15 @@ bool MVC::Device::CDeviceOne::SerializeXml(TiXmlElement* pNode, bool bRead)
 		if(num < 0)		return false;
 		CGbl::SetProgressRange(num);
 		TiXmlElement* xmlPara = pNode->FirstChildElement();
-		boost::shared_ptr<CDeviceParam> param, realParam;
-		std::list< boost::shared_ptr<CDeviceParam> > ltParam;
+		std::shared_ptr<CDeviceParam> param, realParam;
+		std::list< std::shared_ptr<CDeviceParam> > ltParam;
 		while(xmlPara)
 		{
 			CGbl::SetProgressStep(1);
 			name = xmlPara->Value();
 			if(DEV_ROOT == name){}
 			else if(DEV_PARA == name){
-				param = boost::shared_ptr<CDeviceParam>(new CDeviceParam());
+				param = std::shared_ptr<CDeviceParam>(new CDeviceParam());
 				param->SerializeXml(xmlPara, bRead, this);
 				//!< 先把他们仍在链表里
 				ltParam.push_back(param);
@@ -634,12 +634,12 @@ bool MVC::Device::CDeviceOne::SerializeXml(TiXmlElement* pNode, bool bRead)
 		}
 		//!< 根据链表中参数的ID最大值，来设置参数数据的大小
 		UINT maxID = 0;
-		foreach(param, ltParam)
+		for (auto param : ltParam)
 			maxID = max(maxID, param->getParaID());
 		m_vtParam.resize(maxID + 1);
 
 		//!< 最后将链表中的参数导进数组中来，这里只导入那些匹配的
-		foreach(param, ltParam)
+		for (auto param : ltParam)
 		{
 			realParam = GetParam(param->getParaID());
 			if(!realParam)												continue;
@@ -662,8 +662,8 @@ bool MVC::Device::CDeviceOne::SerializeXml(TiXmlElement* pNode, bool bRead)
 		para->SetAttribute(DEVTYPE, getDevType());
 
 		//!< 添加参数
-		boost::shared_ptr<CDeviceParam> param;
-		foreach(param, m_vtParam){
+		//std::shared_ptr<CDeviceParam> param;
+		for (auto param : m_vtParam){
 			if(!param)		continue;
 			para = pNode->AddTiXmlChild((LPCTSTR)DEV_PARA);
 			param->SerializeXml(para, bRead, this);
@@ -677,7 +677,7 @@ bool MVC::Device::CDeviceOne::DevOut(CString path, CString name)
 {
 	LoadXml();		//!< 如果还没解析描述，就先解析吧
 	CString oldName = m_strName;
-	boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 	CString oldPath = proj->GetPath();
 	path = CGbl::GetPathFromFilePathName(path);
 	proj->SetPath(path);
@@ -692,7 +692,7 @@ bool MVC::Device::CDeviceOne::DevOut(CString path, CString name)
 bool MVC::Device::CDeviceOne::DevIn(CString path, CString name)
 {
 	CString oldName = m_strName;
-	boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 	CString oldPath = proj->GetPath();
 	path = CGbl::GetPathFromFilePathName(path);
 	proj->SetPath(path);
@@ -712,8 +712,7 @@ void MVC::Device::CDeviceOne::DeleteChild(UINT id)
 //!< 添加孩子
 void MVC::Device::CDeviceOne::AddChild(UINT id)
 {
-	UINT index;
-	foreach(index, m_ltChildID)
+	for (UINT index : m_ltChildID)
 		if(index == id)
 			return;
 	m_ltChildID.push_back(id);
@@ -722,7 +721,7 @@ void MVC::Device::CDeviceOne::AddChild(UINT id)
 //!< 被复制了
 void MVC::Device::CDeviceOne::OnCopy()
 {
-	boost::shared_ptr<CDeviceOne> newDev = boost::shared_ptr<CDeviceOne>(new CDeviceOne);
+	std::shared_ptr<CDeviceOne> newDev = std::shared_ptr<CDeviceOne>(new CDeviceOne);
 	newDev->CopyFrom(*this);
 	newDev->setID(m_uiID);
 	newDev->setParentID(m_uiParentID);
@@ -734,8 +733,8 @@ void MVC::Device::CDeviceOne::OnCopyWithChild()
 {
 	OnCopy();
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> device;
-	foreach(UINT id, m_ltChildID)
+	std::shared_ptr<CDeviceOne> device;
+	for (UINT id : m_ltChildID)
 	{
 		device = devMgr->GetDevice(id);
 		ASSERT(device);
@@ -747,12 +746,12 @@ void MVC::Device::CDeviceOne::OnCopyWithChild()
 void MVC::Device::CDeviceOne::OnCut(CDeviceMapDoc* pDoc)
 {
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> device = devMgr->GetDevice(m_uiID);
+	std::shared_ptr<CDeviceOne> device = devMgr->GetDevice(m_uiID);
 	ASSERT(device);
 	devMgr->m_ltDevClipBoard.push_back(device);
-	boost::shared_ptr<SDevUndo> sdu = boost::shared_ptr<SDevUndo>(new SDevUndo(CGbl::UNDO_TYPE_DEL, device));
+	std::shared_ptr<SDevUndo> sdu = std::shared_ptr<SDevUndo>(new SDevUndo(CGbl::UNDO_TYPE_DEL, device));
 	pDoc->AddUndoMember(sdu);
-	foreach(UINT id, m_ltChildID)
+	for (UINT id : m_ltChildID)
 	{
 		device = devMgr->GetDevice(id);
 		ASSERT(device);
@@ -770,11 +769,11 @@ void MVC::Device::CDeviceOne::ResizeInterface(UINT num)
 {
 	if(num > 32)	return;
 	m_vtInterface.resize(num);
-	boost::shared_ptr<CDeviceInterface> inf;
+	std::shared_ptr<CDeviceInterface> inf;
 	for(int i = 0; i < num; ++i)
 	{
 		if(m_vtInterface[i])	continue;
-		inf = boost::shared_ptr<CDeviceInterface>(new CDeviceInterface(this));
+		inf = std::shared_ptr<CDeviceInterface>(new CDeviceInterface(this));
 		m_vtInterface[i] = inf;
 		inf->SetID(i);
 	}
@@ -783,7 +782,7 @@ void MVC::Device::CDeviceOne::ResizeInterface(UINT num)
 //!< 获得设备类型名称
 CString MVC::Device::CDeviceOne::GetTypeName()
 {
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDevice = GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDevice = GetXmlInfo();
 	if(!xmlDevice)	return _T("无");
 	return xmlDevice->m_strName;
 }
@@ -828,8 +827,7 @@ void MVC::Device::CDeviceOne::OnRButtonUp(UINT nFlags, CPoint point, CWnd* wnd)
 		bool bHaveScanInf = false;
 		if(CProjectMgr::GetMe().IsScan())
 		{
-			boost::shared_ptr<CDeviceInterface> inf;
-			foreach(inf, m_vtInterface)
+			for (auto inf : m_vtInterface)
 			{
 				if(!inf || inf->IsProj())	continue;
 				bHaveScanInf = true;
@@ -870,24 +868,24 @@ void MVC::Device::CDeviceOne::CopyFrom(CDeviceOne& device)
 	setInterfaceSort(device.getInterfaceSort());
 	setStrID(device.getStrID());
 
-	boost::shared_ptr<CDeviceInterface> inf, newInf;
+	std::shared_ptr<CDeviceInterface> inf, newInf;
 	m_vtInterface.clear();
 	m_vtInterface.resize(device.m_vtInterface.size());
-	foreach(inf, device.m_vtInterface)
+	for (auto inf : device.m_vtInterface)
 	{
 		if(!inf)		continue;
-		newInf = boost::shared_ptr<CDeviceInterface>(new CDeviceInterface(this));
+		newInf = std::shared_ptr<CDeviceInterface>(new CDeviceInterface(this));
 		*newInf = *inf;
 		m_vtInterface[inf->GetID()] = newInf;
 	}
 
-	boost::shared_ptr<CDeviceParam> para, newPara;
+	std::shared_ptr<CDeviceParam> para, newPara;
 	m_vtParam.clear();
 	m_vtParam.resize(device.m_vtParam.size());
-	foreach(para, device.m_vtParam)
+	for (auto para : device.m_vtParam)
 	{
 		if(!para)		continue;
-		newPara = boost::shared_ptr<CDeviceParam>(new CDeviceParam);
+		newPara = std::shared_ptr<CDeviceParam>(new CDeviceParam);
 		*newPara = *para;
 		m_vtParam[para->getParaID()] = newPara;
 	}
@@ -910,18 +908,18 @@ bool MVC::Device::CDeviceOne::operator == (CDeviceOne& device) const
 }
 
 //!< 获得第id个接口
-boost::shared_ptr<CDeviceInterface> MVC::Device::CDeviceOne::GetInterface(UINT id)
+std::shared_ptr<CDeviceInterface> MVC::Device::CDeviceOne::GetInterface(UINT id)
 {
-	boost::shared_ptr<CDeviceInterface> inf, empty;
+	std::shared_ptr<CDeviceInterface> inf, empty;
 	if(id >= (UINT)m_vtInterface.size())	return empty;
 	return m_vtInterface[id];
 }
 
 //!< 根据接口的类型找到第一个属于这个类型的接口
-boost::shared_ptr<CDeviceInterface> MVC::Device::CDeviceOne::GetInterfaceFromType(UINT type)
+std::shared_ptr<CDeviceInterface> MVC::Device::CDeviceOne::GetInterfaceFromType(UINT type)
 {
-	boost::shared_ptr<CDeviceInterface> inf, empty;
-	foreach(inf, m_vtInterface){
+	std::shared_ptr<CDeviceInterface> inf, empty;
+	for (auto inf : m_vtInterface){
 		if(!inf)		continue;
 		if(inf->GetType() == type)
 			return inf;
@@ -930,9 +928,9 @@ boost::shared_ptr<CDeviceInterface> MVC::Device::CDeviceOne::GetInterfaceFromTyp
 }
 
 //!< 找参数
-boost::shared_ptr<CDeviceParam> MVC::Device::CDeviceOne::GetParam(UINT id)
+std::shared_ptr<CDeviceParam> MVC::Device::CDeviceOne::GetParam(UINT id)
 {
-	boost::shared_ptr<CDeviceParam> empty;
+	std::shared_ptr<CDeviceParam> empty;
 	if(id >= (UINT)m_vtParam.size())	return empty;
 	return m_vtParam[id];
 }
@@ -940,7 +938,7 @@ boost::shared_ptr<CDeviceParam> MVC::Device::CDeviceOne::GetParam(UINT id)
 //!< 设备是否在线，返回在线的接口ID，不在返回-1
 long MVC::Device::CDeviceOne::GetOnLineInf()
 {
-	foreach(boost::shared_ptr<CDeviceInterface> inf, m_vtInterface){
+	for (std::shared_ptr<CDeviceInterface> inf : m_vtInterface){
 		if(!inf)				continue;
 		if(inf->IsOnline())		return inf->GetID();
 	}
@@ -957,7 +955,7 @@ void MVC::Device::CDeviceOne::SetOnLineInf(UINT infID, bool bOnLine)
 //!< 直接设置下线
 void MVC::Device::CDeviceOne::SetOffLine()
 {
-	foreach(boost::shared_ptr<CDeviceInterface> inf, m_vtInterface)
+	for (std::shared_ptr<CDeviceInterface> inf : m_vtInterface)
 	{
 		if(!inf)		continue;
 		inf->SetState(0);
@@ -1011,7 +1009,7 @@ bool MVC::Device::CDeviceOne::IsMyParent(UINT id)
 {
 	if(id < 0)					return false;
 	if(getParentID() == id)		return true;		//!< 如果是自己的父亲，返回正确
-	boost::shared_ptr<CDeviceOne> dev = CDevMgr::GetMe().GetDevice(getParentID());
+	std::shared_ptr<CDeviceOne> dev = CDevMgr::GetMe().GetDevice(getParentID());
 	if(!dev)					return false;		//!< 如果自己没有父亲了，也返回正确
 	return dev->IsMyParent(id);						//!< 如果有父亲，看看是不是父亲的上一代
 }
@@ -1019,13 +1017,13 @@ bool MVC::Device::CDeviceOne::IsMyParent(UINT id)
 //!< 判断是否能连从设备
 bool MVC::Device::CDeviceOne::CanAddSlave(bool bSayWhy /* = true */)
 {
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = GetXmlInfo();
 	if(!xmlDev)							return false;
 	UINT maxSlave = xmlDev->getMaxInf2Slave();
 	UINT slaveNum = 0;
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> dev;
-	foreach(dev, devMgr->m_vtDevice)
+	std::shared_ptr<CDeviceOne> dev;
+	for (auto dev : devMgr->m_vtDevice)
 	{
 		if(!dev)	continue;
 		if(dev->getParentID() == m_uiID)	++slaveNum;
@@ -1042,8 +1040,8 @@ bool MVC::Device::CDeviceOne::CanAddSlave(bool bSayWhy /* = true */)
 //!< 判断是否能连该类型的从设备
 bool MVC::Device::CDeviceOne::CanAddSlaveType(UINT devType)
 {
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = GetXmlInfo();
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlSlave = g_App.m_XmlMgr->GetDevice(devType);
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlSlave = g_App.m_XmlMgr->GetDevice(devType);
 	if(!xmlDev || !xmlSlave)			return false;
 	return xmlDev->getInf2Slave() & xmlSlave->getInf2Main();
 }
@@ -1052,9 +1050,9 @@ bool MVC::Device::CDeviceOne::CanAddSlaveType(UINT devType)
 void MVC::Device::CDeviceOne::UpLoadBehavior(UINT id, CComVariant cvrIndex)
 {
 	CMainFrame * mf = (CMainFrame *)g_App.GetMainWnd();
-	boost::shared_ptr<XmlInfo::CXmlBehavior> xmlBehavior = m_spXmlDevice->getBehavior(id);
+	std::shared_ptr<XmlInfo::CXmlBehavior> xmlBehavior = m_spXmlDevice->getBehavior(id);
 	if(!xmlBehavior)	return;
-	boost::shared_ptr<CDeviceParam> para;
+	std::shared_ptr<CDeviceParam> para;
 	VARIANT cvr;
 
 	UINT count = 1;
@@ -1079,9 +1077,9 @@ void MVC::Device::CDeviceOne::UpLoadBehavior(UINT id, CComVariant cvrIndex)
 			return;
 		}
 		UINT infType = ltAddr.size() == getLevel() + 1 ? 0 : 1;		//!< 如果数据相同表示以太网，否则表示串口，因为串口多个串口号
-		UINT i = 0, index;
+		UINT i = 0;
 		long* plAddr = new long[ltAddr.size()];
-		foreach(index, ltAddr)
+		for (auto index : ltAddr)
 		{
 			plAddr[i++] = index;
 		}
@@ -1096,17 +1094,17 @@ void MVC::Device::CDeviceOne::UpLoadBehavior(UINT id, CComVariant cvrIndex)
 void MVC::Device::CDeviceOne::DownLoadBehavior(UINT id, CComVariant cvrIndex)
 {
 	CMainFrame * mf = (CMainFrame *)g_App.GetMainWnd();
-	boost::shared_ptr<XmlInfo::CXmlBehavior> xmlBehavior = m_spXmlDevice->getBehavior(id);
+	std::shared_ptr<XmlInfo::CXmlBehavior> xmlBehavior = m_spXmlDevice->getBehavior(id);
 	if(!xmlBehavior)	return;
-	boost::shared_ptr<CDeviceParam> para;
+	std::shared_ptr<CDeviceParam> para;
 	VARIANT cvr;
 
 	UINT count = UINT(xmlBehavior->m_ltParaID.size() * 2 + 1);
 	cvr.vt = VT_ARRAY|VT_VARIANT;
 	cvr.parray = ::SafeArrayCreateVector(VT_VARIANT, 0, count);
 	mf->m_VarArray[0] = cvrIndex;
-	UINT index = 0, i = 0, paraID;
-	foreach(paraID, xmlBehavior->m_ltParaID)
+	UINT index = 0, i = 0;
+	for (auto paraID : xmlBehavior->m_ltParaID)
 	{
 		para = GetParam(paraID);
 		ASSERT(para);
@@ -1129,7 +1127,7 @@ void MVC::Device::CDeviceOne::DownLoadBehavior(UINT id, CComVariant cvrIndex)
 		UINT infType = ltAddr.size() == getLevel() + 1 ? 0 : 1;		//!< 如果数据相同表示以太网，否则表示串口，因为串口多个串口号
 		long* plAddr = new long[ltAddr.size()];
 		i = 0;
-		foreach(index, ltAddr)
+		for (auto index : ltAddr)
 		{
 			plAddr[i++] = index;
 		}
@@ -1148,10 +1146,10 @@ void MVC::Device::CDeviceOne::GetWholeAddr(std::list<UINT>& ltAddr, bool bOnLine
 	}
 	else	//!< 如果没有父设备，就是自己的地址，这时候bOnLine就用得上了
 	{
-		boost::shared_ptr<CDeviceInterface> inf;
+		std::shared_ptr<CDeviceInterface> inf;
 		bool bFind = false;
 		if(!bOnLine && !m_vtInterface.empty())					bFind = true;
-		foreach(inf, m_vtInterface)
+		for (auto inf : m_vtInterface)
 		{
 			if(bOnLine && inf->GetState() == 0)					continue;
 			if(inf->GetType() == 0)								//!< 如果是以太网IP
@@ -1202,8 +1200,7 @@ bool MVC::Device::CDeviceOne::DoSearch(CString str, bool bMatchWhole, bool bAllC
 	if(CGbl::SearchT(cvr, str, bMatchWhole, bAllCase, bRegex, _T("类型"), strInfo))	++nMatchCount;
 
 	//!< 接口是否匹配
-	boost::shared_ptr<CDeviceInterface> inf;
-	foreach(inf, m_vtInterface)
+	for (auto inf : m_vtInterface)
 	{
 		if(!inf)		continue;
 		cvr = inf->GetTypeName();
@@ -1223,8 +1220,7 @@ bool MVC::Device::CDeviceOne::DoSearch(CString str, bool bMatchWhole, bool bAllC
 //!< 返回设备当前状态，0离线，1在线，2在线未配置，3在线冲突
 long MVC::Device::CDeviceOne::getState()
 {
-	boost::shared_ptr<CDeviceInterface> inf;
-	foreach(inf, m_vtInterface)
+	for (auto inf : m_vtInterface)
 	{
 		if(inf->GetState() != 0)	return inf->GetState();
 	}
@@ -1234,10 +1230,9 @@ long MVC::Device::CDeviceOne::getState()
 //!< 获得父设备的ID
 CString MVC::Device::CDeviceOne::getStrParentID()
 {
-	boost::shared_ptr<CDeviceInterface> inf;
 	UINT minLevel = UINT(-1);		//!< 起始5就够了
 	CString strID;
-	foreach(inf, m_vtInterface)
+	for (auto inf : m_vtInterface)
 	{
 		if(minLevel <= inf->getScanLevel())			continue;
 		minLevel = inf->getScanLevel();

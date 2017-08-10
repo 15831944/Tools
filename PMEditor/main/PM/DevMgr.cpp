@@ -36,9 +36,9 @@ const CString SERIAL_INFO = _T("SerialInfo");
 CDevMgr::CDevMgr(void)
 {
 	m_DevMapDoc = NULL;
-	m_Ethernet = boost::shared_ptr<InterfaceSet::CDEthernet>(new InterfaceSet::CDEthernet());
+	m_Ethernet = std::shared_ptr<InterfaceSet::CDEthernet>(new InterfaceSet::CDEthernet());
 	m_ScanMgr = &CScanMgr::GetMe();
-	m_ScanSetInfo = boost::shared_ptr<CScanSetInfo>(new CScanSetInfo);
+	m_ScanSetInfo = std::shared_ptr<CScanSetInfo>(new CScanSetInfo);
 	m_ScanSetInfo->Init();
 }
 
@@ -78,17 +78,17 @@ void CDevMgr::OpenDoc()
 	}
 }
 
-boost::shared_ptr<CDeviceOne> CDevMgr::GetDevice(UINT id)
+std::shared_ptr<CDeviceOne> CDevMgr::GetDevice(UINT id)
 {
-	boost::shared_ptr<CDeviceOne> empty;
+	std::shared_ptr<CDeviceOne> empty;
 	if(id >= m_vtDevice.size())		return empty;
 	else							return m_vtDevice[id];
 }
 
-boost::shared_ptr<CDeviceOne> CDevMgr::GetDevice(CString name)
+std::shared_ptr<CDeviceOne> CDevMgr::GetDevice(CString name)
 {
-	boost::shared_ptr<CDeviceOne> empty;
-	foreach(boost::shared_ptr<CDeviceOne> device, m_vtDevice)
+	std::shared_ptr<CDeviceOne> empty;
+	for (std::shared_ptr<CDeviceOne> device : m_vtDevice)
 	{
 		if(!device)					continue;
 		if(device->getName() == name)
@@ -97,13 +97,13 @@ boost::shared_ptr<CDeviceOne> CDevMgr::GetDevice(CString name)
 	return empty;
 }
 
-boost::shared_ptr<CDeviceOne> CDevMgr::GetDevice(UINT devType, UINT infType, UINT level, long* plAddr)
+std::shared_ptr<CDeviceOne> CDevMgr::GetDevice(UINT devType, UINT infType, UINT level, long* plAddr)
 {
-	boost::shared_ptr<CDeviceOne> empty, device;
+	std::shared_ptr<CDeviceOne> empty, device;
 	int count = level + 1;
 	if(infType == 1)	++count;				//!< 串口的地址会多一个
 	std::list<UINT> ltAddr;
-	foreach(device, m_vtDevice)
+	for (auto device : m_vtDevice)
 	{
 		if(!device)								continue;
 		if(device->getDevType() != devType)		continue;	//!< 类型不同，不是一个设备
@@ -126,11 +126,11 @@ boost::shared_ptr<CDeviceOne> CDevMgr::GetDevice(UINT devType, UINT infType, UIN
 }
 
 //!< 获得所有工程设备的名称列表，返回defIndex号的设备
-boost::shared_ptr<CDeviceOne> CDevMgr::GetDeviceNameList(std::list<CString>& strList, int& defIndex)
+std::shared_ptr<CDeviceOne> CDevMgr::GetDeviceNameList(std::list<CString>& strList, int& defIndex)
 {
-	boost::shared_ptr<MVC::Device::CDeviceOne> device, empty;
+	std::shared_ptr<MVC::Device::CDeviceOne> device, empty;
 	int index = -1;
-	foreach(device, m_vtDevice)
+	for (auto device : m_vtDevice)
 	{
 		if(!device)					continue;
 		if(!device->IsProj())		continue;
@@ -145,7 +145,7 @@ boost::shared_ptr<CDeviceOne> CDevMgr::GetDeviceNameList(std::list<CString>& str
 }
 
 //!< 这里加的设备一定要是新增的设备，因为我要在这里进行初始化
-boost::shared_ptr<CDeviceOne> CDevMgr::AddNewDevice(boost::shared_ptr<CDeviceOne> device)
+std::shared_ptr<CDeviceOne> CDevMgr::AddNewDevice(std::shared_ptr<CDeviceOne> device)
 {
 	if(!device)						return device;
 	if(!device->GetXmlInfo())		return device;
@@ -169,12 +169,12 @@ boost::shared_ptr<CDeviceOne> CDevMgr::AddNewDevice(boost::shared_ptr<CDeviceOne
 	}
 	//!< 超限了，不能添了
 	MessageBox(NULL, _T("数量超过了限制，无法再添加设备！"), _T("警告"), MB_OK);
-	boost::shared_ptr<CDeviceOne> empty;
+	std::shared_ptr<CDeviceOne> empty;
 	return empty;
 }
 
 //!< 保证设备拥有与别人不同的接口
-void CDevMgr::AwayFromSameInf(boost::shared_ptr<CDeviceOne> device)
+void CDevMgr::AwayFromSameInf(std::shared_ptr<CDeviceOne> device)
 {
 	std::vector<CString> vtStr;
 	CString str, strID;
@@ -195,18 +195,16 @@ void CDevMgr::AwayFromSameInf(boost::shared_ptr<CDeviceOne> device)
 }
 
 //!< 保证设备拥有与别人不同的接口，如果相同则重新设置
-void CDevMgr::MakeSureDfrtInf(boost::shared_ptr<CDeviceOne> device)
+void CDevMgr::MakeSureDfrtInf(std::shared_ptr<CDeviceOne> device)
 {
-	boost::shared_ptr<CDeviceOne> other;
-	boost::shared_ptr<CDeviceInterface> inf, otherInf;
-	foreach(other, m_vtDevice)
+	for (auto other : m_vtDevice)
 	{
 		if(!other)											continue;
 		if(!other->IsProj())								continue;		//!< 扫描上来的设备当然就不管理
 		if(other->getParentID() != device->getParentID())	continue;
-		foreach(otherInf, other->m_vtInterface)
+		for (auto otherInf : other->m_vtInterface)
 		{
-			foreach(inf, device->m_vtInterface)
+			for (auto inf : device->m_vtInterface)
 			{
 				if(otherInf == inf)							continue;
 				if(otherInf->GetName() != inf->GetName())	continue;
@@ -240,8 +238,7 @@ void CDevMgr::MakeSureDfrtInf(boost::shared_ptr<CDeviceOne> device)
 UINT CDevMgr::GetDeviceSize()
 {
 	UINT size = 0;
-	boost::shared_ptr<CDeviceOne> device;
-	foreach(device, m_vtDevice)
+	for (auto device : m_vtDevice)
 		if(device && device->IsProj())
 			++size;
 	return size;
@@ -250,12 +247,12 @@ UINT CDevMgr::GetDeviceSize()
 //!< 删除设备，包括其子设备
 void CDevMgr::DeleteDevice(UINT id)
 {
-	boost::shared_ptr<CDeviceOne> device, child, parent, empty;
+	std::shared_ptr<CDeviceOne> device, child, parent, empty;
 	device = GetDevice(id);
 	if(!device)		return;
 	if(device->m_ltChildID.size() > 0)
 	{
-		foreach(UINT childID, device->m_ltChildID)
+		for (UINT childID : device->m_ltChildID)
 			OnDeleteDeviceChild(childID);
 	}
 	parent = GetDevice(device->getParentID());
@@ -263,19 +260,18 @@ void CDevMgr::DeleteDevice(UINT id)
 	m_vtDevice[id] = empty;
 
 	//!< 通知所有监听者，设备拓扑改变了
-	SBehaviorRequest* br;
-	foreach(br, m_ltBRequest)	br->OnDeviceChange();
+	for (auto br : m_ltBRequest)	br->OnDeviceChange();
 }
 
 //!< 删除该设备的所有孩子，包括孩子的孩子，等等
 void CDevMgr::OnDeleteDeviceChild(UINT id)
 {
-	boost::shared_ptr<CDeviceOne> device, child, empty;
+	std::shared_ptr<CDeviceOne> device, child, empty;
 	device = GetDevice(id);
 	if(!device)		return;
 	if(device->m_ltChildID.size() > 0)
 	{
-		foreach(UINT childID, device->m_ltChildID)
+		for (UINT childID : device->m_ltChildID)
 			OnDeleteDeviceChild(childID);
 	}
 	m_vtDevice[id] = empty;
@@ -285,12 +281,12 @@ void CDevMgr::OnDeleteDeviceChild(UINT id)
 void CDevMgr::UndoUpdDevice(UINT id)
 {
 	if(!m_DevMapDoc)		return;
-	boost::shared_ptr<CDeviceOne> device, undoDev;
+	std::shared_ptr<CDeviceOne> device, undoDev;
 	device = GetDevice(id);
 	if(!device)				return;
-	undoDev = boost::shared_ptr<CDeviceOne>(new CDeviceOne);
+	undoDev = std::shared_ptr<CDeviceOne>(new CDeviceOne);
 	undoDev->CopyFrom(*device);
-	boost::shared_ptr<SDevUndo> sdu = boost::shared_ptr<SDevUndo>(new SDevUndo(CGbl::UNDO_TYPE_UPD, undoDev));
+	std::shared_ptr<SDevUndo> sdu = std::shared_ptr<SDevUndo>(new SDevUndo(CGbl::UNDO_TYPE_UPD, undoDev));
 	sdu->SetEnd();
 	m_DevMapDoc->AddUndoMember(sdu);
 }
@@ -299,24 +295,24 @@ void CDevMgr::UndoUpdDevice(UINT id)
 void CDevMgr::UndoDelDevice(UINT id)
 {
 	if(!m_DevMapDoc)		return;
-	boost::shared_ptr<CDeviceOne> device, child, parent,empty;
+	std::shared_ptr<CDeviceOne> device, child, parent,empty;
 	device = GetDevice(id);
 	if(!device)				return;
-	boost::shared_ptr<SDevUndo> sdu = boost::shared_ptr<SDevUndo>(new SDevUndo(CGbl::UNDO_TYPE_DEL, device));
+	std::shared_ptr<SDevUndo> sdu = std::shared_ptr<SDevUndo>(new SDevUndo(CGbl::UNDO_TYPE_DEL, device));
 	m_DevMapDoc->AddUndoMember(sdu);
 	parent = GetDevice(device->getParentID());
 	if(device->m_ltChildID.size() > 0)
 	{
-		foreach(UINT childID, device->m_ltChildID)
+		for (UINT childID : device->m_ltChildID)
 			UndoDelDevice(childID);
 	}
 	m_vtDevice[id] = empty;
 }
 
-boost::shared_ptr<InterfaceSet::CDSerial> CDevMgr::GetSerial(CString name)
+std::shared_ptr<InterfaceSet::CDSerial> CDevMgr::GetSerial(CString name)
 {
-	boost::shared_ptr<InterfaceSet::CDSerial> serial, empty;
-	foreach(serial, m_ltSerial)
+	std::shared_ptr<InterfaceSet::CDSerial> empty;
+	for (auto serial : m_ltSerial)
 		if(name == serial->getName())
 			return serial;
 	return empty;
@@ -339,8 +335,7 @@ bool CDevMgr::OpenDevMgrFile(CString name, CString pathall, CString ver, CString
 	if(!SerializeXml(pTiXml.RootElement(), true))
 		return false;
 	//!< 设备解析自己的描述去
-	boost::shared_ptr<CDeviceOne> device;
-	foreach(device, m_vtDevice){
+	for (auto device : m_vtDevice){
 		if(!device)		continue;
 	}
 //	m_ScanSetInfo->LoadFile();
@@ -356,17 +351,17 @@ void CDevMgr::OnCreate()
 
 	//!< 初始化路径信息
 	m_strName = _T("设备拓扑");
-	boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();	//!< 名字叫"设备拓扑"，工程名叫"p"
+	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();	//!< 名字叫"设备拓扑"，工程名叫"p"
 	m_strFileName = m_strName + _T(".") + DEVMGR_EXPAND_NAME;				//!< 路径时"p_设备拓扑.dtp"
 	m_strVersion = _T("1.0");
 
 	//!< 初始化串口配置
-	boost::shared_ptr<InterfaceSet::CDSerial> serial;
+	std::shared_ptr<InterfaceSet::CDSerial> serial;
 	std::list<UINT> ltComID;
 	CGbl::GetSerialCount(ltComID);
-	foreach(UINT id, ltComID)
+	for (UINT id : ltComID)
 	{
-		serial = boost::shared_ptr<InterfaceSet::CDSerial>(new InterfaceSet::CDSerial());
+		serial = std::shared_ptr<InterfaceSet::CDSerial>(new InterfaceSet::CDSerial());
 		serial->setNumber(id - 1);
 		m_ltSerial.push_back(serial);
 	}
@@ -385,7 +380,7 @@ void CDevMgr::SaveFile()
 	m_ScanSetInfo->SaveFile();
 	if(IsModify())		//!< 没被修改就不用保存了
 	{
-		boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+		std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 		CString pathAll = proj->GetPath() + m_strName + _T(".") + DEVMGR_EXPAND_NAME;
 		TiXmlDocument pTiXml(pathAll);
 		TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "GB2312", "" );	//!< 起始声明
@@ -397,8 +392,7 @@ void CDevMgr::SaveFile()
 		bool result = pTiXml.SaveFile();
 	}
 	CGbl::SetProgressStep(1);
-	boost::shared_ptr<CDeviceOne> device;
-	foreach(device, m_vtDevice)
+	for (auto device : m_vtDevice)
 	{
 		if(device && device->IsProj())
 			device->SaveXmlFile();
@@ -415,10 +409,10 @@ bool CDevMgr::SerializeXml(TiXmlElement* pNode, bool bRead)
 		CString name, strValue;
 		CComVariant cvr;
 		//!< 子节点
-		std::list<boost::shared_ptr<CDeviceOne> > ltDevice;
+		std::list<std::shared_ptr<CDeviceOne> > ltDevice;
 		TiXmlElement* pElement = pNode->FirstChildElement();
-		boost::shared_ptr<CDeviceOne> device;
-		boost::shared_ptr<InterfaceSet::CDSerial> serial;
+		std::shared_ptr<CDeviceOne> device;
+		std::shared_ptr<InterfaceSet::CDSerial> serial;
 		m_ltSerial.clear();
 		int index = 0;
 		while(pElement)
@@ -426,7 +420,7 @@ bool CDevMgr::SerializeXml(TiXmlElement* pNode, bool bRead)
 			name = pElement->Value();
 			if(DEVINFO == name)
 			{
-				device = boost::shared_ptr<CDeviceOne>(new CDeviceOne());
+				device = std::shared_ptr<CDeviceOne>(new CDeviceOne());
 				if(device->SerializeXmlGeneral(pElement, bRead))
 				{
 					ltDevice.push_back(device);
@@ -443,16 +437,16 @@ bool CDevMgr::SerializeXml(TiXmlElement* pNode, bool bRead)
 			}
 			else if(SERIAL_INFO == name)
 			{
-				serial = boost::shared_ptr<InterfaceSet::CDSerial>(new InterfaceSet::CDSerial());
+				serial = std::shared_ptr<InterfaceSet::CDSerial>(new InterfaceSet::CDSerial());
 				if(serial->SerializeXml(pElement, bRead))				m_ltSerial.push_back(serial);
 			}
 			pElement = pElement->NextSiblingElement();
 		}
 		UINT num = 0;
 		m_vtDevice.clear();
-		foreach(device, ltDevice)			num = max(num, device->getID());
+		for (auto device : ltDevice)			num = max(num, device->getID());
 		m_vtDevice.resize(num + 1);
-		foreach(device, ltDevice)			m_vtDevice[device->getID()] = device;
+		for (auto device : ltDevice)			m_vtDevice[device->getID()] = device;
 
 		//!< 初始化所有计算机的接口
 		InitComputerSerial();
@@ -468,8 +462,7 @@ bool CDevMgr::SerializeXml(TiXmlElement* pNode, bool bRead)
 		pElement = pNode->AddTiXmlChild((LPCTSTR)INFO_HEAD);
 
 		//!< 保存设备信息
-		boost::shared_ptr<CDeviceOne> device;
-		foreach(device, m_vtDevice){
+		for (auto device : m_vtDevice){
 			if(!device)				continue;
 			if(!device->IsProj())	continue;
 			pElement = pNode->AddTiXmlChild((LPCTSTR)DEVINFO);
@@ -481,8 +474,7 @@ bool CDevMgr::SerializeXml(TiXmlElement* pNode, bool bRead)
 		m_Ethernet->SerializeXml(pElement, bRead);
 
 		//!< 保存串口配置信息
-		boost::shared_ptr<InterfaceSet::CDSerial> serial;
-		foreach(serial, m_ltSerial){
+		for (auto serial : m_ltSerial){
 			if(!serial)				continue;
 			pElement = pNode->AddTiXmlChild((LPCTSTR)SERIAL_INFO);
 			serial->SerializeXml(pElement, bRead);
@@ -497,13 +489,13 @@ void CDevMgr::InitComputerSerial()
 	std::list<UINT> ltComID;
 	CGbl::GetMe().GetSerialCount(ltComID);				//!< 得到当前计算机的所有串口号
 	if(ltComID.empty())			return;
-	boost::shared_ptr<InterfaceSet::CDSerial> serial;
-	std::map<UINT, boost::shared_ptr<InterfaceSet::CDSerial> > mpSerial;		//!< 串口号与串口对象的键值表
+	std::shared_ptr<InterfaceSet::CDSerial> serial;
+	std::map<UINT, std::shared_ptr<InterfaceSet::CDSerial> > mpSerial;		//!< 串口号与串口对象的键值表
 	UINT maxID = 0, comID = 0;							//!< 获得最大的串口号
 	ltComID.sort();
 	maxID = max(maxID, ltComID.back());
 	//!< 先将所有已经初始化的串口配置放进键值表中
-	foreach(serial, m_ltSerial)
+	for (auto serial : m_ltSerial)
 	{
 		comID = serial->getNumber() + 1;
 		if(maxID < comID)		maxID = comID;
@@ -511,11 +503,11 @@ void CDevMgr::InitComputerSerial()
 	}
 	//!< 再来搞当前计算机的所有串口
 	bool bChange = false;
-	foreach(UINT id, ltComID)
+	for (UINT id : ltComID)
 	{
 		if(mpSerial[id])		continue;
 		bChange = true;
-		serial = boost::shared_ptr<InterfaceSet::CDSerial>(new InterfaceSet::CDSerial);
+		serial = std::shared_ptr<InterfaceSet::CDSerial>(new InterfaceSet::CDSerial);
 		serial->setNumber(id - 1);
 		mpSerial[id] = serial;
 	}
@@ -528,14 +520,14 @@ void CDevMgr::InitComputerSerial()
 
 bool CDevMgr::CheckAndConnect()
 {
-	boost::shared_ptr<CDeviceOne> child, parent;
+	std::shared_ptr<CDeviceOne> parent;
 	//!< 先清空所有设备的子设备列表
-	foreach(child, m_vtDevice){
+	for (auto child : m_vtDevice){
 		if(!child)		continue;
 		child->m_ltChildID.clear();
 	}
 	//!< 填充设备列表
-	foreach(child, m_vtDevice){
+	for (auto child : m_vtDevice){
 		if(!child)		continue;
 		if(child->getParentID() == UINT(-1))	continue;
 		parent = GetDevice(child->getParentID());
@@ -597,10 +589,9 @@ void CDevMgr::SetDevScan(bool bScan)
 int CDevMgr::SearchDev(CString str, bool bMatchCase, bool bMatchWhole, bool bRegex /* = false */)
 {
 	int nMatchCount = 0;
-	boost::shared_ptr<CDeviceOne> device;
 	if(!bMatchCase && !bRegex)		str = str.MakeUpper();
 
-	foreach(device, m_vtDevice)
+	for (auto device : m_vtDevice)
 	{
 		if(device)
 			if(device->DoSearch(str, bMatchWhole, bMatchCase, bRegex))
@@ -667,7 +658,7 @@ CString CDevMgr::GetSimilarName(CString name)
 void CDevMgr::OnDevCopy(UINT id)
 {
 	m_ltDevClipBoard.clear();
-	boost::shared_ptr<CDeviceOne> device = GetDevice(id);
+	std::shared_ptr<CDeviceOne> device = GetDevice(id);
 	ASSERT(device);
 	device->OnCopy();
 }
@@ -676,7 +667,7 @@ void CDevMgr::OnDevCopy(UINT id)
 void CDevMgr::OnDevCopyWithChild(UINT id)
 {
 	m_ltDevClipBoard.clear();
-	boost::shared_ptr<CDeviceOne> device = GetDevice(id);
+	std::shared_ptr<CDeviceOne> device = GetDevice(id);
 	ASSERT(device);
 	device->OnCopyWithChild();
 }
@@ -685,7 +676,7 @@ void CDevMgr::OnDevCopyWithChild(UINT id)
 void CDevMgr::OnDevCut(CDeviceMapDoc* pDoc, UINT id)
 {
 	m_ltDevClipBoard.clear();
-	boost::shared_ptr<CDeviceOne> device = GetDevice(id);
+	std::shared_ptr<CDeviceOne> device = GetDevice(id);
 	ASSERT(device);
 	device->OnCut(pDoc);
 	pDoc->SetUndoEnd();
@@ -709,7 +700,7 @@ void CDevMgr::OnScanRev(char* data, UINT num)
 //!< 设备状态改变事件。nDeviceInterface
 void CDevMgr::OnDeviceStatus(long nDeviceID,long nDeviceInterface,long nDeviceStatus)
 {
-	boost::shared_ptr<CDeviceOne> device = GetDevice(nDeviceID);
+	std::shared_ptr<CDeviceOne> device = GetDevice(nDeviceID);
 	if(!device)		return;
 	SYSTEMTIME t;
 	GetLocalTime(&t);
@@ -726,7 +717,7 @@ void CDevMgr::OnDeviceStatus(long nDeviceID,long nDeviceInterface,long nDeviceSt
 	{
 		if(device->getParentID() == UINT(-1))		//!< 主设备
 		{
-			boost::shared_ptr<CDeviceInterface> inf = device->GetInterfaceFromType(nDeviceInterface);
+			std::shared_ptr<CDeviceInterface> inf = device->GetInterfaceFromType(nDeviceInterface);
 			if(!inf)		return;
 			device->SetOffLine();
 			inf->SetState(1);
@@ -748,9 +739,9 @@ void CDevMgr::OnDeviceStatus(long nDeviceID,long nDeviceInterface,long nDeviceSt
 void CDevMgr::OnBehavior(long lBehaviorID, long lDeviceID, VARIANT& varValue, long lResult)
 {
 	//!< 判断收到的是什么东西
-	boost::shared_ptr<CDeviceOne> device = GetDevice(lDeviceID);
+	std::shared_ptr<CDeviceOne> device = GetDevice(lDeviceID);
 	if(!device)			return;
-	boost::shared_ptr<XmlInfo::CXmlBehavior> xmlBehavior = device->GetXmlInfo()->getBehavior(lBehaviorID);
+	std::shared_ptr<XmlInfo::CXmlBehavior> xmlBehavior = device->GetXmlInfo()->getBehavior(lBehaviorID);
 	if(!xmlBehavior)	return;
 
 	//!< 为数据赋值
@@ -771,7 +762,7 @@ void CDevMgr::OnBehavior(long lBehaviorID, long lDeviceID, VARIANT& varValue, lo
 	{
 	if(varCount > 0)
 	{
-		boost::shared_ptr<MVC::Device::CDeviceParam> para;
+		std::shared_ptr<MVC::Device::CDeviceParam> para;
 		CComVariant cvrID, cvrValue, cvrIndex;
 		cvrIndex = pValue[0];
 		UINT uiID, uiIndex;
@@ -806,15 +797,15 @@ void CDevMgr::OnDevPaste(CDeviceMapDoc* pDoc, UINT id /* = UINT(-1) */)
 	if(m_ltDevClipBoard.empty())			return;
 	if(!pDoc)								return;
 	//!< 父设备不能连了，退出
-	boost::shared_ptr<CDeviceOne> device, pastDev;
+	std::shared_ptr<CDeviceOne> device, pastDev;
 	device = GetDevice(id);
 	if(device && !device->CanAddSlave())	return;
 
 	//!< 从剪贴板中拷贝出原始数据，不能直接拿，而是要拷贝出来一套
-	std::list<boost::shared_ptr<CDeviceOne> > ltDevClipBoard;
-	foreach(device, m_ltDevClipBoard)
+	std::list<std::shared_ptr<CDeviceOne> > ltDevClipBoard;
+	for (auto device : m_ltDevClipBoard)
 	{
-		pastDev = boost::shared_ptr<CDeviceOne>(new CDeviceOne);
+		pastDev = std::shared_ptr<CDeviceOne>(new CDeviceOne);
 		pastDev->CopyFrom(*device);
 		pastDev->setID(device->getID());
 		pastDev->setParentID(device->getParentID());
@@ -822,10 +813,10 @@ void CDevMgr::OnDevPaste(CDeviceMapDoc* pDoc, UINT id /* = UINT(-1) */)
 	}
 
 	//!< 记录设备之间的连接关系
-	std::map<boost::shared_ptr<CDeviceOne>, UINT> m_mpDev_ParentID;		//!< 设备对应父设备编号
-	std::map<UINT, boost::shared_ptr<CDeviceOne> > m_mpID_Dev;			//!< 编号对应设备
+	std::map<std::shared_ptr<CDeviceOne>, UINT> m_mpDev_ParentID;		//!< 设备对应父设备编号
+	std::map<UINT, std::shared_ptr<CDeviceOne> > m_mpID_Dev;			//!< 编号对应设备
 	ltDevClipBoard.front()->setParentID(UINT(-1));						//!< 第一个设备没有父设备
-	foreach(device, ltDevClipBoard)
+	for (auto device : ltDevClipBoard)
 	{
 		m_mpDev_ParentID[device] = device->getParentID();
 		m_mpID_Dev[device->getID()] = device;
@@ -841,8 +832,8 @@ void CDevMgr::OnDevPaste(CDeviceMapDoc* pDoc, UINT id /* = UINT(-1) */)
 
 	//!< 将所有的孩子都粘贴到拓扑图中
 	CString name;
-	boost::shared_ptr<SDevUndo> sdu;
-	foreach(device, ltDevClipBoard)
+	std::shared_ptr<SDevUndo> sdu;
+	for (auto device : ltDevClipBoard)
 	{
 		name = GetSimilarName(device->getName());
 		device->setName(name);
@@ -851,7 +842,7 @@ void CDevMgr::OnDevPaste(CDeviceMapDoc* pDoc, UINT id /* = UINT(-1) */)
 		else										device->setParentID(m_mpID_Dev[m_mpDev_ParentID[device]]->getID());
 		if(!AddNewDevice(device))		break;
 		if(id == (UINT)-1)				device->SetSelect(true);		// 如果之前没有选中的设备,那么新添的设备将被设置为选中
-		sdu = boost::shared_ptr<SDevUndo>(new SDevUndo(CGbl::UNDO_TYPE_ADD, device));
+		sdu = std::shared_ptr<SDevUndo>(new SDevUndo(CGbl::UNDO_TYPE_ADD, device));
 		pDoc->AddUndoMember(sdu);
 	}
 	pDoc->SetUndoEnd();
@@ -863,15 +854,13 @@ void CDevMgr::OnDevPaste(CDeviceMapDoc* pDoc, UINT id /* = UINT(-1) */)
 //!< 当行为结束后要通知所有监听者
 void CDevMgr::OnBehaviorOver()
 {
-	SBehaviorRequest* br;
-	foreach(br, m_ltBRequest)	br->OnDataReady();
+	for (auto br : m_ltBRequest)	br->OnDataReady();
 }
 
 //!< 注册监听者
 void CDevMgr::RegisteBRequest(SBehaviorRequest* one)
 {
-	SBehaviorRequest* br;
-	foreach(br, m_ltBRequest){
+	for (auto br : m_ltBRequest){
 		if(br == one)	return;
 	}
 	m_ltBRequest.push_back(one);
@@ -884,18 +873,16 @@ void CDevMgr::UnRegisteBRequest(SBehaviorRequest* one)
 }
 
 //!< 获得该设备所使用的最大的超时时间
-int MVC::Device::CDevMgr::GetMaxOverTime(boost::shared_ptr<CDeviceOne> device)
+int MVC::Device::CDevMgr::GetMaxOverTime(std::shared_ptr<CDeviceOne> device)
 {
 	int over_time = 1000;
-	boost::shared_ptr<CDeviceInterface> inf;
-	foreach(inf, device->m_vtInterface)
+	for (auto inf : device->m_vtInterface)
 	{
 		if(!inf)						continue;
 		if(inf->GetType() == 0)			over_time = max(over_time, m_Ethernet->getOverTime());
 		else if(inf->GetType() == 1)
 		{
-			boost::shared_ptr<InterfaceSet::CDSerial> serial;
-			foreach(serial, m_ltSerial)
+			for (auto serial : m_ltSerial)
 			{
 				if(!serial)				continue;
 				if(serial->getNumber() != 
@@ -905,8 +892,7 @@ int MVC::Device::CDevMgr::GetMaxOverTime(boost::shared_ptr<CDeviceOne> device)
 		}
 		else
 		{
-			boost::shared_ptr<InterfaceSet::CDSerial> serial;
-			foreach(serial, m_ltSerial)
+			for (auto serial : m_ltSerial)
 			{
 				if(!serial)				continue;
 				over_time = max(over_time, serial->getOverTime());

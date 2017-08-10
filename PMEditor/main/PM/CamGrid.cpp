@@ -134,7 +134,7 @@ void CCamGrid::InitCol()
 
 bool CCamGrid::InitItemOne(UINT id, UINT row)
 {
-	boost::shared_ptr<CCamera> item = CCamMgr::GetMe().GetCam(id);
+	std::shared_ptr<CCamera> item = CCamMgr::GetMe().GetCam(id);
 	if(!item)	return false;
 	CComVariant cvr;
 	CUGCell cell;
@@ -313,7 +313,7 @@ void CCamGrid::OnDClicked(int col,long row,RECT *rect,POINT *point,BOOL processe
 }
 
 //!< 编辑变量基本属性
-void CCamGrid::EditItem(boost::shared_ptr<CCamera> item)
+void CCamGrid::EditItem(std::shared_ptr<CCamera> item)
 {
 	if(!item)					return;
 	CPropertyCamera* pp = &CCamMgr::GetMe().m_ItemProperty;
@@ -325,7 +325,7 @@ void CCamGrid::EditItem(boost::shared_ptr<CCamera> item)
 }
 
 //!< 统一编辑变量基本属性
-// void CCamGrid::EditItems(std::list<boost::shared_ptr<CCamera> > ltItem)
+// void CCamGrid::EditItems(std::list<std::shared_ptr<CCamera> > ltItem)
 // {
 // 	if(ltItem.empty())			{return;}
 // 	if(ltItem.size() == 1)		{ItemEdit();		return;}
@@ -338,10 +338,10 @@ void CCamGrid::EditItem(boost::shared_ptr<CCamera> item)
 // }
 
 //!< 增加新变量
-boost::shared_ptr<CCamera> CCamGrid::AddNewItem()
+std::shared_ptr<CCamera> CCamGrid::AddNewItem()
 {
 	MVC::Camera::CCamMgr* camMgr = &MVC::Camera::CCamMgr::GetMe();
-	boost::shared_ptr<CCamera> empty;
+	std::shared_ptr<CCamera> empty;
 	MVC::Camera::CPropertyCamera* pp = &MVC::Camera::CCamMgr::GetMe().m_ItemProperty;
 	pp->SetType(true);
 
@@ -371,7 +371,7 @@ void CCamGrid::OnLClicked(int col,long row,int updn,RECT *rect,POINT *point,BOOL
 		ReleaseCapture();
 		CUGCell cell;
 		GetCell(0, eRow, &cell);
-		boost::shared_ptr<CCamera> item = CCamMgr::GetMe().GetCam(cell.GetParam());
+		std::shared_ptr<CCamera> item = CCamMgr::GetMe().GetCam(cell.GetParam());
 		ASSERT(item);
 		CCamView* pView = (CCamView *)GetParent();
 		if(!pView)					return;
@@ -690,8 +690,8 @@ void CCamGrid::RedrawGrid()
 {
 	CCamMgr* camMgr = &CCamMgr::GetMe();
 	std::list<UINT> ltItemID;
-	boost::shared_ptr<CCamera> item;
-	foreach(item, camMgr->m_vtCam){
+	//std::shared_ptr<CCamera> item;
+	for (auto item : camMgr->m_vtCam){
 		if(item)				ltItemID.push_back(item->GetID());
 	}
 	ShowItem(ltItemID);
@@ -713,8 +713,8 @@ void MVC::Camera::CCamGrid::SortGrid()
 //	std::list<UINT> ltShowCamID;
 	ltShowCamID.clear();
 	CCamMgr* camMgr = &CCamMgr::GetMe();
-	boost::shared_ptr<CCamera> item;
-	foreach(item, camMgr->m_vtCam){
+	//std::shared_ptr<CCamera> item;
+	for (auto item : camMgr->m_vtCam){
 		if(item)
 			ltShowCamID.push_back(item->GetID());
 	}
@@ -735,13 +735,13 @@ void MVC::Camera::CCamGrid::ItemUp()
 	CUGCell cell1,cell2;
 	GetCell(0, row, &cell1);
 	GetCell(0, row - 1, &cell2);
-	boost::shared_ptr<CCamera> item1 = CCamMgr::GetMe().GetCam(cell1.GetParam());
-	boost::shared_ptr<CCamera> item2 = CCamMgr::GetMe().GetCam(cell2.GetParam());
+	std::shared_ptr<CCamera> item1 = CCamMgr::GetMe().GetCam(cell1.GetParam());
+	std::shared_ptr<CCamera> item2 = CCamMgr::GetMe().GetCam(cell2.GetParam());
 	ASSERT(item1 && item2);
 
 	//!< 获得原始的变量数据，后边要压撤销栈
-	boost::shared_ptr<SCamUndo> undo1 = boost::shared_ptr<SCamUndo>(new SCamUndo(CGbl::UNDO_TYPE_UPD, item1, 0));
-	boost::shared_ptr<SCamUndo> undo2 = boost::shared_ptr<SCamUndo>(new SCamUndo(CGbl::UNDO_TYPE_UPD, item2, 0));
+	std::shared_ptr<SCamUndo> undo1 = std::shared_ptr<SCamUndo>(new SCamUndo(CGbl::UNDO_TYPE_UPD, item1, 0));
+	std::shared_ptr<SCamUndo> undo2 = std::shared_ptr<SCamUndo>(new SCamUndo(CGbl::UNDO_TYPE_UPD, item2, 0));
 
 	//!< 交换这两个变量
 	CCamMgr::GetMe().ExChangeItem(item1->GetID(), item2->GetID());
@@ -770,13 +770,13 @@ void MVC::Camera::CCamGrid::ItemDown()
 	CUGCell cell1,cell2;
 	GetCell(0, row, &cell1);
 	GetCell(0, row + 1, &cell2);
-	boost::shared_ptr<CCamera> item1 = CCamMgr::GetMe().GetCam(cell1.GetParam());
-	boost::shared_ptr<CCamera> item2 = CCamMgr::GetMe().GetCam(cell2.GetParam());
+	std::shared_ptr<CCamera> item1 = CCamMgr::GetMe().GetCam(cell1.GetParam());
+	std::shared_ptr<CCamera> item2 = CCamMgr::GetMe().GetCam(cell2.GetParam());
 	ASSERT(item1 && item2);
 
 	//!< 获得原始的变量数据，后边要压撤销栈
-	boost::shared_ptr<SCamUndo> undo1 = boost::shared_ptr<SCamUndo>(new SCamUndo(CGbl::UNDO_TYPE_UPD, item1, 0));
-	boost::shared_ptr<SCamUndo> undo2 = boost::shared_ptr<SCamUndo>(new SCamUndo(CGbl::UNDO_TYPE_UPD, item2, 0));
+	std::shared_ptr<SCamUndo> undo1 = std::shared_ptr<SCamUndo>(new SCamUndo(CGbl::UNDO_TYPE_UPD, item1, 0));
+	std::shared_ptr<SCamUndo> undo2 = std::shared_ptr<SCamUndo>(new SCamUndo(CGbl::UNDO_TYPE_UPD, item2, 0));
 
 	//!< 交换这两个变量
 	CCamMgr::GetMe().ExChangeItem(item1->GetID(), item2->GetID());
@@ -815,11 +815,11 @@ void MVC::Camera::CCamGrid::ItemRemove(bool bAsk /* = true */)
 
 	CCamMgr* camMgr = &CCamMgr::GetMe();
 	CUGCell cell;
-	boost::shared_ptr<CCamera> item;
-	std::list<boost::shared_ptr<CCamera> > ltSelectItem;
+	std::shared_ptr<CCamera> item;
+	std::list<std::shared_ptr<CCamera> > ltSelectItem;
 
 	//!< 统计被选中的变量
-	foreach(long row, ltSelectRow)
+	for (long row : ltSelectRow)
 	{
 		GetCell(0, row, &cell);
 		item = camMgr->GetCam(cell.GetParam());
@@ -833,10 +833,10 @@ void MVC::Camera::CCamGrid::ItemRemove(bool bAsk /* = true */)
 
 	//!< 添加撤销对象
 	CCamDoc* pDoc = (CCamDoc *)((CCamView *)GetParent())->GetDocument();
-	boost::shared_ptr<SCamUndo> undo;
-	foreach(item, ltSelectItem)
+	std::shared_ptr<SCamUndo> undo;
+	for (auto item : ltSelectItem)
 	{
-		undo = boost::shared_ptr<SCamUndo>(new SCamUndo);
+		undo = std::shared_ptr<SCamUndo>(new SCamUndo);
 		undo->m_Item = item;
 		ASSERT(!camMgr->FindItem(item->GetID()));
 		undo->m_uiEditType = CGbl::UNDO_TYPE_DEL;
@@ -848,11 +848,11 @@ void MVC::Camera::CCamGrid::ItemRemove(bool bAsk /* = true */)
 }
 
 //!< 删除这些变量
-void MVC::Camera::CCamGrid::ItemRemove(std::list<boost::shared_ptr<CCamera> > ltItem)
+void MVC::Camera::CCamGrid::ItemRemove(std::list<std::shared_ptr<CCamera> > ltItem)
 {
 	CCamMgr* camMgr = &CCamMgr::GetMe();
-	boost::shared_ptr<CCamera> item;
-	foreach(item, ltItem)
+	//std::shared_ptr<CCamera> item;
+	for (auto item : ltItem)
 	{
 		camMgr->DeleteItem(item->GetID());
 	}
@@ -865,7 +865,7 @@ void MVC::Camera::CCamGrid::ItemCopy()
 	int numRow = GetNumberRows() - 1;
 	std::list<UINT> ltItemID;
 	CUGCell cell;
-	boost::shared_ptr<CCamera> srCCamera, newItem;
+	std::shared_ptr<CCamera> srCCamera, newItem;
 	for(UINT i = 0; i < numRow; ++i)
 	{
 		if(IsSelected(0, i))
@@ -876,11 +876,11 @@ void MVC::Camera::CCamGrid::ItemCopy()
 	}
 	if(ltItemID.size() <= 0)			return;
 	camMgr->m_ltItemClipBoard.clear();
-	foreach(UINT id, ltItemID)
+	for (UINT id : ltItemID)
 	{
 		srCCamera = camMgr->GetCam(id);
 		ASSERT(srCCamera);
-		newItem = boost::shared_ptr<CCamera>(new CCamera());
+		newItem = std::shared_ptr<CCamera>(new CCamera());
 		*newItem = *srCCamera;
 		camMgr->m_ltItemClipBoard.push_back(newItem);
 	}
@@ -898,20 +898,20 @@ void MVC::Camera::CCamGrid::ItemPaste()
 {
 	CCamMgr* camMgr = &CCamMgr::GetMe();
 	if(camMgr->m_ltItemClipBoard.empty())						return;
-	boost::shared_ptr<CCamera> item, srCCamera;
+	//std::shared_ptr<CCamera> item, srCCamera;
 	CCamDoc* pDoc = (CCamDoc *)((CCamView *)GetParent())->GetDocument();
 
 	//!< 不能直接把剪贴板里的变量粘到变量表中，而是要拷贝一份过去
-	foreach(srCCamera, camMgr->m_ltItemClipBoard)
+	for (auto srCCamera : camMgr->m_ltItemClipBoard)
 	{
-		item = boost::shared_ptr<CCamera>(new CCamera());
+		auto item = std::shared_ptr<CCamera>(new CCamera());
 		*item = *srCCamera;
 		if(item->IsBroadCast())
 			item->SetPort(camMgr->GetDifferentPort(8080));
 		if(!camMgr->AddItem(item))
 			return;			// 超过上限就不添了
 
-		boost::shared_ptr<SCamUndo> undo = boost::shared_ptr<SCamUndo>(new SCamUndo);
+		std::shared_ptr<SCamUndo> undo = std::shared_ptr<SCamUndo>(new SCamUndo);
 		undo->m_bEnd = false;
 		undo->m_uiEditType = CGbl::UNDO_TYPE_ADD;
 		undo->m_Item = item;
@@ -1022,12 +1022,12 @@ void MVC::Camera::CCamGrid::ItemEdit()
 	long row = GetCurrentRow();
 	CUGCell cell;
 	GetCell(0, row, &cell);
-	boost::shared_ptr<CCamera> item = CCamMgr::GetMe().GetCam(cell.GetParam());//itemName);
+	std::shared_ptr<CCamera> item = CCamMgr::GetMe().GetCam(cell.GetParam());//itemName);
 	if(!item)					return;
 
 	//SelectRowAt(row);									//!< 修改当前选中的变量，其他变量都取消选中
 	//RedrawAll();
-	boost::shared_ptr<CCamera> oldItem = boost::shared_ptr<CCamera>(new CCamera());
+	std::shared_ptr<CCamera> oldItem = std::shared_ptr<CCamera>(new CCamera());
 	*oldItem = *item;
 	EditItem(item);
 	//SetFocus();
@@ -1035,7 +1035,7 @@ void MVC::Camera::CCamGrid::ItemEdit()
 	if(*oldItem == *item)		return;					//!< 相等表示没改
 
 	//!< 添加撤销对象
-	boost::shared_ptr<SCamUndo> undo = boost::shared_ptr<SCamUndo>(new SCamUndo);
+	std::shared_ptr<SCamUndo> undo = std::shared_ptr<SCamUndo>(new SCamUndo);
 	undo->m_Item = oldItem;
 	undo->m_uiEditType = CGbl::UNDO_TYPE_UPD;
 	undo->m_bEnd = true;
@@ -1050,9 +1050,9 @@ void MVC::Camera::CCamGrid::ItemEdit()
 // void MVC::Item::CCamGrid::ItemEditAll()
 // {
 // 	CUGCell cell;
-// 	boost::shared_ptr<CCamera> item;
-// 	std::list<boost::shared_ptr<CCamera> > ltItem;		//!< 所有被选中的变量
-// 	std::vector<boost::shared_ptr<CCamera> > vtItem;	//!< 所有被选中的变量
+// 	std::shared_ptr<CCamera> item;
+// 	std::list<std::shared_ptr<CCamera> > ltItem;		//!< 所有被选中的变量
+// 	std::vector<std::shared_ptr<CCamera> > vtItem;	//!< 所有被选中的变量
 // 	std::vector<UINT> vtRow;							//!< 被选中的行
 // 	CCamMgr* camMgr = &CCamMgr::GetMe();
 // 	UINT numRow = GetNumberRows() - 1;
@@ -1071,12 +1071,12 @@ void MVC::Camera::CCamGrid::ItemEdit()
 // 	}
 // 
 // 	//!< 备份一下原有的变量
-// 	std::vector<boost::shared_ptr<CCamera> > vtOldItem;
-// 	boost::shared_ptr<CCamera> oldItem;
+// 	std::vector<std::shared_ptr<CCamera> > vtOldItem;
+// 	std::shared_ptr<CCamera> oldItem;
 // 	foreach(item, vtItem)
 // 	{
 // 		if(!item)			continue;
-// 		oldItem = boost::shared_ptr<CCamera>(new CCamera(item->getName()));
+// 		oldItem = std::shared_ptr<CCamera>(new CCamera(item->getName()));
 // 		*oldItem = *item;
 // 		vtOldItem.push_back(oldItem);
 // 	}
@@ -1084,7 +1084,7 @@ void MVC::Camera::CCamGrid::ItemEdit()
 // 	//!< 开始编辑所有
 // 	EditItems(ltItem);
 // 
-// 	boost::shared_ptr<SItemUndo> undo;
+// 	std::shared_ptr<SItemUndo> undo;
 // 	CCamDoc* pDoc = (CCamDoc *)((CCamView *)GetParent())->GetDocument();
 // 	UINT size = (UINT)vtItem.size();
 // 	for(UINT i = 0; i < size; ++i)
@@ -1092,7 +1092,7 @@ void MVC::Camera::CCamGrid::ItemEdit()
 // 		if(*vtItem[i] == *vtOldItem[i])		continue;		//!< 如果此变量没有改变就不用刷新该行
 // 
 // 		//!< 添加撤销对象
-// 		undo = boost::shared_ptr<SItemUndo>(new SItemUndo);
+// 		undo = std::shared_ptr<SItemUndo>(new SItemUndo);
 // 		undo->m_Item = vtOldItem[i];
 // 		undo->m_uiEditType = CGbl::UNDO_TYPE_UPD;
 // 		pDoc->AddUndoMember(undo);
@@ -1133,7 +1133,7 @@ void CCamGrid::FreshItemRows(std::list<UINT> ltItemID)
 	long rowCount = GetNumberRows();
 	CUGCell cell;
 	std::map<UINT, CString> mpFreshIDExist;
-	foreach(id, ltItemID)	mpFreshIDExist[id] = _T("e");
+	for (UINT id : ltItemID)	mpFreshIDExist[id] = _T("e");
 
 	for(row = rowCount - 2; row >= 0; --row)
 	{
@@ -1147,7 +1147,7 @@ void CCamGrid::FreshItemRows(std::list<UINT> ltItemID)
 			selRow = row;
 		}
 	}
-	foreach(id, ltItemID)							//!< 剩下的都是要增加的
+	for (UINT id : ltItemID)							//!< 剩下的都是要增加的
 	{
 		if(!camMgr->GetCam(id))					continue;
 		row = GetNumberRows() - 1;

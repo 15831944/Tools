@@ -19,7 +19,7 @@ class CXmlEnum
 public:
 	UINT m_uiID;
 	CString m_strName;
-	std::vector<boost::shared_ptr<CXmlEnumItem> > m_vtEnumItem;
+	std::vector<std::shared_ptr<CXmlEnumItem> > m_vtEnumItem;
 
 public:
 	CXmlEnum(void){m_uiID = UINT(-1);}

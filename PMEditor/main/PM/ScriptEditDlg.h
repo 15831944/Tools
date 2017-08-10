@@ -57,7 +57,7 @@ public:
 	CItemRecord();
 
 	// Construct record object from detailed values on each field
-	CItemRecord(boost::shared_ptr<MVC::Item::CItem> item);
+	CItemRecord(std::shared_ptr<MVC::Item::CItem> item);
 
 	// Clean up internal objects
 	virtual ~CItemRecord();

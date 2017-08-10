@@ -76,7 +76,7 @@ void CPropertySerial::ShowInfo(CXTPPropertyGrid& grid)
 	//!< 获得当前要显示的串口
 	CGbl* gbl = &CGbl::GetMe();
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	boost::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial = m_pParent->GetSerial(m_strSerialName);
+	std::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial = m_pParent->GetSerial(m_strSerialName);
 	ASSERT(serial);
 
 	//!< 创建属性组
@@ -129,7 +129,7 @@ void CPropertySerial::OnItemModify(CXTPPropertyGrid& grid, UINT ID)
 {
 	//!< 获得当前要显示的串口
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	boost::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial = m_pParent->GetSerial(m_strSerialName);
+	std::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial = m_pParent->GetSerial(m_strSerialName);
 	if(!serial)		return;
 	ASSERT(serial);
 

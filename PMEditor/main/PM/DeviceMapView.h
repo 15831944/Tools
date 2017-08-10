@@ -47,8 +47,8 @@ protected:
 	bool IsInHostLineRect(CPoint point);
 	void ClearSelect();						//!< 取消所有设备的选中状态
 	bool IfDevCanLink();					//!< 看看当前被拖拽的设备与被选中的设备是否能连接
-	boost::shared_ptr<CDeviceOne> GetSelectDev(bool bProj = true);	//!< 找到被选中的设备，参数表示是否要工程设备
-	boost::shared_ptr<CDeviceOne> GetLTDev();			//!< 获得左顶点那个设备
+	std::shared_ptr<CDeviceOne> GetSelectDev(bool bProj = true);	//!< 找到被选中的设备，参数表示是否要工程设备
+	std::shared_ptr<CDeviceOne> GetLTDev();			//!< 获得左顶点那个设备
 	virtual void OnSelectUp();				//!< 选择上面的设备
 	virtual void OnSelectDown();			//!< 选择下面的设备
 	virtual void OnSelectLeft();			//!< 选择左面的设备

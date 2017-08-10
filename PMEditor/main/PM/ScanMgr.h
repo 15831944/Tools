@@ -16,7 +16,7 @@ class CScanMgr
 {
 	friend class CDevMgr;
 private:
-	std::list<boost::shared_ptr<CDeviceOne> > m_ltScanDev;
+	std::list<std::shared_ptr<CDeviceOne> > m_ltScanDev;
 	char m_cOldData[64000];
 	UINT m_uiOldNum;
 
@@ -32,14 +32,14 @@ private:
 	void ReBuildData();			//!< 重建数据关系
 	void ReBuildOneParent();	//!< 重建数据关系，保证每个设备都最多只有一个父设备
 	void ReBuildMain();			//!< 重建数据关系，将原设备信息以树形的结构前序遍历的循序重新排布
-	void ReBuildSlave(boost::shared_ptr<CDeviceOne> device, std::list<boost::shared_ptr<CDeviceOne> >& ltDevice);	//!< 重建从设备关系
+	void ReBuildSlave(std::shared_ptr<CDeviceOne> device, std::list<std::shared_ptr<CDeviceOne> >& ltDevice);	//!< 重建从设备关系
 	void OnConnectToProj();		//!< 连接到工程中
 	void OnBuildConnect();		//!< 重建CDevMgr里的设备的链接关系
-	bool SetOnLine(boost::shared_ptr<CDeviceOne> scanDev, boost::shared_ptr<CDeviceOne> projDev);					//!< 设置工程设备上线
-	int IsSameDevice(boost::shared_ptr<CDeviceOne> scanDev, boost::shared_ptr<CDeviceOne> projDev);	//!< 是否是同一个设备
-	bool IsSameParent(boost::shared_ptr<CDeviceOne> scanDev, boost::shared_ptr<CDeviceOne> projDev);//!< 是否有同一个父亲
-	boost::shared_ptr<CDeviceOne> GetDevice(CString strDevID);				//!< 从扫描设备列表里，找到该设备
-	boost::shared_ptr<CDeviceOne> GetDeviceFromProj(CString strDevID);		//!< 从工程设备列表里，找到该设备
+	bool SetOnLine(std::shared_ptr<CDeviceOne> scanDev, std::shared_ptr<CDeviceOne> projDev);					//!< 设置工程设备上线
+	int IsSameDevice(std::shared_ptr<CDeviceOne> scanDev, std::shared_ptr<CDeviceOne> projDev);	//!< 是否是同一个设备
+	bool IsSameParent(std::shared_ptr<CDeviceOne> scanDev, std::shared_ptr<CDeviceOne> projDev);//!< 是否有同一个父亲
+	std::shared_ptr<CDeviceOne> GetDevice(CString strDevID);				//!< 从扫描设备列表里，找到该设备
+	std::shared_ptr<CDeviceOne> GetDeviceFromProj(CString strDevID);		//!< 从工程设备列表里，找到该设备
 	UINT GetDeviceCount(CString strDevID);									//!< 找到该strDevID的设备的数量
 	void DelOffLineScanDev();	//!< 删除掉所有不在线的工程中的扫描设备
 

@@ -128,10 +128,10 @@ void CItemView::OnDraw(CDC* pDC)
 void MVC::Item::CItemView::OnItemAdd()
 {
 	if(CProjectMgr::GetMe().SayWatch())		return;
-	boost::shared_ptr<CItem> item = m_ItemGrid.AddNewItem();
+	std::shared_ptr<CItem> item = m_ItemGrid.AddNewItem();
 
 	if(!item)		return;
-	boost::shared_ptr<SItemUndo> undo = boost::shared_ptr<SItemUndo>(new SItemUndo);
+	std::shared_ptr<SItemUndo> undo = std::shared_ptr<SItemUndo>(new SItemUndo);
 	undo->m_bEnd = true;
 	undo->m_uiEditType = CGbl::UNDO_TYPE_ADD;
 	undo->m_Item = item;

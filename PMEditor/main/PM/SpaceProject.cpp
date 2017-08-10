@@ -77,7 +77,7 @@ void CSpaceProject::OnSetFocus(CWnd* /*pOldWnd*/)
 
 void CSpaceProject::OnProjInfo()
 {
-	boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 	if(!proj)		return;
 	proj->ShowInfo();
 }

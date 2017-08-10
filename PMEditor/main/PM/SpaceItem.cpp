@@ -82,14 +82,14 @@ void CSpaceItem::OnSetFocus(CWnd* /*pOldWnd*/)
 
 // void CSpaceItem::OnEmptyCommand(UINT)
 // {
-// 	boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+// 	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 // 	if(!proj)		return;
 // 	proj->ShowInfo();
 // }
 // 
 // void CSpaceItem::OnProjInfo()
 // {
-// 	boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+// 	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 // 	if(!proj)		return;
 // 	proj->ShowInfo();
 // }
@@ -100,7 +100,7 @@ void CSpaceItem::OnTreeDblClick(CTreeCtrl* pTreeCtrl, HTREEITEM hItem)
 // 	if(hItem == m_AddNew)		OnGroupAdd();
 // 	else						OnGroupEdit();
 	if(hItem != m_AddNew){								//!< 显示某个组的变量
-		boost::shared_ptr<MVC::Item::CItemGroup> group = MVC::Item::CItemMgr::GetMe().GetGroup(pTreeCtrl->GetItemText(hItem));
+		std::shared_ptr<MVC::Item::CItemGroup> group = MVC::Item::CItemMgr::GetMe().GetGroup(pTreeCtrl->GetItemText(hItem));
 		if(!group)		return;
 		IntoGroup(group->getID());
 	}
@@ -111,7 +111,7 @@ void CSpaceItem::OnTreeDblClick(CTreeCtrl* pTreeCtrl, HTREEITEM hItem)
 void CSpaceItem::OnTreeLClick(CTreeCtrl* pTreeCtrl, HTREEITEM hItem)
 {
 // 	if(hItem != m_AddNew){								//!< 显示某个组的变量
-// 		boost::shared_ptr<MVC::Item::CItemGroup> group = MVC::Item::CItemMgr::GetMe().GetGroup(pTreeCtrl->GetItemText(hItem));
+// 		std::shared_ptr<MVC::Item::CItemGroup> group = MVC::Item::CItemMgr::GetMe().GetGroup(pTreeCtrl->GetItemText(hItem));
 // 		if(!group)		return;
 // 		IntoGroup(group->getID());
 // 	}
@@ -146,7 +146,7 @@ void CSpaceItem::OnTreeKeyDown(CTreeCtrl* pTreeCtrl, HTREEITEM hItem, UINT nChar
 //!< 要显示某个变量组的变量
 void CSpaceItem::IntoGroup(UINT groupid)
 {
-	boost::shared_ptr<MVC::Item::CItemGroup> group = MVC::Item::CItemMgr::GetMe().GetGroup(groupid);
+	std::shared_ptr<MVC::Item::CItemGroup> group = MVC::Item::CItemMgr::GetMe().GetGroup(groupid);
 	if(!group)				return;
 	m_uiCulGroupID = groupid;
 
@@ -172,7 +172,7 @@ void CSpaceItem::UpdateTreeView()
 	CProjectMgr* projMgr = &CProjectMgr::GetMe();
 	if(!projMgr->GetProj())	return;
 
-	boost::shared_ptr<MVC::Item::CItemGroup> group = MVC::Item::CItemMgr::GetMe().GetGroup(0);
+	std::shared_ptr<MVC::Item::CItemGroup> group = MVC::Item::CItemMgr::GetMe().GetGroup(0);
 	if(group){
 		HTREEITEM root = m_GroupTree.InsertItem(group->getName(), 6, 7, TVI_ROOT, TVI_LAST);
 		AddGroupChild(root, group->getID());
@@ -187,7 +187,7 @@ void CSpaceItem::AddGroupChild(HTREEITEM root, UINT parentID)
 	if(!mgr->GetGroup(parentID))		return;
 	HTREEITEM item = NULL;
 	std::list<UINT> ltChildID = mgr->GetGroup(parentID)->getGroupIDList();
-	foreach(UINT i, ltChildID){
+	for (UINT i : ltChildID){
 		if(!mgr->GetGroup(i))			continue;
 		item = m_GroupTree.InsertItem(mgr->GetGroup(i)->getName(), 6, 7, root, TVI_LAST);
 		AddGroupChild(item, i);
@@ -204,7 +204,7 @@ void CSpaceItem::OnGroupAdd()
 	if(m_AddNew != hItem)		strCulGroupName = m_GroupTree.GetItemText(hItem);
 	if(dlg->DoModal(strCulGroupName) == IDOK)
 	{
-		boost::shared_ptr<MVC::Item::CItemGroup> group = boost::shared_ptr<MVC::Item::CItemGroup> \
+		std::shared_ptr<MVC::Item::CItemGroup> group = std::shared_ptr<MVC::Item::CItemGroup> \
 			(new MVC::Item::CItemGroup(dlg->m_strGroupName, dlg->m_uiParentID));
 		MVC::Item::CItemMgr::GetMe().AddGroup(group, dlg->m_uiParentID);
 		MVC::Item::CItemMgr::GetMe().SetModify();
@@ -227,10 +227,10 @@ void CSpaceItem::OnGroupEdit()
 	if(!hItem)								return;
 	CString text = m_GroupTree.GetItemText(hItem);
 	MVC::Item::CItemMgr* itemMgr = &MVC::Item::CItemMgr::GetMe();
-	boost::shared_ptr<MVC::Item::CItemGroup> group = itemMgr->GetGroup(text);
+	std::shared_ptr<MVC::Item::CItemGroup> group = itemMgr->GetGroup(text);
 	if(!group)								return;
 	if(group->getParentID() == UINT(-1))	return;		//!< System变量组不能被修改
-	boost::shared_ptr<MVC::Item::CItemGroup> parentGroup = itemMgr->GetGroup(group->getParentID());
+	std::shared_ptr<MVC::Item::CItemGroup> parentGroup = itemMgr->GetGroup(group->getParentID());
 	ASSERT(parentGroup);
 	Dialog::CAddItemGroupDlg* dlg = &Dialog::CAddItemGroupDlg::GetMe();
 
@@ -259,7 +259,7 @@ void CSpaceItem::OnGroupRemove()
 	if(!hItem)								return;
 	CString text = m_GroupTree.GetItemText(hItem);
 	MVC::Item::CItemMgr* itemMgr = &MVC::Item::CItemMgr::GetMe();
-	boost::shared_ptr<MVC::Item::CItemGroup> group = itemMgr->GetGroup(text);
+	std::shared_ptr<MVC::Item::CItemGroup> group = itemMgr->GetGroup(text);
 	if(!group)								return;
 	
 	text = _T("移除 \"") + text +_T("\" 变量组，会将其包含变量和包含子组一并移除，是否确定移除？");

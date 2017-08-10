@@ -31,7 +31,7 @@ std::list<UINT> CItemGroup::getGroupIDList()
 {
 	std::list<UINT> gl;
 	CItemMgr *itemMgr = &CItemMgr::GetMe();
-	foreach(boost::shared_ptr<CItemGroup> group, itemMgr->m_vtItemGroup){
+	for(auto group: itemMgr->m_vtItemGroup){
 		if(!group)			continue;
 		if(group->getParentID() == m_uiID)
 			gl.push_back(group->getID());		//!< 遍历所有变量组，找到子组
@@ -44,7 +44,7 @@ std::list<UINT> CItemGroup::getMyItem()
 {
 	std::list<UINT> lt;
 	CItemMgr *itemMgr = &CItemMgr::GetMe();
-	foreach(boost::shared_ptr<CItem> item, itemMgr->m_vtItem){
+	for (std::shared_ptr<CItem> item : itemMgr->m_vtItem){
 		if(!item)		continue;
 		if(item->getMyGroupID() == m_uiID)
 			lt.push_back(item->getID());
@@ -97,7 +97,7 @@ void CItemGroup::InitDefault()
 bool CItemGroup::IsChildGroup(UINT id, bool incMe /* = false */)
 {
 	if(id == m_uiID && incMe)			return true;
-	boost::shared_ptr<CItemGroup> group = CItemMgr::GetMe().GetGroup(id);
+	std::shared_ptr<CItemGroup> group = CItemMgr::GetMe().GetGroup(id);
 	if(group->getParentID() == m_uiID)	return true;		//!< 如果父亲是自己，那么返回true
 	if(group->getParentID() == -1)		return false;		//!< 如果到头了，返回false
 	return IsChildGroup(group->getParentID(), incMe);		//!< 否则，看看上一层是不是自己的子组，递归

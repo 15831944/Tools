@@ -93,7 +93,7 @@ void CXmlBehavior::SerializePara(TiXmlElement* pNode)
 //!< 是否存在这个参数
 bool CXmlBehavior::FindParam(UINT id)
 {
-	foreach(UINT index, m_ltParaID){
+	for (UINT index : m_ltParaID){
 		if(index == id)
 			return true;
 	}

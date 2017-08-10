@@ -99,7 +99,7 @@ CXTPPropertyGridItem* CObjectInProperty::AddItemList(CXTPPropertyGridItem& paren
 	pItem->SetTooltip(tooltip);
 	if(tooltip != title)			pItem->SetDescription(tooltip);
 	CXTPPropertyGridItemConstraints* pList = pItem->GetConstraints();
-	foreach(CString str,items)		pList->AddConstraint(str);
+	for (CString str : items)		pList->AddConstraint(str);
 
 	if(pList->GetCount() > 0)		pItem->SetFlags(xtpGridItemHasComboButton);	//!< 列出下拉按钮
 	if(def == -1)																//!< -1表示没有一个事默认值
@@ -123,7 +123,7 @@ void CObjectInProperty::SetList(CXTPPropertyGrid& grid, UINT id, std::list<CStri
 	if(!item)		return;
 	CXTPPropertyGridItemConstraints* pList = item->GetConstraints();
 	pList->RemoveAll();
-	foreach(CString str, items)		pList->AddConstraint(str);
+	for (CString str : items)		pList->AddConstraint(str);
 
 	if(pList->GetCount() > 0)		item->SetFlags(xtpGridItemHasComboButton);
 	if(def == -1){

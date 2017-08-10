@@ -141,9 +141,9 @@ void CDeviceMapView::OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*p
 	CSize szPage(80, 400);
 	CSize szLine(30, 30);
 
-	boost::shared_ptr<CDeviceOne> device;
+	//std::shared_ptr<CDeviceOne> device;
 	CDevMgr* mgr = &CDevMgr::GetMe();
-	foreach(device, mgr->m_vtDevice)
+	for (auto device : mgr->m_vtDevice)
 	{
 		if(!device)			continue;
 		CPoint ptDev = device->GetLTPt();
@@ -199,15 +199,15 @@ void CDeviceMapView::OnDraw(CDC* pDC)
 	pDC->SetBkMode(TRANSPARENT);
 	OnDrawHostLine(pDC);												//!< 画母线
 
-	std::list<boost::shared_ptr<CDeviceOne> > select_list;				//!< 被选中的设备和映射为从设备的设备
-	boost::shared_ptr<CDeviceOne> device;
-	foreach(device, mgr->m_vtDevice)
+	std::list<std::shared_ptr<CDeviceOne> > select_list;				//!< 被选中的设备和映射为从设备的设备
+	//std::shared_ptr<CDeviceOne> device;
+	for (auto device : mgr->m_vtDevice)
 	{
 		if(!device)					continue;
 		if(device->IsSelect())		select_list.push_back(device);
 		else						device->OnDraw(pDC);				//!< 每个设备自己画自己
 	}
-	foreach(device,select_list)		device->OnDraw(pDC);				//!< 画所有被选中的设备
+	for (auto device : select_list)	device->OnDraw(pDC);				//!< 画所有被选中的设备
 
 	if(m_bDropNewIn)													//!< 需要要设备拖动图标了
 	{
@@ -231,7 +231,7 @@ void CDeviceMapView::OnDraw(CDC* pDC)
 		BITMAP bm;
 		bitmap.GetObject(sizeof(BITMAP),&bm);
 		UINT index = 0;			//!< 我们公司的设备是2
-		boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = g_App.m_XmlMgr->GetDevice(m_uiDropDevType);
+		std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = g_App.m_XmlMgr->GetDevice(m_uiDropDevType);
 		if(!xmlDev)			return;
 		if(xmlDev->getIcon() >= bm.bmWidth / 32)		xmlDev->m_uiDevIcon = 0;
 		pDC->BitBlt(point.x, point.y, 32, 32, &memdc, 32 * xmlDev->getIcon(), 0, SRCAND);
@@ -328,11 +328,11 @@ void CDeviceMapView::OnRButtonUp(UINT nFlags, CPoint point)
 	ClientToScreen(&point);
 
 	CDeviceMapDoc *pDoc = GetDocument();
-	boost::shared_ptr<CDeviceOne> pExpandDevice;
-	boost::shared_ptr<CDeviceOne> pDevice, pSelectDevice;
+	std::shared_ptr<CDeviceOne> pExpandDevice;
+	std::shared_ptr<CDeviceOne> pDevice, pSelectDevice;
 	CDevMgr* devMgr = &CDevMgr::GetMe();
 	CProjectMgr* projMgr = &CProjectMgr::GetMe();
-	foreach(pDevice, devMgr->m_vtDevice){
+	for (auto pDevice : devMgr->m_vtDevice){
 		if(!pDevice)	continue;
 		pDevice->SetSelect(false);
 		if(pDevice->IsInMyRect(devPoint)){
@@ -393,12 +393,12 @@ void CDeviceMapView::OnLButtonDown(UINT nFlags, CPoint point)
 	dc.DPtoLP(&point);					//!< 小坐标转打坐标
 
 	CDeviceMapDoc*pDoc=GetDocument();
-	boost::shared_ptr<CDeviceOne> pExpandDevice;
-	boost::shared_ptr<CDeviceOne> pDevice;
+	std::shared_ptr<CDeviceOne> pExpandDevice;
+	std::shared_ptr<CDeviceOne> pDevice;
 	CDevMgr* mgr = &CDevMgr::GetMe();
 	int stype=0;
 	ClearSelect();
-	foreach(pDevice, mgr->m_vtDevice)
+	for (auto pDevice : mgr->m_vtDevice)
 	{
 		if(!pDevice)	continue;
 		stype = pDevice->IsInMyRect(point);
@@ -410,7 +410,7 @@ void CDeviceMapView::OnLButtonDown(UINT nFlags, CPoint point)
 	if(pExpandDevice)	//!< 需要显示或不显示自己的子设备
 	{
 		pExpandDevice->SetExpand(!pExpandDevice->IsExpand());
-		foreach(UINT id, pExpandDevice->m_ltChildID)
+		for (UINT id : pExpandDevice->m_ltChildID)
 		{
 			pDevice = mgr->GetDevice(id);
 			ASSERT(pDevice);
@@ -444,11 +444,11 @@ void CDeviceMapView::OnLButtonDblClk(UINT nFlags, CPoint point)
 
 	CDeviceMapDoc*pDoc=GetDocument();
 	CDevMgr* mgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> pDevice;
+	std::shared_ptr<CDeviceOne> pDevice;
 	ClearSelect();
 	m_bHostLineSelect = IsInHostLineRect(point);	//!< 选中母线
 
-	foreach(pDevice, mgr->m_vtDevice)
+	for (auto pDevice : mgr->m_vtDevice)
 	{
 		if(!pDevice)		continue;
 		if(pDevice->IsInMyRect(point))
@@ -474,11 +474,11 @@ BOOL MVC::Device::CDeviceMapView::OnMouseMove(UINT nFlags, CPoint point)
 	CRect rect;
 	Tool::TooltipText txtGroup;
 
-	boost::shared_ptr<CDeviceOne> device;
+	std::shared_ptr<CDeviceOne> device;
 	CDevMgr* devMgr = &CDevMgr::GetMe();
 
 	//!< 遍历所有节点，找到对应的CDCCEInterFace_Tooltip
-	foreach(device, devMgr->m_vtDevice)
+	for (auto device : devMgr->m_vtDevice)
 	{
 		if(!device)		continue;
 		if(device->IsInMyRect(point))
@@ -512,7 +512,7 @@ void MVC::Device::CDeviceMapView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlag
 bool MVC::Device::CDeviceMapView::IfDevCanLink()
 {
 // 	if(!m_DropDevice)									return false;
-// 	boost::shared_ptr<CDeviceOne> dev = GetSelectDev();
+// 	std::shared_ptr<CDeviceOne> dev = GetSelectDev();
 // 	if(!dev)											return true;	//!< 可以连到空白处
 // 	if(dev == m_DropDevice)								return false;	//!< 自己不能连到自己上
 // 	if(dev->getID() == m_DropDevice->getParentID())		return false;	//!< 自己不能再一次连到父亲下边
@@ -656,8 +656,8 @@ void CDeviceMapView::OnV()
 //!< 将该设备的所有扫描上来的接口设置为工程接口
 void CDeviceMapView::OnAddScanInf2Proj()
 {
-	boost::shared_ptr<CDeviceOne> device = GetSelectDev();
-	boost::shared_ptr<CDeviceInterface> inf;
+	std::shared_ptr<CDeviceOne> device = GetSelectDev();
+	std::shared_ptr<CDeviceInterface> inf;
 	int size = device->m_vtInterface.size();
 	for(int i = 0; i < size; ++i)
 //	foreach(inf, device->m_vtInterface)
@@ -674,7 +674,7 @@ void CDeviceMapView::OnAddScanInf2Proj()
 //!< 重新画一遍设备拓扑
 void CDeviceMapView::FreshDeviceMap()
 {
-	boost::shared_ptr<CDeviceOne> dev = GetSelectDev(false);
+	std::shared_ptr<CDeviceOne> dev = GetSelectDev(false);
 	if (dev)
 	{
 		ShowDeviceAt(dev->getID());
@@ -690,7 +690,7 @@ void CDeviceMapView::FreshDeviceMap()
 void CDeviceMapView::ClearSelect()
 {
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	foreach(boost::shared_ptr<CDeviceOne> device, devMgr->m_vtDevice){
+	for (std::shared_ptr<CDeviceOne> device : devMgr->m_vtDevice){
 		if(!device)		continue;
 		device->SetSelect(false);
 	}
@@ -719,9 +719,9 @@ void MVC::Device::CDeviceMapView::OnAddSlave()
 {
 	if(CProjectMgr::GetMe().SayWatch())		return;
 	//!< 然后再让用户添加设备的类型，规定从设备数量
-	boost::shared_ptr<CDeviceOne> selDev = GetSelectDev();
+	std::shared_ptr<CDeviceOne> selDev = GetSelectDev();
 	if(!selDev)							return;
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = selDev->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = selDev->GetXmlInfo();
 	if(!xmlDev)							return;
 	if(!selDev->CanAddSlave()){
 		return;
@@ -745,13 +745,13 @@ void CDeviceMapView::OnAddMainDev(UINT devID)
 	CDeviceMapDoc* pDoc = GetDocument();
 	if(IDOK == propertyDlg->DoModal(devMgr->m_DeviceProperty))
 	{
-		boost::shared_ptr<CDeviceOne> device = boost::shared_ptr<CDeviceOne>(new CDeviceOne());
+		std::shared_ptr<CDeviceOne> device = std::shared_ptr<CDeviceOne>(new CDeviceOne());
 		device->CopyFrom(*devMgr->m_DeviceProperty.m_ShowDev);
 		device->setLevel(0);
 		if(!device->InitDevType(devID))		return;			//!< 初始化设备的类型信息
 		if(!devMgr->AddNewDevice(device))	return;
 		device->SetSelect(true);
-		boost::shared_ptr<SDevUndo> sdu = boost::shared_ptr<SDevUndo>(new SDevUndo(CGbl::UNDO_TYPE_ADD, device));
+		std::shared_ptr<SDevUndo> sdu = std::shared_ptr<SDevUndo>(new SDevUndo(CGbl::UNDO_TYPE_ADD, device));
 		pDoc->AddUndoMember(sdu);
 		pDoc->SetUndoEnd();
 		FreshDeviceMap();
@@ -763,9 +763,9 @@ void CDeviceMapView::OnAddSlave(UINT devID)
 {
 	if(CProjectMgr::GetMe().SayWatch())		return;
 	//!< 规定从设备数量
-	boost::shared_ptr<CDeviceOne> selDev = GetSelectDev();
+	std::shared_ptr<CDeviceOne> selDev = GetSelectDev();
 	if(!selDev)							return;
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = selDev->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = selDev->GetXmlInfo();
 	if(!xmlDev)							return;
 	if(!selDev->CanAddSlaveType(devID))
 	{
@@ -781,13 +781,13 @@ void CDeviceMapView::OnAddSlave(UINT devID)
 
 	CDevMgr* devMgr = &CDevMgr::GetMe();
 	CDeviceMapDoc* pDoc = GetDocument();
-	boost::shared_ptr<CDeviceOne> device;
+	std::shared_ptr<CDeviceOne> device;
 
 	Dialog::CPropertyDlg* dlg = &Dialog::CPropertyDlg::GetMe();
 	devMgr->m_SlaveProperty.SetType(0, devID, selDev->getID());
 	if(IDOK == dlg->DoModal(devMgr->m_SlaveProperty))
 	{
-		device = boost::shared_ptr<CDeviceOne>(new CDeviceOne());
+		device = std::shared_ptr<CDeviceOne>(new CDeviceOne());
 		device->CopyFrom(*devMgr->m_SlaveProperty.m_ShowDev);
 		device->setParentID(selDev->getID());
 		device->setLevel(selDev->getLevel() + 1);
@@ -795,7 +795,7 @@ void CDeviceMapView::OnAddSlave(UINT devID)
 		if(!device->InitDevType(devID))		return;		//!< 初始化设备的类型信息
 		if(!devMgr->AddNewDevice(device))	return;
 		devMgr->CheckAndConnect();
-		boost::shared_ptr<SDevUndo> sdu = boost::shared_ptr<SDevUndo>(new SDevUndo(CGbl::UNDO_TYPE_ADD, device));
+		std::shared_ptr<SDevUndo> sdu = std::shared_ptr<SDevUndo>(new SDevUndo(CGbl::UNDO_TYPE_ADD, device));
 		pDoc->AddUndoMember(sdu);
 		pDoc->SetUndoEnd();
 		FreshDeviceMap();
@@ -805,12 +805,12 @@ void CDeviceMapView::OnAddSlave(UINT devID)
 void CDeviceMapView::OnAddScan()
 {
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> device = GetSelectDev(false);		//!< 所有设备都找
+	std::shared_ptr<CDeviceOne> device = GetSelectDev(false);		//!< 所有设备都找
 	if(!device)					return;
 	if(device->IsProj())		return;
 
 	//!< 如果父亲不是工程设备需要提示
-	boost::shared_ptr<CDeviceOne> parent = CDevMgr::GetMe().GetDevice(device->getParentID());
+	std::shared_ptr<CDeviceOne> parent = CDevMgr::GetMe().GetDevice(device->getParentID());
 	if(parent && !parent->IsProj())
 	{
 		CString str = _T("父设备必须为工程设备，是否将其加入到工程中(包括父设备上级的多层父设备)？");
@@ -822,7 +822,7 @@ void CDeviceMapView::OnAddScan()
 
 void CDeviceMapView::OnAddScan(UINT devID)
 {
-	boost::shared_ptr<CDeviceOne> device = CDevMgr::GetMe().GetDevice(devID);
+	std::shared_ptr<CDeviceOne> device = CDevMgr::GetMe().GetDevice(devID);
 	if(!device)					return;
 	if(device->IsProj())		return;
 	device->setProj(true);
@@ -834,7 +834,7 @@ void CDeviceMapView::OnAddScan(UINT devID)
 void MVC::Device::CDeviceMapView::ShowDeviceAt(UINT devID)
 {
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> culDevice = devMgr->GetDevice(devID);
+	std::shared_ptr<CDeviceOne> culDevice = devMgr->GetDevice(devID);
 	if(!culDevice)		return;
 	ClearSelect();
 	culDevice->SetSelect(true);
@@ -843,7 +843,7 @@ void MVC::Device::CDeviceMapView::ShowDeviceAt(UINT devID)
 	//!< 循环让父设备展开，直到没有父设备为止
 	while(id != UINT(-1))
 	{
-		boost::shared_ptr<CDeviceOne> parent = devMgr->GetDevice(id);
+		std::shared_ptr<CDeviceOne> parent = devMgr->GetDevice(id);
 		ASSERT(parent);
 		if(!parent->IsExpand()){
 			parent->SetExpand(true);
@@ -885,7 +885,7 @@ void CDeviceMapView::OnDevinterfaceSet()
 //	if(CProjectMgr::GetMe().SayWatch())		return;
 	//!< 找到当前被选中的设备，然后弹出编辑它的对话框
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> device = GetSelectDev();
+	std::shared_ptr<CDeviceOne> device = GetSelectDev();
 	if(!device||CProjectMgr::GetMe().IsWatch())					//!<增加监控状态下的判断
 		return;	
 	if(device->getParentID() == UINT(-1)){		//!< 如果是根设备
@@ -913,7 +913,7 @@ void CDeviceMapView::OnDevinterfaceSet()
 void CDeviceMapView::OnDevDelete()
 {
 	if(CProjectMgr::GetMe().SayWatch())		return;
-	boost::shared_ptr<CDeviceOne> selDev = GetSelectDev();
+	std::shared_ptr<CDeviceOne> selDev = GetSelectDev();
 	if(!selDev)			return;
 	CString text;
 	if(selDev->m_ltChildID.size() > 0)
@@ -931,11 +931,11 @@ void CDeviceMapView::OnDevDelete()
 }
 
 //!< 找到被选中的设备，参数表示是否要获得工程设备，默认只获得工程设备
-boost::shared_ptr<CDeviceOne> CDeviceMapView::GetSelectDev(bool bProj /* = true */)
+std::shared_ptr<CDeviceOne> CDeviceMapView::GetSelectDev(bool bProj /* = true */)
 {
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> device, empty;
-	foreach(device, devMgr->m_vtDevice){
+	std::shared_ptr<CDeviceOne> device, empty;
+	for (auto device : devMgr->m_vtDevice){
 		if(!device)					continue;
 		if(bProj && !device->IsProj())	continue;
 		if(device->IsSelect())		return device;
@@ -944,11 +944,11 @@ boost::shared_ptr<CDeviceOne> CDeviceMapView::GetSelectDev(bool bProj /* = true 
 }
 
 //!< 获得左顶点那个设备
-boost::shared_ptr<CDeviceOne> CDeviceMapView::GetLTDev()
+std::shared_ptr<CDeviceOne> CDeviceMapView::GetLTDev()
 {
-	boost::shared_ptr<CDeviceOne> pLTDev;
+	std::shared_ptr<CDeviceOne> pLTDev;
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	foreach(boost::shared_ptr<CDeviceOne> device, devMgr->m_vtDevice)
+	for (std::shared_ptr<CDeviceOne> device : devMgr->m_vtDevice)
 	{
 		if(!device)								continue;
 		if(device->getParentID() != UINT(-1))	continue;
@@ -963,15 +963,15 @@ boost::shared_ptr<CDeviceOne> CDeviceMapView::GetLTDev()
 void CDeviceMapView::OnSelectUp()
 {
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> selDev = GetSelectDev(false);
-	boost::shared_ptr<CDeviceOne> newSelDev;
+	std::shared_ptr<CDeviceOne> selDev = GetSelectDev(false);
+	std::shared_ptr<CDeviceOne> newSelDev;
 	if(!selDev){
 		return;
 	}
 	else
 	{
-		boost::shared_ptr<CDeviceOne> leftDev;
-		foreach(boost::shared_ptr<CDeviceOne> device, devMgr->m_vtDevice)
+		std::shared_ptr<CDeviceOne> leftDev;
+		for (std::shared_ptr<CDeviceOne> device : devMgr->m_vtDevice)
 		{
 			if(!device)										continue;		//!< 不能为空
 			if(device == selDev)							continue;		//!< 不能是自己
@@ -994,15 +994,15 @@ void CDeviceMapView::OnSelectUp()
 void CDeviceMapView::OnSelectDown()
 {
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> selDev = GetSelectDev(false);
-	boost::shared_ptr<CDeviceOne> newSelDev;
+	std::shared_ptr<CDeviceOne> selDev = GetSelectDev(false);
+	std::shared_ptr<CDeviceOne> newSelDev;
 	if(!selDev){
 		newSelDev = GetLTDev();
 	}
 	else
 	{
-		boost::shared_ptr<CDeviceOne> leftDev;
-		foreach(boost::shared_ptr<CDeviceOne> device, devMgr->m_vtDevice)
+		std::shared_ptr<CDeviceOne> leftDev;
+		for (std::shared_ptr<CDeviceOne> device : devMgr->m_vtDevice)
 		{
 			if(!device)										continue;		//!< 不能为空
 			if(device == selDev)							continue;		//!< 不能是自己
@@ -1025,15 +1025,15 @@ void CDeviceMapView::OnSelectDown()
 void CDeviceMapView::OnSelectLeft()
 {
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> selDev = GetSelectDev(false);
-	boost::shared_ptr<CDeviceOne> newSelDev;
+	std::shared_ptr<CDeviceOne> selDev = GetSelectDev(false);
+	std::shared_ptr<CDeviceOne> newSelDev;
 	if(!selDev){
 		return;
 	}
 	else
 	{
-		boost::shared_ptr<CDeviceOne> leftDev;
-		foreach(boost::shared_ptr<CDeviceOne> device, devMgr->m_vtDevice)
+		std::shared_ptr<CDeviceOne> leftDev;
+		for (std::shared_ptr<CDeviceOne> device : devMgr->m_vtDevice)
 		{
 			if(!device)										continue;		//!< 不能为空
 			if(device == selDev)							continue;		//!< 不能是自己
@@ -1056,15 +1056,15 @@ void CDeviceMapView::OnSelectLeft()
 void CDeviceMapView::OnSelectRight()
 {
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> selDev = GetSelectDev(false);
-	boost::shared_ptr<CDeviceOne> newSelDev;
+	std::shared_ptr<CDeviceOne> selDev = GetSelectDev(false);
+	std::shared_ptr<CDeviceOne> newSelDev;
 	if(!selDev){
 		newSelDev = GetLTDev();
 	}
 	else
 	{
-		boost::shared_ptr<CDeviceOne> leftDev;
-		foreach(boost::shared_ptr<CDeviceOne> device, devMgr->m_vtDevice)
+		std::shared_ptr<CDeviceOne> leftDev;
+		for (std::shared_ptr<CDeviceOne> device : devMgr->m_vtDevice)
 		{
 			if(!device)										continue;		//!< 不能为空
 			if(device == selDev)							continue;		//!< 不能是自己
@@ -1085,7 +1085,7 @@ void CDeviceMapView::OnSelectRight()
 
 void CDeviceMapView::OnDevParainfo()
 {
-	boost::shared_ptr<CDeviceOne> device = GetSelectDev(false);
+	std::shared_ptr<CDeviceOne> device = GetSelectDev(false);
 	if(!device)		return;
 	device->LoadXml();
 	CDevMgr* devMgr = &CDevMgr::GetMe();
@@ -1096,7 +1096,7 @@ void CDeviceMapView::OnDevParainfo()
 //!< 变量表导出
 void CDeviceMapView::OnDevOut()
 {
-	boost::shared_ptr<CDeviceOne> device = GetSelectDev();
+	std::shared_ptr<CDeviceOne> device = GetSelectDev();
 	if(!device)		return;
 
 	CString extendName = _T("*.dcfg");
@@ -1113,7 +1113,7 @@ void CDeviceMapView::OnDevOut()
 void CDeviceMapView::OnDevIn()
 {
 	if(CProjectMgr::GetMe().SayWatch())		return;
-	boost::shared_ptr<CDeviceOne> device = GetSelectDev();
+	std::shared_ptr<CDeviceOne> device = GetSelectDev();
 	if(!device)		return;
 
 	CString extendName = _T("*.dcfg");
@@ -1145,9 +1145,9 @@ DROPEFFECT MVC::Device::CDeviceMapView::OnDragOver(COleDataObject* pDataObject, 
 		dc.DPtoLP(&point);					//!< 小坐标转打坐标
 
 		ClearSelect();
-		boost::shared_ptr<CDeviceOne> pDevice, selDev;
+		std::shared_ptr<CDeviceOne> pDevice, selDev;
 		CDevMgr* devMgr = &CDevMgr::GetMe();
-		foreach(pDevice, devMgr->m_vtDevice){
+		for (auto pDevice : devMgr->m_vtDevice){
 			if(!pDevice)	continue;
 			if(pDevice->IsInMyRect(point) > 0){
 				pDevice->SetSelect(true);
@@ -1169,7 +1169,7 @@ BOOL MVC::Device::CDeviceMapView::OnDrop(COleDataObject* pDataObject, DROPEFFECT
 	CXTPTaskPanelGroupItem* pItemDrop = (CXTPTaskPanelGroupItem*)CXTPTaskPanelItem::CreateFromOleData(pDataObject);
 	if (pItemDrop){
 		ASSERT_KINDOF(CXTPTaskPanelGroupItem, pItemDrop);
-		boost::shared_ptr<CDeviceOne> device = GetSelectDev(false);
+		std::shared_ptr<CDeviceOne> device = GetSelectDev(false);
 		if(!device)					OnAddMainDev(pItemDrop->GetID() - 100);
 		else if(device->IsProj())	OnAddSlave(pItemDrop->GetID() - 100);
 #ifdef _DEBUG
@@ -1245,7 +1245,7 @@ void MVC::Device::CDeviceMapView::OnUpdateAddSlave(CCmdUI *pCmdUI)
 		pCmdUI->Enable(FALSE);
 	else
 	{
-		boost::shared_ptr<CDeviceOne> dev = GetSelectDev();
+		std::shared_ptr<CDeviceOne> dev = GetSelectDev();
 		if(!dev || !dev->CanAddSlave(false))
 			pCmdUI->Enable(FALSE);
 	}
@@ -1317,14 +1317,14 @@ void MVC::Device::CDeviceMapView::OnZoom(UINT index)
 
 void MVC::Device::CDeviceMapView::OnEditCopy()
 {
-	boost::shared_ptr<CDeviceOne> selDev = GetSelectDev();
+	std::shared_ptr<CDeviceOne> selDev = GetSelectDev();
 	if(!selDev)		return;
 	CDevMgr::GetMe().OnDevCopy(selDev->getID());
 }
 
 void MVC::Device::CDeviceMapView::OnEditCopyWithChild()
 {
-	boost::shared_ptr<CDeviceOne> selDev = GetSelectDev();
+	std::shared_ptr<CDeviceOne> selDev = GetSelectDev();
 	if(!selDev)		return;
 	CDevMgr::GetMe().OnDevCopyWithChild(selDev->getID());
 }
@@ -1332,7 +1332,7 @@ void MVC::Device::CDeviceMapView::OnEditCopyWithChild()
 void MVC::Device::CDeviceMapView::OnEditCut()
 {
 	if(CProjectMgr::GetMe().SayWatch())	return;
-	boost::shared_ptr<CDeviceOne> selDev = GetSelectDev();
+	std::shared_ptr<CDeviceOne> selDev = GetSelectDev();
 	CDeviceMapDoc* pDoc = GetDocument();
 	if(!selDev)		return;
 	CDevMgr::GetMe().OnDevCut(pDoc, selDev->getID());
@@ -1342,7 +1342,7 @@ void MVC::Device::CDeviceMapView::OnEditCut()
 void MVC::Device::CDeviceMapView::OnEditPaste()
 {
 	if(CProjectMgr::GetMe().SayWatch())	return;
-	boost::shared_ptr<CDeviceOne> selDev = GetSelectDev();
+	std::shared_ptr<CDeviceOne> selDev = GetSelectDev();
 	CDeviceMapDoc* pDoc = GetDocument();
 	if(!selDev)
 		CDevMgr::GetMe().OnDevPaste(pDoc, UINT(-1));
@@ -1405,7 +1405,7 @@ void CDeviceMapView::OnScanStop()
 void MVC::Device::CDeviceMapView::OnFreshState()
 {
 	if(!CProjectMgr::GetMe().IsWatch())		return;
-	boost::shared_ptr<CDeviceOne> dev = GetSelectDev();
+	std::shared_ptr<CDeviceOne> dev = GetSelectDev();
 	if(dev)
 	{
 		if(dev->GetOnLineInf() != -1)		return;
@@ -1420,7 +1420,7 @@ void MVC::Device::CDeviceMapView::OnFreshState()
 BOOL MVC::Device::CDeviceMapView::OnHelpInfo(HELPINFO* pHelpInfo)
 {
 	SoftInfo::CMyHelp* pHelp = &SoftInfo::CMyHelp::GetMe();
-	boost::shared_ptr<CDeviceOne> device = GetSelectDev(false);
+	std::shared_ptr<CDeviceOne> device = GetSelectDev(false);
 	if(!device)							pHelp->ShowHelp(_T("设备拓扑"));
 	else if(!device->IsProj())			pHelp->ShowHelp(_T("将扫描设备加载到工程中"));
 	else if(device->getLevel() == 0)	pHelp->ShowHelp(_T("主设备"));
@@ -1430,7 +1430,7 @@ BOOL MVC::Device::CDeviceMapView::OnHelpInfo(HELPINFO* pHelpInfo)
 
 void MVC::Device::CDeviceMapView::OnProgram()
 {
-	boost::shared_ptr<CDeviceOne> device = GetSelectDev();
+	std::shared_ptr<CDeviceOne> device = GetSelectDev();
 	if (!device)									return;
 	if (!device->GetXmlInfo())						return;
 	if (!device->GetXmlInfo()->IsProgrammable())	return;
@@ -1439,7 +1439,7 @@ void MVC::Device::CDeviceMapView::OnProgram()
 
 void MVC::Device::CDeviceMapView::OnUpdateProgram(CCmdUI *pCmdUI)
 {
-	boost::shared_ptr<CDeviceOne> device = GetSelectDev();
+	std::shared_ptr<CDeviceOne> device = GetSelectDev();
 	if(!device)
 		pCmdUI->Enable(FALSE);
 	else if (!device->GetXmlInfo() || !device->GetXmlInfo()->IsProgrammable())

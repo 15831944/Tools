@@ -60,7 +60,7 @@ CItemRecord::CItemRecord()
 {
 	m_ID = UINT(-1);
 }
-CItemRecord::CItemRecord(boost::shared_ptr<MVC::Item::CItem> item)
+CItemRecord::CItemRecord(std::shared_ptr<MVC::Item::CItem> item)
 {
 	m_ID = item->getID();
 	CString valTypeArray[9] = {_T("位"), _T("有符号字节"), _T("无符号字节"), _T("有符号字"), _T("无符号字"),
@@ -159,8 +159,8 @@ BOOL CScriptEditDlg::OnInitDialog()
 	m_ItemCtrl.AddColumn(new CXTPReportColumn(COL_DESCRIPT, _T("备注"), 28));
 
 	MVC::Item::CItemMgr* itemMgr = &MVC::Item::CItemMgr::GetMe();
-	boost::shared_ptr<MVC::Item::CItem> item;
-	foreach(item, itemMgr->m_vtItem){
+	std::shared_ptr<MVC::Item::CItem> item;
+	for (auto item : itemMgr->m_vtItem){
 		if(!item)		continue;
 		m_ItemCtrl.AddRecord(new CItemRecord(item));
 	}
@@ -349,7 +349,7 @@ void CScriptEditDlg::OnReportDblClick(DReport::CDReport* report, UINT row)
 	CItemRecord* record = (CItemRecord *)xtpRow->GetRecord();
 	if(!record)						return;
 	MVC::Item::CItemMgr* mgr = &MVC::Item::CItemMgr::GetMe();
-	boost::shared_ptr<MVC::Item::CItem> item = mgr->GetItem(record->m_ID);
+	std::shared_ptr<MVC::Item::CItem> item = mgr->GetItem(record->m_ID);
 	if(!item)						return;
 	CString name = item->getName();
 	name = _T("[") + name + _T("]");
@@ -380,7 +380,7 @@ bool CScriptEditDlg::CheckScript(CString strScript, CString& strError)
 
 	//!< 2.替换变量，赋假值
 	MVC::Item::CItemMgr* mgr = &MVC::Item::CItemMgr::GetMe();
-	boost::shared_ptr<MVC::Item::CItem> item;
+	std::shared_ptr<MVC::Item::CItem> item;
 	CString script;
 	for(int i = 0; i < (int)vtStr.size(); ++i)
 	{
@@ -401,7 +401,7 @@ bool CScriptEditDlg::CheckScript(CString strScript, CString& strError)
 
 	//!< 3.重新组合
 	strScript = _T("");
-	foreach(script, vtStr)
+	for (auto script : vtStr)
 		strScript = strScript + script;
 	strScript = _T("Answer = ") + strScript;
 

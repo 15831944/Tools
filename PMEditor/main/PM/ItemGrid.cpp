@@ -163,12 +163,12 @@ void CItemGrid::InitCol()
 
 bool CItemGrid::InitItemOne(UINT id, UINT row)
 {
-	boost::shared_ptr<CItem> item = CItemMgr::GetMe().GetItem(id);
+	std::shared_ptr<CItem> item = CItemMgr::GetMe().GetItem(id);
 	if(!item)	return false;
-	boost::shared_ptr<CPropertySource> src = item->getSrcInfo();
-	boost::shared_ptr<CPropertyAlarm> alarm = item->getAlarmInfo();
+	std::shared_ptr<CPropertySource> src = item->getSrcInfo();
+	std::shared_ptr<CPropertyAlarm> alarm = item->getAlarmInfo();
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	boost::shared_ptr<MVC::Device::CDeviceOne> device;
+	std::shared_ptr<MVC::Device::CDeviceOne> device;
 	bool bIsIO = false;
 	if(item->getSrcType() == CItem::SRC_TYPE_IO){	device = devMgr->GetDevice(src->getDeviceID()); bIsIO = true;}
 	CComVariant cvr;
@@ -270,7 +270,7 @@ bool CItemGrid::InitItemOne(UINT id, UINT row)
 		}
 		else if(csi->m_vtColInfo[COL_GROUP].name == colName)					//!< 变量组
 		{
-			boost::shared_ptr<CItemGroup> myGroup = CItemMgr::GetMe().GetGroup(item->getMyGroupID());
+			std::shared_ptr<CItemGroup> myGroup = CItemMgr::GetMe().GetGroup(item->getMyGroupID());
 			ASSERT(myGroup);
 			cell.SetText(myGroup->getName());
 			SetMyCell(i, row, &cell, id, bAlarm);
@@ -440,7 +440,7 @@ void CItemGrid::SetMyCell(int nCol, long lRow, CUGCell* cell, UINT id, bool bAla
 //!< 刷新变量值
 void CItemGrid::InitItemValue(UINT id, UINT row, CUGCell* cell)
 {
-	boost::shared_ptr<CItem> item = CItemMgr::GetMe().GetItem(id);
+	std::shared_ptr<CItem> item = CItemMgr::GetMe().GetItem(id);
 	if(!item || !cell)		return;
 //	CUGCell cell;
 	CString text;
@@ -555,14 +555,14 @@ void CItemGrid::DeleteColAll()
 //!< 刷新一遍变量数值
 void CItemGrid::FreshData()
 {
-	std::vector<boost::shared_ptr<CItem> > vtRowItem;		//!< 下表是行号，内容是每行所对应的变量
+	std::vector<std::shared_ptr<CItem> > vtRowItem;		//!< 下表是行号，内容是每行所对应的变量
 	int rowCount = GetNumberRows() - 1;						//!< 仅表示变量的行数
 	if(rowCount <= 0)					return;				//!< 
 	if(m_nProjCol < 0 && m_nIOCol < 0)	return;				//!< 
 
 	CUGCell cell, cellValue;
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
-	boost::shared_ptr<CItem> item;
+	std::shared_ptr<CItem> item;
 	if(m_nProjCol > 0)					GetCell(m_nProjCol, 0, &cellValue);
 	else								GetCell(m_nIOCol, 0, &cellValue);
 	for(int i = 0; i < rowCount; ++i)
@@ -578,7 +578,7 @@ void CItemGrid::FreshData()
 	//!< 获得当前页内所有显示的变量
 // 	CUGCell cell;
 // 	CItemMgr* itemMgr = &CItemMgr::GetMe();
-// 	boost::shared_ptr<CItem> item;
+// 	std::shared_ptr<CItem> item;
 // 	for(int i = 0; i < (int)GetNumberRows() - 1; ++i)
 // 	{
 // 		GetCell(0, i, &cell);
@@ -666,13 +666,13 @@ void CItemGrid::WriteValue()
 	GetCell(0, GetCurrentRow(), &cell);
 	UINT itemID = cell.GetParam();
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
-	boost::shared_ptr<CItem> item = itemMgr->GetItem(itemID);
+	std::shared_ptr<CItem> item = itemMgr->GetItem(itemID);
 	if(!item)		return;
 	Dialog::CWriteItemDlg::GetMe().DoModal(item->getID());
 }
 
 //!< 编辑变量基本属性
-void CItemGrid::EditItem(boost::shared_ptr<CItem> item)
+void CItemGrid::EditItem(std::shared_ptr<CItem> item)
 {
 	if(!item)					return;
 	CPropertyItem* pp = &CItemMgr::GetMe().m_ItemProperty;
@@ -684,7 +684,7 @@ void CItemGrid::EditItem(boost::shared_ptr<CItem> item)
 }
 
 //!< 统一编辑变量基本属性
-void CItemGrid::EditItems(std::list<boost::shared_ptr<CItem> > ltItem)
+void CItemGrid::EditItems(std::list<std::shared_ptr<CItem> > ltItem)
 {
 	if(ltItem.empty())			{return;}
 	if(ltItem.size() == 1)		{ItemEdit();		return;}
@@ -697,10 +697,10 @@ void CItemGrid::EditItems(std::list<boost::shared_ptr<CItem> > ltItem)
 }
 
 //!< 增加新变量
-boost::shared_ptr<CItem> CItemGrid::AddNewItem()
+std::shared_ptr<CItem> CItemGrid::AddNewItem()
 {
 	MVC::Item::CItemMgr* itemMgr = &MVC::Item::CItemMgr::GetMe();
-	boost::shared_ptr<CItem> empty;
+	std::shared_ptr<CItem> empty;
 	//!< 看看还能不能加了变量
 	int count = MAX_ITEM_COUNT;
 	count = count << 1;
@@ -727,7 +727,7 @@ void CItemGrid::ItemClone()
 {
 	UINT id = GetRowItem(GetCurrentRow());
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
-	boost::shared_ptr<CItem> item = itemMgr->GetItem(id);
+	std::shared_ptr<CItem> item = itemMgr->GetItem(id);
 	if(!item)							return;
 	Dialog::CCloneItemDlg* dlg = &Dialog::CCloneItemDlg::GetMe();
 	if(item->getSrcType() == CItem::SRC_TYPE_IO && item->getSrcInfo()->getIOType() == 0)
@@ -741,12 +741,12 @@ void CItemGrid::ItemClone()
 
 	//!< 添加撤销对象
 	CItemDoc* pDoc = (CItemDoc *)((CItemView *)GetParent())->GetDocument();
-	boost::shared_ptr<SItemUndo> undo;
-	foreach(UINT id, dlg->m_ltItemID)
+	std::shared_ptr<SItemUndo> undo;
+	for (UINT id : dlg->m_ltItemID)
 	{
 		item = itemMgr->GetItem(id);
 		ASSERT(item);
-		undo = boost::shared_ptr<SItemUndo>(new SItemUndo);
+		undo = std::shared_ptr<SItemUndo>(new SItemUndo);
 		undo->m_Item = item;
 		undo->m_uiEditType = CGbl::UNDO_TYPE_ADD;
 		pDoc->AddUndoMember(undo);
@@ -793,7 +793,7 @@ void MVC::Item::CItemGrid::OnLButtonUp(int col, long row, RECT *rect, POINT *poi
 
 	m_bHoldToClone = false;
 	::SetCursor(::LoadCursor(NULL, IDC_ARROW));
-	boost::shared_ptr<CItem> item = itemMgr->GetItem(m_nHoldToCloneID);
+	std::shared_ptr<CItem> item = itemMgr->GetItem(m_nHoldToCloneID);
 	if (!item)						return;
 	if (m_nHoleToCloneCurCount == 0)return;
 
@@ -801,7 +801,7 @@ void MVC::Item::CItemGrid::OnLButtonUp(int col, long row, RECT *rect, POINT *poi
 
 	// 开始增加吧
 	int maxID = MAX_ITEM_COUNT;
-	boost::shared_ptr<MVC::Item::CItem> newItem;
+	std::shared_ptr<MVC::Item::CItem> newItem;
 	SoftInfo::CSoftInfo* csi = &SoftInfo::CSoftInfo::GetMe();
 	int nCount = m_nHoleToCloneCurCount;						// 要克隆多少个
 	if (nCount < 0)	nCount = 0 - nCount;
@@ -813,7 +813,7 @@ void MVC::Item::CItemGrid::OnLButtonUp(int col, long row, RECT *rect, POINT *poi
 // 这里还有两项工作:
 // 		1. 增加方向向上的增加指令克隆功能
 // 		2. 我是不是应该先弹个框问问是否克隆的其它配置
-		newItem = boost::shared_ptr<MVC::Item::CItem>(new MVC::Item::CItem(_T("")));
+		newItem = std::shared_ptr<MVC::Item::CItem>(new MVC::Item::CItem(_T("")));
 		if (bAdd)
 		{
 			if(!item->OnCloneMe(*newItem, i + 1, nAddrUnit, nBit))		continue;			//!< 如果此项没克隆成功，就克隆下一条
@@ -834,12 +834,12 @@ void MVC::Item::CItemGrid::OnLButtonUp(int col, long row, RECT *rect, POINT *poi
 
 	//!< 添加撤销对象
 	CItemDoc* pDoc = (CItemDoc *)((CItemView *)GetParent())->GetDocument();
-	boost::shared_ptr<SItemUndo> undo;
-	foreach(UINT id, ltAddID)
+	std::shared_ptr<SItemUndo> undo;
+	for (UINT id : ltAddID)
 	{
 		item = itemMgr->GetItem(id);
 		ASSERT(item);
-		undo = boost::shared_ptr<SItemUndo>(new SItemUndo);
+		undo = std::shared_ptr<SItemUndo>(new SItemUndo);
 		undo->m_Item = item;
 		undo->m_uiEditType = CGbl::UNDO_TYPE_ADD;
 		pDoc->AddUndoMember(undo);
@@ -1279,15 +1279,15 @@ void CItemGrid::RedrawGrid()
 	if(m_uiShowType == 0)			//!< 所有变量
 	{
 		std::list<UINT> ltItemID;
-		boost::shared_ptr<CItem> item;
-		foreach(item, itemMgr->m_vtItem){
+		std::shared_ptr<CItem> item;
+		for (auto item : itemMgr->m_vtItem){
 			if(item)				ltItemID.push_back(item->getID());
 		}
 		ShowItem(ltItemID);
 	}
 	else if(m_uiShowType == 3)		//!< 变量组里的变量
 	{
-		boost::shared_ptr<CItemGroup> group = itemMgr->GetGroup(m_uiCulGroupID);
+		std::shared_ptr<CItemGroup> group = itemMgr->GetGroup(m_uiCulGroupID);
 		ShowItem(group->getMyItem());
 	}
 }
@@ -1310,15 +1310,14 @@ void MVC::Item::CItemGrid::SortGrid()
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	if(m_uiShowType == 0)			//!< 所有变量
 	{
-		boost::shared_ptr<CItem> item;
-		foreach(item, itemMgr->m_vtItem){
+		for (auto item : itemMgr->m_vtItem){
 			if(item)
 				ltShowItemID.push_back(item->getID());
 		}
 	}
 	else if(m_uiShowType == 3)		//!< 变量组里的变量
 	{
-		boost::shared_ptr<CItemGroup> group = itemMgr->GetGroup(m_uiCulGroupID);
+		std::shared_ptr<CItemGroup> group = itemMgr->GetGroup(m_uiCulGroupID);
 		ltShowItemID = group->getMyItem();
 	}
 	ltShowItemID.sort(SortItem);
@@ -1338,13 +1337,13 @@ void MVC::Item::CItemGrid::ItemUp()
 	CUGCell cell1,cell2;
 	GetCell(0, row, &cell1);
 	GetCell(0, row - 1, &cell2);
-	boost::shared_ptr<CItem> item1 = CItemMgr::GetMe().GetItem(cell1.GetParam());
-	boost::shared_ptr<CItem> item2 = CItemMgr::GetMe().GetItem(cell2.GetParam());
+	std::shared_ptr<CItem> item1 = CItemMgr::GetMe().GetItem(cell1.GetParam());
+	std::shared_ptr<CItem> item2 = CItemMgr::GetMe().GetItem(cell2.GetParam());
 	ASSERT(item1 && item2);
 
 	//!< 获得原始的变量数据，后边要压撤销栈
-	boost::shared_ptr<SItemUndo> undo1 = boost::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item1, 0));
-	boost::shared_ptr<SItemUndo> undo2 = boost::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item2, 0));
+	std::shared_ptr<SItemUndo> undo1 = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item1, 0));
+	std::shared_ptr<SItemUndo> undo2 = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item2, 0));
 
 	//!< 交换这两个变量
 	CItemMgr::GetMe().ExChangeItem(item1->getID(), item2->getID());
@@ -1373,13 +1372,13 @@ void MVC::Item::CItemGrid::ItemDown()
 	CUGCell cell1,cell2;
 	GetCell(0, row, &cell1);
 	GetCell(0, row + 1, &cell2);
-	boost::shared_ptr<CItem> item1 = CItemMgr::GetMe().GetItem(cell1.GetParam());
-	boost::shared_ptr<CItem> item2 = CItemMgr::GetMe().GetItem(cell2.GetParam());
+	std::shared_ptr<CItem> item1 = CItemMgr::GetMe().GetItem(cell1.GetParam());
+	std::shared_ptr<CItem> item2 = CItemMgr::GetMe().GetItem(cell2.GetParam());
 	ASSERT(item1 && item2);
 
 	//!< 获得原始的变量数据，后边要压撤销栈
-	boost::shared_ptr<SItemUndo> undo1 = boost::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item1, 0));
-	boost::shared_ptr<SItemUndo> undo2 = boost::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item2, 0));
+	std::shared_ptr<SItemUndo> undo1 = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item1, 0));
+	std::shared_ptr<SItemUndo> undo2 = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item2, 0));
 
 	//!< 交换这两个变量
 	CItemMgr::GetMe().ExChangeItem(item1->getID(), item2->getID());
@@ -1418,11 +1417,11 @@ void MVC::Item::CItemGrid::ItemRemove(bool bAsk /* = true */)
 
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	CUGCell cell;
-	boost::shared_ptr<CItem> item;
-	std::list<boost::shared_ptr<CItem> > ltSelectItem;
+	std::shared_ptr<CItem> item;
+	std::list<std::shared_ptr<CItem> > ltSelectItem;
 
 	//!< 统计被选中的变量
-	foreach(long row, ltSelectRow)
+	for (long row : ltSelectRow)
 	{
 		GetCell(0, row, &cell);
 		item = itemMgr->GetItem(cell.GetParam());
@@ -1436,10 +1435,10 @@ void MVC::Item::CItemGrid::ItemRemove(bool bAsk /* = true */)
 
 	//!< 添加撤销对象
 	CItemDoc* pDoc = (CItemDoc *)((CItemView *)GetParent())->GetDocument();
-	boost::shared_ptr<SItemUndo> undo;
-	foreach(item, ltSelectItem)
+	std::shared_ptr<SItemUndo> undo;
+	for (auto item : ltSelectItem)
 	{
-		undo = boost::shared_ptr<SItemUndo>(new SItemUndo);
+		undo = std::shared_ptr<SItemUndo>(new SItemUndo);
 		undo->m_Item = item;
 		undo->m_uiEditType = CGbl::UNDO_TYPE_DEL;
 		undo->m_uiEditInfo = m_uiCulGroupID;
@@ -1451,11 +1450,10 @@ void MVC::Item::CItemGrid::ItemRemove(bool bAsk /* = true */)
 }
 
 //!< 删除这些变量
-void MVC::Item::CItemGrid::ItemRemove(std::list<boost::shared_ptr<CItem> > ltItem)
+void MVC::Item::CItemGrid::ItemRemove(std::list<std::shared_ptr<CItem> > ltItem)
 {
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
-	boost::shared_ptr<CItem> item;
-	foreach(item, ltItem)
+	for (auto item : ltItem)
 	{
 		if (item)
 			itemMgr->DeleteItem(item->getID());
@@ -1471,7 +1469,7 @@ void MVC::Item::CItemGrid::ItemCopy()
 	int numRow = GetNumberRows() - 1;
 	std::list<UINT> ltItemID;
 	CUGCell cell;
-	boost::shared_ptr<CItem> srcItem, newItem;
+	std::shared_ptr<CItem> srcItem, newItem;
 	for(UINT i = 0; i < numRow; ++i)
 	{
 		if(IsSelected(0, i))
@@ -1482,11 +1480,11 @@ void MVC::Item::CItemGrid::ItemCopy()
 	}
 	if(ltItemID.size() <= 0)			return;
 	itemMgr->m_ltItemClipBoard.clear();
-	foreach(UINT id, ltItemID)
+	for (UINT id : ltItemID)
 	{
 		srcItem = itemMgr->GetItem(id);
 		ASSERT(srcItem);
-		newItem = boost::shared_ptr<CItem>(new CItem(_T("")));
+		newItem = std::shared_ptr<CItem>(new CItem(_T("")));
 		*newItem = *srcItem;
 		itemMgr->m_ltItemClipBoard.push_back(newItem);
 	}
@@ -1505,12 +1503,12 @@ void MVC::Item::CItemGrid::ItemPaste()
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	if(itemMgr->m_ltItemClipBoard.empty())						return;
 	CString name;
-	boost::shared_ptr<CItem> item, srcItem;
-	std::list<boost::shared_ptr<CItem> > ltItem;
+	std::shared_ptr<CItem> item, srcItem;
+	std::list<std::shared_ptr<CItem> > ltItem;
 	//!< 不能直接把剪贴板里的变量粘到变量表中，而是要拷贝一份过去
-	foreach(srcItem, itemMgr->m_ltItemClipBoard)
+	for (auto srcItem : itemMgr->m_ltItemClipBoard)
 	{
-		item = boost::shared_ptr<CItem>(new CItem(_T("")));
+		item = std::shared_ptr<CItem>(new CItem(_T("")));
 		*item = *srcItem;
 		ltItem.push_back(item);
 	}
@@ -1520,7 +1518,7 @@ void MVC::Item::CItemGrid::ItemPaste()
 	if(IDOK != dlg->DoModal(Dialog::CItemInConfigDlg::Paste, GetGroupID()))	return;
 	pDoc->ItemInAdvanceOptions(ltItem);
 	int devID = dlg->GetDeviceID();
-	foreach(item, ltItem)
+	for (auto item : ltItem)
 		if(item->getSrcType() == CItem::SRC_TYPE_IO)
 			item->getSrcInfo()->setDevID(devID);
 	if(dlg->m_nSameNameType == 0)			pDoc->ItemInRenameItem(ltItem, dlg->m_uiGroupID);
@@ -1576,7 +1574,7 @@ void MVC::Item::CItemGrid::OutItemSelect()
 	UINT numRow = GetNumberRows() - 1;
 	std::list<UINT> ltItem;
 	CUGCell cell;
-	boost::shared_ptr<CItem> item;
+	std::shared_ptr<CItem> item;
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	for(UINT i = 0; i < numRow; ++i)
 	{
@@ -1770,12 +1768,12 @@ void MVC::Item::CItemGrid::ItemEdit()
 	long row = GetCurrentRow();
 	CUGCell cell;
 	GetCell(0, row, &cell);
-	boost::shared_ptr<CItem> item = CItemMgr::GetMe().GetItem(cell.GetParam());//itemName);
+	std::shared_ptr<CItem> item = CItemMgr::GetMe().GetItem(cell.GetParam());//itemName);
 	if(!item)					return;
 
 	//SelectRowAt(row);									//!< 修改当前选中的变量，其他变量都取消选中
 	//RedrawAll();
-	boost::shared_ptr<CItem> oldItem = boost::shared_ptr<CItem>(new CItem(item->getName()));
+	std::shared_ptr<CItem> oldItem = std::shared_ptr<CItem>(new CItem(item->getName()));
 	*oldItem = *item;
 	EditItem(item);
 	//SetFocus();
@@ -1785,7 +1783,7 @@ void MVC::Item::CItemGrid::ItemEdit()
 	CItemMgr::GetMe().m_mpItem[item->getName()] = item;
 
 	//!< 添加撤销对象
-	boost::shared_ptr<SItemUndo> undo = boost::shared_ptr<SItemUndo>(new SItemUndo);
+	std::shared_ptr<SItemUndo> undo = std::shared_ptr<SItemUndo>(new SItemUndo);
 	undo->m_Item = oldItem;
 	undo->m_uiEditType = CGbl::UNDO_TYPE_UPD;
 	undo->m_bEnd = true;
@@ -1800,9 +1798,9 @@ void MVC::Item::CItemGrid::ItemEdit()
 void MVC::Item::CItemGrid::ItemEditAll()
 {
 	CUGCell cell;
-	boost::shared_ptr<CItem> item;
-	std::list<boost::shared_ptr<CItem> > ltItem;		//!< 所有被选中的变量
-	std::vector<boost::shared_ptr<CItem> > vtItem;		//!< 所有被选中的变量
+	std::shared_ptr<CItem> item;
+	std::list<std::shared_ptr<CItem> > ltItem;		//!< 所有被选中的变量
+	std::vector<std::shared_ptr<CItem> > vtItem;		//!< 所有被选中的变量
 	std::vector<UINT> vtRow;							//!< 被选中的行
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	UINT numRow = GetNumberRows() - 1;
@@ -1820,12 +1818,12 @@ void MVC::Item::CItemGrid::ItemEditAll()
 	}
 
 	//!< 备份一下原有的变量
-	std::vector<boost::shared_ptr<CItem> > vtOldItem;
-	boost::shared_ptr<CItem> oldItem;
-	foreach(item, vtItem)
+	std::vector<std::shared_ptr<CItem> > vtOldItem;
+	std::shared_ptr<CItem> oldItem;
+	for (auto item : vtItem)
 	{
 		if(!item)			continue;
-		oldItem = boost::shared_ptr<CItem>(new CItem(item->getName()));
+		oldItem = std::shared_ptr<CItem>(new CItem(item->getName()));
 		*oldItem = *item;
 		vtOldItem.push_back(oldItem);
 	}
@@ -1833,7 +1831,7 @@ void MVC::Item::CItemGrid::ItemEditAll()
 	//!< 开始编辑所有
 	EditItems(ltItem);
 
-	boost::shared_ptr<SItemUndo> undo;
+	std::shared_ptr<SItemUndo> undo;
 	CItemDoc* pDoc = (CItemDoc *)((CItemView *)GetParent())->GetDocument();
 	UINT size = (UINT)vtItem.size();
 	for(UINT i = 0; i < size; ++i)
@@ -1841,7 +1839,7 @@ void MVC::Item::CItemGrid::ItemEditAll()
 		if(*vtItem[i] == *vtOldItem[i])		continue;		//!< 如果此变量没有改变就不用刷新该行
 
 		//!< 添加撤销对象
-		undo = boost::shared_ptr<SItemUndo>(new SItemUndo);
+		undo = std::shared_ptr<SItemUndo>(new SItemUndo);
 		undo->m_Item = vtOldItem[i];
 		undo->m_uiEditType = CGbl::UNDO_TYPE_UPD;
 		pDoc->AddUndoMember(undo);
@@ -1882,7 +1880,7 @@ void CItemGrid::FreshItemRows(std::list<UINT> ltItemID)
 	long rowCount = GetNumberRows();
 	CUGCell cell;
 	std::map<UINT, CString> mpFreshIDExist;
-	foreach(id, ltItemID)	mpFreshIDExist[id] = _T("e");
+	for (UINT id : ltItemID)	mpFreshIDExist[id] = _T("e");
 
 	if(m_uiShowType == 0)
 	{
@@ -1898,7 +1896,7 @@ void CItemGrid::FreshItemRows(std::list<UINT> ltItemID)
 				selRow = row;
 			}
 		}
-		foreach(id, ltItemID)							//!< 剩下的都是要增加的
+		for (auto id : ltItemID)							//!< 剩下的都是要增加的
 		{
 			if(!itemMgr->GetItem(id))					continue;
 			row = GetNumberRows() - 1;
@@ -1909,7 +1907,7 @@ void CItemGrid::FreshItemRows(std::list<UINT> ltItemID)
 	}
 	else if(m_uiShowType == 3)
 	{
-		boost::shared_ptr<CItemGroup> group = itemMgr->GetGroup(m_uiCulGroupID);
+		std::shared_ptr<CItemGroup> group = itemMgr->GetGroup(m_uiCulGroupID);
 		for(row = rowCount - 2; row >= 0; --row)
 		{
 			GetCell(0, row, &cell);
@@ -1917,13 +1915,13 @@ void CItemGrid::FreshItemRows(std::list<UINT> ltItemID)
 			if(mpFreshIDExist[rowID] == _T("e"))						//!< 如果找到，也就是说需要刷新
 			{
 				ltItemID.remove(rowID);									//!< 先把这项删了
-				boost::shared_ptr<CItem> item = itemMgr->GetItem(rowID);
+				std::shared_ptr<CItem> item = itemMgr->GetItem(rowID);
 				if(!item || item->getMyGroupID() !=	group->getID())		DeleteRow(row);
 				else													InitItemOne(rowID, row);
 				selRow = row;
 			}
 		}
-		foreach(id, ltItemID)											//!< 剩下的都是要增加的
+		for (auto id : ltItemID)											//!< 剩下的都是要增加的
 		{
 			if(!itemMgr->GetItem(id))									continue;
 			if(itemMgr->GetItem(id)->getMyGroupID() != m_uiCulGroupID)	continue;

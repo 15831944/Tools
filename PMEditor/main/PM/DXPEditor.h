@@ -21,10 +21,10 @@ public:
 	CMultiDocTemplate* m_pCamDocMgr;
 	MVC::Start::CDCCE_HtmlDialog* m_StartPage;				/**< 当前的起始页Dialog指针 */
 
-	boost::shared_ptr<XmlInfo::CXmlMgr> m_XmlMgr;
+	std::shared_ptr<XmlInfo::CXmlMgr> m_XmlMgr;
 
 public:
-	boost::shared_ptr<XmlInfo::CXmlMgr> GetXmlMgr(){return m_XmlMgr;}
+	std::shared_ptr<XmlInfo::CXmlMgr> GetXmlMgr(){return m_XmlMgr;}
 	MVC::Start::CDCCE_HtmlDialog* GetStartPage(){return m_StartPage;}
 
 	void SetStartPage(MVC::Start::CDCCE_HtmlDialog* page){m_StartPage = page;}				/**< 当前的起始页Dialog指针 */

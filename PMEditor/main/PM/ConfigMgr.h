@@ -6,7 +6,7 @@ class CConfig;
 class CConfigMgr
 {
 public:
-	std::list<boost::shared_ptr<CConfig> > m_ltConfig;
+	std::list<std::shared_ptr<CConfig> > m_ltConfig;
 
 public:
 	static CConfigMgr& GetMe(){static CConfigMgr one; return one;}
@@ -17,7 +17,7 @@ private:
 
 public:
 	bool AddConfig(int id);									//!< 添加一个Config,参数是设备ID
-	boost::shared_ptr<CConfig> GetConfig(const int& id);	//!< 获得一个Config
+	std::shared_ptr<CConfig> GetConfig(const int& id);	//!< 获得一个Config
 	int GetConfigOpenCount();								//!< 获得被打开的DConfig数量
 };
 }}

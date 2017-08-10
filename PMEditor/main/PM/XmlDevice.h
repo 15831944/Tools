@@ -25,13 +25,13 @@ public:
 	UINT m_uiInf2Slave;													//!< 支持链接从设备的通信接口，1以太网，2串口，4ZigBee，支持“按位或”操作
 	UINT m_uiMaxInf2Slave;												//!< 支持最多链接多少个从设备
 
-	std::vector<boost::shared_ptr<CXmlParaInfo> > m_vtPara;				//!< 参数列表
-	std::vector<boost::shared_ptr<CXmlBehavior> > m_vtBehavior;			//!< 行为列表
-	std::vector<boost::shared_ptr<CXmlArea> > m_vtArea;					//!< 区列表
-	std::vector<boost::shared_ptr<CXmlProtocol> > m_vtProtocol;			//!< 协议列表
-	std::vector<boost::shared_ptr<CXmlInterface> > m_vtInterface;		//!< 接口列表
-	std::vector<boost::shared_ptr<CXmlEnum> > m_vtEnum;					//!< 枚举列表
-	std::vector<boost::shared_ptr<CXmlProgramInfo> > m_vtProgram;		//!< 功能块信息，略
+	std::vector<std::shared_ptr<CXmlParaInfo> > m_vtPara;				//!< 参数列表
+	std::vector<std::shared_ptr<CXmlBehavior> > m_vtBehavior;			//!< 行为列表
+	std::vector<std::shared_ptr<CXmlArea> > m_vtArea;					//!< 区列表
+	std::vector<std::shared_ptr<CXmlProtocol> > m_vtProtocol;			//!< 协议列表
+	std::vector<std::shared_ptr<CXmlInterface> > m_vtInterface;		//!< 接口列表
+	std::vector<std::shared_ptr<CXmlEnum> > m_vtEnum;					//!< 枚举列表
+	std::vector<std::shared_ptr<CXmlProgramInfo> > m_vtProgram;		//!< 功能块信息，略
 
 public:
 	UINT getID(){return m_uiID;}										//!< 获得设备编号
@@ -54,23 +54,23 @@ public:
 	CXmlDevice(void);
 	~CXmlDevice(void);
 
-	boost::shared_ptr<CXmlArea> getArea(UINT id);
-	boost::shared_ptr<CXmlArea> getArea(CString name);
-	boost::shared_ptr<CXmlArea> GetAreaNameList(std::list<CString>& strList, int& defIndex, bool bSrot);//!< 获得区的列表，defIndex传进来时表示areaID，传出去时表示列表的默认索引，返回默认区
+	std::shared_ptr<CXmlArea> getArea(UINT id);
+	std::shared_ptr<CXmlArea> getArea(CString name);
+	std::shared_ptr<CXmlArea> GetAreaNameList(std::list<CString>& strList, int& defIndex, bool bSrot);//!< 获得区的列表，defIndex传进来时表示areaID，传出去时表示列表的默认索引，返回默认区
 	int GetAreaID(CString name);
 
-	boost::shared_ptr<CXmlBehavior> getBehavior(UINT id);
-	std::list<boost::shared_ptr<CXmlBehavior> > getBehavior(CString name);
+	std::shared_ptr<CXmlBehavior> getBehavior(UINT id);
+	std::list<std::shared_ptr<CXmlBehavior> > getBehavior(CString name);
 	CString GetAllBevID(CString strBev, bool bRead);					//!< 获得所有该名称的行为,以-分割
 
-	boost::shared_ptr<CXmlParaInfo> getPara(UINT id);
+	std::shared_ptr<CXmlParaInfo> getPara(UINT id);
 
-	boost::shared_ptr<CXmlProtocol> getProtocol(CString name);
-	boost::shared_ptr<CXmlProtocol> getProtocol(UINT id);
+	std::shared_ptr<CXmlProtocol> getProtocol(CString name);
+	std::shared_ptr<CXmlProtocol> getProtocol(UINT id);
 
-	boost::shared_ptr<CXmlInterface> getInterface(UINT id);
+	std::shared_ptr<CXmlInterface> getInterface(UINT id);
 
-	boost::shared_ptr<CXmlEnum> getEnum(UINT id);
+	std::shared_ptr<CXmlEnum> getEnum(UINT id);
 
 	bool OpenXml();
 	bool SerializeMgr(TiXmlElement* pNode, bool bRead);					//!< 解析设备的管理信息
@@ -78,7 +78,7 @@ public:
 
 private:
 	template<class T>
-	bool SerializeT(TiXmlElement* pNode, std::vector<boost::shared_ptr<T> >& vtObject, UINT maxNum, CString name);
+	bool SerializeT(TiXmlElement* pNode, std::vector<std::shared_ptr<T> >& vtObject, UINT maxNum, CString name);
 	void SayError(CString text, UINT maxNum);							//!< 解析文件报错，text是解析的节点名，maxNUM是最大数量
 	void OnCheck();														//!< 校验一下
 };

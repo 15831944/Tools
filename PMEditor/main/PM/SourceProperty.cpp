@@ -169,10 +169,10 @@ CString CPropertySource::GetAreaString()
 	CString strEmpty = _T("");
 	if(!m_pParent)									return strEmpty;
 	if(m_pParent->getSrcType() != CItem::SRC_TYPE_IO)				return strEmpty;
-	boost::shared_ptr<MVC::Device::CDeviceOne> device = MVC::Device::CDevMgr::GetMe().GetDevice(m_uiDeviceID);
+	std::shared_ptr<MVC::Device::CDeviceOne> device = MVC::Device::CDevMgr::GetMe().GetDevice(m_uiDeviceID);
 	if(!device)										return strEmpty;
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = device->GetXmlInfo();
-	boost::shared_ptr<XmlInfo::CXmlArea> xmlArea = xmlDev->getArea(m_uiAreaID);
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = device->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlArea> xmlArea = xmlDev->getArea(m_uiAreaID);
 	if(!xmlArea)									return strEmpty;
 	CString strArea = xmlArea->getName();
 	CString strUnit;
@@ -216,10 +216,10 @@ UINT CPropertySource::GetOperateType()
 {
 	UINT ioType = getIOType();
 	UINT operateType = 0;
-	boost::shared_ptr<MVC::Device::CDeviceOne> device = MVC::Device::CDevMgr::GetMe().GetDevice(m_uiDeviceID);
+	std::shared_ptr<MVC::Device::CDeviceOne> device = MVC::Device::CDevMgr::GetMe().GetDevice(m_uiDeviceID);
 	if(!device)										return operateType;
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = device->GetXmlInfo();
-	boost::shared_ptr<XmlInfo::CXmlArea> xmlArea = xmlDev->getArea(m_uiAreaID);
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = device->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlArea> xmlArea = xmlDev->getArea(m_uiAreaID);
 	if(!xmlArea)									return operateType;
 	UINT bitLen = 0;
 	if(ioType == 0)										bitLen = 1;
@@ -235,9 +235,9 @@ UINT CPropertySource::GetOperateType()
 bool MVC::Item::CPropertySource::SetPlcConfigAddr(int devID, CString strAddr, CString strType)
 {
 	setDevID(devID);
-	boost::shared_ptr<MVC::Device::CDeviceOne> dev = MVC::Device::CDevMgr::GetMe().GetDevice(devID);
+	std::shared_ptr<MVC::Device::CDeviceOne> dev = MVC::Device::CDevMgr::GetMe().GetDevice(devID);
 	if(!dev)													return false;
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = dev->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = dev->GetXmlInfo();
 	if(!xmlDev)													return false;
 
 	std::vector<std::string> vtAddr;
@@ -274,7 +274,7 @@ bool MVC::Item::CPropertySource::SetPlcConfigAddr(int devID, CString strAddr, CS
 		if(strArea == _T("V"))
 		{
 			UINT nUnitIndex = (UINT)atoi(str4);			//Ñ°Ö·Æ«ÒÆ
-			boost::shared_ptr<XmlInfo::CXmlArea> xmlArea = xmlDev->getArea(strArea);
+			std::shared_ptr<XmlInfo::CXmlArea> xmlArea = xmlDev->getArea(strArea);
 			ASSERT(xmlArea);
 			if(nUnitIndex > xmlArea->GetUnitEnd(GetTypeFromStr(strType)))
 				strArea = strArea + _T("x");

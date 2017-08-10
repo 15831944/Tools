@@ -23,7 +23,7 @@ class CXmlProtocolArea
 public:
 	UINT m_uiID;				//!< 区的编号
 //	CString m_strName;			//!< 区的名称
-	std::list<boost::shared_ptr<CXmlProtocolOperateInfo> > m_ltOperate;		//!< 区的操作功能列表
+	std::list<std::shared_ptr<CXmlProtocolOperateInfo> > m_ltOperate;		//!< 区的操作功能列表
 
 public:
 	CXmlProtocolArea(void){m_uiID = UINT(-1);}
@@ -39,7 +39,7 @@ public:
 	CString m_strAuthor;		//!< 协议创建作者
 	CString m_strEditTime;		//!< 协议创建时间
 	CString m_strExplain;		//!< 协议说明
-	std::list<boost::shared_ptr<CXmlProtocolArea> > m_ltProtocolArea;	//!< 协议包含的区列表
+	std::list<std::shared_ptr<CXmlProtocolArea> > m_ltProtocolArea;	//!< 协议包含的区列表
 	std::list<UINT> m_ltBehaviorID;		//!< 协议包含的行为的编号列表
 
 public:

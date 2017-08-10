@@ -12,7 +12,7 @@ private:
 	UINT m_uiParaID;			//!< 编号
 	CString m_strName;			//!< 参数名称，其实没什么用
 	UINT m_uiType;				//!< 数据类型
-	boost::shared_ptr<XmlInfo::CXmlParaInfo> m_spXmlParam;	//!< 
+	std::shared_ptr<XmlInfo::CXmlParaInfo> m_spXmlParam;	//!< 
 
 private:
 	void setName(CString name){m_strName = name;}
@@ -22,14 +22,14 @@ public:
 	UINT getParaID(){return m_uiParaID;}
 	CString getName(){return m_strName;}
 	UINT getType(){return m_uiType;}
-	boost::shared_ptr<XmlInfo::CXmlParaInfo> getXmlPara(){return m_spXmlParam;}
+	std::shared_ptr<XmlInfo::CXmlParaInfo> getXmlPara(){return m_spXmlParam;}
 	CDeviceParam& operator = (CDeviceParam& para);
 
 public:
 	CDeviceParam(void);
 	~CDeviceParam(void);
 
-	void InitParaType(boost::shared_ptr<XmlInfo::CXmlParaInfo> xmlPara, UINT groupNum=1);	//!< 新建变量时要初始化参数
+	void InitParaType(std::shared_ptr<XmlInfo::CXmlParaInfo> xmlPara, UINT groupNum=1);	//!< 新建变量时要初始化参数
 	void SetMaxSize(UINT size);					//!< 设置参数的值数量，如果比原来小就不设了
 	bool SerializeXml(TiXmlElement* pNode, bool bRead, CDeviceOne* dev);
 	CComVariant getValue(UINT index);

@@ -10,7 +10,7 @@ class CStartView : public CScrollView
 	DECLARE_DYNCREATE(CStartView)
 
 public:
-	boost::shared_ptr<CDCCE_HtmlDialog> m_HtmlDlg;
+	std::shared_ptr<CDCCE_HtmlDialog> m_HtmlDlg;
 
 protected:
 	BOOL m_isShowHomePage;

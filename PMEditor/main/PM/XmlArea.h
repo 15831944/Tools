@@ -23,7 +23,7 @@ public:
 	int m_nUnitBitReadStart;				//!< 位起始
 	int m_nUnitBitReadEnd;					//!< 位终止
 	std::list<UINT> m_ltProtocolID;			//!< 支持的协议编号列表——这个对我没什么用
-	std::list<boost::shared_ptr<CXmlOperate> > m_ltOperate;		//!< 支持的操作
+	std::list<std::shared_ptr<CXmlOperate> > m_ltOperate;		//!< 支持的操作
 
 public:
 	UINT getID(){return m_uiID;}

@@ -21,10 +21,10 @@ tagCamUndo::tagCamUndo()
 	m_bEnd = false;
 }
 
-tagCamUndo::tagCamUndo(UINT type, boost::shared_ptr<CCamera> item, UINT info)
+tagCamUndo::tagCamUndo(UINT type, std::shared_ptr<CCamera> item, UINT info)
 {
 	if(type == CGbl::UNDO_TYPE_UPD){
-		m_Item = boost::shared_ptr<CCamera>(new CCamera());
+		m_Item = std::shared_ptr<CCamera>(new CCamera());
 		*m_Item = *item;
 	}
 	else{m_Item = item;}
@@ -87,7 +87,7 @@ void CCamDoc::ShowAllItem()
 	pView->m_ItemGrid.RedrawGrid();
 }
 
-void CCamDoc::AddUndoMember(boost::shared_ptr<SCamUndo> itemUndo)
+void CCamDoc::AddUndoMember(std::shared_ptr<SCamUndo> itemUndo)
 {
 	if(!itemUndo)				return;
 	CCamMgr::GetMe().SetModify(true);
@@ -109,7 +109,7 @@ void CCamDoc::OnUndo()
 	CCamGrid* itemGrid = GetGrid();
 	if(!itemGrid)				return;
 	CCamMgr* itemMgr = &CCamMgr::GetMe();
-	boost::shared_ptr<SCamUndo> undo;
+	std::shared_ptr<SCamUndo> undo;
 	itemMgr->SetModify(true);
 	itemGrid->EnableUpdate(FALSE);
 	do{
@@ -128,7 +128,7 @@ void CCamDoc::OnUndo()
 
 void CCamDoc::UndoAdd()
 {
-	boost::shared_ptr<SCamUndo> undo = m_stItemUndo.top();
+	std::shared_ptr<SCamUndo> undo = m_stItemUndo.top();
 	m_stItemUndo.pop();
 	CCamMgr* itemMgr = &CCamMgr::GetMe();
 	CCamGrid* itemGrid = GetGrid();
@@ -140,7 +140,7 @@ void CCamDoc::UndoAdd()
 
 void CCamDoc::UndoDel()
 {
-	boost::shared_ptr<SCamUndo> undo = m_stItemUndo.top();
+	std::shared_ptr<SCamUndo> undo = m_stItemUndo.top();
 	m_stItemUndo.pop();
 	CCamMgr* camMgr = &CCamMgr::GetMe();
 	camMgr->m_vtCam[undo->m_Item->GetID()] = undo->m_Item;
@@ -149,12 +149,12 @@ void CCamDoc::UndoDel()
 
 void CCamDoc::UndoUpd()
 {
-	boost::shared_ptr<SCamUndo> undo = m_stItemUndo.top();
+	std::shared_ptr<SCamUndo> undo = m_stItemUndo.top();
 	m_stItemUndo.pop();
 	CCamMgr* itemMgr = &CCamMgr::GetMe();
 
-	boost::shared_ptr<CCamera> item = itemMgr->GetCam(undo->m_Item->GetID());
-	boost::shared_ptr<SCamUndo> redo = boost::shared_ptr<SCamUndo>(new SCamUndo(CGbl::UNDO_TYPE_UPD, item, 0));
+	std::shared_ptr<CCamera> item = itemMgr->GetCam(undo->m_Item->GetID());
+	std::shared_ptr<SCamUndo> redo = std::shared_ptr<SCamUndo>(new SCamUndo(CGbl::UNDO_TYPE_UPD, item, 0));
 	redo->m_bEnd = undo->m_bEnd;
 	m_stItemRedo.push(redo);
 
@@ -167,7 +167,7 @@ void CCamDoc::OnRedo()
 	CCamGrid* itemGrid = GetGrid();
 	if(!itemGrid)				return;
 	CCamMgr* camMgr = &CCamMgr::GetMe();
-	boost::shared_ptr<SCamUndo> redo;
+	std::shared_ptr<SCamUndo> redo;
 	camMgr->SetModify(true);
 	itemGrid->EnableUpdate(FALSE);
 	while(!m_stItemRedo.empty() && !m_stItemRedo.top()->m_bEnd){
@@ -190,7 +190,7 @@ void CCamDoc::OnRedo()
 
 void CCamDoc::RedoAdd()
 {
-	boost::shared_ptr<SCamUndo> redo = m_stItemRedo.top();
+	std::shared_ptr<SCamUndo> redo = m_stItemRedo.top();
 	m_stItemRedo.pop();
 	CCamMgr* camMgr = &CCamMgr::GetMe();
 	camMgr->m_vtCam[redo->m_Item->GetID()] = redo->m_Item;
@@ -199,7 +199,7 @@ void CCamDoc::RedoAdd()
 
 void CCamDoc::RedoDel()
 {
-	boost::shared_ptr<SCamUndo> redo = m_stItemRedo.top();
+	std::shared_ptr<SCamUndo> redo = m_stItemRedo.top();
 	m_stItemRedo.pop();
 	CCamMgr::GetMe().DeleteItem(redo->m_Item->GetID());
 	m_stItemUndo.push(redo);
@@ -207,19 +207,19 @@ void CCamDoc::RedoDel()
 
 void CCamDoc::RedoUpd()
 {
-	boost::shared_ptr<SCamUndo> redo = m_stItemRedo.top();
+	std::shared_ptr<SCamUndo> redo = m_stItemRedo.top();
 	m_stItemRedo.pop();
 	CCamMgr* camMgr = &CCamMgr::GetMe();
 
-	boost::shared_ptr<CCamera> item = camMgr->GetCam(redo->m_Item->GetID());
-	boost::shared_ptr<SCamUndo> undo = boost::shared_ptr<SCamUndo>(new SCamUndo(CGbl::UNDO_TYPE_UPD, item, 0));
+	std::shared_ptr<CCamera> item = camMgr->GetCam(redo->m_Item->GetID());
+	std::shared_ptr<SCamUndo> undo = std::shared_ptr<SCamUndo>(new SCamUndo(CGbl::UNDO_TYPE_UPD, item, 0));
 	undo->m_bEnd = redo->m_bEnd;
 	m_stItemUndo.push(undo);
 
 	*item = *redo->m_Item;
 }
 
-void CCamDoc::RedoOne(boost::shared_ptr<SCamUndo> redo)
+void CCamDoc::RedoOne(std::shared_ptr<SCamUndo> redo)
 {
 }
 

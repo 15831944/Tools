@@ -29,17 +29,17 @@ void CPropertyParam::SetInfo(UINT devID, CString behaviorName, UINT groupIndex, 
 	CDevMgr* devMgr = &CDevMgr::GetMe();
 	m_ShowDev = devMgr->GetDevice(devID);
 	if(!m_ShowDev)		return;
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
 	ASSERT(xmlDev);
-	std::list< boost::shared_ptr<XmlInfo::CXmlBehavior> > ltBehavior = xmlDev->getBehavior(behaviorName);
+	std::list< std::shared_ptr<XmlInfo::CXmlBehavior> > ltBehavior = xmlDev->getBehavior(behaviorName);
 	ASSERT(!ltBehavior.empty());
-	boost::shared_ptr<XmlInfo::CXmlBehavior> behavior;
-	boost::shared_ptr<XmlInfo::CXmlParaInfo> para;
+	std::shared_ptr<XmlInfo::CXmlBehavior> behavior;
+	std::shared_ptr<XmlInfo::CXmlParaInfo> para;
 
 	//!< 初始化需要显示的参数
-	foreach(behavior, ltBehavior)
+	for (auto behavior : ltBehavior)
 	{
-		foreach(UINT id, behavior->m_ltParaID)
+		for (UINT id : behavior->m_ltParaID)
 		{
 			if(!FindPara(id))	m_ltParamID.push_back(id);
 		}
@@ -47,8 +47,8 @@ void CPropertyParam::SetInfo(UINT devID, CString behaviorName, UINT groupIndex, 
 
 	//!< 看看是不是一定是从设备的信息
 	bool bGroup =  false;
-	boost::shared_ptr<XmlInfo::CXmlBehavior> xmlBehavior;
-	foreach(xmlBehavior, ltBehavior)
+	std::shared_ptr<XmlInfo::CXmlBehavior> xmlBehavior;
+	for (auto xmlBehavior : ltBehavior)
 	{
 		if(xmlBehavior->m_uiArrayNum > 1)		bGroup = true;
 	}
@@ -58,7 +58,7 @@ void CPropertyParam::SetInfo(UINT devID, CString behaviorName, UINT groupIndex, 
 
 bool CPropertyParam::FindPara(UINT id)
 {
-	foreach(UINT index, m_ltParamID){
+	for (UINT index : m_ltParamID){
 		if(index == id)
 			return true;
 	}
@@ -77,10 +77,10 @@ void CPropertyParam::ShowInfo(CXTPPropertyGrid& grid)
 	grid.ResetContent();
 	if(m_ltParamID.empty())		return;
 	ASSERT(m_ShowDev);
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
 	ASSERT(xmlDev);
-	boost::shared_ptr<XmlInfo::CXmlParaInfo> xmlPara;
-	boost::shared_ptr<MVC::Device::CDeviceParam> devParam;
+	std::shared_ptr<XmlInfo::CXmlParaInfo> xmlPara;
+	std::shared_ptr<MVC::Device::CDeviceParam> devParam;
 
 	CXTPPropertyGridItem* pGroupRoot;				//!< 根属性组
 	pGroupRoot = grid.AddCategory(_T("参数列表"));
@@ -88,9 +88,9 @@ void CPropertyParam::ShowInfo(CXTPPropertyGrid& grid)
 	pGroupRoot->Expand();
 
 	std::map<CString, CXTPPropertyGridItem*> mpParaGroup;				//!< 参数组
-	std::list<boost::shared_ptr<MVC::Device::CDeviceParam> > ltPara;	//!< 需要放到参数组中的参数
+	std::list<std::shared_ptr<MVC::Device::CDeviceParam> > ltPara;	//!< 需要放到参数组中的参数
 
-	foreach(UINT id, m_ltParamID)
+	for (UINT id : m_ltParamID)
 	{
 		devParam = m_ShowDev->GetParam(id);
 		if(!devParam)		continue;		// 以前是return,如果有问题再改回来
@@ -116,7 +116,7 @@ void CPropertyParam::ShowInfo(CXTPPropertyGrid& grid)
 		iter->second->Expand();
 	}
 
-	foreach(devParam, ltPara)
+	for (auto devParam : ltPara)
 	{
 		xmlPara = devParam->getXmlPara();
 		ASSERT(xmlPara);
@@ -144,13 +144,13 @@ void CPropertyParam::ShowInfo(CXTPPropertyGrid& grid)
 // 		}
 }
 
-void CPropertyParam::AddItem(boost::shared_ptr<CDeviceParam> devPara, CXTPPropertyGridItem* pParaGroup)
+void CPropertyParam::AddItem(std::shared_ptr<CDeviceParam> devPara, CXTPPropertyGridItem* pParaGroup)
 {
 	CXTPPropertyGridItem* pItem;
-	boost::shared_ptr<XmlInfo::CXmlEnum> xmlEnum;
-	boost::shared_ptr<XmlInfo::CXmlEnumItem> xmlEnumItem;
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
-	boost::shared_ptr<XmlInfo::CXmlParaInfo> xmlPara = devPara->getXmlPara();
+	std::shared_ptr<XmlInfo::CXmlEnum> xmlEnum;
+	std::shared_ptr<XmlInfo::CXmlEnumItem> xmlEnumItem;
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlParaInfo> xmlPara = devPara->getXmlPara();
 	std::list<CString> strList;
 	CComVariant cvr = devPara->getValue(m_uiGroupIndex);
 	ASSERT(xmlDev);
@@ -165,7 +165,7 @@ void CPropertyParam::AddItem(boost::shared_ptr<CDeviceParam> devPara, CXTPProper
 		strList.clear();
 		xmlEnum = xmlDev->getEnum(xmlPara->m_uiEnumID);
 		ASSERT(xmlEnum);
-		foreach(xmlEnumItem, xmlEnum->m_vtEnumItem)
+		for (auto xmlEnumItem : xmlEnum->m_vtEnumItem)
 			strList.push_back(xmlEnumItem->m_strShowText);
 		ASSERT(strList.size() > 0);
 		cvr.ChangeType(VT_I4);
@@ -199,10 +199,10 @@ bool CPropertyParam::OnSaveModify(CXTPPropertyGrid& grid)
 //!< 当某项的值发生改变时
 void CPropertyParam::OnItemModify(CXTPPropertyGrid& grid, UINT ID)
 {
-	boost::shared_ptr<CDeviceParam> param = m_ShowDev->GetParam(ID - 1);
+	std::shared_ptr<CDeviceParam> param = m_ShowDev->GetParam(ID - 1);
 	ASSERT(param);
 
-	boost::shared_ptr<XmlInfo::CXmlParaInfo> xmlParam = param->getXmlPara();
+	std::shared_ptr<XmlInfo::CXmlParaInfo> xmlParam = param->getXmlPara();
 	ASSERT(xmlParam);
 
 	CXTPPropertyGridItem* item = grid.FindItem(ID);
@@ -213,9 +213,9 @@ void CPropertyParam::OnItemModify(CXTPPropertyGrid& grid, UINT ID)
 	CComVariant cvr;
 	if(xmlParam->m_uiEnumID != UINT(-1))
 	{
-		boost::shared_ptr<XmlInfo::CXmlDevice> xmlDevice = m_ShowDev->GetXmlInfo();
+		std::shared_ptr<XmlInfo::CXmlDevice> xmlDevice = m_ShowDev->GetXmlInfo();
 		ASSERT(xmlDevice);
-		boost::shared_ptr<XmlInfo::CXmlEnum> xmlEnum = xmlDevice->getEnum(xmlParam->m_uiEnumID);
+		std::shared_ptr<XmlInfo::CXmlEnum> xmlEnum = xmlDevice->getEnum(xmlParam->m_uiEnumID);
 		ASSERT(xmlEnum);
 		int nValue = xmlEnum->GetValue((int)item->GetConstraints()->GetCurrent());
 		cvr = nValue;
@@ -287,14 +287,14 @@ void CPropertyParam::OnCloseGrid()
 //!< 刷新当前显示的所有数据
 void CPropertyParam::FreshAllData(CXTPPropertyGrid& grid)
 {
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
 	ASSERT(xmlDev);
-	boost::shared_ptr<CDeviceParam> devParam;
-	boost::shared_ptr<XmlInfo::CXmlParaInfo> xmlPara;
-	boost::shared_ptr<XmlInfo::CXmlEnum> xmlEnum;
-	boost::shared_ptr<XmlInfo::CXmlEnumItem> xmlEnumItem;
+	std::shared_ptr<CDeviceParam> devParam;
+	std::shared_ptr<XmlInfo::CXmlParaInfo> xmlPara;
+	std::shared_ptr<XmlInfo::CXmlEnum> xmlEnum;
+	std::shared_ptr<XmlInfo::CXmlEnumItem> xmlEnumItem;
 	CComVariant cvr;
-	foreach(UINT id, m_ltParamID)
+	for (UINT id : m_ltParamID)
 	{
 		CXTPPropertyGridItem* item = grid.FindItem(id + 1);
 		if(!item)		continue;

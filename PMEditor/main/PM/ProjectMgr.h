@@ -10,7 +10,7 @@ class CProject;
 class CProjectMgr
 {
 private:
-	boost::shared_ptr<CProject> m_CulProject;				//!< 当前工程的智能指针
+	std::shared_ptr<CProject> m_CulProject;				//!< 当前工程的智能指针
 	bool m_bWatch;						//!< 当前是否处于监控状态
 	bool m_bScan;						//!< 当前是否处于扫描状态
 
@@ -23,7 +23,7 @@ public:
 	bool IsScan(){return m_bScan;}
 
 public:
-	boost::shared_ptr<CProject> GetProj(){return m_CulProject;}
+	std::shared_ptr<CProject> GetProj(){return m_CulProject;}
 	static CProjectMgr& GetMe();
 	bool IsModify();					//!< 看看工程是否被改了
 	bool NewProject();					//!< 新建工程的函数入口

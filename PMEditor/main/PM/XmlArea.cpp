@@ -119,7 +119,7 @@ void CXmlArea::SerializeOperate(TiXmlElement* pNode)
 {
 	CString name = pNode->Value();
 	if(OPERATE != name)				return;
-	boost::shared_ptr<CXmlOperate> xmlOper = boost::shared_ptr<CXmlOperate>(new CXmlOperate);
+	std::shared_ptr<CXmlOperate> xmlOper = std::shared_ptr<CXmlOperate>(new CXmlOperate);
 	xmlOper->SerializeXml(pNode);
 	m_ltOperate.push_back(xmlOper);
 // 	CComVariant cvr;
@@ -139,7 +139,7 @@ bool CXmlArea::operator ==(CXmlArea* area)
 	if(m_strName != area->m_strName)					return false;
 	if(m_uiUnitBitLen != area->m_uiUnitBitLen)			return false;
 	if(m_ltOperate.size() != area->m_ltOperate.size())	return false;
-	std::list<boost::shared_ptr<CXmlOperate> >::iterator thisItor, areaItor;
+	std::list<std::shared_ptr<CXmlOperate> >::iterator thisItor, areaItor;
 	for(thisItor = m_ltOperate.begin(), areaItor = area->m_ltOperate.begin(); thisItor != m_ltOperate.end(); ++thisItor, ++areaItor)
 	{
 		if(!(*thisItor == *areaItor))					return false;
@@ -156,7 +156,7 @@ bool CXmlArea::IsSame(CXmlArea* area)
 	if(m_strName != area->m_strName)					return false;
 	if(m_uiUnitBitLen != area->m_uiUnitBitLen)			return false;
 	if(m_ltOperate.size() != area->m_ltOperate.size())	return false;
-	std::list<boost::shared_ptr<CXmlOperate> >::iterator thisItor, areaItor;
+	std::list<std::shared_ptr<CXmlOperate> >::iterator thisItor, areaItor;
 	for(thisItor = m_ltOperate.begin(), areaItor = area->m_ltOperate.begin(); thisItor != m_ltOperate.end(); ++thisItor, ++areaItor)
 	{
 		if(!(*thisItor == *areaItor))					return false;
@@ -174,8 +174,8 @@ std::list<CString> CXmlArea::GetSupportUnitList(int& defIndex)
 	CString text;
 	UINT bitLen, byteLen, index = 0;
 	UINT listIndex = UINT(-1);
-	boost::shared_ptr<CXmlOperate> xmlOper;
-	foreach(xmlOper, m_ltOperate)
+	std::shared_ptr<CXmlOperate> xmlOper;
+	for (auto xmlOper : m_ltOperate)
 	{
 		bitLen = xmlOper->m_uiType * m_uiUnitBitLen;	//!< 获得当前操作的操作位数
 		byteLen = bitLen / 8;							//!< 计算当前操作的操作字节数
@@ -260,7 +260,7 @@ CString CXmlArea::GetUnitName()
 //!< 获得该操作的范围信息
 CString CXmlArea::GetOperateRange(UINT type)
 {
-	foreach(boost::shared_ptr<CXmlOperate> oper, m_ltOperate)
+	for (std::shared_ptr<CXmlOperate> oper : m_ltOperate)
 	{
 		if(oper->m_uiType == type)
 		{
@@ -276,7 +276,7 @@ CString CXmlArea::GetOperateRange(UINT type)
 UINT CXmlArea::GetUnitEnd(UINT type)
 {
 	UINT operType = GetOperType(type);
-	foreach(boost::shared_ptr<CXmlOperate> oper, m_ltOperate)
+	for (std::shared_ptr<CXmlOperate> oper : m_ltOperate)
 		if(oper->m_uiType == operType)
 			return oper->m_uiOperateEnd;
 	return 0;

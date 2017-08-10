@@ -95,23 +95,23 @@ BOOL CBehaviorParamDlg::OnInitDialog()
 
 	//!< 初始化树中的行为列表
 	ASSERT(m_ShowDev);
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
 	ASSERT(xmlDev);
-	boost::shared_ptr<XmlInfo::CXmlBehavior> xmlBehavior;
+	//std::shared_ptr<XmlInfo::CXmlBehavior> xmlBehavior;
 	//std::list<CString> ltBehavior;
-	std::map<CString, boost::shared_ptr<XmlInfo::CXmlBehavior> > mpBev;
-	foreach(xmlBehavior, xmlDev->m_vtBehavior)
+	std::map<CString, std::shared_ptr<XmlInfo::CXmlBehavior> > mpBev;
+	for (auto xmlBehavior : xmlDev->m_vtBehavior)
 	{
 		if(!xmlBehavior)				continue;
 		if(!xmlBehavior->m_bShowUser)	continue;
 		mpBev[xmlBehavior->m_strName] = xmlBehavior;
 	}
 
-	std::map<CString, boost::shared_ptr<XmlInfo::CXmlBehavior> >::iterator iter_bev;
+	std::map<CString, std::shared_ptr<XmlInfo::CXmlBehavior> >::iterator iter_bev;
 	//foreach(xmlBehavior, xmlDev->m_vtBehavior)
 	for(iter_bev = mpBev.begin(); iter_bev != mpBev.end(); iter_bev++)
 	{
-		xmlBehavior = iter_bev->second;
+		auto xmlBehavior = iter_bev->second;
 		m_TreeCtrl.InsertItem(iter_bev->first, 14, 14, TVI_ROOT, TVI_LAST);
 //		bool bExist = false;
 		//!< 看看这个行为是不是已经插到树中了
@@ -195,17 +195,17 @@ void CBehaviorParamDlg::OnTreeLClick(CTreeCtrl* pTreeCtrl, HTREEITEM hItem)
 
 	//!< 找到当前被选中的行为列表
 	if(!m_ShowDev)		return;
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
 	ASSERT(xmlDev);
-	std::list< boost::shared_ptr<XmlInfo::CXmlBehavior> > ltXmlBehavior = xmlDev->getBehavior(pTreeCtrl->GetItemText(hItem));
+	std::list< std::shared_ptr<XmlInfo::CXmlBehavior> > ltXmlBehavior = xmlDev->getBehavior(pTreeCtrl->GetItemText(hItem));
 	ASSERT(!ltXmlBehavior.empty());
 
 	//!< 显示或隐藏上下载按钮
 	bool bSlave = false;
-	boost::shared_ptr<XmlInfo::CXmlBehavior> xmlBehavior;
+	//std::shared_ptr<XmlInfo::CXmlBehavior> xmlBehavior;
 	bool bUp = false;
 	bool bDown = false;
-	foreach(xmlBehavior, ltXmlBehavior)
+	for (auto xmlBehavior : ltXmlBehavior)
 	{
 		if(xmlBehavior->m_uiType == 0)		bUp = true;
 		if(xmlBehavior->m_uiType == 1)		bDown = true;
@@ -238,7 +238,7 @@ void CBehaviorParamDlg::OnTreeLClick(CTreeCtrl* pTreeCtrl, HTREEITEM hItem)
 
 	//!< 如果是组的，需要显示出组的下拉列表
 	UINT arrayNum = 1;
-	foreach(xmlBehavior, ltXmlBehavior){
+	for (auto xmlBehavior : ltXmlBehavior){
 		arrayNum = max(arrayNum, xmlBehavior->m_uiArrayNum);
 		if(xmlBehavior->m_uiArrayNum > 1)
 			m_strGroupName = xmlBehavior->m_strArrayName;
@@ -314,10 +314,10 @@ void CBehaviorParamDlg::OnParaFresh(bool bReadOnly)
 {
 	if(!m_ShowDev)		return;
 	if(IsDevDwon())		return;
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
 	ASSERT(xmlDev);
 	CString strBehavior = m_TreeCtrl.GetItemText(m_CulItem);
-	std::list< boost::shared_ptr<XmlInfo::CXmlBehavior> > ltXmlBehavior = xmlDev->getBehavior(strBehavior);
+	std::list< std::shared_ptr<XmlInfo::CXmlBehavior> > ltXmlBehavior = xmlDev->getBehavior(strBehavior);
 	ASSERT(!ltXmlBehavior.empty());
 	m_Object.SetInfo(m_ShowDev->getID(), ltXmlBehavior.front()->m_strName, m_GroupList.GetCurSel(), bReadOnly);
 	m_Object.ShowInfo(m_PropertyGrid);
@@ -354,11 +354,11 @@ void Dialog::CBehaviorParamDlg::OnBnClickedBehaviorUpload()
 {
 	if(!m_ShowDev)		return;
 	if(IsDevDwon())		return;
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
 	ASSERT(xmlDev);
 	CString strBehavior = m_TreeCtrl.GetItemText(m_CulItem);
-	std::list< boost::shared_ptr<XmlInfo::CXmlBehavior> > ltXmlBehavior = xmlDev->getBehavior(strBehavior);
-	boost::shared_ptr<XmlInfo::CXmlBehavior> behavior;
+	std::list< std::shared_ptr<XmlInfo::CXmlBehavior> > ltXmlBehavior = xmlDev->getBehavior(strBehavior);
+	//std::shared_ptr<XmlInfo::CXmlBehavior> behavior;
 
 	CString str;
 	m_strOperate = _T("");
@@ -369,7 +369,7 @@ void Dialog::CBehaviorParamDlg::OnBnClickedBehaviorUpload()
 	{
 		bool bUp = false;
 		bool bDown = false;
-		foreach(behavior, ltXmlBehavior)
+		for (auto behavior : ltXmlBehavior)
 		{
 			if(behavior->m_uiType == 0)			bUp = true;
 			if(behavior->m_uiType == 1)			bDown = true;
@@ -384,7 +384,7 @@ void Dialog::CBehaviorParamDlg::OnBnClickedBehaviorUpload()
 	//!< 要上载的行为
 	CComVariant cvr;
 	m_nWaitToCount = 0;
-	foreach(behavior, ltXmlBehavior)
+	for (auto behavior : ltXmlBehavior)
 	{
 		if(behavior->m_uiType == 0){
 			if(behavior->m_uiArrayNum > 1)		cvr = int(m_GroupList.GetCurSel());
@@ -412,16 +412,16 @@ void Dialog::CBehaviorParamDlg::OnBnClickedBehaviorDownload()
 {
 	if(!m_ShowDev)		return;
 	if(IsDevDwon())		return;
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
 	ASSERT(xmlDev);
 	CString strBehavior = m_TreeCtrl.GetItemText(m_CulItem);
-	std::list< boost::shared_ptr<XmlInfo::CXmlBehavior> > ltXmlBehavior = xmlDev->getBehavior(strBehavior);
-	boost::shared_ptr<XmlInfo::CXmlBehavior> behavior;
+	std::list< std::shared_ptr<XmlInfo::CXmlBehavior> > ltXmlBehavior = xmlDev->getBehavior(strBehavior);
+	//std::shared_ptr<XmlInfo::CXmlBehavior> behavior;
 
 	//!< 收集所有要下载的行为
 	CComVariant cvr;
 	m_nWaitToCount = 0;
-	foreach(behavior, ltXmlBehavior)
+	for (auto behavior : ltXmlBehavior)
 	{
 		if(behavior->m_uiType == 1){
 			if(behavior->m_uiArrayNum > 1)		cvr = int(m_GroupList.GetCurSel());

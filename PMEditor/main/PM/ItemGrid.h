@@ -80,9 +80,9 @@ private:
 	void SetMyCell(int nCol, long lRow, CUGCell* cell, UINT id, bool bAlarm = false);
 
 	void WriteValue();						//!< 写变量的实时值
-	void EditItem(boost::shared_ptr<CItem> item);					//!< 编辑变量基本属性
-	void EditItems(std::list<boost::shared_ptr<CItem> > ltItem);	//!< 统一编辑变量基本属性
-	void ItemRemove(std::list<boost::shared_ptr<CItem> > ltItem);	//!< 删除变量
+	void EditItem(std::shared_ptr<CItem> item);					//!< 编辑变量基本属性
+	void EditItems(std::list<std::shared_ptr<CItem> > ltItem);	//!< 统一编辑变量基本属性
+	void ItemRemove(std::list<std::shared_ptr<CItem> > ltItem);	//!< 删除变量
 
 
 	CString GetFloatStr(float flt);			//!< 获得浮点字符串
@@ -105,7 +105,7 @@ public:
 
 	void ItemEditAll();						//!< 统一修改变量的属性
 	void ItemEdit();						//!< 修改变量
-	boost::shared_ptr<CItem> AddNewItem();	//!< 增加新变量
+	std::shared_ptr<CItem> AddNewItem();	//!< 增加新变量
 	void ItemClone();						//!< 变量克隆
 	void ItemUp();
 	void ItemDown();

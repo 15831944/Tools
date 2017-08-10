@@ -8,13 +8,13 @@ class CSoftSetDlg : public CDialog, public Tool::IDTreeOwner
 {
 	DECLARE_DYNAMIC(CSoftSetDlg)
 	typedef struct tagPageOne{
-		boost::shared_ptr<CDialog> m_Dialog;
+		std::shared_ptr<CDialog> m_Dialog;
 		CString m_strName;
 	}SPageOne;
 
 public:
-	std::vector<boost::shared_ptr<SPageOne> > m_vtPage;
-	boost::shared_ptr<SPageOne> m_culPage;
+	std::vector<std::shared_ptr<SPageOne> > m_vtPage;
+	std::shared_ptr<SPageOne> m_culPage;
 	Tool::CDTreeCtrl m_PageTree;
 
 public:
@@ -22,7 +22,7 @@ public:
 	virtual ~CSoftSetDlg();
 	template<class Page>
 	void AddPage(Page* page, CString name, int nImageID);
-	void ShowPage(boost::shared_ptr<SPageOne> page);
+	void ShowPage(std::shared_ptr<SPageOne> page);
 
 // 对话框数据
 	enum { IDD = IDD_SOFT_SET_DLG };

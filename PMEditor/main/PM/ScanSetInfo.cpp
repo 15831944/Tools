@@ -196,7 +196,7 @@ void CScanSetInfo::SetStopBit(CString stopbit)
 
 void CScanSetInfo::SaveFile()
 {
-	boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 	CString pathAll = proj->GetPath() + SCAN_EXPAND_NAME;
 	TiXmlDocument pTiXml(pathAll);
 	TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "GB2312", "" );	//!< 起始声明
@@ -210,7 +210,7 @@ void CScanSetInfo::SaveFile()
 
 void CScanSetInfo::LoadFile()
 {
-	boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 	CString pathAll = proj->GetPath() + SCAN_EXPAND_NAME;
 	TiXmlDocument pTiXml((LPCTSTR)pathAll);
 	if(pTiXml.LoadFile())
@@ -312,10 +312,10 @@ void CScanSetInfo::OnSync()
 {
 	//!< 配置的都是串口的东西
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	boost::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial;
+	std::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial;
 	CGbl* gbl = &CGbl::GetMe();
 
-	foreach(serial, devMgr->m_ltSerial)
+	for (auto serial : devMgr->m_ltSerial)
 	{
 		if(serial->getName() != GetCom())		continue;
 		serial->setBaud(gbl->getBaudIndex(GetBaud()));

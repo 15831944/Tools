@@ -76,7 +76,7 @@ CSoftInfo::CSoftInfo(void)
 	m_bScanXml = false;
 	m_nCmplOverTime = 600000;												//!< 编译超时时间,默认10分钟
 	m_strItemNabled = _T("Yes");											//!< 变量名称是否能修改
-	boost::shared_ptr<CFont> tuopuFont= boost::shared_ptr<CFont>(new CFont);
+	std::shared_ptr<CFont> tuopuFont= std::shared_ptr<CFont>(new CFont);
 	tuopuFont->CreateFont(14, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET, 
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("宋体"));
 	tuopuFont->GetLogFont(&m_lgTuopuFontInfo);								//!< 拓扑图字体信息

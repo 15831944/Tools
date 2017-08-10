@@ -62,15 +62,19 @@
 
 //#import <msxml.dll>
 
-#include <boost/shared_ptr.hpp>
-#include <boost/foreach.hpp>
-#define foreach BOOST_FOREACH
-#define rforeach BOOST_REVERSE_FOREACH
-#include <boost/thread/thread.hpp>			//!< 线程
-#include <boost/thread/mutex.hpp>			//!< 锁
-#include <boost/bind.hpp>					//!< 线程绑定函数
-#include <boost/signals.hpp>
-#include <boost/signals/connection.hpp>
+#include <memory>
+#include <thread>
+#include <mutex>
+#include <regex>
+#include <functional>
+//#include <boost/foreach.hpp>
+//#define foreach BOOST_FOREACH
+//#define rforeach BOOST_REVERSE_FOREACH
+//#include <boost/thread/thread.hpp>			//!< 线程
+//#include <boost/thread/mutex.hpp>			//!< 锁
+//#include <boost/bind.hpp>					//!< 线程绑定函数
+//#include <boost/signals.hpp>
+//#include <boost/signals/connection.hpp>
 
 #include <vector>
 #include <list>
@@ -84,7 +88,7 @@
 #include "../../Libs/TinyXml/TinyXmlInclude.h"
 
 #include "../../Libs/XToolTip/XToolTipInclude.h"
-#include "../../Libs/FillGuide/Operation.h"
+//#include "../../Libs/FillGuide/Operation.h"
 #include <afxcontrolbars.h>
 
 const int INIT_0 = 0;

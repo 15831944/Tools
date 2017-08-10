@@ -5,7 +5,7 @@
 #include "ItemGrid.h"
 #include "ItemMgr.h"
 
-#include <boost/regex.hpp>
+//#include <boost/regex.hpp>
 #include <wchar.h>
 #include <xstring>
 #include <winsock2.h>
@@ -206,7 +206,7 @@ const CString CGbl::getLanguageText(UINT id)
 UINT CGbl::getBaudIndex(CString str)
 {
 	UINT num = 0;
-	foreach(CString text, m_ltBaudStr)
+	for (CString text : m_ltBaudStr)
 	{
 		if(text == str)		return num;
 		else				++num;
@@ -218,7 +218,7 @@ UINT CGbl::getBaudIndex(CString str)
 UINT CGbl::getCheckIndex(CString str)
 {
 	UINT num = 0;
-	foreach(CString text, m_ltCheckStyleStr)
+	for (CString text : m_ltCheckStyleStr)
 	{
 		if(text == str)		return num;
 		else				++num;
@@ -230,7 +230,7 @@ UINT CGbl::getCheckIndex(CString str)
 UINT CGbl::getDataIndex(CString str)
 {
 	UINT num = 0;
-	foreach(CString text, m_ltDataBitNumStr)
+	for (CString text : m_ltDataBitNumStr)
 	{
 		if(text == str)		return num;
 		else				++num;
@@ -242,7 +242,7 @@ UINT CGbl::getDataIndex(CString str)
 UINT CGbl::getStopIndex(CString str)
 {
 	UINT num = 0;
-	foreach(CString text, m_ltStopBitNumStr)
+	for (CString text : m_ltStopBitNumStr)
 	{
 		if(text == str)		return num;
 		else				++num;
@@ -254,7 +254,7 @@ UINT CGbl::getStopIndex(CString str)
 CString CGbl::getBaudStr(int index)
 {
 	UINT num = 0;
-	foreach(CString str, m_ltBaudStr)
+	for (CString str : m_ltBaudStr)
 		if(num++ == index)
 			return str;
 	return _T("");
@@ -264,7 +264,7 @@ CString CGbl::getBaudStr(int index)
 CString CGbl::getCheckStyleStr(int index)
 {
 	UINT num = 0;
-	foreach(CString str, m_ltCheckStyleStr)
+	for (CString str : m_ltCheckStyleStr)
 		if(num++ == index)
 			return str;
 	return _T("");
@@ -274,7 +274,7 @@ CString CGbl::getCheckStyleStr(int index)
 CString CGbl::getDataBitNumStr(int index)
 {
 	UINT num = 0;
-	foreach(CString str, m_ltDataBitNumStr)
+	for (CString str : m_ltDataBitNumStr)
 		if(num++ == index)
 			return str;
 	return _T("");
@@ -284,7 +284,7 @@ CString CGbl::getDataBitNumStr(int index)
 CString CGbl::getStopBitNumStr(int index)
 {
 	UINT num = 0;
-	foreach(CString str, m_ltStopBitNumStr)
+	for (CString str : m_ltStopBitNumStr)
 		if(num++ == index)
 			return str;
 	return _T("");
@@ -643,8 +643,7 @@ bool CGbl::RemoveFiles(CString path, CString name)
 	}
 
 	bool bDel = true;
-	CString str;
-	foreach(str, ltDel)
+	for (auto str : ltDel)
 	{
 		if (!::DeleteFile(str))
 			bDel = false;
@@ -805,11 +804,11 @@ bool CGbl::RegexMatch(const std::string& strRegex, std::string& strMatch, std::v
 {
 	if(strRegex.c_str() == "")							return false;
 	vt.clear();
-	boost::wsmatch what;					//存放匹配结构
-	boost::wregex expression(CGbl::Change2WString(strRegex));	//初始化正则表达式
+	std::wsmatch what;					//存放匹配结构
+	std::wregex expression(CGbl::Change2WString(strRegex));	//初始化正则表达式
 	std::wstring wstr = CGbl::Change2WString(strMatch);
 
-	if(!boost::regex_match(wstr, what, expression))		return false;
+	if(!std::regex_match(wstr, what, expression))		return false;
 	for(int i = 0; i < what.size(); ++i)
 	{
 		std::wstring wstr = what.str(i);
@@ -949,11 +948,11 @@ UINT CGbl::DomainToIp(CString domain,int &ip)
 }
 bool	CGbl::Regexmatch(CString strRegex,CString str)
 {
-	boost::regex reg(strRegex);
+	std::regex reg(strRegex);
 	bool b;
 	char* cstr;
-	cstr =str.GetBuffer(0);
-	b=boost::regex_match(cstr,reg);
+	cstr = str.GetBuffer(0);
+	b = std::regex_match(cstr, reg);
 	return b;
 }
 bool CGbl::RegexIP(CString ip)

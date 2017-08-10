@@ -37,23 +37,23 @@ bool MVC::Camera::CCamMgr::SerializeXml(TiXmlElement* pNode, bool bRead)
 		//!< 子节点
 		CString text, strValue;
 		TiXmlElement* pChild = pNode->FirstChildElement();
-		std::list<boost::shared_ptr<CCamera> > ltItem;
-		boost::shared_ptr<CCamera> item;
+		std::list<std::shared_ptr<CCamera> > ltItem;
+		std::shared_ptr<CCamera> item;
 		while(pChild)
 		{
 			text = pChild->ValueStr().c_str();
 			if(ITEM == text)
 			{
-				item = boost::shared_ptr<CCamera>(new CCamera());
+				item = std::shared_ptr<CCamera>(new CCamera());
 				if(item->SerializeXml(pChild, bRead))		ltItem.push_back(item);
 			}
 			pChild = pChild->NextSiblingElement();
 		}
 		int itemcount = 0;
-		foreach(item, ltItem)		itemcount = max(itemcount, item->GetID());
+		for (auto item : ltItem)		itemcount = max(itemcount, item->GetID());
 		m_vtCam.clear();
 		m_vtCam.resize(itemcount + 1);
-		foreach(item, ltItem)		m_vtCam[item->GetID()] = item;
+		for (auto item : ltItem)		m_vtCam[item->GetID()] = item;
 	}
 	else
 	{
@@ -64,7 +64,7 @@ bool MVC::Camera::CCamMgr::SerializeXml(TiXmlElement* pNode, bool bRead)
 		pNode->LinkEndChild(pXmlInfo);
 
 		TiXmlElement* pChild;
-		foreach(boost::shared_ptr<CCamera> item, m_vtCam)
+		for (std::shared_ptr<CCamera> item : m_vtCam)
 		{
 			if(!item)		continue;
 			pChild = pNode->AddTiXmlChild((LPCTSTR)ITEM);
@@ -83,7 +83,7 @@ void MVC::Camera::CCamMgr::OnCreate()
 
 	//!< 初始化路径信息
 	m_strName = _T("Camera");
-	boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 	m_strFileName = m_strName + _T(".") + CAM_EXPAND_NAME;						//!< 路径叫"p_变量表.var"
 }
 
@@ -114,7 +114,7 @@ void MVC::Camera::CCamMgr::SaveFile()
 {
 	if(IsModify())
 	{
-		boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+		std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 		CString pathAll = proj->GetPath() + m_strName + _T(".") + CAM_EXPAND_NAME;
 		TiXmlDocument pTiXml(pathAll);
 
@@ -153,33 +153,33 @@ bool MVC::Camera::CCamMgr::OpenFile(CString name, CString pathall, CString ver)
 }
 
 //!< 获得id号变量
-boost::shared_ptr<CCamera> MVC::Camera::CCamMgr::GetCam(ULONG id)
+std::shared_ptr<CCamera> MVC::Camera::CCamMgr::GetCam(ULONG id)
 {
-	boost::shared_ptr<CCamera> _item;
+	std::shared_ptr<CCamera> _item;
 	if(id >= m_vtCam.size())
 		return _item;
 	return m_vtCam[id];
 }
 
 //!< 获得第一个变量
-boost::shared_ptr<CCamera> MVC::Camera::CCamMgr::GetFirstItem()
+std::shared_ptr<CCamera> MVC::Camera::CCamMgr::GetFirstItem()
 {
-	std::vector<boost::shared_ptr<CCamera> >::iterator iter = m_vtCam.begin();
+	std::vector<std::shared_ptr<CCamera> >::iterator iter = m_vtCam.begin();
 	for(;iter !=  m_vtCam.end(); ++iter){
 		if(*iter)		return *iter;
 	}
-	boost::shared_ptr<CCamera> empty;
+	std::shared_ptr<CCamera> empty;
 	return empty;
 }
 
 //!< 获得最后一个变量
-boost::shared_ptr<CCamera> MVC::Camera::CCamMgr::GetLastItem()
+std::shared_ptr<CCamera> MVC::Camera::CCamMgr::GetLastItem()
 {
-	std::vector<boost::shared_ptr<CCamera> >::reverse_iterator iter = m_vtCam.rbegin();
+	std::vector<std::shared_ptr<CCamera> >::reverse_iterator iter = m_vtCam.rbegin();
 	for(;iter !=  m_vtCam.rend(); ++iter){
 		if(*iter)		return *iter;
 	}
-	boost::shared_ptr<CCamera> empty;
+	std::shared_ptr<CCamera> empty;
 	return empty;
 }
 
@@ -191,7 +191,7 @@ bool MVC::Camera::CCamMgr::FindItem(ULONG id)
 }
 
 //!< 添加变量,这时变量还没有ID，组内变量不能重名
-bool MVC::Camera::CCamMgr::AddItem(boost::shared_ptr<CCamera> item)
+bool MVC::Camera::CCamMgr::AddItem(std::shared_ptr<CCamera> item)
 {
 	if(!item)												return false;
 	for(UINT i = 0; i < m_vtCam.size(); ++i)
@@ -217,7 +217,7 @@ void MVC::Camera::CCamMgr::DeleteItem(ULONG id)
 UINT MVC::Camera::CCamMgr::GetItemSize()
 {
 	UINT count = 0;
-	foreach(boost::shared_ptr<CCamera> item, m_vtCam){
+	for (std::shared_ptr<CCamera> item : m_vtCam){
 		if(item)		++count;
 	}
 	return count;
@@ -228,7 +228,7 @@ void MVC::Camera::CCamMgr::ExChangeItem(UINT id1, UINT id2)
 {
 	UINT size = (UINT)m_vtCam.size();
 	ASSERT(id1 < size && id2 < size);
-	boost::shared_ptr<CCamera> item1, item2;
+	std::shared_ptr<CCamera> item1, item2;
 	item1 = GetCam(id1);
 	item2 = GetCam(id2);
 	if(item1){	item1->SetID(id2);	m_vtCam[id2] = item1;	}
@@ -238,7 +238,7 @@ void MVC::Camera::CCamMgr::ExChangeItem(UINT id1, UINT id2)
 //!< 显示出编号为id的变量
 void MVC::Camera::CCamMgr::ShowItem(UINT id)
 {
-	boost::shared_ptr<CCamera> item = GetCam(id);
+	std::shared_ptr<CCamera> item = GetCam(id);
 	if(!item)		return;
 
 	if(!CProjectMgr::GetMe().GetProj())	return;
@@ -263,10 +263,10 @@ void MVC::Camera::CCamMgr::ShowItem(UINT id)
 int MVC::Camera::CCamMgr::SearchItem(CString str, bool bMatchCase, bool bMatchWhole, bool bRegex /* = false */)
 {
 	int nMatchCount = 0;
-	boost::shared_ptr<CCamera> item;
+	//std::shared_ptr<CCamera> item;
 	if(!bMatchCase && !bRegex)		str = str.MakeUpper();
 
-	foreach(item, m_vtCam){
+	for (auto item : m_vtCam){
 		if(item)
 			if(item->DoSearch(str, bMatchWhole, bMatchCase, bRegex))
 				++nMatchCount;
@@ -277,8 +277,8 @@ int MVC::Camera::CCamMgr::SearchItem(CString str, bool bMatchCase, bool bMatchWh
 //!< 获得一个不同的端口号
 int MVC::Camera::CCamMgr::GetDifferentPort(int nDefPort)
 {
-	boost::shared_ptr<CCamera> item;
-	foreach(item, m_vtCam)
+	//std::shared_ptr<CCamera> item;
+	for (auto item : m_vtCam)
 	{
 		if(!item)						continue;	// 不存在的不管
 		if(!item->IsBroadCast())		continue;	// 不广播的不管

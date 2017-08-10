@@ -116,10 +116,10 @@ void CCamView::OnDraw(CDC* pDC)
 void MVC::Camera::CCamView::OnItemAdd()
 {
 	if(CProjectMgr::GetMe().SayWatch())		return;
-	boost::shared_ptr<CCamera> item = m_ItemGrid.AddNewItem();
+	std::shared_ptr<CCamera> item = m_ItemGrid.AddNewItem();
 
 	if(!item)		return;
-	boost::shared_ptr<SCamUndo> undo = boost::shared_ptr<SCamUndo>(new SCamUndo);
+	std::shared_ptr<SCamUndo> undo = std::shared_ptr<SCamUndo>(new SCamUndo);
 	undo->m_bEnd = true;
 	undo->m_uiEditType = CGbl::UNDO_TYPE_ADD;
 	undo->m_Item = item;

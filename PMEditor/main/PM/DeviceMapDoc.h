@@ -8,12 +8,12 @@ class CDeviceOne;
 
 typedef struct tagDevUndo
 {
-	boost::shared_ptr<CDeviceOne> m_Device;	//!< 记录被操作的设备的指针，删除的时候用
+	std::shared_ptr<CDeviceOne> m_Device;	//!< 记录被操作的设备的指针，删除的时候用
 	UINT m_uiEditType;						//!< 操作类型，1添加，2删除，3修改。
 	bool m_bEnd;							//!< 是否是单次操作的结尾，一次操作可以对多个变量，所以有一个结尾标志
 
 	tagDevUndo(){m_uiEditType = 0;		m_bEnd = false;}
-	tagDevUndo(UINT type, boost::shared_ptr<CDeviceOne> device){m_uiEditType = type;	m_Device = device;		m_bEnd = false;}
+	tagDevUndo(UINT type, std::shared_ptr<CDeviceOne> device){m_uiEditType = type;	m_Device = device;		m_bEnd = false;}
 	void SetEnd(bool b = true){m_bEnd = true;}
 }SDevUndo, *PSDevUndo;
 
@@ -46,8 +46,8 @@ public:
 	UINT m_MaxY[DEV_MAXNUM];			//!< 每行最下侧的纵坐标值，纵向显示时用
 
 private:
-	std::stack< boost::shared_ptr<SDevUndo> > m_stDevUndo;
-	std::stack< boost::shared_ptr<SDevUndo> > m_stDevRedo;
+	std::stack< std::shared_ptr<SDevUndo> > m_stDevUndo;
+	std::stack< std::shared_ptr<SDevUndo> > m_stDevRedo;
 	void ClearUndo();
 	void ClearRedo();
 	void UndoAdd();
@@ -62,7 +62,7 @@ public:
 	bool IsRedoEmpty(){return m_stDevRedo.empty();}
 	void OnUndo();
 	void OnRedo();
-	void AddUndoMember(boost::shared_ptr<SDevUndo> devUndo);
+	void AddUndoMember(std::shared_ptr<SDevUndo> devUndo);
 	void SetUndoEnd();
 
 public:

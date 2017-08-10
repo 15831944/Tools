@@ -547,7 +547,7 @@ void CMainFrame::UpdateTreeView()
 void CMainFrame::CompileRun(bool bRunServer /* = false */)
 {
 	//!< 编译之前的准备工作
-	boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 	if(!proj)		return;
 	CProjectMgr::GetMe().SaveProject();
 	CGbl::PrintClear();
@@ -560,7 +560,7 @@ void CMainFrame::CompileRun(bool bRunServer /* = false */)
 //!< 启动编译扫描，编译成功后要启动扫描
 void CMainFrame::CompileScan()
 {
-	boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 	if(!proj)		return;
 	//!< 编译前要清空输出栏
 	CGbl::PrintClear();
@@ -730,7 +730,7 @@ void CMainFrame::OnScanBehavior(long devType, long infType, long level, long bev
 {
 	//!< 判断收到的是什么东西
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	boost::shared_ptr<MVC::Device::CDeviceOne> device = devMgr->GetDevice(devType, infType, level, plAddr);
+	std::shared_ptr<MVC::Device::CDeviceOne> device = devMgr->GetDevice(devType, infType, level, plAddr);
 	if(!device)			return;
 	OnBehavior(bevID, device->getID(), varValue, 1);
 }
@@ -868,7 +868,7 @@ void CMainFrame::OnScanStart()
 	else
 	{
 		//!< 如果需要编译开始编译
-		boost::shared_ptr<MVC::Device::CScanSetInfo> pScanInfo = MVC::Device::CDevMgr::GetMe().GetScanInfo();
+		std::shared_ptr<MVC::Device::CScanSetInfo> pScanInfo = MVC::Device::CDevMgr::GetMe().GetScanInfo();
 //		if(!pScanInfo->IsCompiled())
 		if(true)
 		{
@@ -876,7 +876,7 @@ void CMainFrame::OnScanStart()
 		}
 		else
 		{	//!< 开始运行
-			boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+			std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 			if(!proj)													return;
 			Servers::Compile::CCompiler::GetMe().RunScan();
 		}

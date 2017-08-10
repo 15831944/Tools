@@ -47,10 +47,10 @@ bool CScanMgr::ReadData(T& t, int& index, const char* data, int size /* = 0 */, 
 void CScanMgr::DelAllScanDev()
 {
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> device;
-	boost::shared_ptr<CDeviceInterface> inf, emptyInf;
+	std::shared_ptr<CDeviceOne> device;
+	std::shared_ptr<CDeviceInterface> inf, emptyInf;
 	int size;
-	foreach(device, devMgr->m_vtDevice)
+	for (auto device : devMgr->m_vtDevice)
 	{
 		if(!device)									continue;
 		device->SetOffLine();
@@ -80,8 +80,8 @@ void CScanMgr::OnScanRev(const char* data, const int num)
 	}
 	m_uiOldNum = num;
 	memcpy(m_cOldData, data, num);
-	boost::shared_ptr<CDeviceOne> curProjDev, newProjDev, device;
-	boost::shared_ptr<CDeviceInterface> inf;
+	std::shared_ptr<CDeviceOne> curProjDev, newProjDev, device;
+	std::shared_ptr<CDeviceInterface> inf;
 	char pChar[33];
 	pChar[32] = 0;
 	int i = 0, count = 0, j = 0;
@@ -96,7 +96,7 @@ void CScanMgr::OnScanRev(const char* data, const int num)
 	{
 		for(;i < num;)
 		{
-			device = boost::shared_ptr<CDeviceOne>(new CDeviceOne());
+			device = std::shared_ptr<CDeviceOne>(new CDeviceOne());
 			device->m_vtInterface.clear();
 
 			//!< 解析设备类型
@@ -119,7 +119,7 @@ void CScanMgr::OnScanRev(const char* data, const int num)
 			int nVal;
 			for(int j = 0; j < count; ++j)
 			{
-				inf = boost::shared_ptr<CDeviceInterface>((new CDeviceInterface(device.get())));
+				inf = std::shared_ptr<CDeviceInterface>((new CDeviceInterface(device.get())));
 				inf->SetID(j);
 				if(!ReadData(nVal, i, data, 4, num))			goto SHOW_ERROR;	//!< 解析接口类型
 				inf->SetType(nVal);
@@ -168,11 +168,11 @@ bool CScanMgr::OnCheckDev()
 	CString str;
 
 	//!< 一定能找到父设备
-	boost::shared_ptr<CDeviceOne> device;
-	boost::shared_ptr<CDeviceInterface> inf;
-	foreach(device, m_ltScanDev)
+	std::shared_ptr<CDeviceOne> device;
+	std::shared_ptr<CDeviceInterface> inf;
+	for (auto device : m_ltScanDev)
 	{
-		foreach(inf, device->m_vtInterface)
+		for (auto inf : device->m_vtInterface)
 		{
 			if(inf->getStrParentID() != _T("") && !GetDevice(inf->getStrParentID()))
 			{
@@ -184,7 +184,7 @@ bool CScanMgr::OnCheckDev()
 	}
 
 	//!< m_strDevID不能重复
-	foreach(device, m_ltScanDev)
+	for (auto device : m_ltScanDev)
 	{
 		if(GetDeviceCount(device->getStrID()) > 1)
 		{
@@ -207,19 +207,19 @@ void CScanMgr::ReBuildData()
 void CScanMgr::ReBuildOneParent()
 {
 	//!< 处理方式：当发现一个设备有多个接口连父设备的话，将其中层数最小的并指向同一个父设备的接口留下，其余的都删了
-	boost::shared_ptr<CDeviceOne> device;
-	boost::shared_ptr<CDeviceInterface> inf, minLevelInf;
-	std::list<boost::shared_ptr<CDeviceInterface> > ltInf,ltDelInf;
+	std::shared_ptr<CDeviceOne> device;
+	std::shared_ptr<CDeviceInterface> inf, minLevelInf;
+	std::list<std::shared_ptr<CDeviceInterface> > ltInf,ltDelInf;
 	UINT minLevel = UINT(-1);
 	CString minStrParentID = _T("");
-	foreach(device, m_ltScanDev)
+	for (auto device : m_ltScanDev)
 	{
 		if(device->m_vtInterface.size() == 1)	continue;
 		ltInf.clear();
 		ltDelInf.clear();
 		minLevel = UINT(-1);
 		minStrParentID = _T("");
-		foreach(inf, device->m_vtInterface)
+		for (auto inf : device->m_vtInterface)
 		{
 			ltDelInf.push_back(inf);
 			if(minLevel < inf->getScanLevel())	continue;
@@ -240,13 +240,13 @@ void CScanMgr::ReBuildOneParent()
 
 		//!< 报告接口删除
 		CString strError, strMinInf, strDelInf;
-		foreach(inf, ltInf)
+		for (auto inf : ltInf)
 		{
 			ltDelInf.remove(inf);
 			if(strMinInf == _T(""))		strMinInf = _T("\"") + inf->GetName() + _T("\"");
 			else						strMinInf = strMinInf + _T(",\"") + inf->GetName() + _T("\"");
 		}
-		foreach(inf, ltDelInf)
+		for (auto inf : ltDelInf)
 		{
 			if(strDelInf == _T(""))		strDelInf = _T("\"") + inf->GetName() + _T("\"");
 			else						strDelInf = strDelInf + _T(",\"") + inf->GetName() + _T("\"");
@@ -260,7 +260,7 @@ void CScanMgr::ReBuildOneParent()
 
 		//!< 接口删除
 		device->m_vtInterface.clear();
-		foreach(inf, ltInf)
+		for (auto inf : ltInf)
 			device->m_vtInterface.push_back(inf);
 	}
 }
@@ -268,9 +268,9 @@ void CScanMgr::ReBuildOneParent()
 //!< 重建数据关系，将原设备信息以树形的结构前序遍历的循序重新排布
 void CScanMgr::ReBuildMain()
 {
-	boost::shared_ptr<CDeviceOne> device;
-	std::list<boost::shared_ptr<CDeviceOne> > ltDevice;
-	foreach(device, m_ltScanDev)
+	std::shared_ptr<CDeviceOne> device;
+	std::list<std::shared_ptr<CDeviceOne> > ltDevice;
+	for (auto device : m_ltScanDev)
 	{	//!< 只针对父设备
 		if(device->getStrParentID() != _T(""))	continue;
 		ltDevice.push_back(device);
@@ -281,10 +281,10 @@ void CScanMgr::ReBuildMain()
 }
 
 //!< 重建从设备关系
-void CScanMgr::ReBuildSlave(boost::shared_ptr<CDeviceOne> device, std::list<boost::shared_ptr<CDeviceOne> >& ltDevice)
+void CScanMgr::ReBuildSlave(std::shared_ptr<CDeviceOne> device, std::list<std::shared_ptr<CDeviceOne> >& ltDevice)
 {
-	boost::shared_ptr<CDeviceOne> child;
-	foreach(child, m_ltScanDev)
+	std::shared_ptr<CDeviceOne> child;
+	for (auto child : m_ltScanDev)
 	{	//!< 针对从设备，递归后边所有级
 		if(child->getStrParentID() != device->getStrID())	continue;
 		ltDevice.push_back(child);
@@ -296,15 +296,15 @@ void CScanMgr::ReBuildSlave(boost::shared_ptr<CDeviceOne> device, std::list<boos
 void CScanMgr::OnConnectToProj()
 {
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> scanOne, projOne, matchDev, empty;
+	std::shared_ptr<CDeviceOne> scanOne, projOne, matchDev, empty;
 
 	//!< 先将工程中的设备都置为离线
-	boost::shared_ptr<CDeviceInterface> inf;
-	foreach(projOne, devMgr->m_vtDevice)
+	std::shared_ptr<CDeviceInterface> inf;
+	for (auto projOne : devMgr->m_vtDevice)
 	{
 		if(!projOne)	continue;
 		projOne->setStrID(_T(""));
-		foreach(inf, projOne->m_vtInterface){
+		for (auto inf : projOne->m_vtInterface){
 			inf->SetStrParentID(_T(""));
 			inf->SetState(0);
 		}
@@ -312,11 +312,11 @@ void CScanMgr::OnConnectToProj()
 
 	//!< 遍历扫描设备
 	int nMatch = 0;				//!< 匹配结果，0x1strID相同，0x02类型相同，0x04地址相同
-	foreach(scanOne, m_ltScanDev)
+	for (auto scanOne : m_ltScanDev)
 	{
 		matchDev = empty;
 		//!< 这次遍历找地址相同的工程设备，优先比对工程设备
-		foreach(projOne, devMgr->m_vtDevice)
+		for (auto projOne : devMgr->m_vtDevice)
 		{
 			if(!projOne)			continue;
 			if(!projOne->IsProj())	continue;	//!< 优先比对工程设备
@@ -326,7 +326,7 @@ void CScanMgr::OnConnectToProj()
 			{
 				SetOnLine(scanOne, projOne);
 				projOne->setStrID(scanOne->getStrID());
-				foreach(inf, projOne->m_vtInterface)
+				for (auto inf : projOne->m_vtInterface)
 					inf->SetStrParentID(scanOne->getStrParentID());
 				matchDev = projOne;
 				break;
@@ -334,7 +334,7 @@ void CScanMgr::OnConnectToProj()
 		}
 
 		if(matchDev)	continue;				//!< 如果没找到匹配设备，再看看扫描设备有没有匹配的
-		foreach(projOne, devMgr->m_vtDevice)
+		for (auto projOne : devMgr->m_vtDevice)
 		{
 			if(!projOne)			continue;
 			if(projOne->IsProj())	continue;	//!< 工程设备已经比对完了
@@ -344,7 +344,7 @@ void CScanMgr::OnConnectToProj()
 			{
 				SetOnLine(scanOne, projOne);
 				projOne->setStrID(scanOne->getStrID());
-				foreach(inf, projOne->m_vtInterface)
+				for (auto inf : projOne->m_vtInterface)
 					inf->SetStrParentID(scanOne->getStrParentID());
 				matchDev = projOne;
 				break;
@@ -362,7 +362,7 @@ void CScanMgr::OnConnectToProj()
 		//!< 如果这个扫描是从设备，那么就要找自己的主设备了
 		if(scanOne->getStrParentID() != _T(""))
 		{
-			boost::shared_ptr<CDeviceOne> parent = GetDeviceFromProj(scanOne->getStrParentID());
+			std::shared_ptr<CDeviceOne> parent = GetDeviceFromProj(scanOne->getStrParentID());
 			if(!parent)	return;
 			ASSERT(parent);
 			scanOne->setParentID(parent->getID());
@@ -381,7 +381,7 @@ void CScanMgr::OnConnectToProj()
 void CScanMgr::OnBuildConnect()
 {
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> child, parent;
+	std::shared_ptr<CDeviceOne> child, parent;
 //	//!< 先清空所有设备的子设备列表
 //	foreach(child, devMgr->m_vtDevice){
 //		if(!child)								continue;
@@ -389,7 +389,7 @@ void CScanMgr::OnBuildConnect()
 //		child->m_ltChildID.clear();
 //	}
 	//!< 填充设备列表
-	foreach(child, devMgr->m_vtDevice){
+	for (auto child : devMgr->m_vtDevice){
 		if(!child)								continue;
 		if(child->getStrParentID() == _T(""))	continue;
 		parent = GetDeviceFromProj(child->getStrParentID());
@@ -402,31 +402,31 @@ void CScanMgr::OnBuildConnect()
 void CScanMgr::DelOffLineScanDev()
 {
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> device;
-	boost::shared_ptr<CDeviceInterface> inf;
-	std::list<boost::shared_ptr<CDeviceInterface> > ltInf, ltDelInf;
+	std::shared_ptr<CDeviceOne> device;
+	std::shared_ptr<CDeviceInterface> inf;
+	std::list<std::shared_ptr<CDeviceInterface> > ltInf, ltDelInf;
 	std::list<UINT> ltDelDevID;
 	bool bOnLine = false;
-	foreach(device, devMgr->m_vtDevice)
+	for (auto device : devMgr->m_vtDevice)
 	{
 		if(!device)								continue;
 		if(device->IsProj())					//!< 工程设备，要删除其不在线的非工程接口
 		{
 			ltInf.clear();
 			ltDelInf.clear();
-			foreach(inf, device->m_vtInterface)
+			for (auto inf : device->m_vtInterface)
 			{
 				if(inf)							ltInf.push_back(inf);		//!< 记录了该所有接口
 			}
-			foreach(inf, ltInf)
+			for (auto inf : ltInf)
 			{
 				if(inf->IsProj())				continue;					//!< 工程的接口不删
 				if(inf->GetState() == 0)		ltDelInf.push_back(inf);	//!< 记录要删除的接口
 			}
-			foreach(inf, ltDelInf)				ltInf.remove(inf);			//!< 删除了所有不在线的接口
+			for (auto inf : ltDelInf)				ltInf.remove(inf);			//!< 删除了所有不在线的接口
 			device->m_vtInterface.resize(ltInf.size());						//!< 将剩下的接口赋给设备
 			int i = 0;
-			foreach(inf, ltInf)
+			for (auto inf : ltInf)
 			{
 				device->m_vtInterface[i] = inf;
 				inf->SetID(i);
@@ -437,15 +437,15 @@ void CScanMgr::DelOffLineScanDev()
 		{
 			ltInf.clear();
 			ltDelInf.clear();
-			foreach(inf, device->m_vtInterface)
+			for (auto inf : device->m_vtInterface)
 			{
 				if(inf)							ltInf.push_back(inf);		//!< 记录了该所有接口
 			}
-			foreach(inf, ltInf)
+			for (auto inf : ltInf)
 			{
 				if(inf->GetState() == 0)		ltDelInf.push_back(inf);	//!< 记录要删除的接口
 			}
-			foreach(inf, ltDelInf)				ltInf.remove(inf);			//!< 删除了所有不在线的接口
+			for (auto inf : ltDelInf)				ltInf.remove(inf);			//!< 删除了所有不在线的接口
 			if(ltInf.empty())					//!< 如果没接口了就删设备
 			{
 				ltDelDevID.push_back(device->getID());
@@ -454,7 +454,7 @@ void CScanMgr::DelOffLineScanDev()
 			{
 				device->m_vtInterface.resize(ltInf.size());
 				int i = 0;
-				foreach(inf, ltInf)
+				for (auto inf : ltInf)
 				{
 					device->m_vtInterface[i] = inf;
 					inf->SetID(i);
@@ -463,18 +463,18 @@ void CScanMgr::DelOffLineScanDev()
 			}
 		}
 	}
-	foreach(UINT id, ltDelDevID)
+	for (UINT id : ltDelDevID)
 		devMgr->DeleteDevice(id);
 }
 
 //!< 设置工程设备上线
-bool CScanMgr::SetOnLine(boost::shared_ptr<CDeviceOne> scanDev, boost::shared_ptr<CDeviceOne> projDev)
+bool CScanMgr::SetOnLine(std::shared_ptr<CDeviceOne> scanDev, std::shared_ptr<CDeviceOne> projDev)
 {
-	boost::shared_ptr<CDeviceInterface> scanInf, projInf;
-	foreach(scanInf, scanDev->m_vtInterface)
+	std::shared_ptr<CDeviceInterface> scanInf, projInf;
+	for (auto scanInf : scanDev->m_vtInterface)
 	{
 		bool bFind = false;
-		foreach(projInf, projDev->m_vtInterface)
+		for (auto projInf : projDev->m_vtInterface)
 		{
 			if(scanInf->GetName(false) != projInf->GetName(false))	continue;
 			projInf->SetState(scanInf->GetState());			//!< 将接口匹配的设备置成上线（或在线未配置）
@@ -491,21 +491,21 @@ bool CScanMgr::SetOnLine(boost::shared_ptr<CDeviceOne> scanDev, boost::shared_pt
 }
 
 //!< 从扫描设备列表里，找到该设备
-boost::shared_ptr<CDeviceOne> CScanMgr::GetDevice(CString strDevID)
+std::shared_ptr<CDeviceOne> CScanMgr::GetDevice(CString strDevID)
 {
-	boost::shared_ptr<CDeviceOne> device, empty;
-	foreach(device, m_ltScanDev)
+	std::shared_ptr<CDeviceOne> device, empty;
+	for (auto device : m_ltScanDev)
 		if(device->getStrID() == strDevID)
 			return device;
 	return empty;
 }
 
 //!< 从工程设备列表里，找到该设备
-boost::shared_ptr<CDeviceOne> CScanMgr::GetDeviceFromProj(CString strDevID)
+std::shared_ptr<CDeviceOne> CScanMgr::GetDeviceFromProj(CString strDevID)
 {
-	boost::shared_ptr<CDeviceOne> device, empty;
+	std::shared_ptr<CDeviceOne> device, empty;
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	foreach(device, devMgr->m_vtDevice)
+	for (auto device : devMgr->m_vtDevice)
 	{
 		if(!device)							continue;
 		if(device->getStrID() == strDevID)	return device;
@@ -517,15 +517,15 @@ boost::shared_ptr<CDeviceOne> CScanMgr::GetDeviceFromProj(CString strDevID)
 UINT CScanMgr::GetDeviceCount(CString strDevID)
 {
 	UINT count = 0;
-	boost::shared_ptr<CDeviceOne> device;
-	foreach(device, m_ltScanDev)
+	std::shared_ptr<CDeviceOne> device;
+	for (auto device : m_ltScanDev)
 		if(device->getStrID() == strDevID)
 			++count;
 	return count;
 }
 
 //!< 是否是同一个设备，0x01类型相同，0x02地址相同
-int CScanMgr::IsSameDevice(boost::shared_ptr<CDeviceOne> scanDev, boost::shared_ptr<CDeviceOne> projDev)
+int CScanMgr::IsSameDevice(std::shared_ptr<CDeviceOne> scanDev, std::shared_ptr<CDeviceOne> projDev)
 {
 	ASSERT(scanDev && projDev);
 	int rlt = 0;
@@ -535,12 +535,12 @@ int CScanMgr::IsSameDevice(boost::shared_ptr<CDeviceOne> scanDev, boost::shared_
 
 	//!< 地址一样
 	if(!IsSameParent(scanDev, projDev))						return rlt;
-	boost::shared_ptr<CDeviceInterface> projInf, scanInf;
+	std::shared_ptr<CDeviceInterface> projInf, scanInf;
 	bool bMatchAddr = false;
-	foreach(projInf, projDev->m_vtInterface)
+	for (auto projInf : projDev->m_vtInterface)
 	{
 		if(projInf->GetState() != 0)						return rlt;			//!< 如果工程设备存在一个在线接口时，不用找了，返回false
-		foreach(scanInf, scanDev->m_vtInterface)
+		for (auto scanInf : scanDev->m_vtInterface)
 		{
 			if(scanInf->GetName(false) == projInf->GetName(false))	bMatchAddr = true;	//!< 如果至少存在一个相同地址，则表明地址匹配了
 		}
@@ -550,7 +550,7 @@ int CScanMgr::IsSameDevice(boost::shared_ptr<CDeviceOne> scanDev, boost::shared_
 }
 
 //!< 是否有同一个父亲
-bool CScanMgr::IsSameParent(boost::shared_ptr<CDeviceOne> scanDev, boost::shared_ptr<CDeviceOne> projDev)
+bool CScanMgr::IsSameParent(std::shared_ptr<CDeviceOne> scanDev, std::shared_ptr<CDeviceOne> projDev)
 {
 	//!< 如果父设备不同，那么肯定不是同一个地址
 	CDevMgr* devMgr = &CDevMgr::GetMe();
@@ -558,7 +558,7 @@ bool CScanMgr::IsSameParent(boost::shared_ptr<CDeviceOne> scanDev, boost::shared
 	else if(scanDev->getStrParentID() == _T("") && projDev->getParentID() != UINT(-1))	return false;
 	else if(scanDev->getStrParentID() != _T("") && projDev->getParentID() == UINT(-1))	return false;
 
-	boost::shared_ptr<CDeviceOne> devFromID, devFromStrID;
+	std::shared_ptr<CDeviceOne> devFromID, devFromStrID;
 	devFromStrID = GetDeviceFromProj(scanDev->getStrParentID());
 	devFromID = devMgr->GetDevice(projDev->getParentID());
 	return devFromStrID == devFromID;

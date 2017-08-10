@@ -12,7 +12,7 @@ class CSoftSetDeviceXmlDlg : public CDialog, public Tool::IDTreeOwner
 private:
 	CString m_strDeviceName;		//!< 设备文件的名称，包括扩展名
 	CString m_strDevicePath;		//!< 设备文件的路径，绝对路径
-	boost::shared_ptr<XmlInfo::CXmlDevice> m_XmlDevice;
+	std::shared_ptr<XmlInfo::CXmlDevice> m_XmlDevice;
 
 public:
 	Tool::CDTreeCtrl m_TreeCtrl;

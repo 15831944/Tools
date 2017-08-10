@@ -60,7 +60,7 @@ bool CXmlProtocolArea::SerializeXml(TiXmlElement* pNode)
 	CComVariant cvr;
 	if(AREA != name)	return false;
 	TiXmlElement* pRoot = pNode->FirstChildElement();
-	boost::shared_ptr<CXmlProtocolOperateInfo> pOperate;
+	std::shared_ptr<CXmlProtocolOperateInfo> pOperate;
 	int iValue;
 	while(pRoot){
 		name = pRoot->Value();
@@ -71,7 +71,7 @@ bool CXmlProtocolArea::SerializeXml(TiXmlElement* pNode)
 			TiXmlElement* pChild = pRoot->FirstChildElement();
 			while(pChild)
 			{
-				pOperate = boost::shared_ptr<CXmlProtocolOperateInfo>(new CXmlProtocolOperateInfo);
+				pOperate = std::shared_ptr<CXmlProtocolOperateInfo>(new CXmlProtocolOperateInfo);
 				if(pOperate->SerializeXml(pChild))		m_ltOperate.push_back(pOperate);
 				pChild = pChild->NextSiblingElement();
 			}
@@ -100,7 +100,7 @@ bool CXmlProtocol::SerializeXml(TiXmlElement* pNode)
 	CComVariant cvr;
 	if(ROOTNAME != name)	return false;
 	TiXmlElement* pRoot = pNode->FirstChildElement();
-	boost::shared_ptr<CXmlProtocolArea> pArea;
+	std::shared_ptr<CXmlProtocolArea> pArea;
 	int iValue;
 	while(pRoot){
 		name = pRoot->Value();
@@ -114,7 +114,7 @@ bool CXmlProtocol::SerializeXml(TiXmlElement* pNode)
 		{
 			TiXmlElement* pChild = pRoot->FirstChildElement();
 			while(pChild){
-				pArea = boost::shared_ptr<CXmlProtocolArea>(new CXmlProtocolArea);
+				pArea = std::shared_ptr<CXmlProtocolArea>(new CXmlProtocolArea);
 				if(pArea->SerializeXml(pChild))			m_ltProtocolArea.push_back(pArea);
 				pChild = pChild->NextSiblingElement();
 			}
@@ -153,7 +153,7 @@ void CXmlProtocol::SerializeBehavior(TiXmlElement* pNode)
 //!< 看看这个行为知否存在
 bool CXmlProtocol::FindBev(UINT id)
 {
-	foreach(UINT bevID, m_ltBehaviorID){
+	for (UINT bevID : m_ltBehaviorID){
 		if(bevID == id)
 			return true;
 	}

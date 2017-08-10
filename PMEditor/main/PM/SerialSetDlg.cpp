@@ -57,11 +57,11 @@ BOOL CSerialSetDlg::OnInitDialog()
 
 	//!< 初始化串口列表
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	boost::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial, newSerial;
+	std::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial, newSerial;
 	m_ltSerial.clear();
-	foreach(serial, devMgr->m_ltSerial)
+	for (auto serial : devMgr->m_ltSerial)
 	{
-		newSerial = boost::shared_ptr<MVC::Device::InterfaceSet::CDSerial>(new MVC::Device::InterfaceSet::CDSerial());
+		newSerial = std::shared_ptr<MVC::Device::InterfaceSet::CDSerial>(new MVC::Device::InterfaceSet::CDSerial());
 		newSerial->CopyFrom(*serial);
 		m_ltSerial.push_back(newSerial);
 	}
@@ -80,9 +80,9 @@ void CSerialSetDlg::InitSerialList()
 {
 	m_TreeCtrl.DeleteAllItems();
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	boost::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serialtmp;
+	std::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serialtmp;
 
-	foreach(serialtmp, m_ltSerial)
+	for (auto serialtmp : m_ltSerial)
 		m_TreeCtrl.InsertItem(serialtmp->getName(), 11, 11, TVI_ROOT, TVI_LAST);
 
 	if(!m_ltSerial.empty()){
@@ -96,7 +96,7 @@ void CSerialSetDlg::OnBnClickedAddSerial()
 {
 	CStringAddDelDlg dlg;
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	boost::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial;
+	std::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial;
 	CString str;
 	for(int i = 0; i < 128; ++i)
 	{
@@ -111,7 +111,7 @@ void CSerialSetDlg::OnBnClickedAddSerial()
 	CString text;
 	int number;
 	//!< 获得需要添加的串口号
-	foreach(str, dlg.m_ltIn)
+	for (auto str : dlg.m_ltIn)
 	{
 		text = str;
 		if(!CGbl::GetNumberFromString(text, number, 1)) continue;
@@ -120,20 +120,20 @@ void CSerialSetDlg::OnBnClickedAddSerial()
 	ltNumber.sort();
 
 	//!< 创建要添加的所有串口
-	std::list<boost::shared_ptr<MVC::Device::InterfaceSet::CDSerial> > ltSerial;
-	foreach(number, ltNumber)
+	std::list<std::shared_ptr<MVC::Device::InterfaceSet::CDSerial> > ltSerial;
+	for (auto number : ltNumber)
 	{
 		str.Format("COM%d", number + 1);
 		serial = GetSerial(str);
 		if(!serial)
 		{
-			serial = boost::shared_ptr<MVC::Device::InterfaceSet::CDSerial>(new MVC::Device::InterfaceSet::CDSerial);
+			serial = std::shared_ptr<MVC::Device::InterfaceSet::CDSerial>(new MVC::Device::InterfaceSet::CDSerial);
 			serial->setNumber(number);
 		}
 		ltSerial.push_back(serial);
 	}
 	m_ltSerial.clear();
-	foreach(serial, ltSerial)
+	for (auto serial : ltSerial)
 		m_ltSerial.push_back(serial);
 
 	//!< 重新画串口树
@@ -149,7 +149,7 @@ void CSerialSetDlg::OnTreeLClick(CTreeCtrl* pTreeCtrl, HTREEITEM hItem)
 {
 	pTreeCtrl->SelectDropTarget(hItem);
 	CString strName = pTreeCtrl->GetItemText(hItem);
-	boost::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial = GetSerial(strName);
+	std::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial = GetSerial(strName);
 	if(!serial)		return;
 	m_PropertyGrid.Refresh();
 	m_Object.SetInfo(serial->getName());
@@ -169,10 +169,10 @@ void CSerialSetDlg::OnTreeKeyDown(CTreeCtrl* pTreeCtrl, HTREEITEM hItem, UINT nC
 	}
 }
 
-boost::shared_ptr<MVC::Device::InterfaceSet::CDSerial> CSerialSetDlg::GetSerial(CString name)
+std::shared_ptr<MVC::Device::InterfaceSet::CDSerial> CSerialSetDlg::GetSerial(CString name)
 {
-	boost::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial, empty;
-	foreach(serial, m_ltSerial)
+	std::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial, empty;
+	for (auto serial : m_ltSerial)
 		if(name == serial->getName())
 			return serial;
 	return empty;
@@ -191,10 +191,10 @@ void CSerialSetDlg::SaveModify()
 {
 	if(!m_bInit)		return;
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	boost::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial;
+	std::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial;
 
 	devMgr->m_ltSerial.clear();
-	foreach(serial, m_ltSerial){
+	for (auto serial : m_ltSerial){
 		devMgr->m_ltSerial.push_back(serial);
 	}
 	m_ltSerial.clear();

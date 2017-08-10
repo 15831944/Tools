@@ -74,13 +74,13 @@ BOOL CSoftSetDeviceXmlDlg::DestroyWindow()
 void CSoftSetDeviceXmlDlg::FreshTree()
 {
 	m_TreeCtrl.DeleteAllItems();
-	boost::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;
-	boost::shared_ptr<XmlInfo::CXmlDevice> device;
+	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;
+	std::shared_ptr<XmlInfo::CXmlDevice> device;
 
 	std::map<CString, HTREEITEM> m_mpCompanyItem;
 
 	HTREEITEM hCompany = NULL, hDevice = NULL;
-	foreach(device, xmlMgr->m_vtDevice)
+	for (auto device : xmlMgr->m_vtDevice)
 	{
 		if(!device)			continue;
 		hCompany = m_mpCompanyItem[device->getCompany()];
@@ -106,7 +106,7 @@ void CSoftSetDeviceXmlDlg::OnBnClickedBtDevin()
 		CString title = openDlg.GetFileTitle();
 		m_strDeviceName = openDlg.GetFileName();
 		m_strDevicePath = openDlg.GetPathName();
-		m_XmlDevice = boost::shared_ptr<XmlInfo::CXmlDevice>(new XmlInfo::CXmlDevice);
+		m_XmlDevice = std::shared_ptr<XmlInfo::CXmlDevice>(new XmlInfo::CXmlDevice);
 		m_XmlDevice->m_strPathName = m_strDevicePath;
 		if(!m_XmlDevice->OpenXml())
 		{
@@ -126,7 +126,7 @@ void CSoftSetDeviceXmlDlg::OnBnClickedBtDevinfo()
 void CSoftSetDeviceXmlDlg::OnBnClickedBtAdddev()
 {
 	if(!m_XmlDevice)						return;
-	boost::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;
+	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;
 	if(!xmlMgr->AddDevice(m_XmlDevice))		return;
 	FreshTree();
 	CMainFrame* mf = (CMainFrame*)g_App.GetMainWnd();
@@ -138,13 +138,13 @@ void CSoftSetDeviceXmlDlg::OnBnClickedBtDeldev()
 	HTREEITEM hItem = m_TreeCtrl.GetSelectedItem();
 	if(m_TreeCtrl.GetParentItem(hItem) == NULL)		return;
 	UINT id = m_TreeCtrl.GetItemData(hItem);
-	boost::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = xmlMgr->GetDevice(id);
+	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = xmlMgr->GetDevice(id);
 	ASSERT(xmlDev);
 
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	boost::shared_ptr<MVC::Device::CDeviceOne> projDev;
-	foreach(projDev, devMgr->m_vtDevice)
+	std::shared_ptr<MVC::Device::CDeviceOne> projDev;
+	for (auto projDev : devMgr->m_vtDevice)
 	{
 		if(!projDev)								continue;
 		if(xmlDev != projDev->GetXmlInfo())			continue;

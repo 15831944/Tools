@@ -26,9 +26,9 @@ public:
 		MODBUS_TCP = 9
 	};
 	CDeviceMapDoc* m_DevMapDoc;
-	std::vector<boost::shared_ptr<CDeviceOne> > m_vtDevice;
-	std::list<boost::shared_ptr<CDeviceOne> > m_ltDevClipBoard;			//!< 设备的剪贴板
-	std::list<boost::shared_ptr<InterfaceSet::CDSerial> > m_ltSerial;
+	std::vector<std::shared_ptr<CDeviceOne> > m_vtDevice;
+	std::list<std::shared_ptr<CDeviceOne> > m_ltDevClipBoard;			//!< 设备的剪贴板
+	std::list<std::shared_ptr<InterfaceSet::CDSerial> > m_ltSerial;
 	CPropertyDevice m_DeviceProperty;
 	CPropertySlave m_SlaveProperty;
 	CScanMgr* m_ScanMgr;
@@ -40,8 +40,8 @@ private:
 	CString m_strFileName;
 	CString m_strVersion;
 	UINT m_uiSerialNum;
-	boost::shared_ptr<InterfaceSet::CDEthernet> m_Ethernet;		//!< 以太网通信配置对象，目前只支持一个
-	boost::shared_ptr<CScanSetInfo> m_ScanSetInfo;				//!< 扫描信息的配置
+	std::shared_ptr<InterfaceSet::CDEthernet> m_Ethernet;		//!< 以太网通信配置对象，目前只支持一个
+	std::shared_ptr<CScanSetInfo> m_ScanSetInfo;				//!< 扫描信息的配置
 	std::list<SBehaviorRequest *> m_ltBRequest;					//!< 发送请求的监听者
 
 public:
@@ -49,7 +49,7 @@ public:
 	CString getName(){return m_strName;}
 	CString getFileName(){return m_strFileName;}
 	CString getVersion(){return m_strVersion;}
-	boost::shared_ptr<CScanSetInfo> GetScanInfo(){return m_ScanSetInfo;}	//!< 扫描信息的配置
+	std::shared_ptr<CScanSetInfo> GetScanInfo(){return m_ScanSetInfo;}	//!< 扫描信息的配置
 
 	void SetModify(){m_bModify = true;}
 
@@ -58,8 +58,8 @@ private:
 	~CDevMgr(void);
 
 	bool SerializeXml(TiXmlElement* pNode, bool bRead);			//!< 保存xml格式的编辑信息
-	void AwayFromSameInf(boost::shared_ptr<CDeviceOne> device);	//!< 保证设备拥有与别人不同的接口
-	void MakeSureDfrtInf(boost::shared_ptr<CDeviceOne> device);	//!< 保证设备拥有与别人不同的接口，如果相同则重新设置
+	void AwayFromSameInf(std::shared_ptr<CDeviceOne> device);	//!< 保证设备拥有与别人不同的接口
+	void MakeSureDfrtInf(std::shared_ptr<CDeviceOne> device);	//!< 保证设备拥有与别人不同的接口，如果相同则重新设置
 	void OnDeleteDeviceChild(UINT id);							//!< 删除该设备的所有孩子，包括孩子的孩子，等等
 	void InitComputerSerial();									//!< 初始化串口信息，把计算机扫描出来的串口强行加载进链表中
 
@@ -75,13 +75,13 @@ public:
 	void OpenDoc();
 	void SetDevWatch(const bool bWatch);						//!< 设置监控状态
 	void SetDevScan(const bool bScan);							//!< 设置扫描状态
-	boost::shared_ptr<CDeviceOne> AddNewDevice(boost::shared_ptr<CDeviceOne> device);
-	boost::shared_ptr<CDeviceOne> GetDevice(UINT id);
-	boost::shared_ptr<CDeviceOne> GetDevice(CString name);
-	boost::shared_ptr<CDeviceOne> GetDevice(UINT devType, UINT infType, UINT level, long* plAddr);
-	boost::shared_ptr<CDeviceOne> GetDeviceNameList(std::list<CString>& strList, int& defIndex);	//!< 获得所有设备的名称列表，返回defIndex号的设备
-	boost::shared_ptr<InterfaceSet::CDSerial> GetSerial(CString name);
-	boost::shared_ptr<InterfaceSet::CDEthernet> GetEthernet(){return m_Ethernet;}
+	std::shared_ptr<CDeviceOne> AddNewDevice(std::shared_ptr<CDeviceOne> device);
+	std::shared_ptr<CDeviceOne> GetDevice(UINT id);
+	std::shared_ptr<CDeviceOne> GetDevice(CString name);
+	std::shared_ptr<CDeviceOne> GetDevice(UINT devType, UINT infType, UINT level, long* plAddr);
+	std::shared_ptr<CDeviceOne> GetDeviceNameList(std::list<CString>& strList, int& defIndex);	//!< 获得所有设备的名称列表，返回defIndex号的设备
+	std::shared_ptr<InterfaceSet::CDSerial> GetSerial(CString name);
+	std::shared_ptr<InterfaceSet::CDEthernet> GetEthernet(){return m_Ethernet;}
 	UINT GetDeviceSize();										//!< 获得设备的真实数量
 	void DeleteDevice(UINT id);									//!< 删除设备，包括其子设备，不做任何处理
 	void UndoDelDevice(UINT id);								//!< 删除设备，但要记录撤销信息
@@ -105,7 +105,7 @@ public:
 	void RegisteBRequest(SBehaviorRequest* one);				//!< 注册监听者
 	void UnRegisteBRequest(SBehaviorRequest* one);				//!< 注销监听者
 
-	int GetMaxOverTime(boost::shared_ptr<CDeviceOne> device);	//!< 获得该设备所使用的最大的超时时间
+	int GetMaxOverTime(std::shared_ptr<CDeviceOne> device);	//!< 获得该设备所使用的最大的超时时间
 };
 }
 }

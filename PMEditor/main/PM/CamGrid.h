@@ -52,9 +52,9 @@ private:
 	void SortGrid();						//!< 排序表格
 	void SetMyCell(int nCol, long lRow, CUGCell* cell, UINT id);
 
-	void EditItem(boost::shared_ptr<CCamera> item);					//!< 编辑变量基本属性
-//	void EditItems(std::list<boost::shared_ptr<CCamera> > ltItem);	//!< 统一编辑变量基本属性
-	void ItemRemove(std::list<boost::shared_ptr<CCamera> > ltItem);	//!< 删除变量
+	void EditItem(std::shared_ptr<CCamera> item);					//!< 编辑变量基本属性
+//	void EditItems(std::list<std::shared_ptr<CCamera> > ltItem);	//!< 统一编辑变量基本属性
+	void ItemRemove(std::list<std::shared_ptr<CCamera> > ltItem);	//!< 删除变量
 
 	CString GetFloatStr(float flt);			//!< 获得浮点字符串
 
@@ -70,7 +70,7 @@ public:
 
 	//void ItemEditAll();						//!< 统一修改变量的属性
 	void ItemEdit();						//!< 修改变量
-	boost::shared_ptr<CCamera> AddNewItem();	//!< 增加新变量
+	std::shared_ptr<CCamera> AddNewItem();	//!< 增加新变量
 	void ItemUp();
 	void ItemDown();
 	void ItemRemove(bool bAsk = true);		//!< 移除变量，参数表示是否要询问一下用户，剪切时候要删除，就不需要通知用户

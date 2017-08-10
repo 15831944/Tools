@@ -20,7 +20,7 @@ bool CXmlEnumItem::SerializeXml(TiXmlElement* pNode)
 	CComVariant cvr;
 	if(UNIT != name)		return false;
 	TiXmlElement* pRoot = pNode->FirstChildElement();
-	boost::shared_ptr<CXmlEnumItem> pItem;
+	std::shared_ptr<CXmlEnumItem> pItem;
 	int iValue;
 	while(pRoot){
 		name = pRoot->Value();
@@ -43,7 +43,7 @@ bool CXmlEnum::SerializeXml(TiXmlElement* pNode)
 	CComVariant cvr;
 	if(ROOTNAME != name)		return false;
 	TiXmlElement* pRoot = pNode->FirstChildElement();
-	boost::shared_ptr<CXmlEnumItem> pItem;
+	std::shared_ptr<CXmlEnumItem> pItem;
 	int iValue;
 	m_vtEnumItem.clear();
 	while(pRoot){
@@ -56,7 +56,7 @@ bool CXmlEnum::SerializeXml(TiXmlElement* pNode)
 			TiXmlElement* pChild = pRoot->FirstChildElement();
 			while(pChild)
 			{
-				pItem = boost::shared_ptr<CXmlEnumItem>(new CXmlEnumItem);
+				pItem = std::shared_ptr<CXmlEnumItem>(new CXmlEnumItem);
 				if(pItem->SerializeXml(pChild))		m_vtEnumItem.push_back(pItem);
 				pChild = pChild->NextSiblingElement();
 			}
@@ -75,7 +75,7 @@ int CXmlEnum::GetIndex(CComVariant cvr)
 	cvr.ChangeType(VT_BSTR);
 	CString text2 = (CString)cvr.bstrVal;
 	int value = atoi(text2);
-	boost::shared_ptr<CXmlEnumItem> item;
+	std::shared_ptr<CXmlEnumItem> item;
 	for(int i = 0; i < (int)m_vtEnumItem.size(); ++i)
 	{
 		if(m_vtEnumItem[i]->m_nValue == value)

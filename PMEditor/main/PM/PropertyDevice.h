@@ -14,7 +14,7 @@ public:
 	UINT m_uiInterfaceCount;	//!< 接口的数量
 
 public:
-	boost::shared_ptr<CDeviceOne> m_ShowDev;
+	std::shared_ptr<CDeviceOne> m_ShowDev;
 
 public:
 	CPropertyDevice(void);

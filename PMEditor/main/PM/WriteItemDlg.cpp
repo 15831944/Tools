@@ -68,7 +68,7 @@ BOOL CWriteItemDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	boost::shared_ptr<MVC::Item::CItem> pItem = MVC::Item::CItemMgr::GetMe().GetItem(m_uiID);
+	std::shared_ptr<MVC::Item::CItem> pItem = MVC::Item::CItemMgr::GetMe().GetItem(m_uiID);
 	ASSERT(pItem);
 	m_strName = pItem->getName();
 	m_strType = pItem->GetValTypeStr();

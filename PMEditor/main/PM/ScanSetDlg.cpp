@@ -65,7 +65,7 @@ BOOL CScanSetDlg::OnInitDialog()
 	CDialog::OnInitDialog();
 
 	//!< 初始化各个控件
-	boost::shared_ptr<MVC::Device::CScanSetInfo> info = MVC::Device::CDevMgr::GetMe().GetScanInfo();
+	std::shared_ptr<MVC::Device::CScanSetInfo> info = MVC::Device::CDevMgr::GetMe().GetScanInfo();
 	m_bSync = info->IsSync();
 	m_bUseEthernet = info->IsUseEthernet();
 	m_bUseSerial = info->IsUseSerial();
@@ -79,26 +79,26 @@ BOOL CScanSetDlg::OnInitDialog()
 	CString str;
 
 	std::list<CString> ltStr = gbl->getBaudList();
-	foreach(str, ltStr)		m_cbBaud.AddString(str);
+	for (auto str : ltStr)		m_cbBaud.AddString(str);
 	m_cbBaud.SetCurSel(gbl->getBaudIndex(info->GetBaud()));
 
 	ltStr = gbl->getCheckStyleList();
-	foreach(str, ltStr)		m_cbParity.AddString(str);
+	for (auto str : ltStr)		m_cbParity.AddString(str);
 	m_cbParity.SetCurSel(gbl->getCheckIndex(info->GetParity()));
 
 	ltStr = gbl->getDataBitNumList();
-	foreach(str, ltStr)		m_cbDataBits.AddString(str);
+	for (auto str : ltStr)		m_cbDataBits.AddString(str);
 	m_cbDataBits.SetCurSel(gbl->getDataIndex(info->GetDataBit()));
 
 	ltStr = gbl->getStopBitNumList();
-	foreach(str, ltStr)		m_cbStopBits.AddString(str);
+	for (auto str : ltStr)		m_cbStopBits.AddString(str);
 	m_cbStopBits.SetCurSel(gbl->getStopIndex(info->GetStopBit()));
 
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	boost::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial;
+	std::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial;
 	str = info->GetCom();
 	int index = 0, i = 0;
-	foreach(serial, devMgr->m_ltSerial)
+	for (auto serial : devMgr->m_ltSerial)
 	{
 		m_cbCom.AddString(serial->getName());
 		if(str == serial->getName())	index = i;
@@ -145,7 +145,7 @@ bool CScanSetDlg::OnCheck()
 bool CScanSetDlg::OnApplay()
 {
 	if(!OnCheck())				return false;
-	boost::shared_ptr<MVC::Device::CScanSetInfo> info = MVC::Device::CDevMgr::GetMe().GetScanInfo();
+	std::shared_ptr<MVC::Device::CScanSetInfo> info = MVC::Device::CDevMgr::GetMe().GetScanInfo();
 	info->SetSync(m_bSync);
 	info->SetUseEthernet(m_bUseEthernet);
 	info->SetUseSerial(m_bUseSerial);
@@ -162,9 +162,9 @@ bool CScanSetDlg::OnApplay()
 	info->SetStopBit(gbl->getStopBitNumStr(m_cbStopBits.GetCurSel()));
 
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	boost::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial;
+	std::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial;
 	int index = m_cbCom.GetCurSel(), i = 0;
-	foreach(serial, devMgr->m_ltSerial)
+	for (auto serial : devMgr->m_ltSerial)
 	{
 		if(index != i++)		continue;
 		info->SetCom(serial->getName());
@@ -219,10 +219,10 @@ void Dialog::CScanSetDlg::OnCbnSelchangeComboCom()
 	UpdateData(TRUE);
 	CGbl* gbl = &CGbl::GetMe();
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	boost::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial;
+	std::shared_ptr<MVC::Device::InterfaceSet::CDSerial> serial;
 	CString strCom;
 	m_cbCom.GetWindowText(strCom);
-	foreach(serial, devMgr->m_ltSerial)
+	for (auto serial : devMgr->m_ltSerial)
 	{
 		if(serial->getName() != strCom)		continue;
 		m_cbBaud.SetCurSel(serial->getBaud());

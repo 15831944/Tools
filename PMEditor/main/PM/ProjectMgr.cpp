@@ -57,7 +57,7 @@ bool CProjectMgr::NewProject()
 	CGbl::MakeDir(dlg->GetPath());
 
 	//!< 开始创建这个新的工程对象，代码操作
-	m_CulProject=boost::shared_ptr<CProject>(new CProject(dlg->GetType(),dlg->GetName(),dlg->GetPath(),dlg->GetAuthor(),dlg->GetDescription(),dlg->GetVersion()));
+	m_CulProject=std::shared_ptr<CProject>(new CProject(dlg->GetType(),dlg->GetName(),dlg->GetPath(),dlg->GetAuthor(),dlg->GetDescription(),dlg->GetVersion()));
 	m_CulProject->CreateProject();
 	g_App.AddToRecentFileList(dlg->GetPath() + dlg->GetName() + _T(".dsl"));
 
@@ -101,7 +101,7 @@ bool CProjectMgr::OpenProject(CString pathName/* = _T("") */)
 		path = path + name;
 	}
 
-	m_CulProject = boost::shared_ptr<CProject>(new CProject());
+	m_CulProject = std::shared_ptr<CProject>(new CProject());
 	if(!m_CulProject->OpenProject(title, name, path)){
 //		AfxMessageBox(_T("打开工程失败！"));
 		m_CulProject.reset();

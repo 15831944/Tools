@@ -68,7 +68,7 @@ INT_PTR CCloneItemDlg::DoModal(UINT id)
 {
 	m_uiCloneID = id;
 	MVC::Item::CItemMgr* mgr = &MVC::Item::CItemMgr::GetMe();
-	boost::shared_ptr<MVC::Item::CItem> item = mgr->GetItem(id);
+	std::shared_ptr<MVC::Item::CItem> item = mgr->GetItem(id);
 	ASSERT(item);
 	m_strCloneName = item->getName();
 	return CDialog::DoModal();
@@ -103,18 +103,18 @@ UINT CloneThread(LPVOID pParam)
 {
 	CCloneItemDlg *dlg = (CCloneItemDlg *)pParam;
 	MVC::Item::CItemMgr* mgr = &MVC::Item::CItemMgr::GetMe();
-	boost::shared_ptr<MVC::Item::CItem> item = mgr->GetItem(dlg->m_uiCloneID);
+	std::shared_ptr<MVC::Item::CItem> item = mgr->GetItem(dlg->m_uiCloneID);
 	ASSERT(item);
 	while (dlg->m_pProcessDlg == NULL)		Sleep(1);	// 等到对话框建立好
 	while (!dlg->m_pProcessDlg->m_bReady)	Sleep(1);	// 等到对话框准备好
 	Sleep(100);
 	::SendMessage(dlg->m_pProcessDlg->GetSafeHwnd(), WM_PROCESS_RANGE, (WPARAM)0, (LPARAM)(dlg->m_uiCloneNum - 1));
 	int maxID = MAX_ITEM_COUNT;
-	boost::shared_ptr<MVC::Item::CItem> newItem;
+	std::shared_ptr<MVC::Item::CItem> newItem;
 	for (int i = 0; i < dlg->m_uiCloneNum; ++i)
 	{
 		if (dlg->m_pProcessDlg->m_bStop)	break;
-		newItem = boost::shared_ptr<MVC::Item::CItem>(new MVC::Item::CItem(_T("")));
+		newItem = std::shared_ptr<MVC::Item::CItem>(new MVC::Item::CItem(_T("")));
 		if (!item->OnCloneMe(*newItem, i + 1, dlg->m_uiAddrUnit, dlg->m_nRadioType))
 			continue;			//!< 如果此项没克隆成功，就克隆下一条
 		if (!mgr->AddItemBack(newItem, maxID, item->getMyGroupID()))	// AddItemBack添加的速度比较快

@@ -48,7 +48,7 @@ CPropertySlave::CPropertySlave(void)
 {
 	m_uiType = 0;
 	m_uiID = UINT(-1);
-	m_ShowDev = boost::shared_ptr<CDeviceOne>(new CDeviceOne());
+	m_ShowDev = std::shared_ptr<CDeviceOne>(new CDeviceOne());
 	m_ShowDev->m_vtInterface.resize(1);
 	if(m_ShowDev->m_vtInterface[0])
 		m_ShowDev->m_vtInterface[0]->SetType(16);
@@ -81,7 +81,7 @@ void CPropertySlave::SetType(UINT type, UINT id, UINT parentID)
 	}
 	else if(m_uiType == 1)			//!< 如果是修改
 	{
-		boost::shared_ptr<CDeviceOne> device = devMgr->GetDevice(id);
+		std::shared_ptr<CDeviceOne> device = devMgr->GetDevice(id);
 		ASSERT(device);
 		m_ShowDev->CopyFrom(*device);
 		m_ShowDev->setID(device->getID());
@@ -106,10 +106,10 @@ void CPropertySlave::ShowInfo(CXTPPropertyGrid& grid)
 	CXTPPropertyGridItem* pGroup;					//!< 属性组
 	CXTPPropertyGridInplaceButton* pButton;
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<CDeviceOne> parent = devMgr->GetDevice(m_uiParentID);
+	std::shared_ptr<CDeviceOne> parent = devMgr->GetDevice(m_uiParentID);
 	if(!parent)		return;
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlParent = parent->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlParent = parent->GetXmlInfo();
 	std::list<CString> strList;						//!< 下拉列表的内容
 	CString tooltip;								//!< 有些项的提示信息需要整理后才能使用
 	int def = -1;
@@ -176,7 +176,7 @@ bool CPropertySlave::OnSaveModify(CXTPPropertyGrid& grid)
 	UINT count = grid.GetCount();
 	CString strValue;
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
 
 	for(int i = 0; i < count; ++i)
 	{
@@ -209,16 +209,16 @@ bool CPropertySlave::OnSaveModify(CXTPPropertyGrid& grid)
 		}
 	}
 	//!< 接口不能重复
-	boost::shared_ptr<CDeviceOne> device;
-	boost::shared_ptr<CDeviceInterface> projInf, myInf;
-	foreach(device, devMgr->m_vtDevice)
+	std::shared_ptr<CDeviceOne> device;
+	std::shared_ptr<CDeviceInterface> projInf, myInf;
+	for (auto device : devMgr->m_vtDevice)
 	{
 		if(!device)											continue;
 		if(device->getID() == m_ShowDev->getID())			continue;
 		if(device->getParentID() != m_uiParentID)			continue;
-		foreach(projInf, device->m_vtInterface)
+		for (auto projInf : device->m_vtInterface)
 		{
-			foreach(myInf, m_ShowDev->m_vtInterface)
+			for (auto myInf : m_ShowDev->m_vtInterface)
 			{
 				if(projInf->GetName() != myInf->GetName())	continue;
 				CString str = _T("设备 \"") + device->getName() + _T(" \"已存在接口 \"") + projInf->GetName() + _T(" \"， 请重新定义该接口");

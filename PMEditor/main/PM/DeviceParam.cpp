@@ -90,9 +90,9 @@ bool MVC::Device::CDeviceParam::SerializeXml(TiXmlElement* pNode, bool bRead, CD
 	else
 	{
 		if(!m_spXmlParam)			{ASSERT(FALSE);	return true;}
-		boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = dev->GetXmlInfo();
-		boost::shared_ptr<XmlInfo::CXmlBehavior> rXmlBev = xmlDev->getBehavior(m_spXmlParam->m_uiReadBID);
-		boost::shared_ptr<XmlInfo::CXmlBehavior> wXmlBev = xmlDev->getBehavior(m_spXmlParam->m_uiWriteBID);
+		std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = dev->GetXmlInfo();
+		std::shared_ptr<XmlInfo::CXmlBehavior> rXmlBev = xmlDev->getBehavior(m_spXmlParam->m_uiReadBID);
+		std::shared_ptr<XmlInfo::CXmlBehavior> wXmlBev = xmlDev->getBehavior(m_spXmlParam->m_uiWriteBID);
 		pNode->SetAttribute(PARAID, (int)getParaID());
 		pNode->SetAttribute(PARANAME, getName());
 		pNode->SetAttribute(DATATYPE, (int)getType());
@@ -127,14 +127,14 @@ void MVC::Device::CDeviceParam::ChangeType(UINT vt)
 //!< 记录对应的描述
 void MVC::Device::CDeviceParam::setParaID(UINT paraID, CDeviceOne* projDev)
 {
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = projDev->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = projDev->GetXmlInfo();
 	ASSERT(xmlDev);
 	m_spXmlParam = xmlDev->getPara(paraID);
 	m_uiParaID = paraID;
 }
 
 //!< 新建变量时要初始化参数
-void MVC::Device::CDeviceParam::InitParaType(boost::shared_ptr<XmlInfo::CXmlParaInfo> xmlPara, UINT groupNum/*=1*/)
+void MVC::Device::CDeviceParam::InitParaType(std::shared_ptr<XmlInfo::CXmlParaInfo> xmlPara, UINT groupNum/*=1*/)
 {
 	ASSERT(xmlPara);
 	m_spXmlParam = xmlPara;
@@ -207,7 +207,7 @@ MVC::Device::CDeviceParam& MVC::Device::CDeviceParam::operator = (CDeviceParam& 
 	m_uiType = para.getType();
 	m_spXmlParam = para.getXmlPara();
 	m_vtValue.clear();
-	foreach(CComVariant cvr, para.m_vtValue)
+	for (CComVariant cvr : para.m_vtValue)
 		m_vtValue.push_back(cvr);
 	return *this;
 }

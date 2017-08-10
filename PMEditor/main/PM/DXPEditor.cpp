@@ -121,12 +121,12 @@ BOOL CDXPEditorApp::InitInstance()
 	}
 
 	//!< 装载描述信息
-	m_XmlMgr = boost::shared_ptr<XmlInfo::CXmlMgr>(new XmlInfo::CXmlMgr);
-	if(!m_XmlMgr->OpenXml()){
-		CDCCE_Splash::Hide();
-		AfxMessageBox("解析描述文件失败！");
-		return FALSE;
-	}
+	m_XmlMgr = std::shared_ptr<XmlInfo::CXmlMgr>(new XmlInfo::CXmlMgr);
+	//if(!m_XmlMgr->OpenXml()){
+	//	CDCCE_Splash::Hide();
+	//	AfxMessageBox("解析描述文件失败！");
+	//	return FALSE;
+	//}
 	if(CDCCE_Splash::Visible())
 	{
 		Sleep(300);

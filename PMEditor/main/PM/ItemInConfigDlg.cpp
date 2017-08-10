@@ -119,7 +119,7 @@ INT_PTR CItemInConfigDlg::DoModal(UINT type/* = 0*/, int groupId /* = -1 */)
 	}
 	if(groupId == -1)	groupId = 0;
 	MVC::Item::CItemMgr* mgr = &MVC::Item::CItemMgr::GetMe();
-	boost::shared_ptr<MVC::Item::CItemGroup> group = mgr->GetGroup(groupId);
+	std::shared_ptr<MVC::Item::CItemGroup> group = mgr->GetGroup(groupId);
 	SetGroupName(group->getName());
 	if(m_bUseAdvanceOptions)
 	{
@@ -144,7 +144,7 @@ BOOL CItemInConfigDlg::OnInitDialog()
 	devMgr->GetDeviceNameList(ltName, defIndex);
 	m_cbDevice.ResetContent();
 	m_strDevice = _T("");
-	foreach(CString name, ltName)	m_cbDevice.AddString(name);
+	for (CString name : ltName)	m_cbDevice.AddString(name);
 	if(!ltName.empty())				m_cbDevice.SetCurSel(0);
 
 
@@ -223,7 +223,7 @@ BOOL CItemInConfigDlg::OnInitDialog()
 int CItemInConfigDlg::GetDeviceID()
 {
 	if(m_strDevice == _T(""))	return -1;
-	boost::shared_ptr<MVC::Device::CDeviceOne> device = MVC::Device::CDevMgr::GetMe().GetDevice(m_strDevice);
+	std::shared_ptr<MVC::Device::CDeviceOne> device = MVC::Device::CDevMgr::GetMe().GetDevice(m_strDevice);
 	if(!device)					return -1;
 	return device->getID();
 }
@@ -232,7 +232,7 @@ void CItemInConfigDlg::UpdateGroupTree()
 {
 	m_GroupTree.DeleteAllItems();
 	MVC::Item::CItemMgr* mgr = &MVC::Item::CItemMgr::GetMe();
-	boost::shared_ptr<MVC::Item::CItemGroup> group = mgr->GetGroup(0);
+	std::shared_ptr<MVC::Item::CItemGroup> group = mgr->GetGroup(0);
 	HTREEITEM root = NULL, selItem = NULL;
 	if(group){
 		root = m_GroupTree.InsertItem(group->getName(), 6, 7, TVI_ROOT, TVI_LAST);
@@ -250,7 +250,7 @@ void CItemInConfigDlg::AddGroupChild(HTREEITEM root, HTREEITEM& selItem, UINT pa
 	if(!mgr->GetGroup(parentID))		return;
 	HTREEITEM item = NULL;
 	std::list<UINT> ltChildID = mgr->GetGroup(parentID)->getGroupIDList();
-	foreach(UINT i, ltChildID){
+	for (UINT i : ltChildID){
 		if(!mgr->GetGroup(i))	continue;
 		item = m_GroupTree.InsertItem(mgr->GetGroup(i)->getName(), 6, 7, root, TVI_LAST);
 		if(i == m_uiGroupID)			selItem = item;
@@ -263,10 +263,10 @@ void CItemInConfigDlg::AddGroupChild(HTREEITEM root, HTREEITEM& selItem, UINT pa
 void CItemInConfigDlg::OnBnClickedAddGroup()
 {
 	Dialog::CAddItemGroupDlg* dlg = &Dialog::CAddItemGroupDlg::GetMe();
-	boost::shared_ptr<MVC::Item::CItemGroup> group;
+	std::shared_ptr<MVC::Item::CItemGroup> group;
 	if(dlg->DoModal() == IDOK)
 	{
-		group = boost::shared_ptr<MVC::Item::CItemGroup>(new MVC::Item::CItemGroup(dlg->m_strGroupName, dlg->m_uiParentID));
+		group = std::shared_ptr<MVC::Item::CItemGroup>(new MVC::Item::CItemGroup(dlg->m_strGroupName, dlg->m_uiParentID));
 		MVC::Item::CItemMgr::GetMe().AddGroup(group, dlg->m_uiParentID);
 		CString text = m_strGroupName;
 		UpdateGroupTree();
@@ -327,7 +327,7 @@ void CItemInConfigDlg::OnTreeKeyDown(CTreeCtrl* treeCtrl, HTREEITEM item, UINT n
 
 void CItemInConfigDlg::SetGroupName(CString name)
 {
-	boost::shared_ptr<MVC::Item::CItemGroup> group;
+	std::shared_ptr<MVC::Item::CItemGroup> group;
 	group = MVC::Item::CItemMgr::GetMe().GetGroup(name);
 	if(!group)		return;
 	m_strGroupName = group->getName();

@@ -44,7 +44,7 @@ CCompiler& CCompiler::GetMe()
 //!< ±‡“Îπ§≥Ã
 void CCompiler::CompileProj()
 {
-	boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 	if(!proj)					return;
 	if(IsCompiling())			return;
 // 	if(proj->IsCompiled())
@@ -85,7 +85,7 @@ void CCompiler::CompileScan()
 	CString ext = _T(".dsd");
 	if(!SoftInfo::CSoftInfo::GetMe().IsScanXml())	ext += _T("x");
 
-	boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 	if(!proj)		return;
 	CString projPathName = proj->GetWholePathName();
 	CString xmlMgrPathName = CGbl::GetMe().getDataPath() + _T("√Ë ˆπ‹¿Ì.ddm");
@@ -131,7 +131,7 @@ void CCompiler::OnReceive(COPYDATASTRUCT* pCopyDataStruct)
 	char *data = NULL;
 	CString msg;
 	bool bCompiled = false;
-	boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 	switch(pCopyDataStruct->dwData)
 	{
 	case COMPILE_MESSAGE:			//!< ±‡“Î∆˜¥Ú”°µƒ ˝æ›
@@ -176,12 +176,12 @@ void CCompiler::AddRunObj(SNeedRunObj* obj)
 void CCompiler::OnRunObj()
 {
 	if(m_ltNeedRunObj.empty())						return;
-	boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 	if(!proj)										return;
 	if(!proj->IsCompiled())							//!< »Áπ˚±‡“Î√ªÕ®π˝,‘Ú–Ë“™Ã· æ,≤¢≤ª‘Ÿ∆Ù∂Ø∆‰À¸
 	{
 		CString strOut;
-		foreach(SNeedRunObj* nro, m_ltNeedRunObj)
+		for (SNeedRunObj* nro : m_ltNeedRunObj)
 		{
 			if(strOut == _T(""))					strOut = _T(" '") + nro->GetTitle() + _T("'");
 			else									strOut = strOut + _T(" ∫Õ '") + nro->GetTitle() + _T("'");
@@ -193,14 +193,14 @@ void CCompiler::OnRunObj()
 	}
 
 	//!< ∆Ù∂ØÀ˘”–¥˝‘À––µƒÕ‚≤øƒ£øÈ
-	SNeedRunObj* obj;
-	foreach(obj, m_ltNeedRunObj)
+	//SNeedRunObj* obj;
+	for (auto obj : m_ltNeedRunObj)
 		obj->OnRun();
 }
 
 void CCompiler::RunScan()
 {
-	boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 	if(!proj)										return;
 	CString projPathName = proj->GetWholePathName();
 	CString cplPathName = projPathName.Left(projPathName.ReverseFind('.')) + _T(".dsl");
@@ -237,7 +237,7 @@ bool CCompiler::SerializeXml(TiXmlElement* pNode, bool bRead)		//!< ±£¥Êxml∏Ò Ωµ
 void CCompiler::OnCompileOverTime()
 {
 	if(!IsCompiling())		return;		//!< »Áπ˚“—æ≠±‡“ÎÕÍ±œ,ÕÀ≥ˆ
-	boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 	if(proj)				proj->SetCompiled(false);
 	SetCompiling(false);
 	CGbl::PrintOut(_T("±‡“Î≥¨ ±"));

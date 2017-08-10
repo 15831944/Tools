@@ -47,7 +47,7 @@ void CDMemDC::SetZoomStyle(UINT xNum, UINT xDNum, UINT yNum, UINT yDNum)
 BOOL CDMemDC::TextOut(LONG x, LONG y, CString str, LOGFONT logfont)
 {
 	CPoint point = CPoint(x, y);
-	boost::shared_ptr<CDMemDCWord> word = boost::shared_ptr<CDMemDCWord>(new CDMemDCWord(point, str, logfont));
+	std::shared_ptr<CDMemDCWord> word = std::shared_ptr<CDMemDCWord>(new CDMemDCWord(point, str, logfont));
 	m_ltWords.push_back(word);
 	return TRUE;
 }
@@ -55,12 +55,12 @@ BOOL CDMemDC::TextOut(LONG x, LONG y, CString str, LOGFONT logfont)
 void CDMemDC::DrawWords(CDC* pDC, CPoint point)
 {
 	if(!pDC)		return;
-	boost::shared_ptr<CDMemDCWord> words;
+	std::shared_ptr<CDMemDCWord> words;
 	CFont* pOldFont = NULL;
 	long a = -16;
 	long b = long(a * (long)m_uiZoomXNum);
 	long c = long(b / (long)m_uiZoomXDNum);
-	foreach(words, m_ltWords)
+	for (auto words : m_ltWords)
 	{
 		words->m_FontInfo.lfHeight = LONG(LONG(words->m_FontInfo.lfHeight * (LONG)m_uiZoomXNum) / (LONG)m_uiZoomXDNum);
 		words->m_srcPoint.x = (words->m_srcPoint.x * m_uiZoomXNum) / m_uiZoomXDNum;

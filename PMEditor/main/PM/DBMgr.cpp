@@ -150,8 +150,8 @@ void CDBMgr::OnClose()
 bool CDBMgr::IsActive()
 {
 	MVC::Item::CItemMgr* itemMgr = &MVC::Item::CItemMgr::GetMe();
-	boost::shared_ptr<MVC::Item::CItem> item;
-	foreach(item, itemMgr->m_vtItem)
+	//std::shared_ptr<MVC::Item::CItem> item;
+	for (auto item : itemMgr->m_vtItem)
 		if(item && item->getReservDB())
 			return true;			// 只要有1个变量保留历史数据,那么就启动数据库
 	return false;					// 所有变量都不保留历史数据,那么就不启动数据库
@@ -171,8 +171,8 @@ void  CDBMgr::InitStateXml(COPYDATASTRUCT& pCopyDataStruct)
 		if (strAll.IsEmpty()) {ASSERT(FALSE); return;}
 		std::vector<CString> vtStr,vtLR;
 		CGbl::SpliteBy(strAll,_T("|"),vtStr);
-		CString str,strL,strR;
-		foreach(str,vtStr)
+		CString strL,strR;
+		for (CString str : vtStr)
 		{
 			vtLR.clear();
 			CGbl::SpliteBy(str,_T("?"),vtLR);

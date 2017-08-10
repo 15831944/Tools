@@ -6,8 +6,8 @@ class CItem;
 class CPropertyItems : public Dialog::CObjectInProperty
 {
 private:
-	std::list< boost::shared_ptr<CItem> > m_ltEditItem;	//!< 要被修改的所有变量
-	boost::shared_ptr<CItem> m_ShowItem;				//!< 显示出来的临时变量
+	std::list< std::shared_ptr<CItem> > m_ltEditItem;	//!< 要被修改的所有变量
+	std::shared_ptr<CItem> m_ShowItem;				//!< 显示出来的临时变量
 
 	BOOL m_bValType;			//!< 工程值类型是否相同
 	BOOL m_bSrcType;			//!< 数据源类型是否相同
@@ -46,7 +46,7 @@ private:
 public:
 	CPropertyItems(void);
 	~CPropertyItems(void);
-	void SetItemList(std::list< boost::shared_ptr<CItem> >& ltItem){m_ltEditItem = ltItem;}
+	void SetItemList(std::list< std::shared_ptr<CItem> >& ltItem){m_ltEditItem = ltItem;}
 
 private:
 	void CreateEdit();												//!< 编辑前的数据准备方法

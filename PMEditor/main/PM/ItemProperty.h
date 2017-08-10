@@ -10,12 +10,12 @@ private:
 	bool m_bAdd;		//!< 表示是否是添加状态，true表示添加变量，false表示修改变量
 	UINT m_GroupID;		//!< 无论是添加还是修改，都要记录一下变量所属组的ID号
 	CItem* m_Item;		//!< 当前所指向的变量，如果是新建，这个为空
-	boost::shared_ptr<CItem> m_ShowItem;			//!< 要显示用的变量
+	std::shared_ptr<CItem> m_ShowItem;			//!< 要显示用的变量
 
 	UINT m_DevIDOld;	//!< 记录旧的所属设备节点对应设备的编号,与最新的比较,如果一样就不刷新变量区列表了
 
 public:
-	boost::shared_ptr<CItem> m_NewItem;				//!< 记录上次添加的变量的所有信息，这次添加时显示上次添加的信息
+	std::shared_ptr<CItem> m_NewItem;				//!< 记录上次添加的变量的所有信息，这次添加时显示上次添加的信息
 	void SetType(bool add = true){m_bAdd = add;}
 	void SetItem(CItem* item){m_Item = item;}
 	void SetGroupID(UINT id){m_GroupID = id;}

@@ -171,8 +171,8 @@ MVC::Item::CPropertyItem::CPropertyItem(void)
 ,m_Item(NULL)		//!< 当前所指向的变量，如果是新建，这个为空
 ,m_DevIDOld(-1)		//!< 记录旧的所属设备节点对应设备的编号,与最新的比较,如果一样就不刷新变量区列表了
 {
-	m_NewItem = boost::shared_ptr<CItem>(new CItem(_T("新建变量")));
-	m_ShowItem = boost::shared_ptr<CItem>(new CItem(_T("")));
+	m_NewItem = std::shared_ptr<CItem>(new CItem(_T("新建变量")));
+	m_ShowItem = std::shared_ptr<CItem>(new CItem(_T("")));
 }
 
 MVC::Item::CPropertyItem::~CPropertyItem(void)
@@ -201,9 +201,9 @@ void MVC::Item::CPropertyItem::ShowInfo(CXTPPropertyGrid& grid)
 
 	CXTPPropertyGridItem *pGroup, *pItem;			//!< 属性组
 	CXTPPropertyGridInplaceButton* pButton;
-	boost::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;		//!< 描述信息
-	boost::shared_ptr<CPropertySource> showSrc = m_ShowItem->getSrcInfo();
-	boost::shared_ptr<CPropertyAlarm> showAlarm = m_ShowItem->getAlarmInfo();
+	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;		//!< 描述信息
+	std::shared_ptr<CPropertySource> showSrc = m_ShowItem->getSrcInfo();
+	std::shared_ptr<CPropertyAlarm> showAlarm = m_ShowItem->getAlarmInfo();
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	ASSERT(showSrc);
 	ASSERT(showAlarm);
@@ -228,9 +228,9 @@ void MVC::Item::CPropertyItem::ShowInfo(CXTPPropertyGrid& grid)
 
 	//!< 所属变量组
 	strList.clear();
-	boost::shared_ptr<CItemGroup> group;
+	std::shared_ptr<CItemGroup> group;
 	int dftGroup = 0;
-	foreach(group, itemMgr->m_vtItemGroup)
+	for (auto group : itemMgr->m_vtItemGroup)
 	{
 		if(!group)			continue;
 		if(group->getID() == m_GroupID)		dftGroup = strList.size();
@@ -295,7 +295,7 @@ void MVC::Item::CPropertyItem::ShowInfo(CXTPPropertyGrid& grid)
 	//!< 设备名称
 	strList.clear();
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	boost::shared_ptr<MVC::Device::CDeviceOne> myDev;		//!< 本变量所属的设备
+	std::shared_ptr<MVC::Device::CDeviceOne> myDev;		//!< 本变量所属的设备
 	int defIndex = showSrc->getDeviceID();
 	myDev = devMgr->GetDeviceNameList(strList, defIndex);
 	if(myDev)		m_DevIDOld = myDev->getID();
@@ -303,8 +303,8 @@ void MVC::Item::CPropertyItem::ShowInfo(CXTPPropertyGrid& grid)
 	AddItemList(*pGroup, SRC_DEVICEID, SRC_DEVICEID_TOOLTIP, strList, defIndex, SRC_DEVICE_ID);
 
 	//!< 区地址
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev;			//!< 变量所属设备的描述信息
-	boost::shared_ptr<XmlInfo::CXmlArea> myArea;			//!< 本变量所属的区
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev;			//!< 变量所属设备的描述信息
+	std::shared_ptr<XmlInfo::CXmlArea> myArea;			//!< 本变量所属的区
 	if(myDev)		//!< 如果变量所属设备存在，并且描述也存在了
 	{
 		xmlDev = myDev->GetXmlInfo();
@@ -468,7 +468,7 @@ void MVC::Item::CPropertyItem::OnGridFirstShow(CXTPPropertyGrid& grid)
 //!< 创建新建的变量信息
 void MVC::Item::CPropertyItem::CreateNew()
 {
-	if(!m_ShowItem)		m_ShowItem = boost::shared_ptr<CItem>(new CItem(_T("")));
+	if(!m_ShowItem)		m_ShowItem = std::shared_ptr<CItem>(new CItem(_T("")));
 
 	//!< 给变量命名，需要等于上一次创建的变量名后边 + 1
 	CString strHead;
@@ -497,7 +497,7 @@ void MVC::Item::CPropertyItem::CreateNew()
 //!< 创建编辑的变量信息
 void MVC::Item::CPropertyItem::CreateEdit()
 {
-	if(!m_ShowItem)		m_ShowItem = boost::shared_ptr<CItem>(new CItem(_T("")));
+	if(!m_ShowItem)		m_ShowItem = std::shared_ptr<CItem>(new CItem(_T("")));
 	if(!m_Item)			return;
 	*m_ShowItem = *m_Item;
 	m_GroupID = m_ShowItem->getMyGroupID();	//!< 记录组号,以便下次添加时能够自动变为该组
@@ -561,11 +561,11 @@ void MVC::Item::CPropertyItem::ShowAndHide(CXTPPropertyGrid& grid)
 		}
 		//!< 位偏移是否显示
 		MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-		boost::shared_ptr<MVC::Device::CDeviceOne> projDev = devMgr->GetDevice(itemDev->GetValue());
+		std::shared_ptr<MVC::Device::CDeviceOne> projDev = devMgr->GetDevice(itemDev->GetValue());
 		if(projDev)
 		{
-			boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = projDev->GetXmlInfo();
-			boost::shared_ptr<XmlInfo::CXmlArea> xmlArea = xmlDev->getArea(itemArea->GetValue());
+			std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = projDev->GetXmlInfo();
+			std::shared_ptr<XmlInfo::CXmlArea> xmlArea = xmlDev->getArea(itemArea->GetValue());
 			if(xmlArea)
 			{
 				itemBitlen->SetHidden(TRUE);												//!< 先隐藏位偏移
@@ -642,8 +642,8 @@ void MVC::Item::CPropertyItem::OnChangeDev(CXTPPropertyGrid& grid)
 	if(IfSameArea(itemDev->GetValue(), m_DevIDOld))		return;	//!< 如果变量区完全一样,就不用刷新变量区了
 
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	boost::shared_ptr<MVC::Device::CDeviceOne> projNewDev = devMgr->GetDevice(itemDev->GetValue());
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev;
+	std::shared_ptr<MVC::Device::CDeviceOne> projNewDev = devMgr->GetDevice(itemDev->GetValue());
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev;
 	if(!projNewDev)										return;
 	m_DevIDOld = projNewDev->getID();
 	xmlDev = projNewDev->GetXmlInfo();							//!< 获得了设备描述
@@ -653,16 +653,16 @@ void MVC::Item::CPropertyItem::OnChangeDev(CXTPPropertyGrid& grid)
 		itemArea->SetValue(_T(""));
 	}
 	else{														//!< 如果存在这个设备并且有描述信息
-		boost::shared_ptr<XmlInfo::CXmlArea> xmlArea;
+		std::shared_ptr<XmlInfo::CXmlArea> xmlArea;
 		std::list<CString> strList;
-		foreach(xmlArea, xmlDev->m_vtArea){
+		for (auto xmlArea : xmlDev->m_vtArea){
 			if(!xmlArea)								continue;
 			strList.push_back(xmlArea->getName());
 		}
 		strList.sort();		//!< 对区名称排个序
 		if(strList.empty())
 			strList.push_back(_T("无"));
-		foreach(CString str, strList)
+		for (CString str : strList)
 			itemArea->GetConstraints()->AddConstraint(str);
 		itemArea->SetValue(_T(""));
 		itemArea->SetDefaultValue(_T(""));
@@ -688,10 +688,10 @@ void MVC::Item::CPropertyItem::OnChangeArea(CXTPPropertyGrid& grid)
 	if(!itemDev || !itemArea || !itemIOType)		return;
 
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	boost::shared_ptr<MVC::Device::CDeviceOne> projDev = devMgr->GetDevice(itemDev->GetValue());
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev;
+	std::shared_ptr<MVC::Device::CDeviceOne> projDev = devMgr->GetDevice(itemDev->GetValue());
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev;
 	if(projDev)		xmlDev = projDev->GetXmlInfo();
-	boost::shared_ptr<XmlInfo::CXmlArea> xmlArea;
+	std::shared_ptr<XmlInfo::CXmlArea> xmlArea;
 	if(xmlDev)		xmlArea = xmlDev->getArea(itemArea->GetValue());
 	itemIOType->GetConstraints()->RemoveAll();
 	if(!projDev || !xmlDev || !xmlArea){				//!< 如果没有设备，或者这个设备没有找到描述信息
@@ -700,7 +700,7 @@ void MVC::Item::CPropertyItem::OnChangeArea(CXTPPropertyGrid& grid)
 	else{												//!< 如果存在这个设备并且有描述信息
 		int def = 0;
 		std::list<CString> strList = xmlArea->GetSupportUnitList(def);
-		foreach(CString text, strList){
+		for (CString text : strList){
 			itemIOType->GetConstraints()->AddConstraint(text);
 		}
 		itemIOType->SetValue(_T(""));
@@ -742,10 +742,10 @@ void MVC::Item::CPropertyItem::OnChangeIOType(CXTPPropertyGrid& grid)
 	if(itemOperate->GetValue() == _T(""))							return;
 
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	boost::shared_ptr<MVC::Device::CDeviceOne> projDev = devMgr->GetDevice(itemDev->GetValue());
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev;
+	std::shared_ptr<MVC::Device::CDeviceOne> projDev = devMgr->GetDevice(itemDev->GetValue());
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev;
 	if(projDev)		xmlDev = projDev->GetXmlInfo();
-	boost::shared_ptr<XmlInfo::CXmlArea> xmlArea;
+	std::shared_ptr<XmlInfo::CXmlArea> xmlArea;
 	if(xmlDev)		xmlArea = xmlDev->getArea(itemArea->GetValue());
 	if(xmlArea){
 		int supportUnitCount = xmlArea->GetSupportType(itemOperate->GetValue());
@@ -807,8 +807,8 @@ bool MVC::Item::CPropertyItem::OnSaveModify(CXTPPropertyGrid& grid)
 	CString itemValue;
 	UINT itemID;
 	CComVariant cvr;
-	boost::shared_ptr<CPropertySource> showSrc = m_ShowItem->getSrcInfo();
-	boost::shared_ptr<CPropertyAlarm> showAlarm = m_ShowItem->getAlarmInfo();
+	std::shared_ptr<CPropertySource> showSrc = m_ShowItem->getSrcInfo();
+	std::shared_ptr<CPropertyAlarm> showAlarm = m_ShowItem->getAlarmInfo();
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	ASSERT(showSrc);
 	ASSERT(showAlarm);
@@ -842,7 +842,7 @@ bool MVC::Item::CPropertyItem::OnSaveModify(CXTPPropertyGrid& grid)
 			m_ShowItem->setDescription(itemValue.Trim());	// = _T("变量备注");
 		}
 		else if(itemID == ITEM_GROUP_ID){					// = _T("变量组");
-			boost::shared_ptr<CItemGroup> itemGroup = itemMgr->GetGroup(itemValue.Trim());
+			std::shared_ptr<CItemGroup> itemGroup = itemMgr->GetGroup(itemValue.Trim());
 			if(!itemGroup)			return false;
 			m_ShowItem->setMyGroupID(itemGroup->getID());
 			m_GroupID = itemGroup->getID();
@@ -882,29 +882,29 @@ bool MVC::Item::CPropertyItem::OnSaveModify(CXTPPropertyGrid& grid)
 		}
 		else if(itemID == SRC_DEVICE_ID){					// = _T("所属设备");
 			MVC::Device::CDevMgr* mgr = &MVC::Device::CDevMgr::GetMe();
-			boost::shared_ptr<MVC::Device::CDeviceOne> device;
+			std::shared_ptr<MVC::Device::CDeviceOne> device;
 			device = mgr->GetDevice(itemValue);
 			if(device)
 				showSrc->setDevID(device->getID());
 		}
 		else if(itemID == SRC_AREA_ID){					// = _T("区地址");
 			MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();			//!< 获得工程管理
-			boost::shared_ptr<MVC::Device::CDeviceOne> projDev;
+			std::shared_ptr<MVC::Device::CDeviceOne> projDev;
 			projDev = devMgr->GetDevice(showSrc->getDeviceID());	//!< 获得对应的工程设备
 			if(!projDev)		{AfxMessageBox(_T("未找到对应设备..."), MB_OK | MB_ICONEXCLAMATION);	return false;}
-			boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = projDev->GetXmlInfo();	//!< 通过工程设备类型，获得描述设备
+			std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = projDev->GetXmlInfo();	//!< 通过工程设备类型，获得描述设备
 			if(!xmlDev)			{AfxMessageBox(_T("未找到对应设备类型..."), MB_OK | MB_ICONEXCLAMATION);return false;}
 			showSrc->setAreaID(xmlDev->GetAreaID(itemValue));
 		}
 		else if(itemID == SRC_IOTYPE_ID){					// = _T("区操作");
 			MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();			//!< 获得工程管理
-			boost::shared_ptr<MVC::Device::CDeviceOne> projDev;
+			std::shared_ptr<MVC::Device::CDeviceOne> projDev;
 			projDev = devMgr->GetDevice(showSrc->getDeviceID());	//!< 获得对应的工程设备
 			if(!projDev)		{AfxMessageBox(_T("未找到对应设备..."), MB_OK | MB_ICONEXCLAMATION);	return false;}
-			boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = projDev->GetXmlInfo();	//!< 通过工程设备类型，获得描述设备
+			std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = projDev->GetXmlInfo();	//!< 通过工程设备类型，获得描述设备
 			if(!xmlDev)			{AfxMessageBox(_T("未找到对应设备类型..."), MB_OK | MB_ICONEXCLAMATION);	return false;}
 			CString areaName = grid.FindItem(SRC_AREA_ID)->GetValue();
-			boost::shared_ptr<XmlInfo::CXmlArea> xmlArea = xmlDev->getArea(areaName);
+			std::shared_ptr<XmlInfo::CXmlArea> xmlArea = xmlDev->getArea(areaName);
 			if(!xmlArea)		{AfxMessageBox(_T("未找到对应变量区..."), MB_OK | MB_ICONEXCLAMATION);	return false;}
 			UINT valResult = xmlArea->GetSupportType(itemValue);
 			showSrc->setIOType(valResult);
@@ -997,9 +997,9 @@ bool MVC::Item::CPropertyItem::OnSaveModify(CXTPPropertyGrid& grid)
 	if(m_bAdd){
 		m_bAdd = false;
 		grid.SetWindowText(_T("修改变量"));
-		if(!m_NewItem)		m_NewItem = boost::shared_ptr<CItem>(new CItem(_T("")));
+		if(!m_NewItem)		m_NewItem = std::shared_ptr<CItem>(new CItem(_T("")));
 		*m_NewItem = *m_ShowItem;							//!< m_NewItem每次不一样
-		boost::shared_ptr<CItem> newItem = boost::shared_ptr<CItem>(new CItem(_T("")));
+		std::shared_ptr<CItem> newItem = std::shared_ptr<CItem>(new CItem(_T("")));
 		*newItem = *m_ShowItem;
 		CItemMgr::GetMe().AddItem(newItem,
 			MAX_ITEM_COUNT,
@@ -1049,8 +1049,8 @@ void MVC::Item::CPropertyItem::OnShowHelp()
 bool MVC::Item::CPropertyItem::IfSameArea(CString name1, UINT id2)
 {
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	boost::shared_ptr<MVC::Device::CDeviceOne> devLhs = devMgr->GetDevice(name1);
-	boost::shared_ptr<MVC::Device::CDeviceOne> devRhs = devMgr->GetDevice(id2);
+	std::shared_ptr<MVC::Device::CDeviceOne> devLhs = devMgr->GetDevice(name1);
+	std::shared_ptr<MVC::Device::CDeviceOne> devRhs = devMgr->GetDevice(id2);
 
 	if(!devLhs && !devRhs)								return true;		// 都为空
 	if(devLhs && !devRhs)								return false;		// 只有一个为空
@@ -1058,16 +1058,16 @@ bool MVC::Item::CPropertyItem::IfSameArea(CString name1, UINT id2)
 	if(devLhs->getDevType() == devRhs->getDevType())	return true;		// 都不空,类型相同
 
 	// 都不空,类型还不同,那就得一个区一个区比较了
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDevLhs, xmlDevRhs;
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDevLhs, xmlDevRhs;
 	xmlDevLhs = devLhs->GetXmlInfo();
 	xmlDevRhs = devRhs->GetXmlInfo();
 	if(!xmlDevLhs || !xmlDevRhs)						return false;		// 找不到设备描述
 	int sizeLth = (int)xmlDevLhs->m_vtArea.size();
 	int sizeRth = (int)xmlDevRhs->m_vtArea.size();
 	if(sizeLth != sizeRth)								return false;		// 变量区数量不同
-	boost::shared_ptr<XmlInfo::CXmlArea> xmlAreaLhs, xmlAreaRhs;
-	std::vector<boost::shared_ptr<XmlInfo::CXmlArea> >::iterator iterLhs = xmlDevLhs->m_vtArea.begin();
-	std::vector<boost::shared_ptr<XmlInfo::CXmlArea> >::iterator iterRhs = xmlDevRhs->m_vtArea.begin();
+	std::shared_ptr<XmlInfo::CXmlArea> xmlAreaLhs, xmlAreaRhs;
+	std::vector<std::shared_ptr<XmlInfo::CXmlArea> >::iterator iterLhs = xmlDevLhs->m_vtArea.begin();
+	std::vector<std::shared_ptr<XmlInfo::CXmlArea> >::iterator iterRhs = xmlDevRhs->m_vtArea.begin();
 	for(; iterLhs != xmlDevLhs->m_vtArea.end(); iterLhs++, iterRhs++)
 	{
 		xmlAreaLhs = (*iterLhs);

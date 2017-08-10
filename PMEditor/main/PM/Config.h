@@ -10,7 +10,7 @@ private:
 	int m_nID;											//!< 设备编号
 	HWND m_hConfigWnd;									//!< 服务器程序的句柄
 	PROCESS_INFORMATION m_pi;
-	boost::thread* m_ThreadToWati;
+	std::thread* m_ThreadToWati;
 
 public:
 	CConfig (int id);

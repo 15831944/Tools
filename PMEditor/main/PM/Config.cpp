@@ -49,7 +49,7 @@ void CConfig::OnRun()
 {
 	if (GetSafeHwnd() == NULL)		return;								//!< 如果已经点击启动了,则不再启动了
 	Servers::DXP::CServerCtrl::GetMe().OnRun();
-	boost::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
+	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 	if (!proj)						return;
 	CString exePath = CGbl::GetMe().getExePath();						//!< 程序安装路径
 	CString exePathName = exePath + CGbl::GetMe().getConfigName();		//!< 编译器路径名字
@@ -64,7 +64,7 @@ void CConfig::OnRun()
 	//MessageBox(cmdLine, "启动Config");
 	BOOL ret = CreateProcess(exePathName, cmdLine.GetBuffer(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &m_pi);
 	if (ret){
-		m_ThreadToWati = new boost::thread(boost::BOOST_BIND(&WaitToConfigClose, this, &m_pi));
+		m_ThreadToWati = new std::thread(std::bind(&WaitToConfigClose, this, &m_pi));
 	}
 }
 

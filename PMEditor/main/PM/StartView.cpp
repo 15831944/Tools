@@ -46,7 +46,7 @@ void CStartView::OnInitialUpdate()
 	SetScrollSizes(MM_TEXT, sizeTotal);
 
 	//≥ı ºªØIE¥∞ÃÂ
-	m_HtmlDlg = boost::shared_ptr<CDCCE_HtmlDialog>(new CDCCE_HtmlDialog(this));
+	m_HtmlDlg = std::shared_ptr<CDCCE_HtmlDialog>(new CDCCE_HtmlDialog(this));
 	CRect rect;
 	GetClientRect(&rect);
 	if(!m_HtmlDlg->Create(IDD_DCCE_HTMLDIALOG,this))

@@ -10,7 +10,7 @@ class CDeviceParam;
 class CPropertyParam : public Dialog::CObjectInProperty
 {
 public:
-	boost::shared_ptr<CDeviceOne> m_ShowDev;
+	std::shared_ptr<CDeviceOne> m_ShowDev;
 	std::list<UINT> m_ltParamID;
 	UINT m_uiGroupIndex;
 	bool m_bReadOnly;
@@ -22,7 +22,7 @@ public:
 private:
 	void ShowAndHide(CXTPPropertyGrid& grid);							//!< 显示或隐藏相关项
 	bool FindPara(UINT id);
-	void AddItem(boost::shared_ptr<CDeviceParam> xmlPara, CXTPPropertyGridItem* pParaGroup);
+	void AddItem(std::shared_ptr<CDeviceParam> xmlPara, CXTPPropertyGridItem* pParaGroup);
 
 public:
 	void SetInfo(UINT devID, CString behaviorName, UINT slaveID, bool bReadOnly = false);		//!< 获取设备编号，和行为名称

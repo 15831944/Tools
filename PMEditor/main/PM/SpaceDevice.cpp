@@ -64,15 +64,15 @@ bool CSpaceDevice::CreateSpace()
 void CSpaceDevice::FreshCompanyDevice()
 {
 	m_pGroups->Clear();
-	boost::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;
-	boost::shared_ptr<XmlInfo::CXmlDevice> device;
+	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;
+	std::shared_ptr<XmlInfo::CXmlDevice> device;
 
 	std::map<CString, CXTPTaskPanelGroup*> m_mpCompany;
 	CXTPTaskPanelGroup* pGroup;
 	CXTPTaskPanelGroupItem* pItem;
 
 	GetImageManager()->SetImageList(IDB_BMP_DEVICELIST, 32, 0, RGB(255,255,255));
-	foreach(device, xmlMgr->m_vtDevice)
+	for (auto device : xmlMgr->m_vtDevice)
 	{
 		if(!device)			continue;
 		pGroup = m_mpCompany[device->getCompany()];

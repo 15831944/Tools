@@ -61,8 +61,8 @@ using namespace Camera;
 
 MVC::Camera::CPropertyCamera::CPropertyCamera(void)
 {
-	m_NewItem = boost::shared_ptr<CCamera>(new CCamera());
-	m_ShowItem = boost::shared_ptr<CCamera>(new CCamera());
+	m_NewItem = std::shared_ptr<CCamera>(new CCamera());
+	m_ShowItem = std::shared_ptr<CCamera>(new CCamera());
 }
 
 MVC::Camera::CPropertyCamera::~CPropertyCamera(void)
@@ -322,9 +322,9 @@ bool MVC::Camera::CPropertyCamera::OnSaveModify(CXTPPropertyGrid& grid)
 	if(m_bAdd){
 		m_bAdd = false;
 		grid.SetWindowText(_T("修改变量"));
-		if(!m_NewItem)		m_NewItem = boost::shared_ptr<CCamera>(new CCamera());
+		if(!m_NewItem)		m_NewItem = std::shared_ptr<CCamera>(new CCamera());
 		*m_NewItem = *m_ShowItem;							//!< m_NewItem每次不一样
-		boost::shared_ptr<CCamera> newItem = boost::shared_ptr<CCamera>(new CCamera());
+		std::shared_ptr<CCamera> newItem = std::shared_ptr<CCamera>(new CCamera());
 		*newItem = *m_ShowItem;
 		CCamMgr::GetMe().AddItem(newItem);
 		m_NewItem->SetID(newItem->GetID());
@@ -363,14 +363,14 @@ void MVC::Camera::CPropertyCamera::OnButtonClick(CXTPPropertyGrid& grid, UINT bt
 
 void MVC::Camera::CPropertyCamera::CreateNew()
 {
-	if(!m_ShowItem)		m_ShowItem = boost::shared_ptr<CCamera>(new CCamera());
+	if(!m_ShowItem)		m_ShowItem = std::shared_ptr<CCamera>(new CCamera());
 	*m_ShowItem = *m_NewItem;
 	m_ShowItem->SetPort(CCamMgr::GetMe().GetDifferentPort(8080));
 }
 
 void MVC::Camera::CPropertyCamera::CreateEdit()
 {
-	if(!m_ShowItem)		m_ShowItem = boost::shared_ptr<CCamera>(new CCamera());
+	if(!m_ShowItem)		m_ShowItem = std::shared_ptr<CCamera>(new CCamera());
 	if(!m_Item)			return;
 	*m_ShowItem = *m_Item;
 }
@@ -425,8 +425,8 @@ bool MVC::Camera::CPropertyCamera::ExistSamePort(int nPort)
 {
 	if(!m_ShowItem->IsBroadCast())						return false;
 	CCamMgr* camMgr = &CCamMgr::GetMe();
-	boost::shared_ptr<CCamera> one;
-	foreach(one, camMgr->m_vtCam)
+	std::shared_ptr<CCamera> one;
+	for (auto one : camMgr->m_vtCam)
 	{
 		if(!one)										continue;
 		if(!one->IsBroadCast())							continue;

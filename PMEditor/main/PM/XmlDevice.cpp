@@ -163,19 +163,19 @@ void CXmlDevice::SayError(CString text, UINT maxNum)
 }
 
 template <class T>
-bool CXmlDevice::SerializeT(TiXmlElement* pNode, std::vector<boost::shared_ptr<T> >& vtObject, UINT maxNum, CString errName)
+bool CXmlDevice::SerializeT(TiXmlElement* pNode, std::vector<std::shared_ptr<T> >& vtObject, UINT maxNum, CString errName)
 {
 	UINT num = 0;
 	CString name;
 	CComVariant cvr;
 	TiXmlElement* pElement = pNode->FirstChildElement();
-	std::list<boost::shared_ptr<T> > ltObject;
-	boost::shared_ptr<T> pObject;
+	std::list<std::shared_ptr<T> > ltObject;
+	std::shared_ptr<T> pObject;
 	while(pElement)
 	{
 		if(TiXmlNode::ELEMENT == pElement->Type())
 		{
-			pObject = boost::shared_ptr<T>(new T);
+			pObject = std::shared_ptr<T>(new T);
 			if(pObject->SerializeXml(pElement))
 			{
 				if(pObject->m_uiID > maxNum)	SayError(errName, pObject->m_uiID);
@@ -185,26 +185,26 @@ bool CXmlDevice::SerializeT(TiXmlElement* pNode, std::vector<boost::shared_ptr<T
 		pElement = pElement->NextSiblingElement();
 	}
 
-	foreach(pObject, ltObject)		num = max(num, pObject->m_uiID);
+	for (auto pObject : ltObject)		num = max(num, pObject->m_uiID);
 	vtObject.clear();
 	vtObject.resize(num + 1);
-	foreach(pObject, ltObject)		vtObject[pObject->m_uiID] = pObject;
+	for (auto pObject : ltObject)		vtObject[pObject->m_uiID] = pObject;
 
 	return true;
 }
 
-boost::shared_ptr<CXmlArea> CXmlDevice::getArea(UINT id)
+std::shared_ptr<CXmlArea> CXmlDevice::getArea(UINT id)
 {
 	if(id < m_vtArea.size())
 		return m_vtArea[id];
-	boost::shared_ptr<CXmlArea> empty;
+	std::shared_ptr<CXmlArea> empty;
 	return empty;
 }
 
-boost::shared_ptr<CXmlArea> CXmlDevice::getArea(CString name)
+std::shared_ptr<CXmlArea> CXmlDevice::getArea(CString name)
 {
-	boost::shared_ptr<CXmlArea> area, empty;
-	foreach(area, m_vtArea){
+	std::shared_ptr<CXmlArea> area, empty;
+	for (auto area : m_vtArea){
 		if(!area)	continue;
 		if(name == area->getName())
 			return area;
@@ -214,7 +214,7 @@ boost::shared_ptr<CXmlArea> CXmlDevice::getArea(CString name)
 
 int CXmlDevice::GetAreaID(CString name)
 {
-	foreach(boost::shared_ptr<CXmlArea> area, m_vtArea){
+	for (std::shared_ptr<CXmlArea> area : m_vtArea){
 		if(!area)	continue;
 		if(name == area->getName())
 			return area->getID();
@@ -223,11 +223,11 @@ int CXmlDevice::GetAreaID(CString name)
 }
 
 //!< 获得区的列表，defIndex传进来时表示areaID，传出去时表示列表的默认索引，返回默认字符串
-boost::shared_ptr<CXmlArea> CXmlDevice::GetAreaNameList(std::list<CString>& strList, int& defIndex, bool bSort)
+std::shared_ptr<CXmlArea> CXmlDevice::GetAreaNameList(std::list<CString>& strList, int& defIndex, bool bSort)
 {
-	boost::shared_ptr<CXmlArea> defArea, area;
+	std::shared_ptr<CXmlArea> defArea, area;
 	int index = -1;
-	foreach(area, m_vtArea)
+	for (auto area : m_vtArea)
 	{
 		if(!area)										continue;
 		if(area->getName().Trim() == _T(""))			continue;
@@ -245,7 +245,7 @@ boost::shared_ptr<CXmlArea> CXmlDevice::GetAreaNameList(std::list<CString>& strL
 		if(defArea)										//!< 存在默认值
 		{
 			index = 0;
-			foreach(CString name, strList)
+			for (CString name : strList)
 			{
 				if(name == defArea->getName())
 				{
@@ -259,19 +259,19 @@ boost::shared_ptr<CXmlArea> CXmlDevice::GetAreaNameList(std::list<CString>& strL
 	return defArea;
 }
 
-boost::shared_ptr<CXmlBehavior> CXmlDevice::getBehavior(UINT id)
+std::shared_ptr<CXmlBehavior> CXmlDevice::getBehavior(UINT id)
 {
 	if(id < m_vtBehavior.size())
 		return m_vtBehavior[id];
-	boost::shared_ptr<CXmlBehavior> empty;
+	std::shared_ptr<CXmlBehavior> empty;
 	return empty;
 }
 
-std::list<boost::shared_ptr<CXmlBehavior> > CXmlDevice::getBehavior(CString name)
+std::list<std::shared_ptr<CXmlBehavior> > CXmlDevice::getBehavior(CString name)
 {
-	std::list<boost::shared_ptr<CXmlBehavior> > ltBehavior;
-	boost::shared_ptr<CXmlBehavior> behavior;
-	foreach(behavior, m_vtBehavior){
+	std::list<std::shared_ptr<CXmlBehavior> > ltBehavior;
+	std::shared_ptr<CXmlBehavior> behavior;
+	for (auto behavior : m_vtBehavior){
 		if(!behavior)	continue;
 		if(name == behavior->m_strName)
 			ltBehavior.push_back(behavior);
@@ -279,18 +279,18 @@ std::list<boost::shared_ptr<CXmlBehavior> > CXmlDevice::getBehavior(CString name
 	return ltBehavior;
 }
 
-boost::shared_ptr<CXmlParaInfo> CXmlDevice::getPara(UINT id)
+std::shared_ptr<CXmlParaInfo> CXmlDevice::getPara(UINT id)
 {
 	if(id < m_vtPara.size())
 		return m_vtPara[id];
-	boost::shared_ptr<CXmlParaInfo> empty;
+	std::shared_ptr<CXmlParaInfo> empty;
 	return empty;
 }
 
-boost::shared_ptr<CXmlProtocol> CXmlDevice::getProtocol(CString name)
+std::shared_ptr<CXmlProtocol> CXmlDevice::getProtocol(CString name)
 {
-	boost::shared_ptr<CXmlProtocol> protocol, empty;
-	foreach(protocol, m_vtProtocol){
+	std::shared_ptr<CXmlProtocol> protocol, empty;
+	for (auto protocol : m_vtProtocol){
 		if(!protocol)	continue;
 		if(name == protocol->m_strName)
 			return protocol;
@@ -298,27 +298,27 @@ boost::shared_ptr<CXmlProtocol> CXmlDevice::getProtocol(CString name)
 	return empty;
 }
 
-boost::shared_ptr<CXmlProtocol> CXmlDevice::getProtocol(UINT id)
+std::shared_ptr<CXmlProtocol> CXmlDevice::getProtocol(UINT id)
 {
 	if(id < m_vtProtocol.size())
 		return m_vtProtocol[id];
-	boost::shared_ptr<CXmlProtocol> empty;
+	std::shared_ptr<CXmlProtocol> empty;
 	return empty;
 }
 
-boost::shared_ptr<CXmlInterface> CXmlDevice::getInterface(UINT id)
+std::shared_ptr<CXmlInterface> CXmlDevice::getInterface(UINT id)
 {
 	if(id < m_vtInterface.size())
 		return m_vtInterface[id];
-	boost::shared_ptr<CXmlInterface> empty;
+	std::shared_ptr<CXmlInterface> empty;
 	return empty;
 }
 
-boost::shared_ptr<CXmlEnum> CXmlDevice::getEnum(UINT id)
+std::shared_ptr<CXmlEnum> CXmlDevice::getEnum(UINT id)
 {
 	if(id < m_vtEnum.size())
 		return m_vtEnum[id];
-	boost::shared_ptr<CXmlEnum> empty;
+	std::shared_ptr<CXmlEnum> empty;
 	return empty;
 }
 
@@ -327,9 +327,9 @@ CString CXmlDevice::GetAllBevID(CString strBev, bool bRead)
 {
 	CString strID, idOne;
 	UINT uiType = bRead ? 0 : 1;
-	boost::shared_ptr<CXmlBehavior> bev;
+	std::shared_ptr<CXmlBehavior> bev;
 
-	foreach(bev, m_vtBehavior)
+	for (auto bev : m_vtBehavior)
 	{
 		if(!bev)						continue;
 		if(bev->m_strName != strBev)	continue;
@@ -352,12 +352,12 @@ CString CXmlDevice::GetAllBevID(CString strBev, bool bRead)
 //!< 校验一下
 void XmlInfo::CXmlDevice::OnCheck()
 {
-	boost::shared_ptr<CXmlParaInfo> xmlPara;
-	boost::shared_ptr<CXmlBehavior> xmlReadBev, xmlWriteBev, xmlBev;
+	std::shared_ptr<CXmlParaInfo> xmlPara;
+	std::shared_ptr<CXmlBehavior> xmlReadBev, xmlWriteBev, xmlBev;
 	CString strError;
 
 	//!< 行为与参数一一对应
-	foreach(xmlPara, m_vtPara)
+	for (auto xmlPara : m_vtPara)
 	{
 		if(!xmlPara)		continue;
 		if(xmlPara->m_uiReadBID != UINT(-1))
@@ -394,10 +394,10 @@ void XmlInfo::CXmlDevice::OnCheck()
 	}
 
 	//!< 行为里的参数都得存在
-	foreach(xmlBev, m_vtBehavior)
+	for (auto xmlBev : m_vtBehavior)
 	{
 		if(!xmlBev)		continue;
-		foreach(UINT para_id, xmlBev->m_ltParaID)
+		for (UINT para_id : xmlBev->m_ltParaID)
 		{
 			if(!getPara(para_id))
 			{
@@ -408,11 +408,11 @@ void XmlInfo::CXmlDevice::OnCheck()
 	}
 	
 	//!< 行为与协议一一对应
-	boost::shared_ptr<CXmlProtocol> xmlProtocol;
-	foreach(xmlBev, m_vtBehavior)
+	std::shared_ptr<CXmlProtocol> xmlProtocol;
+	for (auto xmlBev : m_vtBehavior)
 	{
 		if(!xmlBev)		continue;
-		foreach(UINT protocol_id, xmlBev->m_ltProtocolID)
+		for (UINT protocol_id : xmlBev->m_ltProtocolID)
 		{
 			xmlProtocol = getProtocol(protocol_id);
 			if(!xmlProtocol)

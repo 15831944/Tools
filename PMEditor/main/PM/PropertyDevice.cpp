@@ -12,7 +12,7 @@
 #include "XmlProtocol.h"
 #include "XmlInterface.h"
 #include "PropertyDevice.h"
-#include <boost/regex.hpp>
+//#include <boost/regex.hpp>
 
 const CString DEV_NET_SUPPORT1 = _T("以太网地址");
 const CString DEV_NET_SUPPORT2 = _T("串口");
@@ -71,7 +71,7 @@ CPropertyDevice::CPropertyDevice(void)
 {
 	m_uiType = 0;
 	m_uiID = UINT(-1);
-	m_ShowDev = boost::shared_ptr<CDeviceOne>(new CDeviceOne());
+	m_ShowDev = std::shared_ptr<CDeviceOne>(new CDeviceOne());
 }
 
 CPropertyDevice::~CPropertyDevice(void)
@@ -99,7 +99,7 @@ bool CPropertyDevice::SetType(UINT type, UINT id)
 	else if(m_uiType == 1)
 	{
 		CDevMgr* devMgr = &CDevMgr::GetMe();
-		boost::shared_ptr<CDeviceOne> device = devMgr->GetDevice(id);
+		std::shared_ptr<CDeviceOne> device = devMgr->GetDevice(id);
 		ASSERT(device);
 		m_ShowDev->CopyFrom(*device);
 	}
@@ -109,26 +109,25 @@ bool CPropertyDevice::SetType(UINT type, UINT id)
 //!< 重置新增设备的接口
 void CPropertyDevice::ReSetInteface()
 {
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDevice = m_ShowDev->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDevice = m_ShowDev->GetXmlInfo();
 	bool bEthernet = xmlDevice->IsSupportEthernet();
 	bool bSerial = xmlDevice->IsSupportSerial();
 	if (bEthernet)
 	{
 		int inf2Main = xmlDevice->getInf2Main();
-		boost::shared_ptr<CDeviceInterface> inf;
+		std::shared_ptr<CDeviceInterface> inf;
 		if (!(inf2Main & 0x01) && (inf2Main & 0x20)){
-			foreach(inf, m_ShowDev->m_vtInterface)
+			for (auto inf : m_ShowDev->m_vtInterface)
 				inf->SetType(0x20);
 		}
 		else if (inf2Main = 0x01){
-			foreach(inf, m_ShowDev->m_vtInterface)
+			for (auto inf : m_ShowDev->m_vtInterface)
 				inf->SetType(0);
 		}
 	}
 	else if (bSerial && !bEthernet)		//!< 目前只考虑这种情况
 	{
-		boost::shared_ptr<CDeviceInterface> inf;
-		foreach(inf, m_ShowDev->m_vtInterface){
+		for (auto inf : m_ShowDev->m_vtInterface){
 			if(inf->GetType() == 0)		inf->SetType(1);
 		}
 	}
@@ -152,7 +151,7 @@ void CPropertyDevice::ShowInfo(CXTPPropertyGrid& grid)
 	CXTPPropertyGridItem* pGroup;					//!< 属性组
 	CXTPPropertyGridInplaceButton* pButton;
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
 	ASSERT(xmlDev);
 	std::list<CString> strList, boolList;			//!< 下拉列表的内容
 	boolList.push_back(_T("No"));
@@ -192,11 +191,11 @@ void CPropertyDevice::ShowInfo(CXTPPropertyGrid& grid)
 	//AddItemList(*pGroup, DEV_INTERFACE_SORT, DEV_INTERFACE_SORT_TOOLTIP, boolList, m_ShowDev->getInterfaceSort()?1:0, DEV_INTERFACE_SORT_ID);
 
 	//!< 通信接口设置
-	boost::shared_ptr<CDeviceInterface> inf;
+	std::shared_ptr<CDeviceInterface> inf;
 	CString name,netaddr;
 	UINT index = 0;
 	UINT infType = 0, serialNo = 0, addr = 1, ip = UINT(-1),devPort=11000;
-	std::vector< boost::shared_ptr<CDeviceInterface> >::iterator iter = m_ShowDev->m_vtInterface.begin();
+	std::vector< std::shared_ptr<CDeviceInterface> >::iterator iter = m_ShowDev->m_vtInterface.begin();
 	for(int index = 0; index < m_ShowDev->GetInterfaceSize(); index++)
 	{
 		//!< 初始化默认值
@@ -244,8 +243,7 @@ void CPropertyDevice::ShowInfo(CXTPPropertyGrid& grid)
 		//!< 串口号
 		strList.clear();
 		int def = 0;
-		boost::shared_ptr<InterfaceSet::CDSerial> serial;
-		foreach(serial, devMgr->m_ltSerial)
+		for (auto serial : devMgr->m_ltSerial)
 		{
 			if(serialNo == serial->getNumber())
 				def = (int)strList.size();
@@ -361,10 +359,10 @@ bool CPropertyDevice::OnSaveModify(CXTPPropertyGrid& grid)
 	UINT count = grid.GetCount();
 	CString strValue;
 	CDevMgr* devMgr = &CDevMgr::GetMe();
-	boost::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
-	//boost::regex reg_domain("[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\\.?");
-	//boost::regex reg_ip("((25[0-5])|(2[0-4]\\d)|(1\\d\\d)|([1-9]\\d)|\\d)(\\.((25[0-5])|(2[0-4]\\d)|(1\\d\\d)|([1-9]\\d)|\\d)){3}");
-	boost::regex	 reg_temp("[a-zA-Z]+\\.?");
+	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = m_ShowDev->GetXmlInfo();
+	//std::regex reg_domain("[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\\.?");
+	//std::regex reg_ip("((25[0-5])|(2[0-4]\\d)|(1\\d\\d)|([1-9]\\d)|\\d)(\\.((25[0-5])|(2[0-4]\\d)|(1\\d\\d)|([1-9]\\d)|\\d)){3}");
+	std::regex	 reg_temp("[a-zA-Z]+\\.?");
 	for(int i = 0; i < count; ++i)
 	{
 		pItem = grid.GetItem(i);
@@ -416,7 +414,7 @@ bool CPropertyDevice::OnSaveModify(CXTPPropertyGrid& grid)
 				}
 				else if(DEV_SERIAL_NO_ID * (i + 1) == itemID)//!< 主串口号
 				{
-					boost::shared_ptr<InterfaceSet::CDSerial> serial = devMgr->GetSerial(strValue);
+					std::shared_ptr<InterfaceSet::CDSerial> serial = devMgr->GetSerial(strValue);
 					if(serial)									m_ShowDev->m_vtInterface[i]->SetSerialNo(serial->getNumber());
 					break;
 				}
@@ -473,15 +471,13 @@ bool CPropertyDevice::OnSaveModify(CXTPPropertyGrid& grid)
 		}
 	}
 	//!< 接口不能重复
-	boost::shared_ptr<CDeviceOne> device;
-	boost::shared_ptr<CDeviceInterface> projInf, myInf;
-	foreach(device, devMgr->m_vtDevice)
+	for (auto device : devMgr->m_vtDevice)
 	{
 		if(!device)									continue;
 		if(device->getID() == m_ShowDev->getID())	continue;
-		foreach(projInf, device->m_vtInterface)
+		for (auto projInf : device->m_vtInterface)
 		{
-			foreach(myInf, m_ShowDev->m_vtInterface)
+			for (auto myInf : m_ShowDev->m_vtInterface)
 			{
 				if (projInf->GetName() != myInf->GetName())		continue;
 				if (projInf->GetDevPort()!=myInf->GetDevPort())	continue;

@@ -27,15 +27,15 @@ protected:
 	bool m_bSelect;					//!< 是否被选中了
 	bool m_bExpand;					//!< 表示设备是否处于伸展状态
 	bool m_bShow;					//!< 是否画，父设备缩起来的时候，子设备就不画
-	boost::shared_ptr<XmlInfo::CXmlDevice> m_spXmlDevice;				//!< 设备对应的描述文件
+	std::shared_ptr<XmlInfo::CXmlDevice> m_spXmlDevice;				//!< 设备对应的描述文件
 
 	bool m_bLoadDcfg;				//!< 是否解析到设备属性配置文档*.dcfg
 	bool m_bProj;					//!< 是否是工程设备，true是工程设备，false不是
 
 public:
 	std::list<UINT> m_ltChildID;	//!< 子设备链表
-	std::vector< boost::shared_ptr<CDeviceInterface> > m_vtInterface;	//!< 设备所使用的接口列表
-	std::vector< boost::shared_ptr<CDeviceParam> > m_vtParam;			//!< 参数列表
+	std::vector< std::shared_ptr<CDeviceInterface> > m_vtInterface;	//!< 设备所使用的接口列表
+	std::vector< std::shared_ptr<CDeviceParam> > m_vtParam;			//!< 参数列表
 
 public:
 	bool IsSelect(){return m_bSelect;}
@@ -74,7 +74,7 @@ public:
 	void SetLTPt(LONG x, LONG y){m_Point.x = x; m_Point.y = y;}
 	CPoint GetLTPt(){return m_Point;}
 
-	boost::shared_ptr<XmlInfo::CXmlDevice> GetXmlInfo(){return m_spXmlDevice;}
+	std::shared_ptr<XmlInfo::CXmlDevice> GetXmlInfo(){return m_spXmlDevice;}
 
 protected:
 	virtual void OnDrawFrame(CDC* pDC);		//!< 画设备的边框
@@ -113,9 +113,9 @@ public:
 	virtual void OnCut(CDeviceMapDoc* pDoc);//!< 被剪切了，孩子也得被剪切
 	virtual void OnPaste();					//!< 被粘贴，将自己放到拓扑中
 
-	virtual boost::shared_ptr<CDeviceInterface> GetInterface(UINT id);	//!< 获得第id个接口
-	virtual boost::shared_ptr<CDeviceInterface> GetInterfaceFromType(UINT type);	//!< 根据接口的类型找到第一个属于这个类型的接口
-	virtual boost::shared_ptr<CDeviceParam> GetParam(UINT id);						//!< 找参数
+	virtual std::shared_ptr<CDeviceInterface> GetInterface(UINT id);	//!< 获得第id个接口
+	virtual std::shared_ptr<CDeviceInterface> GetInterfaceFromType(UINT type);	//!< 根据接口的类型找到第一个属于这个类型的接口
+	virtual std::shared_ptr<CDeviceParam> GetParam(UINT id);						//!< 找参数
 
 	virtual long GetOnLineInf();										//!< 设备是否在线，返回在线的接口ID，不在返回-1
 	virtual void SetOnLineInf(UINT infID, bool bOnLine);				//!< 设置设备在线状态，参数是接口ID

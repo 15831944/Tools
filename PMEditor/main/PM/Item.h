@@ -32,8 +32,8 @@ private:
 	BOOL m_bReservFlag;								//!< 是否设置成保留值，true设置，false不设置
 	BOOL m_bReservDB;								//!< 是否保存历史数据
 	BOOL m_bModbus485;								//!< 是否导出Modbus变量,PAC增加了Modbus服务器功能,需要解析这个属性
-	boost::shared_ptr<CPropertySource> m_spSrcInfo;	//!< 源属性
-	boost::shared_ptr<CPropertyAlarm> m_spAlarmInfo;//!< 报警属性
+	std::shared_ptr<CPropertySource> m_spSrcInfo;	//!< 源属性
+	std::shared_ptr<CPropertyAlarm> m_spAlarmInfo;//!< 报警属性
 	SYSTEMTIME m_stUpdateTime;						//!< 最后一次修改时间
 	SYSTEMTIME m_stCreateTime;						//!< 创建时间
 
@@ -64,8 +64,8 @@ public:
 	BOOL getReservFlag(){return m_bReservFlag;}							//!< 获得变量是否设置为保留值
 	BOOL getReservDB(){return m_bReservDB;}								//!< 获得变量是否保存历史数据
 	BOOL getModbus485(){return m_bModbus485;}							//!< 是否导出Modbus变量
-	boost::shared_ptr<CPropertySource> getSrcInfo(){return m_spSrcInfo;}	//!< 获得数据源属性对象的智能指针
-	boost::shared_ptr<CPropertyAlarm> getAlarmInfo(){return m_spAlarmInfo;}	//!< 获得报警属性对象的智能指针
+	std::shared_ptr<CPropertySource> getSrcInfo(){return m_spSrcInfo;}	//!< 获得数据源属性对象的智能指针
+	std::shared_ptr<CPropertyAlarm> getAlarmInfo(){return m_spAlarmInfo;}	//!< 获得报警属性对象的智能指针
 	SYSTEMTIME getCreateTime(){return m_stCreateTime;}					//!< 获得变量的创建时间
 	SYSTEMTIME getUpdateTime(){return m_stUpdateTime;}					//!< 获得变量的修改时间
 

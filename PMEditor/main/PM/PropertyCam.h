@@ -9,10 +9,10 @@ class CPropertyCamera : public Dialog::CObjectInProperty
 private:
 	bool m_bAdd;									//!< 表示是否是添加状态，true表示添加变量，false表示修改变量
 	CCamera* m_Item;								//!< 当前所指向的变量，如果是新建，这个为空
-	boost::shared_ptr<CCamera> m_ShowItem;			//!< 要显示用的变量
+	std::shared_ptr<CCamera> m_ShowItem;			//!< 要显示用的变量
 
 public:
-	boost::shared_ptr<CCamera> m_NewItem;			//!< 记录上次添加的变量的所有信息，这次添加时显示上次添加的信息
+	std::shared_ptr<CCamera> m_NewItem;			//!< 记录上次添加的变量的所有信息，这次添加时显示上次添加的信息
 	void SetType(bool add = true){m_bAdd = add;}
 	void SetItem(CCamera* item){m_Item = item;}
 
