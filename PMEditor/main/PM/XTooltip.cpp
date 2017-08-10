@@ -1,8 +1,8 @@
-// DCCE_Tooltip.cpp : 实现文件
+// Tooltip.cpp : 实现文件
 //
 
 #include "stdafx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "ProjectMgr.h"
 #include "XTooltip.h"
 #include "DevMgr.h"

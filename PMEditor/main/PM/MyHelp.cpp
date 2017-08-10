@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "Gbl.h"
 #include "MyHelp.h"
 

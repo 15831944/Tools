@@ -1,7 +1,7 @@
 // ScanSetDlg.cpp : 实现文件
 //
 #include "stdafx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "MyHelp.h"
 #include "MainFrm.h"
 #include "Gbl.h"

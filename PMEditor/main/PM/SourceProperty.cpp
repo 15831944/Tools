@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "Gbl.h"
 #include "Item.h"
 #include "SourceProperty.h"

@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "ItemFrame.h"
 #include "ItemMgr.h"
 #include "ItemGroup.h"

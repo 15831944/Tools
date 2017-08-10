@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "MainFrm.h"
 #include "Gbl.h"
 #include "MyHelp.h"

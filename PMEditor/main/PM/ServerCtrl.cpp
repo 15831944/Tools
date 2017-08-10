@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "MainFrm.h"
 #include "ProjectMgr.h"
 #include "Project.h"

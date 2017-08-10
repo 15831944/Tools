@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "Gbl.h"
 #include "MainFrm.h"
 #include "ProjectMgr.h"
@@ -96,7 +96,7 @@ void MVC::Camera::CCamMgr::OnClose()
 void MVC::Camera::CCamMgr::OpenDoc()
 {
 	if(!m_pItemDoc){
-		m_pItemDoc=(MVC::Camera::CCamDoc*)((CDXPEditorApp *)AfxGetApp())->m_pCamDocMgr->OpenDocumentFile(NULL);
+		m_pItemDoc=(MVC::Camera::CCamDoc*)((CPMApp *)AfxGetApp())->m_pCamDocMgr->OpenDocumentFile(NULL);
 		m_pItemDoc->ShowAllItem();
 	}
 	else{

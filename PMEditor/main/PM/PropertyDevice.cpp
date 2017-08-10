@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include <WinDNS.h>
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "Gbl.h"
 #include "ProjectMgr.h"
 #include "DevMgr.h"

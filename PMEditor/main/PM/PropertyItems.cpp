@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "Gbl.h"
 #include "SoftInfo.h"
 #include "PropertyItems.h"
@@ -155,7 +155,7 @@ void CPropertyItems::ShowInfo(CXTPPropertyGrid& grid)
 	CreateEdit();
 
 	CXTPPropertyGridItem* pGroup;					//!< 属性组
-	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;		//!< 描述信息
+	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CPMApp *)AfxGetApp())->m_XmlMgr;		//!< 描述信息
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	std::list<CString> strList, boolList;			//!< 下拉列表的内容
 	boolList.push_back(_T("No"));

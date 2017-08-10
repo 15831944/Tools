@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "MyHelp.h"
 #include "MainFrm.h"
 #include "SpaceDevice.h"
@@ -64,7 +64,7 @@ bool CSpaceDevice::CreateSpace()
 void CSpaceDevice::FreshCompanyDevice()
 {
 	m_pGroups->Clear();
-	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;
+	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CPMApp *)AfxGetApp())->m_XmlMgr;
 	std::shared_ptr<XmlInfo::CXmlDevice> device;
 
 	std::map<CString, CXTPTaskPanelGroup*> m_mpCompany;

@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "NewProjectDlg.h"
 
 #include <afxdialogex.h>

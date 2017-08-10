@@ -1,12 +1,12 @@
 #pragma once
 
 #include <stack>
-// CDCCE_HtmlDialog 对话框
+// CPMHtmlDialog 对话框
 namespace MVC{namespace Start{
 class CStartView;
-class CDCCE_HtmlDialog : public CDHtmlDialog
+class CPMHtmlDialog : public CDHtmlDialog
 {
-	DECLARE_DYNCREATE(CDCCE_HtmlDialog)
+	DECLARE_DYNCREATE(CPMHtmlDialog)
 
 public:
 	CString m_LocalURL;			//!< 当前网络地址
@@ -18,8 +18,8 @@ public:
 	stack<CString> m_FrontStack;//!< 前进堆栈
 
 public:
-	CDCCE_HtmlDialog(CWnd* pParent = NULL);   // 标准构造函数
-	virtual ~CDCCE_HtmlDialog();
+	CPMHtmlDialog(CWnd* pParent = NULL);   // 标准构造函数
+	virtual ~CPMHtmlDialog();
 // 重写
 	HRESULT OnButtonOK(IHTMLElement *pElement);
 	HRESULT OnButtonCancel(IHTMLElement *pElement);
@@ -29,7 +29,7 @@ public:
 	void OnShowHelp(IHTMLElement *pElement);
 
 // 对话框数据
-	enum { IDD = IDD_DCCE_HTMLDIALOG, IDH = IDR_HTML_DCCE_HTMLDIALOG };
+	enum { IDD = IDD_PMHTMLDIALOG, IDH = IDR_HTML_PMHTMLDIALOG };
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持

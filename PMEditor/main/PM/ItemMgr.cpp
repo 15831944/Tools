@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "Gbl.h"
 //#include "Power.h"
 #include "MainFrm.h"
@@ -649,7 +649,7 @@ void CItemMgr::OnClose()
 void CItemMgr::OpenDoc()
 {
 	if(!m_pItemDoc){
-		m_pItemDoc=(MVC::Item::CItemDoc*)((CDXPEditorApp *)AfxGetApp())->m_pItemDocMgr->OpenDocumentFile(NULL);
+		m_pItemDoc=(MVC::Item::CItemDoc*)((CPMApp *)AfxGetApp())->m_pItemDocMgr->OpenDocumentFile(NULL);
 		m_pItemDoc->ShowAllItem();
 	}
 	else{

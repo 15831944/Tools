@@ -1043,13 +1043,13 @@ BEGIN
     PUSHBUTTON      "取消",IDCANCEL,129,26,50,16
 END
 
-IDD_DCCE_SPLASHDLG DIALOGEX 0, 0, 186, 90
+IDD_PMSPLASHDLG DIALOGEX 0, 0, 186, 90
 STYLE DS_SETFONT | WS_POPUP
 FONT 9, "宋体", 400, 0, 0x86
 BEGIN
 END
 
-IDD_DCCE_HTMLDIALOG DIALOGEX 0, 0, 448, 350
+IDD_PMHTMLDIALOG DIALOGEX 0, 0, 448, 350
 STYLE DS_SETFONT | WS_CHILD | WS_SYSMENU
 FONT 9, "宋体", 400, 0, 0x0
 BEGIN
@@ -1331,7 +1331,7 @@ BEGIN
         BOTTOMMARGIN, 88
     END
 
-    IDD_DCCE_SPLASHDLG, DIALOG
+	IDD_PMSPLASHDLG, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 179
@@ -1339,7 +1339,7 @@ BEGIN
         BOTTOMMARGIN, 83
     END
 
-    IDD_DCCE_HTMLDIALOG, DIALOG
+	IDD_PMHTMLDIALOG, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 441
@@ -1405,7 +1405,7 @@ END
 // HTML
 //
 
-IDR_HTML_DCCE_HTMLDIALOG HTML                    ".\\DCCE_HtmlDialog.html"
+IDR_HTML_PMHTMLDIALOG HTML                    ".\\PMHtmlDialog.html"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1425,7 +1425,7 @@ BEGIN
     ID_VIEW_TOOLBOX         "工具栏"
     ID_VIEW_PROJECT         "工程视图\n工程视图"
     ID_VIEW_ITEM            "变量视图\n变量视图"
-    IDS_DCCE_CLIENT         "DcceClient事件"
+	IDS_PMCLIENT            "PMClient事件"
     ID_HELP_DYNAMICHELP     "帮助"
     ID_VIEW_PROPERTIESWINDOW "属性"
     ID_SOLUTION_PROPERTIES  "解决方案属性"

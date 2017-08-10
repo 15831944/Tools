@@ -1,8 +1,8 @@
 #pragma once
-#ifndef _DCCE_SPLASH_H_
-#define _DCCE_SPLASH_H_
+#ifndef _PMSPLASH_H_
+#define _PMSPLASH_H_
 
-namespace Dialog{class CDCCE_SplashDlg;}
+namespace Dialog{class CPMSplashDlg;}
 
 /*!
 	负责登录时，闪现公司产品图片的类
@@ -11,7 +11,7 @@ namespace Dialog{class CDCCE_SplashDlg;}
 	\author 刘鑫
 	\date $LastChangedDate$
 */
-class CDCCE_Splash
+class CPMSplash
 {
 public:
 	static void Init(int maxInitNO , BOOL bSilentMode=TRUE);
@@ -19,15 +19,15 @@ public:
 	static void Hide();
 	static bool Visible();
 private:
-	static Dialog::CDCCE_SplashDlg* m_pSplash;
+	static Dialog::CPMSplashDlg* m_pSplash;
 	/*!
 		构造函数
 	*/
-	CDCCE_Splash();
+	CPMSplash();
 	/*!
 		析构函数
 	*/
-	~CDCCE_Splash(void);
+	~CPMSplash(void);
 };
 
-#endif //_ABHI_SPLASH_H_
+#endif //_PMSPLASH_H_

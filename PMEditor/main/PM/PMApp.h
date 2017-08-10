@@ -1,4 +1,4 @@
-// DXPEditor.h : DXPEditor 应用程序的主头文件
+// PMApp.h : DXPEditor 应用程序的主头文件
 //
 #pragma once
 #ifndef __AFXWIN_H__
@@ -6,32 +6,32 @@
 #endif
 #include "resource.h"       // 主符号
 
-// CDXPEditorApp:
+// CPMApp:
 // 有关此类的实现，请参阅 DXPEditor.cpp
 //
 class CProjectMgr;
-namespace MVC{namespace Start{class CDCCE_HtmlDialog;}}
+namespace MVC{namespace Start{class CPMHtmlDialog;}}
 namespace XmlInfo{class CXmlMgr;}
-class CDXPEditorApp : public CWinApp
+class CPMApp : public CWinApp
 {
 public:
 	CMultiDocTemplate* m_pStartDocMgr;
 	CMultiDocTemplate* m_pItemDocMgr;
 	CMultiDocTemplate* m_pDeviceDocMgr;
 	CMultiDocTemplate* m_pCamDocMgr;
-	MVC::Start::CDCCE_HtmlDialog* m_StartPage;				/**< 当前的起始页Dialog指针 */
+	MVC::Start::CPMHtmlDialog* m_StartPage;				/**< 当前的起始页Dialog指针 */
 
 	std::shared_ptr<XmlInfo::CXmlMgr> m_XmlMgr;
 
 public:
 	std::shared_ptr<XmlInfo::CXmlMgr> GetXmlMgr(){return m_XmlMgr;}
-	MVC::Start::CDCCE_HtmlDialog* GetStartPage(){return m_StartPage;}
+	MVC::Start::CPMHtmlDialog* GetStartPage(){return m_StartPage;}
 
-	void SetStartPage(MVC::Start::CDCCE_HtmlDialog* page){m_StartPage = page;}				/**< 当前的起始页Dialog指针 */
+	void SetStartPage(MVC::Start::CPMHtmlDialog* page){m_StartPage = page;}				/**< 当前的起始页Dialog指针 */
 	CRecentFileList* GetRecentFileList(){return m_pRecentFileList;}
 
 public:
-	CDXPEditorApp();
+	CPMApp();
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 	virtual void AddToRecentFileList(LPCTSTR lpszPathName);
@@ -47,4 +47,4 @@ public:
 	void ReadCmdLine(CString cmdLine);		//!< 解析命令行
 };
 
-extern CDXPEditorApp g_App;
+extern CPMApp g_App;

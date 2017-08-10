@@ -1,21 +1,21 @@
 #pragma once
 
 
-// CDCCE_SplashDlg 对话框
+// CPMSplashDlg 对话框
 
 
 namespace Dialog{
-class CDCCE_SplashDlg : public CDialog
+class CPMSplashDlg : public CDialog
 {
 	typedef BOOL (WINAPI *pfnAnimateWindow)(HWND, DWORD, DWORD);
-	DECLARE_DYNAMIC(CDCCE_SplashDlg)
+	DECLARE_DYNAMIC(CPMSplashDlg)
 
 public:
-	CDCCE_SplashDlg(int MaxInitNO=0,BOOL bSilentMode=FALSE);
-	virtual ~CDCCE_SplashDlg();
+	CPMSplashDlg(int MaxInitNO=0,BOOL bSilentMode=FALSE);
+	virtual ~CPMSplashDlg();
 
 // 对话框数据
-	enum { IDD = IDD_DCCE_SPLASHDLG };
+	enum { IDD = IDD_PMSPLASHDLG };
 
 private:
 	int m_nPos;

@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "MyHelp.h"
 #include "ProjectMgr.h"
 #include "Project.h"
@@ -159,7 +159,7 @@ void CSpaceItem::IntoGroup(UINT groupid)
 		frm->ActivateFrame();
 	}
 	else{
-		group->m_ItemDoc = (MVC::Item::CItemDoc*)((CDXPEditorApp *)AfxGetApp())->m_pItemDocMgr->OpenDocumentFile(NULL);
+		group->m_ItemDoc = (MVC::Item::CItemDoc*)((CPMApp *)AfxGetApp())->m_pItemDocMgr->OpenDocumentFile(NULL);
 		group->m_ItemDoc->ShowGroup(groupid);
 	}
 	group->m_ItemDoc->SetTitle(_T(""));

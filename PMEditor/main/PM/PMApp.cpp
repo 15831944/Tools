@@ -1,7 +1,7 @@
 // DXPEditor.cpp : 定义应用程序的类行为。
 //
 #include "stdafx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "MyHelp.h"
 #include "ProjGuideDlg.h"
 #include "MainFrm.h"
@@ -15,7 +15,7 @@
 #include "StartDoc.h"
 #include "StartView.h"
 #include "StartFrm.h"
-#include "DCCE_HtmlDialog.h"
+#include "PMHtmlDialog.h"
 
 #include "ItemDoc.h"
 #include "ItemView.h"
@@ -29,7 +29,7 @@
 #include "CamView.h"
 #include "CamFrame.h"
 
-#include "DCCE_Splash.h"
+#include "PMSplash.h"
 #include "CreatProjectDlg.h"
 #include "ServerCommer.h"
 #include "ServerCtrl.h"
@@ -43,32 +43,32 @@
 #endif
 
 
-// CDXPEditorApp
-BEGIN_MESSAGE_MAP(CDXPEditorApp, CWinApp)
+// CPMApp
+BEGIN_MESSAGE_MAP(CPMApp, CWinApp)
 	ON_COMMAND(ID_APP_ABOUT, OnAppAbout)
 	ON_COMMAND(ID_FILE_PRINT_SETUP, CWinApp::OnFilePrintSetup)
 	ON_COMMAND_RANGE(ID_FILE_MRU_FIRST, ID_FILE_MRU_LAST, MRUFileHandler)
 END_MESSAGE_MAP()
 
-// 唯一的一个 CDXPEditorApp 对象
-CDXPEditorApp g_App;
+// 唯一的一个 CPMApp 对象
+CPMApp g_App;
 
-// CDXPEditorApp 构造
-CDXPEditorApp::CDXPEditorApp()
+// CPMApp 构造
+CPMApp::CPMApp()
 {
 	m_StartPage = NULL;				/**< 当前的起始页Dialog指针 */
 	// 将所有重要的初始化放置在 InitInstance 中
 }
 
-// CDXPEditorApp 初始化
-BOOL CDXPEditorApp::InitInstance()
+// CPMApp 初始化
+BOOL CPMApp::InitInstance()
 {
 	// 如果一个运行在 Windows XP 上的应用程序清单指定要
 	// 使用 ComCtl32.dll 版本 6 或更高版本来启用可视化方式，
 	//则需要 InitCommonControls()。否则，将无法创建窗口。
 #ifndef _DEBUG
-	CDCCE_Splash::Init(5);
-	CDCCE_Splash::StepOne(_T(""));//正在初始化..."));
+	CPMSplash::Init(5);
+	CPMSplash::StepOne(_T(""));//正在初始化..."));
 #endif
 
 	InitCommonControls();
@@ -95,42 +95,42 @@ BOOL CDXPEditorApp::InitInstance()
 		RUNTIME_CLASS(MVC::Item::CItemDoc),
 		RUNTIME_CLASS(MVC::Item::CItemFrame),
 		RUNTIME_CLASS(MVC::Item::CItemView));
-	if (!m_pItemDocMgr)		{CDCCE_Splash::Hide();	return FALSE;}
+	if (!m_pItemDocMgr)		{CPMSplash::Hide();	return FALSE;}
 	AddDocTemplate(m_pItemDocMgr);
 
 	m_pDeviceDocMgr = new CMultiDocTemplate(IDR_MAINFRAME,
 		RUNTIME_CLASS(MVC::Device::CDeviceMapDoc),
 		RUNTIME_CLASS(MVC::Device::CDeviceMapFrm),
 		RUNTIME_CLASS(MVC::Device::CDeviceMapView));
-	if(!m_pDeviceDocMgr)	{CDCCE_Splash::Hide();	return FALSE;}
+	if(!m_pDeviceDocMgr)	{CPMSplash::Hide();	return FALSE;}
 	AddDocTemplate(m_pDeviceDocMgr);
 
 	m_pCamDocMgr = new CMultiDocTemplate(IDR_MAINFRAME,
 		RUNTIME_CLASS(MVC::Camera::CCamDoc),
 		RUNTIME_CLASS(MVC::Camera::CCamFrame),
 		RUNTIME_CLASS(MVC::Camera::CCamView));
-	if(!m_pCamDocMgr)	{CDCCE_Splash::Hide();	return FALSE;}
+	if(!m_pCamDocMgr)	{CPMSplash::Hide();	return FALSE;}
 	AddDocTemplate(m_pCamDocMgr);
 
 	RegisterShellFileTypes();
 
-	if(CDCCE_Splash::Visible())
+	if(CPMSplash::Visible())
 	{
 		Sleep(100);
-		CDCCE_Splash::StepOne(_T(""));
+		CPMSplash::StepOne(_T(""));
 	}
 
 	//!< 装载描述信息
 	m_XmlMgr = std::shared_ptr<XmlInfo::CXmlMgr>(new XmlInfo::CXmlMgr);
 	//if(!m_XmlMgr->OpenXml()){
-	//	CDCCE_Splash::Hide();
+	//	CPMSplash::Hide();
 	//	AfxMessageBox("解析描述文件失败！");
 	//	return FALSE;
 	//}
-	if(CDCCE_Splash::Visible())
+	if(CPMSplash::Visible())
 	{
 		Sleep(300);
-		CDCCE_Splash::StepOne(_T(""));
+		CPMSplash::StepOne(_T(""));
 	}
 
 	//!< 初始化全局变量
@@ -164,11 +164,11 @@ BOOL CDXPEditorApp::InitInstance()
 	//!< 初始化帮助文档
 	SoftInfo::CMyHelp::GetMe().InitInfo();
 
-	if(CDCCE_Splash::Visible())
+	if(CPMSplash::Visible())
 	{
-		CDCCE_Splash::StepOne(_T(""));
+		CPMSplash::StepOne(_T(""));
 		Sleep(1000);
-		CDCCE_Splash::Hide();
+		CPMSplash::Hide();
 	}
 
 	CString cmdLine = m_lpCmdLine;
@@ -179,14 +179,14 @@ BOOL CDXPEditorApp::InitInstance()
 	return TRUE;
 }
 
-int CDXPEditorApp::ExitInstance()
+int CPMApp::ExitInstance()
 {
 	// TODO: Add your specialized code here and/or call the base class
 //	CoUninitialize();
 	return CWinApp::ExitInstance();
 }
 
-void CDXPEditorApp::AddToRecentFileList(LPCTSTR lpszPathName)
+void CPMApp::AddToRecentFileList(LPCTSTR lpszPathName)
 {
 	//! 只有工程文件才能添加到最近打开列表中
 	int len = ::_tcslen(lpszPathName);
@@ -197,7 +197,7 @@ void CDXPEditorApp::AddToRecentFileList(LPCTSTR lpszPathName)
 	}
 }
 
-void CDXPEditorApp::DeleteRecentFile(LPCTSTR lpszPathName)
+void CPMApp::DeleteRecentFile(LPCTSTR lpszPathName)
 {
 	int count = m_pRecentFileList->GetSize();
 	for(int i = 0; i < count; ++i)
@@ -210,13 +210,13 @@ void CDXPEditorApp::DeleteRecentFile(LPCTSTR lpszPathName)
 }
 
 //!< 打开起始页
-void CDXPEditorApp::ShowStartPage()
+void CPMApp::ShowStartPage()
 {
 	if(m_StartPage)		return;
 	m_pStartDocMgr->OpenDocumentFile(NULL);
 }
 
-void CDXPEditorApp::MRUFileHandler(UINT i)
+void CPMApp::MRUFileHandler(UINT i)
 {
 	ASSERT_VALID(this);
 	ASSERT(m_pRecentFileList != NULL);
@@ -232,25 +232,25 @@ void CDXPEditorApp::MRUFileHandler(UINT i)
 }
 
 // 用于运行对话框的应用程序命令
-void CDXPEditorApp::OnAppAbout()
+void CPMApp::OnAppAbout()
 {
 	Dialog::CAboutDlg aboutDlg;
 	aboutDlg.DoModal();
 }
 
-BOOL CDXPEditorApp::PreTranslateMessage(MSG* pMsg)
+BOOL CPMApp::PreTranslateMessage(MSG* pMsg)
 {
 	return CWinApp::PreTranslateMessage(pMsg);
 }
 
 //!< 软件注册
-void CDXPEditorApp::RegistSoftware()
+void CPMApp::RegistSoftware()
 {
 	Servers::DXP::CServerCtrl::GetMe().RegistSoft();
 }
 
 //!< 解析命令行
-void CDXPEditorApp::ReadCmdLine(CString cmdLine)
+void CPMApp::ReadCmdLine(CString cmdLine)
 {
 	// 去掉字符串两边的"号
 	if(cmdLine.Right(1) == _T("\""))	cmdLine = cmdLine.Left(cmdLine.GetLength() - 1);

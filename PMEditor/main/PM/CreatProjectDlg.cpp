@@ -1,7 +1,7 @@
 // CreatProjectDlg.cpp : 实现文件
 #include "stdafx.h"
 #include <io.h>
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "MyHelp.h"
 #include "Gbl.h"
 #include "CreatProjectDlg.h"

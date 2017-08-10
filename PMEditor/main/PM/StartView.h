@@ -1,16 +1,16 @@
 #pragma once
 
-//#include "DCCE_HtmlDialog.h"
+//#include "PMHtmlDialog.h"
 
 // CStartView йсм╪
 namespace MVC{namespace Start{
-class CDCCE_HtmlDialog;
+class CPMHtmlDialog;
 class CStartView : public CScrollView
 {
 	DECLARE_DYNCREATE(CStartView)
 
 public:
-	std::shared_ptr<CDCCE_HtmlDialog> m_HtmlDlg;
+	std::shared_ptr<CPMHtmlDialog> m_HtmlDlg;
 
 protected:
 	BOOL m_isShowHomePage;

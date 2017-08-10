@@ -14,14 +14,14 @@ DXPEditor.vcproj
     有关用“应用程序向导”所选择的平台、配置和
     项目功能的信息。
 
-DXPEditor.h
+PMApp.h
     这是应用程序的主头文件。  它包含其他
     项目特定的头文件（包括 Resource.h），并声明
-    CDXPEditorApp 应用程序类。
+    CPMApp 应用程序类。
 
 DXPEditor.cpp
     这是包含应用程序
-    类 CDXPEditorApp 的主应用程序源文件。
+    类 CPMApp 的主应用程序源文件。
 
 DXPEditor.rc
     这是程序使用的所有 Microsoft Windows 资源

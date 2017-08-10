@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "MyHelp.h"
 #include "DevCompanyDlg.h"
 
@@ -51,7 +51,7 @@ BOOL CDevCompanyDlg::OnInitDialog()
 	m_TreeCtrl.InitImg();
 	m_TreeCtrl.SetOwner(this);
 	//HTREEITEM ;
-	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;
+	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CPMApp *)AfxGetApp())->m_XmlMgr;
 	//std::shared_ptr<XmlInfo::CXmlDevice> device;
 	std::map<CString, HTREEITEM> m_mpCompanyItem;
 
@@ -98,7 +98,7 @@ void CDevCompanyDlg::OnTreeLClick(CTreeCtrl* pTreeCtrl, HTREEITEM hItem)
 	m_strCompany = pTreeCtrl->GetItemText(hParent);
 	m_strDevType = pTreeCtrl->GetItemText(hItem);
 
-	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;
+	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CPMApp *)AfxGetApp())->m_XmlMgr;
 	std::shared_ptr<XmlInfo::CXmlDevice> device = xmlMgr->GetDevice(m_strDevType, m_strCompany);
 	ASSERT(device);
 	m_strDevDescription = device->getName();

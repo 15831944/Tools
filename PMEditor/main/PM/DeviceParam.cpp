@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "Gbl.h"
 #include "DeviceParam.h"
 #include "XmlDevice.h"

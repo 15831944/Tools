@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "MainFrm.h"
 #include "SoftInfo.h"
 #include "ProjectMgr.h"
@@ -146,7 +146,7 @@ bool CProjectMgr::BackUpProject()
 //!< 关闭工程的函数入口
 bool CProjectMgr::CloseProject()
 {
-	CDXPEditorApp* pApp = (CDXPEditorApp *)AfxGetApp();
+	CPMApp* pApp = (CPMApp *)AfxGetApp();
 	pApp->m_pDeviceDocMgr->CloseAllDocuments(FALSE);
 	pApp->m_pItemDocMgr->CloseAllDocuments(FALSE);
 	pApp->m_pCamDocMgr->CloseAllDocuments(FALSE);

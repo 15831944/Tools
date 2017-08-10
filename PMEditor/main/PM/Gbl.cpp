@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "MainFrm.h"
 #include "SoftInfo.h"
 #include "ItemGrid.h"

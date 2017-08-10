@@ -135,9 +135,9 @@
     <ClCompile Include="CreatProjectDlg.cpp" />
     <ClCompile Include="CustomItems.cpp" />
     <ClCompile Include="DBMgr.cpp" />
-    <ClCompile Include="DCCE_HtmlDialog.cpp" />
-    <ClCompile Include="DCCE_Splash.cpp" />
-    <ClCompile Include="DCCE_SplashDlg.cpp" />
+    <ClCompile Include="PMHtmlDialog.cpp" />
+    <ClCompile Include="PMSplash.cpp" />
+    <ClCompile Include="PMSplashDlg.cpp" />
     <ClCompile Include="DEthernet.cpp" />
     <ClCompile Include="DevCompanyDlg.cpp" />
     <ClCompile Include="DeviceComputer.cpp" />
@@ -154,7 +154,7 @@
     <ClCompile Include="DReport.cpp" />
     <ClCompile Include="DSerial.cpp" />
     <ClCompile Include="DTreeCtrl.cpp" />
-    <ClCompile Include="DXPEditor.cpp" />
+    <ClCompile Include="PMApp.cpp" />
     <ClCompile Include="EtherNetSetDlg.cpp" />
     <ClCompile Include="FindDlg.cpp" />
     <ClCompile Include="Gbl.cpp" />
@@ -252,9 +252,9 @@
     <ClInclude Include="CreatProjectDlg.h" />
     <ClInclude Include="CustomItems.h" />
     <ClInclude Include="DBMgr.h" />
-    <ClInclude Include="DCCE_HtmlDialog.h" />
-    <ClInclude Include="DCCE_Splash.h" />
-    <ClInclude Include="DCCE_SplashDlg.h" />
+    <ClInclude Include="PMHtmlDialog.h" />
+    <ClInclude Include="PMSplash.h" />
+    <ClInclude Include="PMSplashDlg.h" />
     <ClInclude Include="DEthernet.h" />
     <ClInclude Include="DevCompanyDlg.h" />
     <ClInclude Include="DeviceComputer.h" />
@@ -271,7 +271,7 @@
     <ClInclude Include="DReport.h" />
     <ClInclude Include="DSerial.h" />
     <ClInclude Include="DTreeCtrl.h" />
-    <ClInclude Include="DXPEditor.h" />
+    <ClInclude Include="PMApp.h" />
     <ClInclude Include="EtherNetSetDlg.h" />
     <ClInclude Include="FindDlg.h" />
     <ClInclude Include="Gbl.h" />
@@ -389,10 +389,10 @@
     <Image Include="res\折叠图标.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="DCSEditor.rc" />
+    <ResourceCompile Include="PMApp.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="DCCE_HtmlDialog.html" />
+    <None Include="PMHtmlDialog.html" />
     <None Include="res\DXPEditor.rc2" />
     <None Include="res\heartbeat.avi" />
   </ItemGroup>

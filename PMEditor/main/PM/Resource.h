@@ -40,7 +40,7 @@
 #define ID_VIEW_PROJECT                 137
 #define IDB_BITMAP1                     138
 #define ID_VIEW_ITEM                    138
-#define IDS_DCCE_CLIENT                 139
+#define IDS_PMCLIENT                    139
 #define ID_HELP_DYNAMICHELP             140
 #define ID_VIEW_PROPERTIESWINDOW        141
 #define IDR_PANE_SOLUTIONEXPLORER       142
@@ -96,10 +96,10 @@
 #define IDD_SOFT_SET_COMPILE            204
 #define IDB_WELCOME_DDS                 209
 #define IDD_DIALOG2                     210
-#define IDD_DCCE_SPLASHDLG              210
+#define IDD_PMSPLASHDLG                 210
 #define IDR_WATCH                       212
-#define IDD_DCCE_HTMLDIALOG             214
-#define IDR_HTML_DCCE_HTMLDIALOG        215
+#define IDD_PMHTMLDIALOG                214
+#define IDR_HTML_PMHTMLDIALOG           215
 #define IDI_PAGEFRONT                   216
 #define IDI_PAGEBACK                    217
 #define IDI_PAGEHOME                    218

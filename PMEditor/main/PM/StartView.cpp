@@ -2,9 +2,9 @@
 //
 
 #include "stdafx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "Gbl.h"
-#include "DCCE_HtmlDialog.h"
+#include "PMHtmlDialog.h"
 #include "StartView.h"
 
 
@@ -46,10 +46,10 @@ void CStartView::OnInitialUpdate()
 	SetScrollSizes(MM_TEXT, sizeTotal);
 
 	//初始化IE窗体
-	m_HtmlDlg = std::shared_ptr<CDCCE_HtmlDialog>(new CDCCE_HtmlDialog(this));
+	m_HtmlDlg = std::shared_ptr<CPMHtmlDialog>(new CPMHtmlDialog(this));
 	CRect rect;
 	GetClientRect(&rect);
-	if(!m_HtmlDlg->Create(IDD_DCCE_HTMLDIALOG,this))
+	if (!m_HtmlDlg->Create(IDD_PMHTMLDIALOG, this))
 	{
 		CGbl::PrintOut(_T("初始化IE窗体失败"));
 		return;
@@ -60,7 +60,7 @@ void CStartView::OnInitialUpdate()
 
 	//进入初始页
 	m_HtmlDlg->m_HomeRUL = CGbl::GetMe().getDataPath();
-	m_HtmlDlg->m_HomeRUL += _T("StartHtml\\html\\DCCE_HtmlDialog.html");
+	m_HtmlDlg->m_HomeRUL += _T("StartHtml\\html\\PMHtmlDialog.html");
 	m_HtmlDlg->Navigate(LPCTSTR(m_HtmlDlg->m_HomeRUL));
 }
 

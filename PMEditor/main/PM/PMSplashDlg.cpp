@@ -1,14 +1,14 @@
-// DCCE_SplashDlg.cpp : 实现文件
+// PMSplashDlg.cpp : 实现文件
 //
 
 #include "stdafx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "MyHelp.h"
 #include "Gbl.h"
-#include "DCCE_SplashDlg.h"
+#include "PMSplashDlg.h"
 
 
-// CDCCE_SplashDlg 对话框
+// CPMSplashDlg 对话框
 const int SPLASH_HEIGHT = 400;
 const int SPLASH_WIDTH  = 576;
 
@@ -22,10 +22,10 @@ const int SPLASH_WIDTH  = 576;
 
 using namespace Dialog;
 
-IMPLEMENT_DYNAMIC(CDCCE_SplashDlg, CDialog)
+IMPLEMENT_DYNAMIC(CPMSplashDlg, CDialog)
 
-CDCCE_SplashDlg::CDCCE_SplashDlg(int MaxInitNO,BOOL bSilentMode)
-	: CDialog(CDCCE_SplashDlg::IDD, NULL)
+CPMSplashDlg::CPMSplashDlg(int MaxInitNO,BOOL bSilentMode)
+	: CDialog(CPMSplashDlg::IDD, NULL)
 {
 	m_nPos=0;
 	m_nMax=MaxInitNO;
@@ -42,28 +42,28 @@ CDCCE_SplashDlg::CDCCE_SplashDlg(int MaxInitNO,BOOL bSilentMode)
 
 }
 
-CDCCE_SplashDlg::~CDCCE_SplashDlg()
+CPMSplashDlg::~CPMSplashDlg()
 {
 	if (m_hUser32!=NULL) {
 		FreeLibrary(m_hUser32);
 	}
 }
 
-void CDCCE_SplashDlg::DoDataExchange(CDataExchange* pDX)
+void CPMSplashDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 }
 
 
-BEGIN_MESSAGE_MAP(CDCCE_SplashDlg, CDialog)
+BEGIN_MESSAGE_MAP(CPMSplashDlg, CDialog)
 	ON_WM_PAINT()
 	ON_WM_HELPINFO()
 END_MESSAGE_MAP()
 
 
-// CDCCE_SplashDlg 消息处理程序
+// CPMSplashDlg 消息处理程序
 
-void CDCCE_SplashDlg::OnPaint()
+void CPMSplashDlg::OnPaint()
 {
 	CPaintDC dc(this); // device context for painting
 	// TODO: 在此处添加消息处理程序代码
@@ -71,7 +71,7 @@ void CDCCE_SplashDlg::OnPaint()
 	DoPaint( &dc );
 }
 
-BOOL CDCCE_SplashDlg::OnInitDialog()
+BOOL CPMSplashDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
@@ -103,7 +103,7 @@ BOOL CDCCE_SplashDlg::OnInitDialog()
 	// 异常: OCX 属性页应返回 FALSE
 }
 
-void CDCCE_SplashDlg::DrawFragment(CDC* pDC, CRect* prcBar, DWORD nTotal, DWORD nOffset, DWORD nLength, COLORREF crFill, BOOL b3D)
+void CPMSplashDlg::DrawFragment(CDC* pDC, CRect* prcBar, DWORD nTotal, DWORD nOffset, DWORD nLength, COLORREF crFill, BOOL b3D)
 {
 	CRect rcArea;
 
@@ -135,7 +135,7 @@ void CDCCE_SplashDlg::DrawFragment(CDC* pDC, CRect* prcBar, DWORD nTotal, DWORD 
 	pDC->ExcludeClipRect( &rcArea );
 }
 
-COLORREF CDCCE_SplashDlg::CalculateColour(COLORREF crFore, COLORREF crBack, int nAlpha)
+COLORREF CPMSplashDlg::CalculateColour(COLORREF crFore, COLORREF crBack, int nAlpha)
 {
 	int nRed	= GetRValue( crFore ) * ( 255 - nAlpha ) / 255 + GetRValue( crBack ) * nAlpha / 255;
 	int nGreen	= GetGValue( crFore ) * ( 255 - nAlpha ) / 255 + GetGValue( crBack ) * nAlpha / 255;
@@ -144,7 +144,7 @@ COLORREF CDCCE_SplashDlg::CalculateColour(COLORREF crFore, COLORREF crBack, int 
 	return RGB( nRed, nGreen, nBlue );
 }
 
-void CDCCE_SplashDlg::DoPaint(CDC* pDC)
+void CPMSplashDlg::DoPaint(CDC* pDC)
 {
 	CBitmap* pOld1 = (CBitmap*)m_dcBuffer1.SelectObject( &m_bmSplash );
 	CBitmap* pOld2 = (CBitmap*)m_dcBuffer2.SelectObject( &m_bmBuffer );
@@ -173,7 +173,7 @@ void CDCCE_SplashDlg::DoPaint(CDC* pDC)
 	m_dcBuffer1.SelectObject( pOld1 );
 }
 
-void CDCCE_SplashDlg::StepOne(const CString& showText)
+void CPMSplashDlg::StepOne(const CString& showText)
 {
 	m_nPos ++;
 	m_strPosString.Format("......%d %%",(m_nPos*100)/m_nMax);
@@ -183,7 +183,7 @@ void CDCCE_SplashDlg::StepOne(const CString& showText)
 	DoPaint( &dc );
 }
 
-void CDCCE_SplashDlg::TopMost()
+void CPMSplashDlg::TopMost()
 {
 	if ( IsWindowVisible() )
 	{
@@ -191,7 +191,7 @@ void CDCCE_SplashDlg::TopMost()
 	}
 }
 
-void CDCCE_SplashDlg::Hide()
+void CPMSplashDlg::Hide()
 {
 	m_strShowInfor = _T("启动完成!");
 	Invalidate();
@@ -207,7 +207,7 @@ void CDCCE_SplashDlg::Hide()
 	delete this;
 }
 
-void CDCCE_SplashDlg::DrawHollowText(CDC *pDC,CRect& posRC,COLORREF crEdge,COLORREF crFill,const CString& strText)
+void CPMSplashDlg::DrawHollowText(CDC *pDC,CRect& posRC,COLORREF crEdge,COLORREF crFill,const CString& strText)
 {
 	pDC->SetTextColor(crEdge);
 
@@ -227,7 +227,7 @@ void CDCCE_SplashDlg::DrawHollowText(CDC *pDC,CRect& posRC,COLORREF crEdge,COLOR
 	pDC->DrawText( strText, &posRC, nFormat );
 }
 
-BOOL Dialog::CDCCE_SplashDlg::OnHelpInfo(HELPINFO* pHelpInfo)
+BOOL Dialog::CPMSplashDlg::OnHelpInfo(HELPINFO* pHelpInfo)
 {
 	SoftInfo::CMyHelp::GetMe().ShowHelp(_T("目录"));
 	return CDialog::OnHelpInfo(pHelpInfo);

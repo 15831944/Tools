@@ -1,0 +1,825 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="AboutDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AddItemGroupDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AlarmProperty.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorParamDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CamDoc.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CamFrame.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CamGrid.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CamMgr.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CamView.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CloneItemDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Compiler.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Config.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigMgr.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CreatProjectDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomItems.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DBMgr.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DEthernet.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DevCompanyDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceComputer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceInterface.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceLine.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceMapDoc.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceMapFrm.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceMapView.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceOne.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceParam.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DevMgr.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DMemDC.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DOPCMgr.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DReport.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DSerial.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DTreeCtrl.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="EtherNetSetDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="FindDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Gbl.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Hmi.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemDoc.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemFrame.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemGrid.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemGroup.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemInConfigDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemMgr.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemProperty.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemView.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MyCrc.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MyDes.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MyHelp.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MyMD5.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="NewProjectDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectInProperty.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="OutputPane.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Project.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectMgr.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjGuideDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyCam.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyDB.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyDevice.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyDOPC.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyEthernet.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyItems.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyParam.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyRongYu.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertySerial.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertySlave.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ReNameDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="RongYuMgr.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ScanMgr.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ScanSetDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ScanSetInfo.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptEditDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptItem.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptObject.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SerialSetDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerCommer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerCtrl.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftInfo.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftSetCompileDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftSetDeviceXmlDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftSetDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftSetItemGridDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftSetServerDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftSetTuoPuDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceProperty.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceDevice.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceItem.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceProject.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="StartDoc.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="StartFrm.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="StartView.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="StringAddDelDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="WriteItemDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlArea.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlBehavior.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlDevice.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlEnum.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlInterface.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlMgr.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParaInfo.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlProgramInfo.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlProtocol.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlScan.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="XTooltip.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PMApp.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PMHtmlDialog.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PMSplash.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PMSplashDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AboutDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="AddItemGroupDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="AlarmProperty.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorParamDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CamDoc.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CamFrame.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CamGrid.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CamMgr.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CamView.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CloneItemDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Compiler.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigMgr.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CreatProjectDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomItems.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DBMgr.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DEthernet.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DevCompanyDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceComputer.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceInterface.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceLine.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceMapDoc.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceMapFrm.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceMapView.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceOne.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceParam.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DevMgr.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DMemDC.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DOPCMgr.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DReport.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DSerial.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DTreeCtrl.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="EtherNetSetDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="FindDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Gbl.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Hmi.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemDoc.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemFrame.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemGrid.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemGroup.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemInConfigDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemMgr.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemProperty.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemView.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MyCrc.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDes.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MyHelp.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MyMD5.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="NewProjectDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectInProperty.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="OutputPane.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Project.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectMgr.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjGuideDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyCam.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyDB.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyDevice.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyDOPC.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyEthernet.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyItems.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyParam.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyRongYu.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertySerial.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertySlave.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ReNameDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="RongYuMgr.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ScanMgr.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ScanSetDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ScanSetInfo.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptEditDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptItem.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptObject.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SerialSetDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerCommer.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerCtrl.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftInfo.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftSetCompileDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftSetDeviceXmlDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftSetDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftSetItemGridDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftSetServerDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftSetTuoPuDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceProperty.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceDevice.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceItem.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceProject.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="StartDoc.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="StartFrm.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="StartView.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="StringAddDelDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="WriteItemDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlArea.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlBehavior.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlDevice.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlEnum.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlInterface.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlMgr.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParaInfo.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlProgramInfo.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlProtocol.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlScan.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="XTooltip.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PMApp.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PMHtmlDialog.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PMSplash.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PMSplashDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\bitmap_add.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\bmp_camera.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\bmp_goup.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\bmp_item_io.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\bmp_item_memory.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\bmp_itemgroup.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\bmpPptSheet.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\ddsfile_icon.ico">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\DeviceDefault.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\DeviceList.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\DevState.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\DXPEditor.ico">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\DXPEditorDoc.ico">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\go_in.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\help.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\home.ico">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\img_filetree.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\item_id.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\item_name.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\item_type.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\left32.ico">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\master.ico">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\NativeProject.ico">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\Pane_ItemView.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\PopupClose.ico">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\ProjToolBar.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\right32.ico">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\SolutionExplorerPane.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\startpage.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\TB_TMP.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\Toolbar.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\toolbar3.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\TooltipDevice.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\watch.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\WebProject.ico">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\WelcomeDXP.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\折叠图标.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\DXPEditor.rc2">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="res\heartbeat.avi">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="PMHtmlDialog.html">
+      <Filter>Resource</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header">
+      <UniqueIdentifier>{f6ff7051-b301-46df-9f4f-973c47999644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{bfc11260-dff3-46e4-b63c-79a27d4879ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{1a1367bb-a37b-4a6b-89f3-c8a4a61af7fa}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PMApp.rc">
+      <Filter>Resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

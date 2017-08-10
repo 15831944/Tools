@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "MyHelp.h"
 #include "MainFrm.h"
 #include "SpaceDevice.h"
@@ -74,7 +74,7 @@ BOOL CSoftSetDeviceXmlDlg::DestroyWindow()
 void CSoftSetDeviceXmlDlg::FreshTree()
 {
 	m_TreeCtrl.DeleteAllItems();
-	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;
+	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CPMApp *)AfxGetApp())->m_XmlMgr;
 	std::shared_ptr<XmlInfo::CXmlDevice> device;
 
 	std::map<CString, HTREEITEM> m_mpCompanyItem;
@@ -126,7 +126,7 @@ void CSoftSetDeviceXmlDlg::OnBnClickedBtDevinfo()
 void CSoftSetDeviceXmlDlg::OnBnClickedBtAdddev()
 {
 	if(!m_XmlDevice)						return;
-	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;
+	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CPMApp *)AfxGetApp())->m_XmlMgr;
 	if(!xmlMgr->AddDevice(m_XmlDevice))		return;
 	FreshTree();
 	CMainFrame* mf = (CMainFrame*)g_App.GetMainWnd();
@@ -138,7 +138,7 @@ void CSoftSetDeviceXmlDlg::OnBnClickedBtDeldev()
 	HTREEITEM hItem = m_TreeCtrl.GetSelectedItem();
 	if(m_TreeCtrl.GetParentItem(hItem) == NULL)		return;
 	UINT id = m_TreeCtrl.GetItemData(hItem);
-	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;
+	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CPMApp *)AfxGetApp())->m_XmlMgr;
 	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = xmlMgr->GetDevice(id);
 	ASSERT(xmlDev);
 

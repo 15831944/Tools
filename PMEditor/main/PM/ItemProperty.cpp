@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "Gbl.h"
 #include "ProjectMgr.h"
 #include "Project.h"
@@ -201,7 +201,7 @@ void MVC::Item::CPropertyItem::ShowInfo(CXTPPropertyGrid& grid)
 
 	CXTPPropertyGridItem *pGroup, *pItem;			//!< 属性组
 	CXTPPropertyGridInplaceButton* pButton;
-	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;		//!< 描述信息
+	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CPMApp *)AfxGetApp())->m_XmlMgr;		//!< 描述信息
 	std::shared_ptr<CPropertySource> showSrc = m_ShowItem->getSrcInfo();
 	std::shared_ptr<CPropertyAlarm> showAlarm = m_ShowItem->getAlarmInfo();
 	CItemMgr* itemMgr = &CItemMgr::GetMe();

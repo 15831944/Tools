@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "MainFrm.h"
 #include "DeviceMapFrm.h"
 #include "DeviceMapView.h"

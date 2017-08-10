@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "Item.h"
 #include "AlarmProperty.h"
 

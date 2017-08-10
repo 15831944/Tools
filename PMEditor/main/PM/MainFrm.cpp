@@ -1,7 +1,7 @@
 // MainFrm.cpp : CMainFrame 类的实现
 //
 #include "stdafx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "Gbl.h"
 #include "SoftInfo.h"
 #include "MyHelp.h"
@@ -92,14 +92,14 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 END_MESSAGE_MAP()
 
 BEGIN_EVENTSINK_MAP(CMainFrame, CMDIFrameWnd)
-	ON_EVENT(CMainFrame, IDS_DCCE_CLIENT, 1, OnDataReady, VTS_I4)
-	ON_EVENT(CMainFrame, IDS_DCCE_CLIENT, 2, OnVariableAlarm, VTS_I4 VTS_I4 VTS_PVARIANT)
-	ON_EVENT(CMainFrame, IDS_DCCE_CLIENT, 3, OnVariableLag, VTS_I4 VTS_I4 VTS_PVARIANT)
-	ON_EVENT(CMainFrame, IDS_DCCE_CLIENT, 4, OnLoadOver, VTS_I4 VTS_I4)
-	ON_EVENT(CMainFrame, IDS_DCCE_CLIENT, 5, OnDeviceStatus, VTS_I4 VTS_I4 VTS_I4)
-	ON_EVENT(CMainFrame, IDS_DCCE_CLIENT, 6, OnBehavior, VTS_I4 VTS_I4 VTS_VARIANT VTS_I4)
-	ON_EVENT(CMainFrame, IDS_DCCE_CLIENT, 7, OnScan, VTS_VARIANT VTS_I4)
-	ON_EVENT(CMainFrame, IDS_DCCE_CLIENT, 8, OnScanBehavior, VTS_I4 VTS_I4 VTS_I4 VTS_I4 VTS_PI4 VTS_VARIANT VTS_I4)
+	ON_EVENT(CMainFrame, IDS_PMCLIENT, 1, OnDataReady, VTS_I4)
+	ON_EVENT(CMainFrame, IDS_PMCLIENT, 2, OnVariableAlarm, VTS_I4 VTS_I4 VTS_PVARIANT)
+	ON_EVENT(CMainFrame, IDS_PMCLIENT, 3, OnVariableLag, VTS_I4 VTS_I4 VTS_PVARIANT)
+	ON_EVENT(CMainFrame, IDS_PMCLIENT, 4, OnLoadOver, VTS_I4 VTS_I4)
+	ON_EVENT(CMainFrame, IDS_PMCLIENT, 5, OnDeviceStatus, VTS_I4 VTS_I4 VTS_I4)
+	ON_EVENT(CMainFrame, IDS_PMCLIENT, 6, OnBehavior, VTS_I4 VTS_I4 VTS_VARIANT VTS_I4)
+	ON_EVENT(CMainFrame, IDS_PMCLIENT, 7, OnScan, VTS_VARIANT VTS_I4)
+	ON_EVENT(CMainFrame, IDS_PMCLIENT, 8, OnScanBehavior, VTS_I4 VTS_I4 VTS_I4 VTS_I4 VTS_PI4 VTS_VARIANT VTS_I4)
 END_EVENTSINK_MAP()
 
 static UINT indicators[] =
@@ -218,7 +218,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	UpdateData(TRUE);
 
 	//!< 初始化服务通信器
-	m_SevCommer.Create(NULL,WS_VISIBLE,CRect(10,10,20,20),this,IDS_DCCE_CLIENT);
+	m_SevCommer.Create(NULL, WS_VISIBLE, CRect(10, 10, 20, 20), this, IDS_PMCLIENT);
 
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	SetIcon(m_hIcon, TRUE);

@@ -1,6 +1,6 @@
 // DeviceMapDoc.cpp : 实现文件
 #include "stdafx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "ProjectMgr.h"
 #include "Gbl.h"
 #include "SoftInfo.h"

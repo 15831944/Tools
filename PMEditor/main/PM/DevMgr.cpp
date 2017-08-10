@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "ProjectMgr.h"
 #include "Gbl.h"
 #include "Project.h"
@@ -62,7 +62,7 @@ CString CDevMgr::GetEditTime()
 void CDevMgr::OpenDoc()
 {
 	if(!m_DevMapDoc){
-		m_DevMapDoc = (MVC::Device::CDeviceMapDoc*)((CDXPEditorApp *)AfxGetApp())->m_pDeviceDocMgr->OpenDocumentFile(NULL);
+		m_DevMapDoc = (MVC::Device::CDeviceMapDoc*)((CPMApp *)AfxGetApp())->m_pDeviceDocMgr->OpenDocumentFile(NULL);
 		if(CProjectMgr::GetMe().IsWatch())	m_DevMapDoc->SetTitle(_T("Éè±¸ÍØÆËÍ¼£¨¼à¿Ø×´Ì¬£©"));
 		else			m_DevMapDoc->SetTitle(_T("Éè±¸ÍØÆËÍ¼"));
 		m_DevMapDoc->OnCountChildPoint();

@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "CamFrame.h"
 #include "CamMgr.h"
 #include "CamGrid.h"

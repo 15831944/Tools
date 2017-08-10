@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "MainFrm.h"
 #include "ServerCommer.h"
 #include "Gbl.h"
@@ -127,7 +127,7 @@ bool MVC::Device::CDeviceOne::InitDevType(UINT devType)
 bool MVC::Device::CDeviceOne::setDevType(UINT type)
 {
 	m_uiType = type;
-	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CDXPEditorApp *)AfxGetApp())->m_XmlMgr;
+	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CPMApp *)AfxGetApp())->m_XmlMgr;
 	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = xmlMgr->GetDevice(getDevType());
 	if(!xmlDev)								return false;
 	if(!xmlDev->OpenXml())					return false;	//!< 如果这个设备没有解析设备描述文件

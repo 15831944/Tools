@@ -1,7 +1,7 @@
 // PropertyDlg.cpp : 实现文件
 //
 #include "stdafx.h"
-#include "DXPEditor.h"
+#include "PMApp.h"
 #include "PropertyDlg.h"
 #include "ObjectInProperty.h"
 
