@@ -9,7 +9,6 @@ public:
 	UINT m_uiType;				//!< 接口类型，0以太网，1串口，2以太网从设备，3串口从设备
 	UINT m_uiDataPort;			//!< 数据通信端口号
 	UINT m_uiListenPort;		//!< 监听上限端口号
-	UINT m_uiScanTime;			//!< 扫描时间间隔
 	UINT m_uiReviveTime;		//!< 重发时间间隔
 	UINT m_uiRetryNum;			//!< 错误重试次数
 	UINT m_uiCoolTime;			//!< 冷却时间

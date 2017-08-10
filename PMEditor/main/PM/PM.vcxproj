@@ -122,12 +122,6 @@
     <ClCompile Include="AddItemGroupDlg.cpp" />
     <ClCompile Include="AlarmProperty.cpp" />
     <ClCompile Include="BehaviorParamDlg.cpp" />
-    <ClCompile Include="CamDoc.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CamFrame.cpp" />
-    <ClCompile Include="CamGrid.cpp" />
-    <ClCompile Include="CamMgr.cpp" />
-    <ClCompile Include="CamView.cpp" />
     <ClCompile Include="CloneItemDlg.cpp" />
     <ClCompile Include="Compiler.cpp" />
     <ClCompile Include="Config.cpp" />
@@ -150,7 +144,6 @@
     <ClCompile Include="DeviceParam.cpp" />
     <ClCompile Include="DevMgr.cpp" />
     <ClCompile Include="DMemDC.cpp" />
-    <ClCompile Include="DOPCMgr.cpp" />
     <ClCompile Include="DReport.cpp" />
     <ClCompile Include="DSerial.cpp" />
     <ClCompile Include="DTreeCtrl.cpp" />
@@ -180,26 +173,16 @@
     <ClCompile Include="Project.cpp" />
     <ClCompile Include="ProjectMgr.cpp" />
     <ClCompile Include="ProjGuideDlg.cpp" />
-    <ClCompile Include="PropertyCam.cpp" />
     <ClCompile Include="PropertyDB.cpp" />
     <ClCompile Include="PropertyDevice.cpp" />
     <ClCompile Include="PropertyDlg.cpp" />
-    <ClCompile Include="PropertyDOPC.cpp" />
     <ClCompile Include="PropertyEthernet.cpp" />
     <ClCompile Include="PropertyItems.cpp" />
     <ClCompile Include="PropertyParam.cpp" />
-    <ClCompile Include="PropertyRongYu.cpp" />
-    <ClCompile Include="PropertySerial.cpp" />
-    <ClCompile Include="PropertySlave.cpp" />
     <ClCompile Include="ReNameDlg.cpp" />
-    <ClCompile Include="RongYuMgr.cpp" />
-    <ClCompile Include="ScanMgr.cpp" />
-    <ClCompile Include="ScanSetDlg.cpp" />
-    <ClCompile Include="ScanSetInfo.cpp" />
     <ClCompile Include="ScriptEditDlg.cpp" />
     <ClCompile Include="ScriptItem.cpp" />
     <ClCompile Include="ScriptObject.cpp" />
-    <ClCompile Include="SerialSetDlg.cpp" />
     <ClCompile Include="ServerCommer.cpp" />
     <ClCompile Include="ServerCtrl.cpp" />
     <ClCompile Include="SoftInfo.cpp" />
@@ -239,12 +222,6 @@
     <ClInclude Include="AddItemGroupDlg.h" />
     <ClInclude Include="AlarmProperty.h" />
     <ClInclude Include="BehaviorParamDlg.h" />
-    <ClInclude Include="CamDoc.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="CamFrame.h" />
-    <ClInclude Include="CamGrid.h" />
-    <ClInclude Include="CamMgr.h" />
-    <ClInclude Include="CamView.h" />
     <ClInclude Include="CloneItemDlg.h" />
     <ClInclude Include="Compiler.h" />
     <ClInclude Include="Config.h" />
@@ -267,7 +244,6 @@
     <ClInclude Include="DeviceParam.h" />
     <ClInclude Include="DevMgr.h" />
     <ClInclude Include="DMemDC.h" />
-    <ClInclude Include="DOPCMgr.h" />
     <ClInclude Include="DReport.h" />
     <ClInclude Include="DSerial.h" />
     <ClInclude Include="DTreeCtrl.h" />
@@ -297,27 +273,17 @@
     <ClInclude Include="Project.h" />
     <ClInclude Include="ProjectMgr.h" />
     <ClInclude Include="ProjGuideDlg.h" />
-    <ClInclude Include="PropertyCam.h" />
     <ClInclude Include="PropertyDB.h" />
     <ClInclude Include="PropertyDevice.h" />
     <ClInclude Include="PropertyDlg.h" />
-    <ClInclude Include="PropertyDOPC.h" />
     <ClInclude Include="PropertyEthernet.h" />
     <ClInclude Include="PropertyItems.h" />
     <ClInclude Include="PropertyParam.h" />
-    <ClInclude Include="PropertyRongYu.h" />
-    <ClInclude Include="PropertySerial.h" />
-    <ClInclude Include="PropertySlave.h" />
     <ClInclude Include="ReNameDlg.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="RongYuMgr.h" />
-    <ClInclude Include="ScanMgr.h" />
-    <ClInclude Include="ScanSetDlg.h" />
-    <ClInclude Include="ScanSetInfo.h" />
     <ClInclude Include="ScriptEditDlg.h" />
     <ClInclude Include="ScriptItem.h" />
     <ClInclude Include="ScriptObject.h" />
-    <ClInclude Include="SerialSetDlg.h" />
     <ClInclude Include="ServerCommer.h" />
     <ClInclude Include="ServerCtrl.h" />
     <ClInclude Include="SoftInfo.h" />
@@ -361,8 +327,8 @@
     <Image Include="res\DeviceDefault.bmp" />
     <Image Include="res\DeviceList.bmp" />
     <Image Include="res\DevState.bmp" />
-    <Image Include="res\DXPEditor.ico" />
-    <Image Include="res\DXPEditorDoc.ico" />
+    <Image Include="res\PMApp.ico" />
+    <Image Include="res\PMAppDoc.ico" />
     <Image Include="res\go_in.bmp" />
     <Image Include="res\help.bmp" />
     <Image Include="res\home.ico" />
@@ -385,7 +351,7 @@
     <Image Include="res\TooltipDevice.bmp" />
     <Image Include="res\watch.bmp" />
     <Image Include="res\WebProject.ico" />
-    <Image Include="res\WelcomeDXP.bmp" />
+    <Image Include="res\Welcome.bmp" />
     <Image Include="res\折叠图标.bmp" />
   </ItemGroup>
   <ItemGroup>
@@ -393,11 +359,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="PMHtmlDialog.html" />
-    <None Include="res\DXPEditor.rc2" />
+    <None Include="res\PMApp.rc2" />
     <None Include="res\heartbeat.avi" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

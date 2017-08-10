@@ -61,8 +61,8 @@ public:
 
 	bool Serialize(CArchive& ar);						//!< 保存二进制信息
 	bool SerializeXml(TiXmlElement* pNode, bool bRead, bool iExport = false);
-	void ReadFromDViewExcel(std::vector<CString>& vtCell);				//!< 解析数据源属性
-	bool SetPlcConfigAddr(int devID, CString strAddr, CString strType);	//!< 设置PLC_Config的变量地址属性
+	void ReadFromPMExcel(std::vector<CString>& vtCell);					//!< 解析数据源属性
+	bool SetConfigAddr(int devID, CString strAddr, CString strType);	//!< 设置Config的变量地址属性
 
 	UINT GetOperateType();								//!< 获得当前IO类型值多少个单位寻址长度
 

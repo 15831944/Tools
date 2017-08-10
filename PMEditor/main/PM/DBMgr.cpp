@@ -136,7 +136,7 @@ void CDBMgr::OnClose()
 //	m_bActive = true;				//!< 是否启用
 	m_uiDiskMin = 300;				//!< 磁盘最小报警空间
 	m_fSaveTime = 600.0;			//!< 存储时间间隔
-	m_uiSaveType = 0;				//!< 存储方式，0直接存储，1改变再存储，2DCCE_SD同步
+	m_uiSaveType = 0;				//!< 存储方式，0直接存储，1改变再存储
 	//m_uiSaveAverage = 5;			//!< 平均值次数
 	m_uiChangeRate = 5;				//!< 变化率，乘100了
 	m_uiTbRowMax = 100000;			//!< 分表上限，默认100000，最小值100

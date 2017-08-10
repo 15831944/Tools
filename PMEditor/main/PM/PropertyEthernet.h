@@ -10,7 +10,6 @@ private:
 	UINT m_uiOverTime;			//!< 超时时间
 	UINT m_uiCoolTime;			//!< 冷却时间
 	UINT m_uiReviveTime;		//!< 恢复时间
-	UINT m_uiScanTime;			//!< 扫描周期
 
 private:
 	void DataReady();

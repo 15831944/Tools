@@ -63,8 +63,8 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDR_MAINFRAME           ICON                    "res\\DXPEditor.ico"
-IDR_MAINMENU            ICON                    "res\\DXPEditorDoc.ico"
+IDR_MAINFRAME           ICON                    "res\\PMApp.ico"
+IDR_MAINMENU            ICON                    "res\\PMAppDoc.ico"
 ID_INDICATOR_MASTER     ICON                    "res\\master.ico"
 IDI_POPUP_CLOSE         ICON                    "res\\PopupClose.ico"
 IDI_PAGEFRONT           ICON                    "res\\right32.ico"
@@ -97,7 +97,7 @@ IDB_BMP_DEVSTATE        BITMAP                  "res\\DevState.bmp"
 IDB_HELP                BITMAP                  "res\\help.bmp"
 IDB_TOOLTIP_DEVICE      BITMAP                  "res\\TooltipDevice.bmp"
 IDR_TOOLBAR_TMP         BITMAP                  "res\\TB_TMP.bmp"
-IDB_WELCOME_DDS         BITMAP                  "res\\WelcomeDXP.bmp"
+IDB_WELCOME_DDS         BITMAP                  "res\\Welcome.bmp"
 IDR_WATCH               BITMAP                  "res\\watch.bmp"
 IDR_STARTPAGE           BITMAP                  "res\\startpage.bmp"
 IDB_BMP_CAMERA          BITMAP                  "res\\bmp_camera.bmp"
@@ -323,7 +323,7 @@ BEGIN
     BEGIN
         MENUITEM "使用说明(&F)",                    ID_HELP_FILE
         MENUITEM SEPARATOR
-        MENUITEM "关于 DView(&A)...",             ID_APP_ABOUT
+        MENUITEM "关于 PM(&A)...",             ID_APP_ABOUT
     END
 END
 
@@ -541,12 +541,12 @@ BEGIN
     CONTROL         IDB_WELCOME_DDS,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE | SS_REALSIZEIMAGE | WS_TABSTOP,0,0,384,269
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,23,159,140,30
     RTEXT           "<< copyright info1 >>",IDC_TXT_COPYRIGHT1,243,119,128,8,SS_WORDELLIPSIS | WS_TABSTOP
-    LTEXT           "http://www.dcce.cn",IDC_TXT_URL,64,175,93,8,WS_TABSTOP
+    LTEXT           "http://www.163.com",IDC_TXT_URL,64,175,93,8,WS_TABSTOP
     RTEXT           "<< package version >>",IDC_TXT_TITLE,243,83,128,8,WS_TABSTOP
     LTEXT           "邮箱：",IDC_STATIC_CONTACT,34,163,24,8
     LTEXT           "网址：",IDC_STATIC_WEBSITE,34,175,27,8
     RTEXT           "<< sample name >>",IDC_TXT_APPNAME,243,107,128,8,WS_TABSTOP
-    LTEXT           "service@dcce.cn",IDC_TXT_EMAIL,64,163,85,8,WS_TABSTOP
+    LTEXT           "a_tlas@163.com",IDC_TXT_EMAIL,64,163,85,8,WS_TABSTOP
     RTEXT           "<< copyright info2 >>",IDC_TXT_COPYRIGHT2,243,131,128,8,SS_WORDELLIPSIS | WS_TABSTOP
     RTEXT           "<< power now >>",IDC_TXT_POWER,243,144,128,8,SS_WORDELLIPSIS | WS_TABSTOP
     RTEXT           "<< package version >>",IDC_TXT_SVN,243,95,128,8,WS_TABSTOP
@@ -1105,15 +1105,15 @@ BEGIN
     BEGIN
         BLOCK "080403a8"
         BEGIN
-            VALUE "CompanyName", "大连理工计算机控制工程有限公司"
-            VALUE "FileDescription", "DView编辑器"
+            VALUE "CompanyName", "随鑫所欲"
+            VALUE "FileDescription", "PM编辑器"
             VALUE "FileVersion", "1.0.0.1"
-            VALUE "InternalName", "DView.exe"
-            VALUE "LegalCopyright", "大连理工计算机控制工程有限公司 保留所有权利。"
-            VALUE "LegalTrademarks", "DCCE"
-            VALUE "OriginalFilename", "DView.exe"
-            VALUE "ProductName", "DView编辑器"
-            VALUE "ProductVersion", "2.6.0.1161"
+            VALUE "InternalName", "PM.exe"
+            VALUE "LegalCopyright", "随鑫所欲 保留所有权利。"
+            VALUE "LegalTrademarks", "PM"
+            VALUE "OriginalFilename", "PM.exe"
+            VALUE "ProductName", "PM编辑器"
+            VALUE "ProductVersion", "1.0.0.1"
         END
     END
     BLOCK "VarFileInfo"
@@ -1414,9 +1414,9 @@ IDR_HTML_PMHTMLDIALOG HTML                    ".\\PMHtmlDialog.html"
 
 STRINGTABLE
 BEGIN
-    IDR_MAINFRAME           "DView"
-    IDR_MAINMENU            "\nDXPEditor\nDXPEditor\n\n\nDXPEditor.Document\nDXPEditor.Document"
-    ID_INDICATOR_LOGO       "DCCE"
+    IDR_MAINFRAME           "PM"
+    IDR_MAINMENU            "\nPMApp\nPMApp\n\n\nPMApp.Document\nPMApp.Document"
+    ID_INDICATOR_LOGO       "PM"
     ID_INDICATOR_PROG       "进度条"
     ID_INDICATOR_MASTER     "就绪"
     ID_INDICATOR_STATE      "net state"
@@ -1433,7 +1433,7 @@ END
 
 STRINGTABLE
 BEGIN
-    AFX_IDS_APP_TITLE       "DView"
+    AFX_IDS_APP_TITLE       "PM"
     AFX_IDS_IDLEMESSAGE     "就绪"
 END
 
@@ -1690,7 +1690,7 @@ END
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 LANGUAGE 4, 2
 #pragma code_page(936)
-#include "res\DXPEditor.rc2"  // 非 Microsoft Visual C++ 编辑资源
+#include "res\PMApp.rc2"  // 非 Microsoft Visual C++ 编辑资源
 #include "afxres.rc"         // 标准组件
 #include "afxprint.rc"       // 打印/打印预览资源
 #endif

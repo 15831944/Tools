@@ -187,7 +187,7 @@ void MVC::Item::CItemView::OnItemIn()
 	if(CProjectMgr::GetMe().SayWatch())		return;
 	CString extendNames = _T("变量表文件 (*.var;*.vxpt;*.xls;*.xlsx)|*.var;*.vxpt;*.xls;*.xlsx|");
 //	extendNames = extendNames + _T("变量表导出文件 (*.vxpt)|*.vxpt|");
-//	extendNames = extendNames + _T("PLC_Config导出符号变量表文件 (*.xls)|*.xls|");
+//	extendNames = extendNames + _T("Config导出符号变量表文件 (*.xls)|*.xls|");
 	extendNames = extendNames + _T("|");
 	CFileDialog openDlg(TRUE, (LPCTSTR)extendNames, _T(""), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, (LPCTSTR)extendNames);
 	CItemDoc* pDoc = (CItemDoc *)GetDocument();
@@ -204,7 +204,7 @@ void MVC::Item::CItemView::OnItemIn()
 		}
 		else
 		{
-			pDoc->SerializePlcConfig(openDlg.GetPathName(), openDlg.GetFileTitle(), openDlg.GetFileExt());
+			pDoc->SerializeConfig(openDlg.GetPathName(), openDlg.GetFileTitle(), openDlg.GetFileExt());
 		}
 	}
 //	m_ItemGrid.RedrawGrid();

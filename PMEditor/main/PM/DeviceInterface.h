@@ -22,9 +22,7 @@ private:
 	int	 m_uiDevPort;					//!<设备端口号
 	UINT m_uiHandle;				//!< 串口地址，如果是主设备就是模块地址，如果是从设备就是Handle号
 
-	CString m_strScanParentID;		//!< 父设备的strID，如果没有父设备则为_T("")
 	CString m_strDoMain;  //!<设备的域名
-	UINT m_uiScanLevel;				//!< 扫描时的所在层数
 
 public:
 	CDeviceInterface(CDeviceOne* pDevice);
@@ -39,9 +37,7 @@ public:
 //	UINT GetIP(){return m_uiIP;}
 	CString GetDoMain(){return m_strDoMain;}
 	UINT GetHandle(){return m_uiHandle;}
-	CString getStrParentID(){return m_strScanParentID;}
-	UINT getScanLevel(){return m_uiScanLevel;}
-	UINT  GetDevPort(){return m_uiDevPort;}
+	UINT GetDevPort(){return m_uiDevPort;}
 	bool IsProj(){return m_bProj;}
 
 	void SetState(int nState){m_nState = nState % 3;}
@@ -51,8 +47,6 @@ public:
 //	void SetIP(UINT ip){m_uiIP = ip;}
 	void SetDoMain(CString domain){m_strDoMain=domain;}
 	void SetHandle(UINT handle){m_uiHandle = handle;}
-	void SetScanLevel(UINT level){m_uiScanLevel = level;}
-	void SetStrParentID(CString str){m_strScanParentID = str;}
 	void SetProj(bool b = true){m_bProj = b;}
 	void SetDevPort(UINT DevPort){m_uiDevPort=DevPort;}
 

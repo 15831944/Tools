@@ -109,7 +109,7 @@ bool CPropertySource::SerializeXml(TiXmlElement* pNode, bool bRead, bool iExport
 }
 
 //!< 解析数据源属性
-void CPropertySource::ReadFromDViewExcel(std::vector<CString>& vtCell)
+void CPropertySource::ReadFromPMExcel(std::vector<CString>& vtCell)
 {
 	m_strScriptText = vtCell[11].Trim();
 	m_uiDeviceID = (UINT)atoi(vtCell[12].Trim());
@@ -231,8 +231,8 @@ UINT CPropertySource::GetOperateType()
 	return operateType;
 }
 
-//!< 设置PLC_Config的变量地址属性
-bool MVC::Item::CPropertySource::SetPlcConfigAddr(int devID, CString strAddr, CString strType)
+//!< 设置Config的变量地址属性
+bool MVC::Item::CPropertySource::SetConfigAddr(int devID, CString strAddr, CString strType)
 {
 	setDevID(devID);
 	std::shared_ptr<MVC::Device::CDeviceOne> dev = MVC::Device::CDevMgr::GetMe().GetDevice(devID);

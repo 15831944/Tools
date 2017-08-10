@@ -7,9 +7,7 @@
 #include "MainFrm.h"
 #include "ItemMgr.h"
 #include "ItemGrid.h"
-#include "CamGrid.h"
 #include "DevMgr.h"
-#include "ScanSetInfo.h"
 
 using namespace SoftInfo;
 
@@ -42,22 +40,6 @@ CSoftInfo::CSoftInfo(void)
 	m_vtColInfo[MVC::Item::CItemGrid::COL_MODBUS485].Init(_T("Md485"), true, 40);
 	m_vtColInfo[MVC::Item::CItemGrid::COL_REV_DB].Init(_T("保留历史"), true, 40);
 
-	m_vtCamCol.resize(MVC::Camera::CCamGrid::COL_BROADFPS + 1);
-	m_vtCamCol[MVC::Camera::CCamGrid::COL_ID].Init(_T("编号"), true, 60);
-	m_vtCamCol[MVC::Camera::CCamGrid::COL_TAG].Init(_T("说明"), true, 100);
-	m_vtCamCol[MVC::Camera::CCamGrid::COL_RECORD].Init(_T("录制"), true, 50);
-	//m_vtCamCol[MVC::Camera::CCamGrid::COL_AUTOSAVE].Init(_T("保存"), true, 50);
-	m_vtCamCol[MVC::Camera::CCamGrid::COL_PATH].Init(_T("保存路径"), true, 200);
-	m_vtCamCol[MVC::Camera::CCamGrid::COL_ENCODE].Init(_T("文件格式"), true, 60);
-	m_vtCamCol[MVC::Camera::CCamGrid::COL_DISTINGUISH].Init(_T("录制分辨率"), true, 80);
-	m_vtCamCol[MVC::Camera::CCamGrid::COL_FPS].Init(_T("录制帧速"), true, 60);
-	m_vtCamCol[MVC::Camera::CCamGrid::COL_BROAD].Init(_T("广播"), true, 50);
-	m_vtCamCol[MVC::Camera::CCamGrid::COL_PORT].Init(_T("端口号"), true, 50);
-	m_vtCamCol[MVC::Camera::CCamGrid::COL_MAXCLIENT].Init(_T("最大连接数"), true, 80);
-	m_vtCamCol[MVC::Camera::CCamGrid::COL_BROADENCODE].Init(_T("广播格式"), true, 60);
-	m_vtCamCol[MVC::Camera::CCamGrid::COL_BROADDISTINGUISH].Init(_T("广播分辨率"), true, 80);
-	m_vtCamCol[MVC::Camera::CCamGrid::COL_BROADFPS].Init(_T("广播帧速"), true, 70);
-
 	m_bTooltip = true;														//!< 悬停提示，要不要有
 	m_bHDevMap = false;														//!< 默认纵向显示
 	m_uiFreshDataTime = 500;												//!< 刷新数据的默认周期，默认500毫秒
@@ -73,7 +55,6 @@ CSoftInfo::CSoftInfo(void)
 	m_bShowHex = false;														//!< 是否按十六进制显示
 	m_bPrintItemWaterMark = false;											//!< 是否打印水印
 	m_bCplXml = false;
-	m_bScanXml = false;
 	m_nCmplOverTime = 600000;												//!< 编译超时时间,默认10分钟
 	m_strItemNabled = _T("Yes");											//!< 变量名称是否能修改
 	std::shared_ptr<CFont> tuopuFont= std::shared_ptr<CFont>(new CFont);
@@ -308,7 +289,6 @@ void CSoftInfo::SerializeCompile(TiXmlElement *pNode, bool bRead)
 			if(name == _T("IsOutPut"))				m_bIsOutPut = val == _T("0") ? false : true;
 			else if(name == _T("IsOutWarning"))		m_bIsOutWarning = val == _T("0") ? false : true;
 			else if(name == _T("CmpXml"))			m_bCplXml = val == _T("0") ? false : true;
-			else if(name == _T("ScanXml"))			m_bScanXml = val == _T("0") ? false : true;
 			else if(name == _T("CmplOverTime"))		m_nCmplOverTime = atoi(val);
 			pAttr = pAttr->Next();
 		}
@@ -318,7 +298,6 @@ void CSoftInfo::SerializeCompile(TiXmlElement *pNode, bool bRead)
 		pNode->SetAttribute(_T("IsOutPut"), m_bIsOutPut?1:0);
 		pNode->SetAttribute(_T("IsOutWarning"), m_bIsOutWarning?1:0);
 		pNode->SetAttribute(_T("CmpXml"), m_bCplXml?1:0);
-		pNode->SetAttribute(_T("ScanXml"), m_bScanXml?1:0);
 		pNode->SetAttribute(_T("CmplOverTime"), m_nCmplOverTime);
 	}
 }
@@ -406,13 +385,6 @@ void CSoftInfo::setCmpXml(bool b)
 		CProjectMgr::GetMe().GetProj()->SetModify(true);
 }
 
-//!< 设置扫描文件是否保存描述
-void CSoftInfo::setScanXml(bool b)
-{
-	if(m_bScanXml == b)		return;
-	m_bScanXml = b;
-	MVC::Device::CDevMgr::GetMe().GetScanInfo()->SetUnCompiled();
-}
 //!< 设置显示十六进制数值
 void CSoftInfo::setShowHex(bool b)
 {

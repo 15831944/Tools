@@ -37,8 +37,6 @@ public:
 	void Check(CString cmdLine){;}			//!< ¼ì²é
 	void AddRunObj(SNeedRunObj* obj);		//!< Ìí¼Ó´ýÆô¶¯Ïî
 	void CompileProj();						//!< ±àÒë¹¤³Ì
-	void CompileScan();						//!< ±àÒëÉ¨Ãè
-	void RunScan();
 
 	bool IsINeed(UINT dwData);
 	void OnReceive(COPYDATASTRUCT* pCopyDataStruct);

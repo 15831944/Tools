@@ -54,7 +54,6 @@ void CPropertyEthernet::DataReady()
 	m_uiOverTime = ether->getOverTime();
 	m_uiCoolTime = ether->getCoolTime();
 	m_uiReviveTime = ether->getReviveTime();
-	m_uiScanTime = ether->getScanTime();
 }
 
 //!< 显示表格的函数
@@ -84,9 +83,6 @@ void CPropertyEthernet::ShowInfo(CXTPPropertyGrid& grid)
 
 	//!< 恢复时间
 	AddItemNumber(*pGroup, SERIAL_REVIVE, SERIAL_REVIVE_TOOLTIP, m_uiReviveTime, SERIAL_REVIVE_ID);
-
-	//!< 扫描周期
-	AddItemNumber(*pGroup, SERIAL_SCAN, SERIAL_SCAN_TOOLTIP, m_uiScanTime, SERIAL_SCAN_ID);
 }
 
 //!< 当某项的值发生改变时
@@ -184,10 +180,8 @@ void CPropertyEthernet::OnItemModify(CXTPPropertyGrid& grid, UINT ID)
 		if(lValue < 0)
 		{
 			pItem->SetNumber(0);
-			m_uiScanTime = 0;
 			return;
 		}
-		m_uiScanTime = lValue;
 	}
 }
 
@@ -202,7 +196,6 @@ bool CPropertyEthernet::OnSaveModify(CXTPPropertyGrid &grid)
 	ether->setOverTime(m_uiOverTime);
 	ether->setCoolTime(m_uiCoolTime);
 	ether->setReviveTime(m_uiReviveTime);
-	ether->setScanTime(m_uiScanTime);
 
 	return true;
 }

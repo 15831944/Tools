@@ -93,13 +93,13 @@ void CDTreeCtrl::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 }
 
 //!< 删除掉相应节点
-void CDTreeCtrl::DCCEDeleteItem(HTREEITEM item)
+void CDTreeCtrl::PMDeleteItem(HTREEITEM item)
 {
 	if(item)		DeleteItem(item);		//!< MFC的bug，当 item 等于 NULL 时就清空所有内容了，在这里把它改了
 }
 
 //!< 删除掉所有相应的子节点
-void CDTreeCtrl::DCCEDeleteItems(HTREEITEM item)
+void CDTreeCtrl::PMDeleteItems(HTREEITEM item)
 {
 	HTREEITEM pChileItem = GetNextItem(item,TVGN_CHILD);
 	TVITEM Item;

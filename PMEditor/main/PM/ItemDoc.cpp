@@ -374,8 +374,8 @@ void CItemDoc::SerializeIn(TiXmlElement* pNode)
 	InItem(ltItem, dlg);
 }
 
-//!< 读取PLC_Config导出的变量表文件
-void CItemDoc::SerializePlcConfig(CString strPath, CString strTitle, CString strExt)
+//!< 读取Config导出的变量表文件
+void CItemDoc::SerializeConfig(CString strPath, CString strTitle, CString strExt)
 {
 //	Dialog::CItemInConfigDlg* dlg = &Dialog::CItemInConfigDlg::GetMe();
 //	if(IDOK != dlg->DoModal(Dialog::CItemInConfigDlg::ItemIn, GetView()->m_ItemGrid.GetGroupID()))	return;
@@ -405,33 +405,33 @@ void CItemDoc::SerializePlcConfig(CString strPath, CString strTitle, CString str
 //		if (strLine.IsEmpty())	continue;
 //		bool b = false;
 //		if (nColCount < 20)
-//			b = pItem->ReadFromPlcConfig(strLine, devID);
+//			b = pItem->ReadFromConfig(strLine, devID);
 //		else
-//			b = pItem->ReadFromDView(strLine, devID);
+//			b = pItem->ReadFromPM(strLine, devID);
 //		if (b)
 //			ltItem.push_back(pItem);
 //	}
 //
-//	//int nPLC_DVIEW = 0;		// 到底是哪个文档,1PLC_Config导出的,2DView导出,否则不管
+//	//int nPLC_PM = 0;		// 到底是哪个文档,1Config导出的,2PM导出,否则不管
 ////	for (int i = 2; i <= nCount; ++i)
 ////	{
 ////		std::shared_ptr<CItem> pItem = std::shared_ptr<CItem>(new CItem(_T("")));
-//// 		if (nPLC_DVIEW == 1)			// 确定了是PLC_Config导出的
+//// 		if (nPLC_PM == 1)			// 确定了是Config导出的
 //// 		{
-//// 			bool b = pItem->ReadFromPlcConfig(excelop, i, devID);
+//// 			bool b = pItem->ReadFromConfig(excelop, i, devID);
 //// 			if (!b)	continue;
 //// 		}
-//// 		else if (nPLC_DVIEW == 2)		// 确定了是DView导出的
+//// 		else if (nPLC_PM == 2)		// 确定了是PM导出的
 //// 		{
-//// 			bool b = pItem->ReadFromDView(excelop, i, devID);
+//// 			bool b = pItem->ReadFromPM(excelop, i, devID);
 //// 			if(!b)	continue;
 //// 		}
 //// 		else
 //// 		{
-//// 			if (pItem->ReadFromPlcConfig(excelop, i, devID))
-//// 				nPLC_DVIEW = 1;
-//// 			else if (pItem->ReadFromDView(excelop, i, devID))
-//// 				nPLC_DVIEW = 2;
+//// 			if (pItem->ReadFromConfig(excelop, i, devID))
+//// 				nPLC_PM = 1;
+//// 			else if (pItem->ReadFromPM(excelop, i, devID))
+//// 				nPLC_PM = 2;
 //// 			else
 //// 				continue;
 //// 		}

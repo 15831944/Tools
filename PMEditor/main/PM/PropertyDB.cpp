@@ -29,7 +29,7 @@ const CString PASSWORD_TOOLTIP = _T("连接数据库的密码");
 const CString MYSQLPORT_TOOLTIP=_T("连接数据库的端口号（默认为3306）");
 const CString DISKMIN_TOOLTIP = _T("数据库磁盘的剩余空间小于指定大小时，蜂鸣器将报警");
 const CString SAVETIME_TOOLTIP = _T("变量值存储数据库的时间间隔, 0.01~3600000");
-const CString SAVETYPE_TOOLTIP = _T("直接存储：每次刷新数据直接保存历史数据\r\n改变再存储：变量发生改变时再保存历史数据\r\nDCCE_SD同步：同步大工计控PLC设备中SD卡的历史数据,将其保存到历史数据库中");
+const CString SAVETYPE_TOOLTIP = _T("直接存储：每次刷新数据直接保存历史数据\r\n改变再存储：变量发生改变时再保存历史数据");
 //const CString SAVEAVERAGE_TOOLTIP = _T("平均次数, 1～999");
 const CString SAVECHANGERATE_TOOLITP = _T("最小变化率，0~100，0表示只要变化就存储");
 const CString TBROWMAX_TOOLITP = _T("当历史数据库中记录的条数大于设定值后，可重新建表，默认值为100000，最小值为100");
@@ -106,7 +106,6 @@ void CPropertyDB::ShowInfo(CXTPPropertyGrid& grid)
 	strList.clear();
 	strList.push_back(_T("直接存储"));
 	strList.push_back(_T("改变再存储"));
-	strList.push_back(_T("DCCE_SD同步"));
 	AddItemList(*pGroup, SAVETYPE, SAVETYPE_TOOLTIP, strList, dbMgr->getSaveType(), SAVETYPE_ID);
 
 	//!< 变化率

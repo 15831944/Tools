@@ -20,8 +20,7 @@ using namespace MVC;
 using namespace Device;
 
 CDeviceInterface::CDeviceInterface(CDeviceOne* pDevice)
-:m_uiScanLevel(0)
-,m_pDevice(pDevice)
+:m_pDevice(pDevice)
 ,m_uiID(0)
 ,m_uiType(0)
 ,m_uiSerialNo(1)
@@ -44,8 +43,6 @@ CDeviceInterface& CDeviceInterface::operator = (CDeviceInterface& inf)
 	m_strDoMain = inf.m_strDoMain;
 	m_uiHandle = inf.m_uiHandle;
 
-	m_uiScanLevel = inf.getScanLevel();
-	m_strScanParentID = inf.getStrParentID();
 	m_uiDevPort =inf.m_uiDevPort;
 	return *this;
 }

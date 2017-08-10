@@ -7,7 +7,6 @@
 #include "ProjectMgr.h"
 #include "Project.h"
 #include "DevMgr.h"
-#include "ScanSetInfo.h"
 #include "ServerCtrl.h"
 
 const UINT COMPILE_START = 2001;
@@ -19,10 +18,6 @@ const CString COMPILE = _T("Compile");
 const CString COMPILE_NAME = _T("Name");
 const CString COMPILE_PATH = _T("Path");
 const CString COMPILE_VERSION = _T("Version");
-const CString SCAN = _T("Scan");
-const CString SCAN_NAME = _T("Name");
-const CString SCAN_PATH = _T("Path");
-const CString SCAN_VERSION = _T("Version");
 
 using namespace Servers;
 using namespace Compile;
@@ -72,27 +67,6 @@ void CCompiler::CompileProj()
 
 	CompileInfo(strCmd);
 	SetCompiling(true);
-}
-
-//!< ±‡“Î…®√Ë
-void CCompiler::CompileScan()
-{
-	//!< …Ë÷√…®√Ë√¸¡Ó––
-	CMainFrame* mf = (CMainFrame *)g_App.GetMainWnd();
-	UINT uiH = (UINT)mf->GetSafeHwnd();
-	CString strHandle;
-	strHandle.Format("%u", uiH);
-	CString ext = _T(".dsd");
-	if(!SoftInfo::CSoftInfo::GetMe().IsScanXml())	ext += _T("x");
-
-	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
-	if(!proj)		return;
-	CString projPathName = proj->GetWholePathName();
-	CString xmlMgrPathName = CGbl::GetMe().getDataPath() + _T("√Ë ˆπ‹¿Ì.ddm");
-	CString cplPathName = projPathName.Left(projPathName.ReverseFind('.')) + ext;
-	CString strCmd = _T(" -b /H") + strHandle + _T("/") + projPathName + _T("/") + xmlMgrPathName + _T("/")+ cplPathName + _T("/");
-
-	CompileInfo(strCmd);
 }
 
 //!< ∆Ù∂Ø±‡“Î,±‡“Îƒ⁄»›∏˘æ›cmdLineµƒ≤ªÕ¨∂¯≤ªÕ¨
@@ -154,13 +128,6 @@ void CCompiler::OnReceive(COPYDATASTRUCT* pCopyDataStruct)
 		SetCompiling(false);
 		delete[] data;
 		break;
-
-	case COMPILE_SCANEND:			//!< ±‡“Î∆˜±‡“Î…®√ËΩ· ¯±Í÷æ
-		data = new char[pCopyDataStruct->cbData];
-		memcpy(data, pCopyDataStruct->lpData, pCopyDataStruct->cbData);
-		if(data[0] == '0')			RunScan();
-		delete[] data;
-		break;
 	}
 }
 
@@ -198,18 +165,6 @@ void CCompiler::OnRunObj()
 		obj->OnRun();
 }
 
-void CCompiler::RunScan()
-{
-	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
-	if(!proj)										return;
-	CString projPathName = proj->GetWholePathName();
-	CString cplPathName = projPathName.Left(projPathName.ReverseFind('.')) + _T(".dsl");
-	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	CProjectMgr::GetMe().SetScan(true);
-	devMgr->GetScanInfo()->SetScanCompiled();
-	Servers::DXP::CServerCtrl::GetMe().OnScanStart(cplPathName);
-}
-
 bool CCompiler::SerializeXml(TiXmlElement* pNode, bool bRead)		//!< ±£¥Êxml∏Ò Ωµƒ±‡º≠–≈œ¢
 {
 	if(!bRead)
@@ -221,14 +176,6 @@ bool CCompiler::SerializeXml(TiXmlElement* pNode, bool bRead)		//!< ±£¥Êxml∏Ò Ωµ
 		pChild->SetAttribute(COMPILE_NAME, _T("±‡“ÎŒƒº˛"));
 		pChild->SetAttribute(COMPILE_PATH, pathName);
 		pChild->SetAttribute(COMPILE_VERSION, _T("1.0"));
-
-		ext = _T(".dsd");
-		if(!SoftInfo::CSoftInfo::GetMe().IsScanXml())	ext += _T("x");
-		pChild = pNode->AddTiXmlChild((LPCTSTR)SCAN);
-		pathName = CProjectMgr::GetMe().GetProj()->GetProjName() + ext;
-		pChild->SetAttribute(SCAN_NAME, _T("…®√Ë±‡“ÎŒƒº˛"));
-		pChild->SetAttribute(SCAN_PATH, pathName);
-		pChild->SetAttribute(SCAN_VERSION, _T("1.0"));
 	}
 	return true;
 }

@@ -39,7 +39,7 @@ CGbl::CGbl(void)
 	TCHAR szDocPath[MAX_PATH];
 	if (SUCCEEDED(::SHGetFolderPath(NULL, CSIDL_PERSONAL | CSIDL_FLAG_CREATE, NULL, 0, szDocPath)))
 	{
-		m_strProjDefPath = CString(szDocPath) + _T("\\DView\\Projects\\");					//!< 工程默认路径
+		m_strProjDefPath = CString(szDocPath) + _T("\\PM\\Projects\\");					//!< 工程默认路径
 	}
 
 //	m_uiMaxItemNum = 65535;
@@ -87,7 +87,7 @@ const CString CGbl::getVersionStr(UINT type/* = 0*/)
 // 	UINT id;
 // 	int i = 0;
 // 	bool bReadSucceed = false;
-// 	if(::RegOpenKeyEx(HKEY_LOCAL_MACHINE, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DView"),
+// 	if(::RegOpenKeyEx(HKEY_LOCAL_MACHINE, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\PM"),
 // 		NULL, KEY_READ, &hKey) == ERROR_SUCCESS) // 打开串口注册表
 // 	{
 // 		char softName[256];
@@ -828,7 +828,7 @@ bool CGbl::RegexMatch(const std::string& strRegex, std::string& strMatch)
 //!< 获得CPU号
 CString CGbl::GetCPUID()
 {
-	CString strCPU = _T("DcceLowLevel");
+	CString strCPU = _T("PMLowLevel");
 	int iEAXValue,iEBXValue,iECXValue,iEDXValue;
 	_asm
 	{

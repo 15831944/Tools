@@ -77,7 +77,6 @@ BOOL CSoftSetTuoPuDlg::DestroyWindow()
 	{
 		MVC::Device::CDeviceMapDoc* pDoc = (MVC::Device::CDeviceMapDoc*)g_App.m_pDeviceDocMgr->GetNextDoc(pos);
 		MVC::Device::CDeviceMapView* pView = (MVC::Device::CDeviceMapView*)pDoc->GetView();
-		if(pView)	pView->FreshDeviceMap();
 	}
 	return CDialog::DestroyWindow();
 }

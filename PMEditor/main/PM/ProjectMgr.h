@@ -12,7 +12,6 @@ class CProjectMgr
 private:
 	std::shared_ptr<CProject> m_CulProject;				//!< 当前工程的智能指针
 	bool m_bWatch;						//!< 当前是否处于监控状态
-	bool m_bScan;						//!< 当前是否处于扫描状态
 
 private:
 	CProjectMgr(void);
@@ -20,7 +19,6 @@ private:
 
 public:
 	bool IsWatch(){return m_bWatch && m_CulProject;}
-	bool IsScan(){return m_bScan;}
 
 public:
 	std::shared_ptr<CProject> GetProj(){return m_CulProject;}
@@ -33,7 +31,6 @@ public:
 	bool CloseProject();				//!< 关闭工程的函数入口
 	void EditProjInfo();				//!< 编辑工程信息
 	void SetWatch(const bool b);		//!< 设置/取消监控
-	void SetScan(const bool b);			//!< 设置/取消扫描
 
 	bool SayWatch();					//!< 填出监控状态不能操作的提示
 	void UpdateTreeView();				//!< 刷新树

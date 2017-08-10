@@ -21,7 +21,6 @@
 #include "ItemView.h"
 
 #include "DevMgr.h"
-#include "ScanMgr.h"
 #include "DeviceOne.h"
 #include "DeviceMapDoc.h"
 #include "DeviceMapView.h"
@@ -32,7 +31,7 @@
 #define new DEBUG_NEW
 #endif
 
-const CString TITLE = _T("DView编辑器");
+const CString TITLE = _T("PM编辑器");
 const int TIME_LIMIT = 110;
 int m_nLimitTime = 60 * 120;// / 720;
 
@@ -66,11 +65,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 	ON_COMMAND(ID_VIEW_ITEM, &CMainFrame::OnShowViewItem)
 	ON_COMMAND(ID_VIEW_DEVICE, &CMainFrame::OnShowViewDevice)
 	ON_COMMAND(ID_VIEW_OUTPUT, &CMainFrame::OnShowViewOutput)
-	ON_COMMAND(ID_SCAN_SET, &CMainFrame::OnScanSet)
-	ON_COMMAND(ID_SCAN_START, &CMainFrame::OnScanStart)
-	ON_COMMAND(ID_SCANANDSHOW, &CMainFrame::OnScanandshow)
-	ON_COMMAND(ID_SCAN_STOP, &CMainFrame::OnScanStop)
-	ON_COMMAND(ID_HMI_START, &CMainFrame::OnHmiStart)
 	ON_COMMAND(ID_HELP_FILE, &CMainFrame::OnHelpShow)
 	ON_UPDATE_COMMAND_UI(ID_PROJ_CLOSE, &CMainFrame::OnUpdateWithProj)
 	ON_UPDATE_COMMAND_UI(ID_PROJ_SAVE, &CMainFrame::OnUpdateWithProj)
@@ -85,8 +79,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_HMI_START, &CMainFrame::OnUpdateWithProj)
 	ON_UPDATE_COMMAND_UI(ID_SERVER_RUN, &CMainFrame::OnUpdateServerRun)
 	ON_UPDATE_COMMAND_UI(ID_SERVER_STOP, &CMainFrame::OnUpdateServerStop)
-	ON_UPDATE_COMMAND_UI(ID_SCAN_START, &CMainFrame::OnUpdateScanStart)
-	ON_UPDATE_COMMAND_UI(ID_SCAN_STOP, &CMainFrame::OnUpdateScanStop)
 	ON_COMMAND(ID_REGIST, &CMainFrame::OnRegist)
 	ON_COMMAND(ID_STARTPAGE, &CMainFrame::OnStartpage)
 END_MESSAGE_MAP()
@@ -96,10 +88,7 @@ BEGIN_EVENTSINK_MAP(CMainFrame, CMDIFrameWnd)
 	ON_EVENT(CMainFrame, IDS_PMCLIENT, 2, OnVariableAlarm, VTS_I4 VTS_I4 VTS_PVARIANT)
 	ON_EVENT(CMainFrame, IDS_PMCLIENT, 3, OnVariableLag, VTS_I4 VTS_I4 VTS_PVARIANT)
 	ON_EVENT(CMainFrame, IDS_PMCLIENT, 4, OnLoadOver, VTS_I4 VTS_I4)
-	ON_EVENT(CMainFrame, IDS_PMCLIENT, 5, OnDeviceStatus, VTS_I4 VTS_I4 VTS_I4)
 	ON_EVENT(CMainFrame, IDS_PMCLIENT, 6, OnBehavior, VTS_I4 VTS_I4 VTS_VARIANT VTS_I4)
-	ON_EVENT(CMainFrame, IDS_PMCLIENT, 7, OnScan, VTS_VARIANT VTS_I4)
-	ON_EVENT(CMainFrame, IDS_PMCLIENT, 8, OnScanBehavior, VTS_I4 VTS_I4 VTS_I4 VTS_I4 VTS_PI4 VTS_VARIANT VTS_I4)
 END_EVENTSINK_MAP()
 
 static UINT indicators[] =
@@ -353,7 +342,7 @@ void CMainFrame::FillToStatusBar()
 {
 	//AddLogo
 	CXTPStatusBarPane* pPane1=m_wndStatusBar.AddIndicator(ID_INDICATOR_LOGO,0);
-	pPane1->SetText(_T("DView编辑器 "));// + CGbl::GetMe().getVersionStr() + _T("    "));
+	pPane1->SetText(_T("PM编辑器 "));// + CGbl::GetMe().getVersionStr() + _T("    "));
 	pPane1->SetTextColor(0x915f36);
 	//CXTPPaintManager::CNonClientMetrics ncm;
 	NONCLIENTMETRICS ncm;
@@ -493,10 +482,10 @@ void CMainFrame::OnProjOpen()
 
 void CMainFrame::OnProjSave()
 {
-	if(CProjectMgr::GetMe().SaveProject())
-		CGbl::PrintOut(_T("保存成功！"));
-	else
-		MessageBox(_T("保存失败！"), _T("提示"), MB_ICONEXCLAMATION);
+	//if(CProjectMgr::GetMe().SaveProject())
+	//	CGbl::PrintOut(_T("保存成功！"));
+	//else
+	//	MessageBox(_T("保存失败！"), _T("提示"), MB_ICONEXCLAMATION);
 }
 
 void CMainFrame::OnProjBackUp()
@@ -555,18 +544,6 @@ void CMainFrame::CompileRun(bool bRunServer /* = false */)
 	//!< 开始编译
 	if(bRunServer)		Servers::Compile::CCompiler::GetMe().AddRunObj(&Servers::DXP::CServerCtrl::GetMe());
 	Servers::Compile::CCompiler::GetMe().CompileProj();
-}
-
-//!< 启动编译扫描，编译成功后要启动扫描
-void CMainFrame::CompileScan()
-{
-	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
-	if(!proj)		return;
-	//!< 编译前要清空输出栏
-	CGbl::PrintClear();
-
-	//!< 开始编译
-	Servers::Compile::CCompiler::GetMe().CompileScan();
 }
 
 //!< 检查
@@ -637,13 +614,6 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 		MVC::Item::CItemMgr::GetMe().ReadItemValue(true);
 		MVC::Item::CItemMgr::GetMe().ReadItemValue(false);
 	}
-	else if(nIDEvent == TIME_SCAN)
-	{
-		if(Servers::DXP::CServerCtrl::GetMe().GetScanState() == 1){
-			CComVariant cvr;
-			m_SevCommer.Execute(9, cvr, 0, 0, 0);			//!< 清空Client中的内存
-		}
-	}
 	else if(nIDEvent == Servers::Compile::CCompiler::COMPILE_OVERTIME_ID)
 	{
 		Servers::Compile::CCompiler::GetMe().OnCompileOverTime();	//!< 编译超时了
@@ -682,7 +652,6 @@ void CMainFrame::OnUpdateServerRun(CCmdUI *pCmdUI)
 	OnUpdateWithProj(pCmdUI);
 	Servers::DXP::CServerCtrl* server = &Servers::DXP::CServerCtrl::GetMe();
 	if(server->GetState() == 1)				pCmdUI->Enable(FALSE);
-	if(server->GetScanState() == 1)			pCmdUI->Enable(FALSE);
 }
 
 void CMainFrame::OnUpdateServerStop(CCmdUI *pCmdUI)
@@ -690,7 +659,6 @@ void CMainFrame::OnUpdateServerStop(CCmdUI *pCmdUI)
 	OnUpdateWithProj(pCmdUI);
 	Servers::DXP::CServerCtrl* server = &Servers::DXP::CServerCtrl::GetMe();
 	if(server->GetState() != 1)				pCmdUI->Enable(FALSE);
-	if(server->GetScanState() == 1)			pCmdUI->Enable(FALSE);
 }
 
 void CMainFrame::OnDataReady(long nShakeInterval)
@@ -714,43 +682,9 @@ void CMainFrame::OnLoadOver(int nLoadType,int nLoadSize)
 	if(!CProjectMgr::GetMe().IsWatch())		return;		//!< 不监控，不处理
 }
 
-//!< 设备状态改变事件。nDeviceInterface
-void CMainFrame::OnDeviceStatus(long nDeviceID,long nDeviceInterface,long nDeviceStatus)
-{
-	if(!CProjectMgr::GetMe().IsWatch())		return;		//!< 不监控，不处理
-	MVC::Device::CDevMgr::GetMe().OnDeviceStatus(nDeviceID, nDeviceInterface, nDeviceStatus);
-}
-
 void CMainFrame::OnBehavior(long lBehaviorID, long lDeviceID, VARIANT& varValue, long lResult)
 {
 	MVC::Device::CDevMgr::GetMe().OnBehavior(lBehaviorID, lDeviceID, varValue, lResult);
-}
-
-void CMainFrame::OnScanBehavior(long devType, long infType, long level, long bevID, long* plAddr, VARIANT& varValue, long lResult)
-{
-	//!< 判断收到的是什么东西
-	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	std::shared_ptr<MVC::Device::CDeviceOne> device = devMgr->GetDevice(devType, infType, level, plAddr);
-	if(!device)			return;
-	OnBehavior(bevID, device->getID(), varValue, 1);
-}
-
-void CMainFrame::OnScan(VARIANT &varValue,long lResult)
-{
-	//!< 为数据赋值
-	VARIANT *var = (VARIANT *)varValue.byref;
-	char *pValue=NULL;
-	HRESULT hr = SafeArrayAccessData(var->parray, (void**)&pValue);
-	long Low(0), High(0);								//!< 获取数组长度
-	if(SUCCEEDED(hr)){
-		hr = SafeArrayGetLBound(var->parray, 1, &Low);	//!< 维数索引从1开始
-		hr = SafeArrayGetUBound(var->parray, 1, &High);	//!< 维数索引从1开始
-	}
-	else{SafeArrayUnaccessData(var->parray);			return;}
-	int varCount = High - Low + 1;
-	if(varCount < 1){SafeArrayUnaccessData(var->parray);return;}
-	SafeArrayUnaccessData(var->parray);
-	MVC::Device::CDevMgr::GetMe().m_ScanMgr->OnScanRev(pValue, varCount);
 }
 
 void CMainFrame::OnAddDevice()
@@ -759,7 +693,6 @@ void CMainFrame::OnAddDevice()
 	//!< 如果拓扑图没打开，那么打开拓扑图
 	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
 	devMgr->OpenDoc();
-	devMgr->m_DevMapDoc->GetView()->OnAddDev();
 }
 
 void CMainFrame::OnAddItem()
@@ -836,13 +769,6 @@ void CMainFrame::OnShowViewOutput()
 	m_paneManager.ShowPane(ID_VIEW_OUTPUT);
 }
 
-void CMainFrame::OnHmiStart()
-{
-	if(!CProjectMgr::GetMe().SaveProject())			return;
-	Servers::Compile::CCompiler::GetMe().AddRunObj(&Servers::HMI::CHmi::GetMe());
-	Servers::Compile::CCompiler::GetMe().CompileProj();
-}
-
 void CMainFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	switch(nChar)
@@ -852,70 +778,9 @@ void CMainFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	CXTPMDIFrameWnd::OnKeyDown(nChar, nRepCnt, nFlags);
 }
 
-void CMainFrame::OnScanSet()
-{
-	MVC::Device::CDevMgr::GetMe().OpenDoc();
-	MVC::Device::CDevMgr::GetMe().SetScanInfo();
-}
-
-void CMainFrame::OnScanStart()
-{
-	CProjectMgr::GetMe().SaveProject();
-	if(CProjectMgr::GetMe().IsScan())
-	{
-		MVC::Device::CDevMgr::GetMe().SetDevScan(true);
-	}
-	else
-	{
-		//!< 如果需要编译开始编译
-		std::shared_ptr<MVC::Device::CScanSetInfo> pScanInfo = MVC::Device::CDevMgr::GetMe().GetScanInfo();
-//		if(!pScanInfo->IsCompiled())
-		if(true)
-		{
-			CompileScan();
-		}
-		else
-		{	//!< 开始运行
-			std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
-			if(!proj)													return;
-			Servers::Compile::CCompiler::GetMe().RunScan();
-		}
-	}
-}
-
-void CMainFrame::OnScanStop()
-{
-	Servers::DXP::CServerCtrl::GetMe().OnScanStop();
-	KillTimer(2);
-}
-
-void CMainFrame::OnUpdateScanStart(CCmdUI *pCmdUI)
-{
-	OnUpdateWithProj(pCmdUI);
-	if(CProjectMgr::GetMe().IsScan())	pCmdUI->SetText(_T("刷新扫描数据(&F)"));
-	else								pCmdUI->SetText(_T("开始扫描(&R)"));
-	Servers::DXP::CServerCtrl* server = &Servers::DXP::CServerCtrl::GetMe();
-	if(server->GetState() == 1 || server->GetState() == 2)
-		pCmdUI->Enable(FALSE);
-}
-
-void CMainFrame::OnUpdateScanStop(CCmdUI *pCmdUI)
-{
-	pCmdUI->Enable(CProjectMgr::GetMe().IsScan());
-	Servers::DXP::CServerCtrl* server = &Servers::DXP::CServerCtrl::GetMe();
-	if(server->GetState() == 1 || server->GetState() == 2)
-		pCmdUI->Enable(FALSE);
-}
-
 void CMainFrame::OnUpdateWithProj(CCmdUI *pCmdUI)
 {
 	pCmdUI->Enable(CProjectMgr::GetMe().GetProj()?TRUE:FALSE);
-}
-
-void CMainFrame::OnScanandshow()
-{
-	MVC::Device::CDevMgr::GetMe().OpenDoc();
-	OnScanStart();
 }
 
 void CMainFrame::OnRegist()

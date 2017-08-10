@@ -29,7 +29,6 @@ CDSerial::CDSerial(void)
 ,m_uiOverTime(1000)		//!< 通信超时时间
 ,m_uiCoolTime(15000)	//!< 冷却时间
 ,m_uiReviveTime(15000)	//!< 通信恢复时间
-,m_uiScanTime(20000)	//!< 设备扫描周期
 {
 }
 
@@ -71,7 +70,6 @@ bool CDSerial::SerializeXml(TiXmlElement* pNode, bool bRead)
 			else if(SERIAL_OVERTIME == name)	{cv.ChangeType(VT_I4);	iValue = cv.intVal;		m_uiOverTime = UINT(iValue);}
 			else if(SERIAL_COOLTIME == name)	{cv.ChangeType(VT_I4);	iValue = cv.intVal;		m_uiCoolTime = UINT(iValue);}
 			else if(SERIAL_REVIVETIME == name)	{cv.ChangeType(VT_I4);	iValue = cv.intVal;		m_uiReviveTime = UINT(iValue);}
-			else if(SERIAL_SCANTIME == name)	{cv.ChangeType(VT_I4);	iValue = cv.intVal;		m_uiScanTime = UINT(iValue);}
 			pAttr = pAttr->Next();
 		}
 	}
@@ -86,7 +84,6 @@ bool CDSerial::SerializeXml(TiXmlElement* pNode, bool bRead)
 		pNode->SetAttribute(SERIAL_OVERTIME, int(m_uiOverTime));
 		pNode->SetAttribute(SERIAL_COOLTIME, int(m_uiCoolTime));
 		pNode->SetAttribute(SERIAL_REVIVETIME, int(m_uiReviveTime));
-		pNode->SetAttribute(SERIAL_SCANTIME, int(m_uiScanTime));
 	}
 	return true;
 }
@@ -103,7 +100,6 @@ CDSerial& CDSerial::operator = (CDSerial& serial)
 	setOverTime(serial.getOverTime());			//!< 通信超时时间
 	setCoolTime(serial.getCoolTime());			//!< 冷却时间
 	setReviveTime(serial.getReviveTime());		//!< 通信恢复时间
-	setScanTime(serial.getScanTime());			//!< 设备扫描周期
 	return *this;
 }
 
@@ -118,5 +114,4 @@ void CDSerial::CopyFrom(CDSerial& serial)
 	setOverTime(serial.getOverTime());			//!< 通信超时时间
 	setCoolTime(serial.getCoolTime());			//!< 冷却时间
 	setReviveTime(serial.getReviveTime());		//!< 通信恢复时间
-	setScanTime(serial.getScanTime());			//!< 设备扫描周期
 }

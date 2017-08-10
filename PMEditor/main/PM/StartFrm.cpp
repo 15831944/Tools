@@ -83,7 +83,7 @@ BOOL CStartFrm::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle , CWnd* pParent
 
 	CRect rectToolBar;
 	m_wndToolBar.GetItemRect(0, &rectToolBar);			//得到按钮大小
-	m_wndToolBar.SetSizes(CSize(20,20), CSize(20,20));	//设置按钮大小
+	//m_wndToolBar.SetSizes(CSize(20,20), CSize(20,20));	//设置按钮大小
 	m_wndReBar.AddBar(&m_wndToolBar);					//在Rebar中加入ToolBar
 
 	REBARBANDINFO rbbi;				//改变一些属性

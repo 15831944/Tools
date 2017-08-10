@@ -68,7 +68,6 @@ protected:
 	bool CreateSpaceDevice();
 	void FillToStatusBar();						//!< 添加状态栏，图标、进度条、切换按钮、动态图片等
 	void CompileRun(bool bRunServer = false);	//!< 启动编译，参数表示编译成功后是否要启动服务器运行该编译文件
-	void CompileScan();							//!< 启动编译扫描，编译成功后要启动扫描
 	void ProjClose();							//!< 无声无息的关闭工程
 	void SetTheme(int index);					//!< 设置窗口样式
 	void SetPaneTheme(int index);				//!< 设置Pane样式
@@ -101,12 +100,7 @@ public:
 	afx_msg void OnShowViewItem();				//!< 显示变量组视图
 	afx_msg void OnShowViewDevice();			//!< 显示设备视图
 	afx_msg void OnShowViewOutput();			//!< 显示输出栏视图
-	afx_msg void OnHmiStart();					//!< 启动HMI运行
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
-	afx_msg void OnScanSet();
-	afx_msg void OnScanStart();
-	afx_msg void OnScanStop();
-	afx_msg void OnScanandshow();
 	afx_msg void OnRegist();
 	afx_msg void OnStartpage();
 	afx_msg void OnHelpShow();
@@ -116,8 +110,6 @@ public:
 	afx_msg void OnUpdateServerRun(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateServerStop(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateSoftSet(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateScanStart(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateScanStop(CCmdUI *pCmdUI);
 
 public:
 	DECLARE_EVENTSINK_MAP()
@@ -125,9 +117,6 @@ public:
 	void OnVariableAlarm(int nAlarmType,int nID,VARIANT* varValue);	//!< 变量报警事件
 	void OnVariableLag(int nID,int nDevice,VARIANT* varValue);		//!< 
 	void OnLoadOver(int nLoadType,int nLoadSize);					//!< 
-	void OnDeviceStatus(long nDeviceID,long nDeviceInterface,long nDeviceStatus);		//!< 设备状态改变事件
 	void OnBehavior(long lBehaviorID, long lDeviceID, VARIANT& varValue, long lResult);	//!< 行为执行结束事件
-	void OnScanBehavior(long devType, long infType, long level, long bevID, long* plAddr, VARIANT& varValue, long lResult);	//!< 扫描行为执行事件
-	void OnScan(VARIANT& varValue, long lResult);		//!< 扫描设备事件
 };
 

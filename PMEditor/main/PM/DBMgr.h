@@ -13,7 +13,7 @@ private:
 	CString m_strPassWord;			//!< 数据库密码
 	UINT m_uiDiskMin;				//!< 磁盘最小报警空间
 	float m_fSaveTime;				//!< 存储时间间隔,最小0.01
-	UINT m_uiSaveType;				//!< 存储方式，0直接存储，1变化再存储（以前是平均值存储），2DCCE_SD同步
+	UINT m_uiSaveType;				//!< 存储方式，0直接存储，1变化再存储（以前是平均值存储）
 	//UINT m_uiSaveAverage;			//!< 平均值次数
 	UINT m_uiChangeRate;			//!< 变化率，乘100了
 	UINT m_uiTbRowMax;				//!< 分表上限，默认100000，最小值100

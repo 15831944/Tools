@@ -91,7 +91,7 @@ protected:
 //		csPackageVersion.Format( _T( "%s v%d.%d.%d" ),
 //			_XTP_PACKAGE_NAME, _XTPLIB_VERSION_MAJOR, _XTPLIB_VERSION_MINOR, _XTPLIB_VERSION_REVISION);
 //		csPackageVersion.Format("Tina Pro V1.0.0");
-		csPackageVersion = _T("DView ") + CGbl::GetMe().getVersionStr();
+		csPackageVersion = _T("PM ") + CGbl::GetMe().getVersionStr();
 		m_txtPackageVersion.SetWindowText(csPackageVersion);
 		m_txtSvnVersion.SetWindowText(CGbl::GetMe().getSVNStr() + _T("(S)"));
 
@@ -102,7 +102,7 @@ protected:
 
 		// set the copyright info.
 		CString csCopyrightInfo1, csCopyrightInfo2;
-		csCopyrightInfo1.Format(_T("(c)2009-%d DCCE Software" ), COleDateTime::GetCurrentTime().GetYear());
+		csCopyrightInfo1.Format(_T("(c)2017-%d PM Software" ), COleDateTime::GetCurrentTime().GetYear());
 		csCopyrightInfo2 = _T("All Rights Reserved");
 		m_txtCopyrightInfo1.SetWindowText(csCopyrightInfo1);
 		m_txtCopyrightInfo2.SetWindowText(csCopyrightInfo2);
@@ -115,11 +115,10 @@ protected:
 		m_txtPackageVersion.SetFont(&m_fontBold);
 
 		// define the url for our hyperlinks.
-		m_txtURL.SetURL(_T("http://www.dcce.cn"));
+		m_txtURL.SetURL(_T("http://www.163.com"));
 		m_txtURL.SetUnderline(false);
 
-//		m_txtEmail.SetURL(_T("mailto:a_tlas@163.com"));
-		m_txtEmail.SetURL(_T("mailto:service@dcce.cn"));
+		m_txtEmail.SetURL(_T("mailto:a_tlas@163.com"));
 		m_txtEmail.SetUnderline(false);
 
 		// set OK button style.

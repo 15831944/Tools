@@ -418,19 +418,6 @@ void MVC::Device::CDeviceOne::OnDrawPic(CDC* pDC)
 			pDC->LineTo(m_Point.x + EXPAND_X + 15, m_Point.y + 11);
 		}
 	}
-
-	//!< 如果处于监控状态，要画在线标志，画图片
-	if(CProjectMgr::GetMe().IsWatch() || CProjectMgr::GetMe().IsScan())
-	{
-		CDC memdc3;
-		memdc3.CreateCompatibleDC(pDC);
-		CBitmap bmpState;
-		bmpState.LoadBitmap(IDB_BMP_DEVSTATE);
-		int index = getState();
-		memdc3.SelectObject(&bmpState);
-		bmpState.GetObject(sizeof(BITMAP),&bm);
-		pDC->BitBlt(m_Point.x + ONLINE_X + 10, m_Point.y + ONLINE_Y, 11, 11, &memdc3, 11 * index, 0, SRCAND);
-	}
 }
 
 //!< 显示或隐藏自己和孩子
@@ -824,20 +811,6 @@ void MVC::Device::CDeviceOne::OnRButtonUp(UINT nFlags, CPoint point, CWnd* wnd)
 			menu->DeleteMenu(ID_FRESH_STATE, MF_BYCOMMAND);
 			//menu->EnableMenuItem(ID_FRESH_STATE, MF_REMOVE|MF_BYCOMMAND);
 		}
-		bool bHaveScanInf = false;
-		if(CProjectMgr::GetMe().IsScan())
-		{
-			for (auto inf : m_vtInterface)
-			{
-				if(!inf || inf->IsProj())	continue;
-				bHaveScanInf = true;
-				break;
-			}
-		}
-		if(!bHaveScanInf){
-			menu->DeleteMenu(ID_ADDINF2PROJ, MF_BYCOMMAND);
-			menu->DeleteMenu(0, MF_BYPOSITION);
-		}
 		if(!GetXmlInfo()->IsProgrammable()){
 			menu->EnableMenuItem(ID_PROGRAM, MF_DISABLED | MF_BYCOMMAND);
 		}
@@ -1062,11 +1035,6 @@ void MVC::Device::CDeviceOne::UpLoadBehavior(UINT id, CComVariant cvrIndex)
 	void* pDest;
 	AfxCheckError(::SafeArrayAccessData(cvr.parray, &pDest));
 	memcpy(pDest, mf->m_VarArray, count * sizeof(VARIANT));
-	if(!CProjectMgr::GetMe().IsScan())
-	{
-		mf->m_SevCommer.ExecBehavior(id, cvr, getID());
-	}
-	else
 	{
 		std::list<UINT> ltAddr;
 		GetWholeAddr(ltAddr, true);
@@ -1083,7 +1051,6 @@ void MVC::Device::CDeviceOne::UpLoadBehavior(UINT id, CComVariant cvrIndex)
 		{
 			plAddr[i++] = index;
 		}
-		mf->m_SevCommer.ExecScanBehavior(getDevType(), infType, getLevel(), id, plAddr, cvr);
 		delete[] plAddr;
 	}
 	AfxCheckError(::SafeArrayUnaccessData(cvr.parray));
@@ -1115,24 +1082,6 @@ void MVC::Device::CDeviceOne::DownLoadBehavior(UINT id, CComVariant cvrIndex)
 	void* pDest;
 	AfxCheckError(::SafeArrayAccessData(cvr.parray/*psa*/, &pDest));
 	memcpy(pDest, mf->m_VarArray, count * sizeof(VARIANT));
-	if(!CProjectMgr::GetMe().IsScan())
-	{
-		mf->m_SevCommer.ExecBehavior(id, cvr, getID());
-	}
-	else
-	{
-		std::list<UINT> ltAddr;
-		GetWholeAddr(ltAddr, true);
-		ASSERT(!ltAddr.empty());
-		UINT infType = ltAddr.size() == getLevel() + 1 ? 0 : 1;		//!< 如果数据相同表示以太网，否则表示串口，因为串口多个串口号
-		long* plAddr = new long[ltAddr.size()];
-		i = 0;
-		for (auto index : ltAddr)
-		{
-			plAddr[i++] = index;
-		}
-		mf->m_SevCommer.ExecScanBehavior(getDevType(), infType, getLevel(), id, plAddr, cvr);
-	}
 	AfxCheckError(::SafeArrayUnaccessData(cvr.parray/*psa*/));
 	AfxCheckError(::SafeArrayDestroy(cvr.parray/*psa*/));
 }
@@ -1232,12 +1181,6 @@ CString MVC::Device::CDeviceOne::getStrParentID()
 {
 	UINT minLevel = UINT(-1);		//!< 起始5就够了
 	CString strID;
-	for (auto inf : m_vtInterface)
-	{
-		if(minLevel <= inf->getScanLevel())			continue;
-		minLevel = inf->getScanLevel();
-		strID = inf->getStrParentID();
-	}
 	return strID;
 }
 

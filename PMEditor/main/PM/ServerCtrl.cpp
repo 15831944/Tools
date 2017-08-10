@@ -35,7 +35,6 @@ CServerCtrl::CServerCtrl(void)
 :Servers::Compile::SNeedRunObj(_T("DXP数据交互平台"))
 ,m_hServerWnd(NULL)
 ,m_uiState(3)
-,m_uiScanState(0)
 ,m_bLoadingScanFile(false)
 ,m_nTryNum(0)									//!< 试验的次数
 {
@@ -110,16 +109,6 @@ void CServerCtrl::OnTimer(UINT nIDEvent)
 		}
 		break;
 
-	case RUN_SCANCMDLINE:
-		if(ScanStart(m_strScanCmdLine))		KillTimer(RUN_SCANCMDLINE);
-		else								++m_nTryNum;
-		if(m_nTryNum >= TRY_MAX)
-		{
-			KillTimer(RUN_SCANCMDLINE);
-			MessageBox(_T("启动通信服务失败"), _T("警告"), MB_OK | MB_ICONEXCLAMATION);
-		}
-		break;
-
 	case LOADINGFILE_OVERTIME_ID:
 		SetLoadingFile(false);		//!< 可以再次点击运行或扫描了
 		KillTimer(LOADINGFILE_OVERTIME_ID);
@@ -136,7 +125,6 @@ bool CServerCtrl::FindServer()
 	if(!hwnd)
 	{
 		SetState(3);
-		SetScanState(0);
 		SetLoadingFile(false);
 	}
 	return m_hServerWnd;
@@ -148,7 +136,6 @@ void CServerCtrl::FindState()
 	if(!m_hServerWnd)
 	{
 		SetState(3);
-		SetScanState(0);
 		SetLoadingFile(false);
 	}
 	else{
@@ -172,18 +159,6 @@ void CServerCtrl::OnRunSev(CString cmdLine)
 		m_nTryNum = 0;
 		m_strCmdLine = cmdLine;
 		SetTimer(RUN_CMDLINE, 1000, NULL);				//!< 每秒尝试一次启动服务
-	}
-}
-
-//!< 启动扫描
-void CServerCtrl::OnScanStart(CString cmdLine)
-{
-	if(!m_hServerWnd || !ScanStart(cmdLine))
-	{
-		CreateServer();
-		m_nTryNum = 0;
-		m_strScanCmdLine = cmdLine;
-		SetTimer(RUN_SCANCMDLINE, 1000, NULL);			//!< 每秒尝试一次启动服务
 	}
 }
 
@@ -227,44 +202,6 @@ void CServerCtrl::OnStopSev()
 	if(::IsWindow(m_hServerWnd))
 		::SendMessageTimeout(m_hServerWnd, WM_COPYDATA, (WPARAM)GetParent()->GetSafeHwnd(), (LPARAM)&cpd, SMTO_NORMAL, 500, &dwrst);
 	FindState();
-}
-
-//!< 开始扫描设备
-bool CServerCtrl::ScanStart(CString cmdLine)
-{
-	FindState();
-	if(!m_hServerWnd)						return false;
-	if(m_uiState == 1 || m_uiState == 2)	return false;//!< 运行状态不能扫描
-	if(IsLoadingFile())
-	{
-		CGbl::PrintOut(_T("DXP正在加载文件，无法进行扫描"));
-		return false;
-	}
-	COPYDATASTRUCT cpd;
-	cpd.dwData = SCAN_START;
-	cpd.lpData = (LPSTR)(LPCTSTR)cmdLine;
-	cpd.cbData = cmdLine.GetLength();
-	DWORD dwrst = 0;
-	if(::IsWindow(m_hServerWnd))
-		::SendMessageTimeout(m_hServerWnd, WM_COPYDATA, (WPARAM)GetParent()->GetSafeHwnd(), (LPARAM)&cpd, SMTO_NORMAL, 500, &dwrst);
-	SetLoadingFile(true);
-	SetTimer(LOADINGFILE_OVERTIME_ID, LOADINGFILE_OVERTIME, NULL);
-	FindState();
-	return true;
-}
-
-//!< 停止扫描设备
-void CServerCtrl::OnScanStop()
-{
-	FindState();
-	if(m_uiScanState == 0)					return;
-	COPYDATASTRUCT cpd;
-	cpd.dwData = SCAN_STOP;
-	cpd.cbData = 0;
-	cpd.lpData = NULL;
-	DWORD dwrst = 0;
-	if(::IsWindow(m_hServerWnd))
-		::SendMessageTimeout(m_hServerWnd, WM_COPYDATA, (WPARAM)GetParent()->GetSafeHwnd(), (LPARAM)&cpd, SMTO_NORMAL, 500, &dwrst);
 }
 
 //!< 发送强制扫描设备的功能
@@ -325,7 +262,6 @@ void CServerCtrl::InitState(COPYDATASTRUCT& pCopyDataStruct)
 		m_strProjSev = _T("");
 	delete[] data;
 	SetState(state);
-	SetScanState(scan_state);
 }
 
 //!< 解析返回的DXP描述格式的状态信息
@@ -347,7 +283,6 @@ void CServerCtrl::InitStateXml(COPYDATASTRUCT& pCopyDataStruct)
 		strR = vtLR[1].Trim();
 
 		if(strL == _T("RunState")){				SetState(atoi(strR.GetBuffer()));}
-		else if(strL == _T("ScanState")){		SetScanState(atoi(strR.GetBuffer()));}
 		else if(strL == _T("ProjPathName")){	m_strProjSev = strR;}
 	}
 }
@@ -364,15 +299,6 @@ void CServerCtrl::SetState(UINT state)
 	}
 	if(state == 0 || state == 3)			CProjectMgr::GetMe().SetWatch(false);
 	else									CProjectMgr::GetMe().SetWatch(true);
-}
-
-//!< 设置扫描状态
-void CServerCtrl::SetScanState(UINT state)
-{
-	if(state == 1)							SetLoadingFile(false);
-	if(state == 0)							CProjectMgr::GetMe().SetScan(false);
-	else									CProjectMgr::GetMe().SetScan(true);
-	m_uiScanState = state;
 }
 
 //!< 判断是不是同一个工程

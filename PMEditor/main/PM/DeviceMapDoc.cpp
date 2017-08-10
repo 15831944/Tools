@@ -204,7 +204,7 @@ void MVC::Device::CDeviceMapDoc::OnUndo()
 	}
 	while(!m_stDevUndo.empty() && !m_stDevUndo.top()->m_bEnd);
 	if(bNeedFresh)												devMgr->CheckAndConnect();
-	if(undo && undo->m_Device)									pView->ShowDeviceAt(undo->m_Device->getID());
+	//if(undo && undo->m_Device)									pView->ShowDeviceAt(undo->m_Device->getID());
 	FreshMap();
 }
 
@@ -233,7 +233,7 @@ void MVC::Device::CDeviceMapDoc::OnRedo()
 		else if(redo->m_uiEditType == CGbl::UNDO_TYPE_UPD)		{RedoUpd();}
 	}
 	if(bNeedFresh)												devMgr->CheckAndConnect();
-	if(redo && redo->m_Device)									pView->ShowDeviceAt(redo->m_Device->getID());
+	//if(redo && redo->m_Device)									pView->ShowDeviceAt(redo->m_Device->getID());
 	FreshMap();
 }
 

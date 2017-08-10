@@ -15,7 +15,6 @@ class CSoftInfo
 {
 public:
 	std::vector<SColInfo> m_vtColInfo;	//!< 变量表可以显示的列
-	std::vector<SColInfo> m_vtCamCol;	//!< 摄像头表可以显示的列
 
 private:
 	//!< 软件配置
@@ -38,7 +37,6 @@ private:
 	bool m_bShowHex;					//!< 是否按十六进制显示
 
 	bool m_bCplXml;						//!< 编译是否存描述，true存，false不存
-	bool m_bScanXml;					//!< 编译扫描是否存描述，true存，false不存
 	int m_nCmplOverTime;				//!< 编译超时时间
 	CString m_strItemNabled;			//!< 变量名称是否能修改
 
@@ -61,7 +59,6 @@ public:
 	const bool IsModbus485(){return m_bModbus485;}					//!< 是否使能Modbus485服务的功能,启动后变量可以导入到485服务中}
 	const bool getUploadBFirst(){return m_bUploadBehaviorFirst;}	//!< 获得是否上来就先读一下行为
 	const bool IsCplXml(){return m_bCplXml;}						//!< 获得编译是否存描述，true存，false不存
-	const bool IsScanXml(){return m_bScanXml;}						//!< 获得编译扫描是否存描述，true存，false不存
 	const UINT getZoomSize(){return m_uiZoomSize;}					//!< 获得缩放比例，单位%
 	const UINT getFreshDataTime(){return m_uiFreshDataTime;}		//!< 获得刷新数据的默认周期
 	const bool isShowHex(){return m_bShowHex;}						//!< 是否按十六进制显示
@@ -92,7 +89,6 @@ public:
 	void setItemFloatWidth(UINT width){m_uiItemFloatWidth = width;}
 	void setItemWaterMark(bool b){m_bPrintItemWaterMark = b;}		//!< 设置打印变量表时是否打印水印
 	void setCmpXml(bool b);											//!< 设置编译文件是否保存描述
-	void setScanXml(bool b);										//!< 设置扫描文件是否保存描述
 
 	void SerializeXml(TiXmlElement *pNode, bool bRead);
 	void SerializeItem(TiXmlElement *pNode, bool bRead);

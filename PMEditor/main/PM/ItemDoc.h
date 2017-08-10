@@ -69,7 +69,7 @@ public:
 public:
 	CItemView* GetView();
 	void SerializeIn(TiXmlElement* pNode);
-	void SerializePlcConfig(CString strPath, CString strTitle, CString strExt);
+	void SerializeConfig(CString strPath, CString strTitle, CString strExt);
 	bool ItemInAdvanceOptions(std::list<std::shared_ptr<CItem> > ltItem);					//!< 变量导入或粘贴的高级选项处理
 	void ItemInRenameItem(std::list<std::shared_ptr<CItem> > ltItem, UINT groupID = 0);	//!< 导入变量，自动重命名重名的变量
 	void ItemInDelFileItem(std::list<std::shared_ptr<CItem> > ltItem, UINT groupID = 0);	//!< 导入变量，不导入重名的变量

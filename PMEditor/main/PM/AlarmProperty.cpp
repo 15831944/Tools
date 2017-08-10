@@ -105,7 +105,7 @@ bool CPropertyAlarm::SerializeXml(TiXmlElement* pNode, bool bRead)
 }
 
 //!< 解析数据源属性
-void CPropertyAlarm::ReadFromDViewExcel(std::vector<CString>& vtCell)
+void CPropertyAlarm::ReadFromPMExcel(std::vector<CString>& vtCell)
 {
 	m_uiBitAlarmType = (UINT)atoi(vtCell[24].Trim());
 	m_uiDeadArea = (UINT)atoi(vtCell[25].Trim());

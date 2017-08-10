@@ -230,10 +230,6 @@ void CSpaceOutput::OnLButtonDblClk(UINT nFlags, CPoint point)
 	{
 		ShowItem(pRecord->m_strAddr);
 	}
-	else if(pRecord->m_strType.Trim() == _T("设备"))
-	{
-		ShowDevice(pRecord->m_strAddr);
-	}
 }
 
 void CSpaceOutput::OnRButtonUp(UINT nFlags, CPoint point)
@@ -254,14 +250,6 @@ void CSpaceOutput::ShowItem(CString strAddr)
 	if(strAddr.Trim() == _T(""))		return;
 	UINT id = (UINT)atoi(strAddr);
 	MVC::Item::CItemMgr::GetMe().ShowItem(id);
-}
-
-//!< 从本文中找到对应的设备，并显示出来
-void CSpaceOutput::ShowDevice(CString strAddr)
-{
-	if(strAddr.Trim() == _T(""))		return;
-	UINT id = (UINT)atoi(strAddr);
-	MVC::Device::CDevMgr::GetMe().ShowDevice(id);
 }
 
 void Space::CSpaceOutput::OnOutputClear()

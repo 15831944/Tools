@@ -9,10 +9,7 @@
 #include "DTreeCtrl.h"
 #include "ItemMgr.h"
 #include "DevMgr.h"
-#include "CamMgr.h"
 #include "DBMgr.h"
-#include "DOPCMgr.h"
-#include "RongYuMgr.h"
 #include "Compiler.h"
 #include "CreatProjectDlg.h"
 #include "ReNameDlg.h"
@@ -41,17 +38,6 @@ const CString DEVICE_NAME = _T("Name");
 const CString DEVICE_PATH = _T("Path");
 const CString DEVICE_VERSION = _T("Version");
 const CString DBSET = _T("DBSet");
-const CString DOPCSET = _T("DOPCSet");
-const CString RONGYUSET = _T("RongYuSet");
-const CString SCANINFO = _T("ScanInfo");
-const CString SCANINFO_NAME = _T("Name");
-const CString SCANINFO_PATH = _T("Path");
-const CString SCANINFO_VERSION = _T("Version");
-const CString CAMERA = _T("Camera");
-const CString CAMERA_NAME = _T("Name");
-const CString CAMERA_PATH = _T("Path");
-const CString CAMERA_VERSION = _T("Version");
-const CString CAMERA_ACTIVE = _T("Active");
 
 //!< 新建工程时使用这个构造
 CProject::CProject()
@@ -101,9 +87,6 @@ bool CProject::IsModify()
 {
 	if(m_bModify)										return true;
 	if(Servers::DB::CDBMgr::GetMe().IsModify())			return true;
-	if(Servers::DOPC::CDOPCMgr::GetMe().IsModify())		return true;
-	if(Servers::RongYu::CRongYuMgr::GetMe().IsModify())	return true;
-	if(MVC::Camera::CCamMgr::GetMe().IsModify())		return true;
 	return false;
 }
 
@@ -118,10 +101,7 @@ bool CProject::CreateProject()
 {
 	MVC::Item::CItemMgr::GetMe().OnCreate();
 	MVC::Device::CDevMgr::GetMe().OnCreate();
-	MVC::Camera::CCamMgr::GetMe().OnCreate();
 	Servers::DB::CDBMgr::GetMe().setBackupPath(m_strPath);
-	Servers::DOPC::CDOPCMgr::GetMe().OnCreate();
-	Servers::RongYu::CRongYuMgr::GetMe().OnCreate();
 	SaveProject();	//新建的工程需要立即保存一下才能算是成功
 	SetModify(true);
 	MVC::Device::CDevMgr::GetMe().OpenDoc();		// 打开工程之后,直接打开拓扑图
@@ -131,14 +111,9 @@ bool CProject::CreateProject()
 //!< 关闭工程时要处理的事情
 bool CProject::OnClose()
 {
-	if(Servers::DXP::CServerCtrl::GetMe().GetScanState() == 1)
-		Servers::DXP::CServerCtrl::GetMe().OnScanStop();
 	MVC::Item::CItemMgr::GetMe().OnClose();
 	MVC::Device::CDevMgr::GetMe().OnClose();
-	MVC::Camera::CCamMgr::GetMe().OnClose();
 	Servers::DB::CDBMgr::GetMe().OnClose();
-	Servers::DOPC::CDOPCMgr::GetMe().OnClose();
-	Servers::RongYu::CRongYuMgr::GetMe().OnClose();
 	SetModify(false);
 	return true;
 }
@@ -198,7 +173,6 @@ bool CProject::SaveProject()
 
 	MVC::Device::CDevMgr::GetMe().SaveFile();
 	MVC::Item::CItemMgr::GetMe().SaveItemFile();
-	MVC::Camera::CCamMgr::GetMe().SaveFile();
 	CGbl::SetProgressEnd();
 	SetModify(false);
 	return true;
@@ -267,31 +241,9 @@ bool CProject::SerializeXml(TiXmlElement* pNode, bool bRead/* = true*/)
 					pAttr = pAttr->Next();
 				}
 			}
-			else if(CAMERA == text)
-			{
-				pAttr = pChild->FirstAttribute();
-				while(pAttr)
-				{
-					text = pAttr->NameTStr().c_str();
-					strValue = pAttr->Value();
-					if(CAMERA_NAME == text)					camName = strValue;
-					else if(CAMERA_PATH == text)			camPath = strValue;
-					else if(CAMERA_VERSION == text)			camVer = strValue;
-					else if(CAMERA_ACTIVE == text)			camActive =strValue;
-					pAttr = pAttr->Next();
-				}
-			}
 			else if(DBSET == text)
 			{
 				Servers::DB::CDBMgr::GetMe().SerializeXml(pChild, bRead);
-			}
-			else if(DOPCSET == text)
-			{
-				Servers::DOPC::CDOPCMgr::GetMe().SerializeXml(pChild, bRead);
-			}
-			else if(RONGYUSET == text)
-			{
-				Servers::RongYu::CRongYuMgr::GetMe().SerializeXml(pChild, bRead);
 			}
 			pChild = pChild->NextSiblingElement();
 		}
@@ -299,8 +251,6 @@ bool CProject::SerializeXml(TiXmlElement* pNode, bool bRead/* = true*/)
 			return false;
 		if(!MVC::Item::CItemMgr::GetMe().OpenItemFile(itemName, m_strPath + itemPath, itemVer, itemTime))
 			return false;
-		if(camActive == _T("1"))
-			MVC::Camera::CCamMgr::GetMe().OpenFile(camName, m_strPath + camPath, camVer);
 	}
 	else{
 		pNode->SetAttribute(_T("FileType"), _T("EditorProjectFile"));
@@ -328,27 +278,8 @@ bool CProject::SerializeXml(TiXmlElement* pNode, bool bRead/* = true*/)
 		pItem->SetAttribute(ITEM_VERSION, itemMgr->getVersion());
 		pItem->SetAttribute(EDIT_TIME, itemMgr->GetEditTime());
 
-		TiXmlElement* pCam = pNode->AddTiXmlChild((LPCTSTR)CAMERA);
-		MVC::Camera::CCamMgr* camMgr = &MVC::Camera::CCamMgr::GetMe();
-		pCam->SetAttribute(CAMERA_NAME, camMgr->getName());
-		pCam->SetAttribute(CAMERA_PATH, camMgr->getFileName());
-		pCam->SetAttribute(CAMERA_VERSION, camMgr->getVersion());
-		pCam->SetAttribute(CAMERA_ACTIVE, camMgr->GetItemSize() > 0 ? 1 : 0);
-		//pCam->SetAttribute(EDIT_TIME, camMgr->GetEditTime());
-
 		TiXmlElement* pDBSet = pNode->AddTiXmlChild((LPCTSTR)DBSET);
 		Servers::DB::CDBMgr::GetMe().SerializeXml(pDBSet, bRead);
-
-		TiXmlElement* pDOPCSet = pNode->AddTiXmlChild((LPCTSTR)DOPCSET);
-		Servers::DOPC::CDOPCMgr::GetMe().SerializeXml(pDOPCSet, bRead);
-
-		TiXmlElement* pRongYuSet = pNode->AddTiXmlChild((LPCTSTR)RONGYUSET);
-		Servers::RongYu::CRongYuMgr::GetMe().SerializeXml(pRongYuSet, bRead);
-
-		TiXmlElement* pScanInfo = pNode->AddTiXmlChild((LPCTSTR)SCANINFO);
-		pScanInfo->SetAttribute(SCANINFO_NAME, _T("ScanInfo"));
-		pScanInfo->SetAttribute(SCANINFO_PATH, _T("ScanInfo.xml"));
-		pScanInfo->SetAttribute(SCANINFO_VERSION, _T("1.0"));
 
 		Servers::Compile::CCompiler::GetMe().SerializeXml(pNode, bRead);
 	}
@@ -384,10 +315,6 @@ void CProject::OnTreeDblClick(CTreeCtrl* treeCtrl, HTREEITEM item)
 	if(item == m_hItemItem)				MVC::Item::CItemMgr::GetMe().OpenDoc();
 	else if(item == m_hDeviceItem)		MVC::Device::CDevMgr::GetMe().OpenDoc();
 	else if(item == m_hDBItem)			Servers::DB::CDBMgr::GetMe().OnSetDB();
-	else if(item == m_hDOPCItem)		Servers::DOPC::CDOPCMgr::GetMe().OnSetDOPC();
-	else if(item == m_hHmiItem)			((CMainFrame *)g_App.GetMainWnd())->OnHmiStart();
-	else if(item == m_hCamItem)			MVC::Camera::CCamMgr::GetMe().OpenDoc();
-	else if(item == m_hRongYuItem)		Servers::RongYu::CRongYuMgr::GetMe().OnSetRongYu();
 }
 
 //!< 接收右键消息
@@ -427,12 +354,7 @@ void CProject::UpdateProjView(Tool::CDTreeCtrl& pTreeCtrl)
 	}
 	m_hDeviceItem = pTreeCtrl.InsertItem(_T("设备拓扑结构"), 17, 17, m_hProjectItem);
 	m_hItemItem = pTreeCtrl.InsertItem(_T("变量表"), 4, 4, m_hProjectItem);
-	m_hCamItem = pTreeCtrl.InsertItem(_T("视频服务"), 25, 25, m_hProjectItem);
-	//m_hItemStat = pTreeCtrl.InsertItem(_T("变量统计"), 18, 18, m_hProjectItem);
-	m_hHmiItem = pTreeCtrl.InsertItem(_T("HMI"), 24, 24, m_hProjectItem);
 	m_hDBItem = pTreeCtrl.InsertItem(_T("历史数据库配置"), 16, 16, m_hProjectItem);
-	m_hDOPCItem = pTreeCtrl.InsertItem(_T("OPC服务器配置"), 18, 18, m_hProjectItem);
-	m_hRongYuItem = pTreeCtrl.InsertItem(_T("冗余配置"), 26, 26, m_hProjectItem);
 
 	pTreeCtrl.Expand(m_hProjectItem, TVM_EXPAND);
 	pTreeCtrl.Expand(m_hItemItem, TVM_EXPAND);
@@ -494,9 +416,4 @@ void CProject::OnHelpInfo(HTREEITEM hItem)
 	else if(hItem == m_hDeviceItem)		pHelp->ShowHelp(_T("设备拓扑"));			//!< 设备拓扑在树中的节点
 	else if(hItem == m_hItemItem)		pHelp->ShowHelp(_T("变量"));				//!< 变量在树中的节点
 	else if(hItem == m_hDBItem)			pHelp->ShowHelp(_T("历史数据库"));			//!< 数据库配置节点
-	else if(hItem == m_hDOPCItem)		pHelp->ShowHelp(_T("OPC服务器"));			//!< DOPC配置节点
-	else if(hItem == m_hRongYuItem)		pHelp->ShowHelp(_T("双机冗余"));				//!< 双机冗余配置
-	else if(hItem == m_hItemStat)		pHelp->ShowHelp(_T(""));					//!< 变量统计
-	else if(hItem == m_hHmiItem)		pHelp->ShowHelp(_T(""));					//!< HMI节点
-	else if(hItem == m_hCamItem)		pHelp->ShowHelp(_T("在DView中配置摄像头"));	//!< Camera节点
 }

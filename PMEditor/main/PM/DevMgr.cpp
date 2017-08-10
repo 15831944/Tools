@@ -14,14 +14,9 @@
 #include "XmlDevice.h"
 #include "XmlBehavior.h"
 
-#include "ScanSetDlg.h"
-#include "ScanMgr.h"
-#include "ScanSetInfo.h"
-
 using namespace MVC;
 using namespace Device;
 
-#include "SerialSetDlg.h"
 #include "EtherNetSetDlg.h"
 #include "DEthernet.h"
 
@@ -37,9 +32,6 @@ CDevMgr::CDevMgr(void)
 {
 	m_DevMapDoc = NULL;
 	m_Ethernet = std::shared_ptr<InterfaceSet::CDEthernet>(new InterfaceSet::CDEthernet());
-	m_ScanMgr = &CScanMgr::GetMe();
-	m_ScanSetInfo = std::shared_ptr<CScanSetInfo>(new CScanSetInfo);
-	m_ScanSetInfo->Init();
 }
 
 CDevMgr::~CDevMgr(void)
@@ -321,7 +313,6 @@ std::shared_ptr<InterfaceSet::CDSerial> CDevMgr::GetSerial(CString name)
 //!< 打开拓扑文件，参数 ： 名称 + 路径 + 版本号，最近修改时间
 bool CDevMgr::OpenDevMgrFile(CString name, CString pathall, CString ver, CString stime)
 {
-	m_ScanSetInfo->LoadFile();
 	if(!CGbl::SetSystemTimeFromStr(m_EditTime, stime))		::GetLocalTime(&m_EditTime);
 	m_strName = name;
 	m_strFileName = m_strName + _T(".") + DEVMGR_EXPAND_NAME;
@@ -372,12 +363,10 @@ void CDevMgr::OnClose()
 	m_vtDevice.clear();
 	m_ltSerial.clear();
 	m_DevMapDoc = NULL;
-	m_ScanSetInfo->Init();
 }
 
 void CDevMgr::SaveFile()
 {
-	m_ScanSetInfo->SaveFile();
 	if(IsModify())		//!< 没被修改就不用保存了
 	{
 		std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
@@ -537,52 +526,9 @@ bool CDevMgr::CheckAndConnect()
 	return true;
 }
 
-//!< 在拓扑中选中这个设备，并显示
-void CDevMgr::ShowDevice(UINT id)
-{
-	OpenDoc();
-	if(!m_DevMapDoc)	return;
-	m_DevMapDoc->GetView()->ShowDeviceAt(id);
-}
-
-void CDevMgr::OnSetInf()
-{
-	CXTResizePropertySheet dlg(AFX_IDS_APP_TITLE, 0, 0, xtResizeNoVertical);
-	dlg.m_psh.dwFlags |= PSH_NOAPPLYNOW;
-
-	Dialog::CEtherNetSetDlg pageEtherNet;
-	dlg.AddPage(&pageEtherNet);
-
-	Dialog::CSerialSetDlg pageSerial;
-	dlg.AddPage(&pageSerial);
-
-	if (IDOK == dlg.DoModal()){
-		pageEtherNet.m_Object.OnSaveModify(pageEtherNet.m_PropertyGrid);
-		pageSerial.SaveModify();
-		SetModify();
-	}
-}
-
 void CDevMgr::SetDevWatch(const bool bWatch)
 {
 	FreshView();
-}
-
-//!< 设置扫描状态
-void CDevMgr::SetDevScan(bool bScan)
-{
-	if(CProjectMgr::GetMe().IsScan() && bScan)		//!< 如果已经处于扫描了，系统还要扫描，那么就是刷新
-	{
-		CScanMgr::GetMe().ClearData();
-		OpenDoc();									//!< 开始扫描了,打开拓扑图
-		return;
-	}
-	if(!bScan){
-		m_ScanMgr->DelAllScanDev();
-		CheckAndConnect();
-		if(m_DevMapDoc)	m_DevMapDoc->FreshMap();
-		FreshView();
-	}
 }
 
 //!< 查找符合该字符串的变量，返回匹配的数量
@@ -682,58 +628,6 @@ void CDevMgr::OnDevCut(CDeviceMapDoc* pDoc, UINT id)
 	pDoc->SetUndoEnd();
 	DeleteDevice(id);
 	CheckAndConnect();
-}
-
-void CDevMgr::SetScanInfo()
-{
-	Dialog::CScanSetDlg dlg;
-	dlg.DoModal();
-}
-
-//!< 获得扫描回来的数据
-void CDevMgr::OnScanRev(char* data, UINT num)
-{
-	if(!CProjectMgr::GetMe().GetProj())		return;
-	m_ScanMgr->OnScanRev(data, num);
-}
-
-//!< 设备状态改变事件。nDeviceInterface
-void CDevMgr::OnDeviceStatus(long nDeviceID,long nDeviceInterface,long nDeviceStatus)
-{
-	std::shared_ptr<CDeviceOne> device = GetDevice(nDeviceID);
-	if(!device)		return;
-	SYSTEMTIME t;
-	GetLocalTime(&t);
-	CString strTime;
-	strTime.Format("%.4d/%.2d/%.2d %.2d:%.2d:%.2d(%.3d) —— ",t.wYear,t.wMonth,t.wDay,t.wHour,t.wMinute,t.wSecond,t.wMilliseconds);
-
-	if(nDeviceStatus == -1)			//!< 有设备要下线
-	{
-		device->SetOffLine();
-		CString text = _T("系统提示-设备状态：设备 [") + device->getName() + _T("] 下线...");
-		CGbl::PrintOut(strTime + text);
-	}
-	else							//!< 有设备上线
-	{
-		if(device->getParentID() == UINT(-1))		//!< 主设备
-		{
-			std::shared_ptr<CDeviceInterface> inf = device->GetInterfaceFromType(nDeviceInterface);
-			if(!inf)		return;
-			device->SetOffLine();
-			inf->SetState(1);
-			CString type = _T("以太网");
-			if(nDeviceInterface == 1)	type = _T("串口");
-			CString text = _T("系统提示-设备状态：设备 [") + device->getName() + _T("] 上线， 正在使用 [") + type + _T("] 通信...");
-			CGbl::PrintOut(strTime + text);
-		}
-		else										//!< 从设备
-		{
-			device->SetOnLineInf(0, true);
-			CString text = _T("系统提示-设备状态：设备 [") + device->getName() + _T("] 上线...");
-			CGbl::PrintOut(strTime + text);
-		}
-	}
-	FreshView();
 }
 
 void CDevMgr::OnBehavior(long lBehaviorID, long lDeviceID, VARIANT& varValue, long lResult)

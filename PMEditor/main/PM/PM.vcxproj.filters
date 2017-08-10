@@ -13,24 +13,6 @@
     <ClCompile Include="BehaviorParamDlg.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="CamDoc.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="CamFrame.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="CamGrid.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="CamMgr.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="CamView.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="CloneItemDlg.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -86,9 +68,6 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="DMemDC.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="DOPCMgr.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="DReport.cpp">
@@ -175,9 +154,6 @@
     <ClCompile Include="ProjGuideDlg.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="PropertyCam.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="PropertyDB.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -185,9 +161,6 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="PropertyDlg.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="PropertyDOPC.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="PropertyEthernet.cpp">
@@ -199,28 +172,7 @@
     <ClCompile Include="PropertyParam.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="PropertyRongYu.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="PropertySerial.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="PropertySlave.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="ReNameDlg.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="RongYuMgr.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="ScanMgr.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="ScanSetDlg.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="ScanSetInfo.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="ScriptEditDlg.cpp">
@@ -230,9 +182,6 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="ScriptObject.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="SerialSetDlg.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="ServerCommer.cpp">
@@ -351,24 +300,6 @@
     <ClInclude Include="BehaviorParamDlg.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="CamDoc.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="CamFrame.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="CamGrid.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="CamMgr.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="CamView.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="CloneItemDlg.h">
       <Filter>Header</Filter>
     </ClInclude>
@@ -424,9 +355,6 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="DMemDC.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="DOPCMgr.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="DReport.h">
@@ -513,9 +441,6 @@
     <ClInclude Include="ProjGuideDlg.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="PropertyCam.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="PropertyDB.h">
       <Filter>Header</Filter>
     </ClInclude>
@@ -523,9 +448,6 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="PropertyDlg.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="PropertyDOPC.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="PropertyEthernet.h">
@@ -537,31 +459,10 @@
     <ClInclude Include="PropertyParam.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="PropertyRongYu.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="PropertySerial.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="PropertySlave.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="ReNameDlg.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="RongYuMgr.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="ScanMgr.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="ScanSetDlg.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="ScanSetInfo.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="ScriptEditDlg.h">
@@ -571,9 +472,6 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="ScriptObject.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="SerialSetDlg.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="ServerCommer.h">
@@ -713,12 +611,6 @@
     <Image Include="res\DevState.bmp">
       <Filter>Resource</Filter>
     </Image>
-    <Image Include="res\DXPEditor.ico">
-      <Filter>Resource</Filter>
-    </Image>
-    <Image Include="res\DXPEditorDoc.ico">
-      <Filter>Resource</Filter>
-    </Image>
     <Image Include="res\go_in.bmp">
       <Filter>Resource</Filter>
     </Image>
@@ -785,26 +677,29 @@
     <Image Include="res\WebProject.ico">
       <Filter>Resource</Filter>
     </Image>
-    <Image Include="res\WelcomeDXP.bmp">
+    <Image Include="res\折叠图标.bmp">
       <Filter>Resource</Filter>
     </Image>
-    <Image Include="res\折叠图标.bmp">
+    <Image Include="res\PMApp.ico">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\PMAppDoc.ico">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\Welcome.bmp">
       <Filter>Resource</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\DXPEditor.rc2">
-      <Filter>Resource</Filter>
-    </None>
     <None Include="res\heartbeat.avi">
       <Filter>Resource</Filter>
     </None>
     <None Include="PMHtmlDialog.html">
       <Filter>Resource</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
+    <None Include="res\PMApp.rc2">
+      <Filter>Resource</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

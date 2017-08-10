@@ -11,8 +11,6 @@
 #include "ItemMgr.h"
 #include "DevMgr.h"
 #include "DBMgr.h"
-#include "DOPCMgr.h"
-#include "RongYuMgr.h"
 
 CProjectMgr::CProjectMgr(void)
 {
@@ -36,8 +34,6 @@ bool CProjectMgr::IsModify()
 	if(MVC::Device::CDevMgr::GetMe().IsModify())		return true;
 	if(MVC::Item::CItemMgr::GetMe().IsModify())			return true;
 	if(Servers::DB::CDBMgr::GetMe().IsModify())			return true;
-	if(Servers::DOPC::CDOPCMgr::GetMe().IsModify())		return true;
-	if(Servers::RongYu::CRongYuMgr::GetMe().IsModify())	return true;
 	return false;
 }
 
@@ -149,9 +145,7 @@ bool CProjectMgr::CloseProject()
 	CPMApp* pApp = (CPMApp *)AfxGetApp();
 	pApp->m_pDeviceDocMgr->CloseAllDocuments(FALSE);
 	pApp->m_pItemDocMgr->CloseAllDocuments(FALSE);
-	pApp->m_pCamDocMgr->CloseAllDocuments(FALSE);
 	SetWatch(false);
-	SetScan(false);
 	if(m_CulProject)
 	{
 		m_CulProject->OnClose();
@@ -183,9 +177,6 @@ void CProjectMgr::SetWatch(const bool b)
 		mf->InitCommerTime();
 		mf->SetTimer(CMainFrame::TIME_WATCH, SoftInfo::CSoftInfo::GetMe().getFreshDataTime(), NULL);
 		mf->m_SevCommer.Execute(6, cvr, 0, 0, 0);	//!< 主动获取一下所有事件(报警和设备上下线)
-		if(IsScan()){								//!< 监控状态下,要停止扫描
-			mf->OnScanStop();
-		}
 	}
 	else
 	{
@@ -198,19 +189,6 @@ void CProjectMgr::SetWatch(const bool b)
 	while(pos)		g_App.m_pDeviceDocMgr->GetNextDoc(pos)->SetTitle(_T(""));
 	pos = g_App.m_pItemDocMgr->GetFirstDocPosition();
 	while(pos)		g_App.m_pItemDocMgr->GetNextDoc(pos)->SetTitle(_T(""));
-	pos = g_App.m_pCamDocMgr->GetFirstDocPosition();
-	while(pos)		g_App.m_pCamDocMgr->GetNextDoc(pos)->SetTitle(_T(""));
-}
-
-//!< 设置/取消扫描
-void CProjectMgr::SetScan(const bool b)
-{
-	if(!GetProj())		return;		//!< 没有工程不能扫描
-	if(m_bScan == b)	return;
-	m_bScan = b;
-	MVC::Device::CDevMgr::GetMe().SetDevScan(b);
-	if(b)				((CMainFrame*)g_App.GetMainWnd())->SetTimer(CMainFrame::TIME_SCAN, 2000, NULL);
-	else				((CMainFrame*)g_App.GetMainWnd())->KillTimer(CMainFrame::TIME_SCAN);
 }
 
 //!< 填出监控状态不能操作的提示

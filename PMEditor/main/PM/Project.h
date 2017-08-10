@@ -23,11 +23,6 @@ private:
 	HTREEITEM m_hDeviceItem;	//!< 设备拓扑在树中的节点
 	HTREEITEM m_hItemItem;		//!< 变量在树中的节点
 	HTREEITEM m_hDBItem;		//!< 数据库配置节点
-	HTREEITEM m_hDOPCItem;		//!< DOPC配置节点
-	HTREEITEM m_hRongYuItem;	//!< 冗余配置结点
-	HTREEITEM m_hItemStat;		//!< 变量统计
-	HTREEITEM m_hHmiItem;		//!< HMI节点
-	HTREEITEM m_hCamItem;		//!< Camera节点
 
 public:
 	bool IsCompiled(){return m_bCompiled;}

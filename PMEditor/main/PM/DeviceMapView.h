@@ -45,22 +45,13 @@ protected:
 	virtual void OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/);
 
 	bool IsInHostLineRect(CPoint point);
-	void ClearSelect();						//!< 取消所有设备的选中状态
-	bool IfDevCanLink();					//!< 看看当前被拖拽的设备与被选中的设备是否能连接
-	std::shared_ptr<CDeviceOne> GetSelectDev(bool bProj = true);	//!< 找到被选中的设备，参数表示是否要工程设备
 	std::shared_ptr<CDeviceOne> GetLTDev();			//!< 获得左顶点那个设备
-	virtual void OnSelectUp();				//!< 选择上面的设备
-	virtual void OnSelectDown();			//!< 选择下面的设备
-	virtual void OnSelectLeft();			//!< 选择左面的设备
-	virtual void OnSelectRight();			//!< 选择右面的设备
+	//virtual void OnSelectUp();				//!< 选择上面的设备
+	//virtual void OnSelectDown();			//!< 选择下面的设备
+	//virtual void OnSelectLeft();			//!< 选择左面的设备
+	//virtual void OnSelectRight();			//!< 选择右面的设备
 
 public:
-	void FreshDeviceMap();					//!< 重新画一边设备拓扑
-	void OnAddDev();						//!< 添加设备，如果没有被选中的则添加根设备，否则添加从设备
-	void OnAddMainDev(UINT devID);			//!< 添加主设备，这里已经制定了哪个设备
-	void OnAddSlave(UINT devID);			//!< 添加从设备，这里已经制定了哪个设备
-	void OnAddScan(UINT devID);				//!< 将其置为工程设备
-	void ShowDeviceAt(UINT devID);			//!< 选中这个设备，并显示这个设备
 	void ShowPoint(CPoint pt);				//!< 显示这个点
 
 	DECLARE_MESSAGE_MAP()
@@ -75,47 +66,18 @@ public:
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnDestroy();
 	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
-	afx_msg void OnAddMainDev();
-	afx_msg void OnAddSlave();
-	afx_msg void OnDevinterfaceSet();
-	afx_msg void OnDevDelete();
-	afx_msg void OnDevParainfo();
-	afx_msg void OnDevOut();
-	afx_msg void OnDevIn();
-	afx_msg void OnEditCopy();
-	afx_msg void OnEditCopyWithChild();
-	afx_msg void OnEditCut();
-	afx_msg void OnEditPaste();
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg LRESULT OnHyperlinkClicked(WPARAM wParam, LPARAM lParam);
 	afx_msg BOOL OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
-	afx_msg void OnInterfaceSet();
 	afx_msg void OnZoom(UINT index);
 	afx_msg void OnEditUndo();
 	afx_msg void OnEditRedo();
-	afx_msg void OnAddScan();
-	afx_msg void OnScanSet();
-	afx_msg void OnScanStart();
-	afx_msg void OnScanStop();
 	afx_msg void OnH();
 	afx_msg void OnV();
-	afx_msg void OnAddScanInf2Proj();
 	afx_msg void OnFreshState();
 	afx_msg BOOL OnHelpInfo(HELPINFO* pHelpInfo);
 
-	afx_msg void OnUpdateAddMainDev(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateAddSlave(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateDevInfo(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateInterfaceSet(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateDelete(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateParainfo(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateDevOut(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateDevIn(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateEditCopy(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateEditCopyWithChild(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateEditCut(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateEditPaste(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateEditUndo(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateEditRedo(CCmdUI *pCmdUI);
 

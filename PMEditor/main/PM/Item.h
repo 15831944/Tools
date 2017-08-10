@@ -109,10 +109,8 @@ public:
 
 	bool Serialize(CArchive& ar);							//!< 保存二进制信息
 	bool SerializeXml(TiXmlElement* pNode, bool bRead, bool iExport = false);	//!< 保存xml格式的编辑信息,iExport=false正常，true导入导出
-	//bool ReadFromPlcConfig(COperation& reader, int nRow, int devID);			//!< 从PLC_Config导出的变量表中读取变量
-	bool ReadFromPlcConfig(CString strLine, int devID);		//!< 从PLC_Config导出的变量表中读取变量
-	//bool ReadFromDView(COperation& reader, int nRow, int devID);				//!< 从DView导出的变量表中读取变量
-	bool ReadFromDView(CString strLine, int devID);			//!< 从DView导出的变量表中读取变量
+	bool ReadFromConfig(CString strLine, int devID);		//!< 从Config导出的变量表中读取变量
+	bool ReadFromPM(CString strLine, int devID);			//!< 从PM导出的变量表中读取变量
 
 	CItem& operator = (CItem& item);						//!< 赋值操作，包括ID和名称也全都赋过去了
 	bool operator == (CItem& item) const;					//!< 判断本变量是否与item属性一样

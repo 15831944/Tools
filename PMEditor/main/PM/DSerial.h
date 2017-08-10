@@ -13,7 +13,6 @@ private:
 	UINT m_uiOverTime;			//!< 通信超时时间
 	UINT m_uiCoolTime;			//!< 冷却时间
 	UINT m_uiReviveTime;		//!< 通信恢复时间
-	UINT m_uiScanTime;			//!< 设备扫描周期
 
 public:
 	UINT getNumber(){return m_uiNumber;}
@@ -25,7 +24,6 @@ public:
 	UINT getOverTime(){return m_uiOverTime;}
 	UINT getCoolTime(){return m_uiCoolTime;}
 	UINT getReviveTime(){return m_uiReviveTime;}
-	UINT getScanTime(){return m_uiScanTime;}
 
 	void setNumber(UINT no){m_uiNumber = no;}
 	void setBaud(UINT baud){m_uiBaud = baud;}
@@ -36,7 +34,6 @@ public:
 	void setOverTime(UINT t){m_uiOverTime = t;}
 	void setCoolTime(UINT t){m_uiCoolTime = t;}
 	void setReviveTime(UINT t){m_uiReviveTime = t;}
-	void setScanTime(UINT t){m_uiScanTime = t;}
 
 public:
 	explicit CDSerial();

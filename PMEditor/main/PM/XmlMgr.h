@@ -2,12 +2,10 @@
 
 namespace XmlInfo{
 class CXmlDevice;
-class CXmlScan;
 class CXmlMgr
 {
 public:
 	std::vector<std::shared_ptr<CXmlDevice> > m_vtDevice;
-	std::list<std::shared_ptr<CXmlScan> > m_ltScan;
 
 public:
 	CXmlMgr(void);

@@ -135,9 +135,8 @@ bool CItem::SerializeXml(TiXmlElement* pNode, bool bRead, bool iExport/* = false
 	return true;
 }
 
-//!< 从PLC_Config导出的变量表中读取变量
-//bool MVC::Item::CItem::ReadFromPlcConfig(COperation& reader, int nRow, int devID)
-bool MVC::Item::CItem::ReadFromPlcConfig(CString strLine, int devID)
+//!< 从Config导出的变量表中读取变量
+bool MVC::Item::CItem::ReadFromConfig(CString strLine, int devID)
 {
 	std::vector<CString> vtCell;
 	CGbl::SpliteBy(strLine, "\t", vtCell);
@@ -147,7 +146,7 @@ bool MVC::Item::CItem::ReadFromPlcConfig(CString strLine, int devID)
 	if (vtCell[3].Trim() == _T(""))						return false;
 
 	CString strAddr = vtCell[0].Trim();					//!< 变量地址
-	if(CGbl::GetMe().IsNumber(strAddr))  return false;	//!< 第一列为数字证明是DView导出的Excle格式文件
+	if(CGbl::GetMe().IsNumber(strAddr))  return false;	//!< 第一列为数字证明是PM导出的Excle格式文件
 	CString strType = vtCell[3].Trim();					//!< 变量类型
 	CString strName = vtCell[2].Trim();					//!< 变量名
 	if (strName != _T(""))		setItemName(strName);
@@ -156,16 +155,15 @@ bool MVC::Item::CItem::ReadFromPlcConfig(CString strLine, int devID)
 	if (vtCell.size() > 4)
 		setDescription(vtCell[4].Trim());				//!< 变量注释
 	setSrcType(CItem::SRC_TYPE_IO);										//!< 变量数据源类型
-	if (getSrcInfo()->SetPlcConfigAddr(devID, strAddr, strType))		//!< 数据源信息
+	if (getSrcInfo()->SetConfigAddr(devID, strAddr, strType))		//!< 数据源信息
 		setValType(getSrcInfo()->getIOType());
 	else
 		setValType(strType);
 	return true;
 }
 
-//!< 从DView导出的变量表中读取变量
-//bool CItem::ReadFromDView(COperation& reader, int nRow, int devID)
-bool MVC::Item::CItem::ReadFromDView(CString strLine, int devID)
+//!< 从PM导出的变量表中读取变量
+bool MVC::Item::CItem::ReadFromPM(CString strLine, int devID)
 {
 	std::vector<CString> vtCell;
 	CGbl::SpliteBy(strLine, "\t", vtCell);
@@ -185,9 +183,9 @@ bool MVC::Item::CItem::ReadFromDView(CString strLine, int devID)
 	setReservFlag(vtCell[8].Trim() == "1");				//!< 变量保留值
 	setReservDB(vtCell[9].Trim() == "1");				//!< 变量保留历史数据
 
-	m_spSrcInfo->ReadFromDViewExcel(vtCell);			//!< 解析数据源属性
+	m_spSrcInfo->ReadFromPMExcel(vtCell);				//!< 解析数据源属性
 	m_spSrcInfo->setDevID(devID);						//!< 设置所属设备
-	m_spAlarmInfo->ReadFromDViewExcel(vtCell);			//!< 解析报警属性
+	m_spAlarmInfo->ReadFromPMExcel(vtCell);				//!< 解析报警属性
 
 	setValType((UINT)atoi(vtCell[4].Trim())); 			//!< 变量类型
 	return true;

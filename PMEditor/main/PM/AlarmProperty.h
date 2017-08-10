@@ -69,7 +69,7 @@ public:
 
 	bool Serialize(CArchive& ar);							//!< 保存二进制信息
 	bool SerializeXml(TiXmlElement* pNode, bool bRead);		//!< 保存xml格式的编辑信息
-	void ReadFromDViewExcel(std::vector<CString>& vtCell);	//!< 解析数据源属性
+	void ReadFromPMExcel(std::vector<CString>& vtCell);		//!< 解析数据源属性
 	CString GetBitAlarmInfo(bool bShowNone = true);			//!< 获得当前位报警的字符串信息,参数表示当处于不报警时是否返回不报警字符串
 
 	CPropertyAlarm& operator = (CPropertyAlarm& alarm);

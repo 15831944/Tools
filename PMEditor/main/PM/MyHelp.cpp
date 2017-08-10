@@ -3,8 +3,8 @@
 #include "Gbl.h"
 #include "MyHelp.h"
 
-const CString HELP_FILE_NAME = _T("DView使用说明.chm");
-const CString HELP_CONFIG = _T("DView Help.cfg");
+const CString HELP_FILE_NAME = _T("PM使用说明.chm");
+const CString HELP_CONFIG = _T("PM Help.cfg");
 const CString HELP_DEFAULT = _T("目录");
 
 std::map<CString, CString> MP_HELP;		//!< 帮助字典

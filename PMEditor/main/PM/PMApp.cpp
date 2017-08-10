@@ -25,10 +25,6 @@
 #include "DeviceMapView.h"
 #include "DeviceMapFrm.h"
 
-#include "CamDoc.h"
-#include "CamView.h"
-#include "CamFrame.h"
-
 #include "PMSplash.h"
 #include "CreatProjectDlg.h"
 #include "ServerCommer.h"
@@ -105,13 +101,6 @@ BOOL CPMApp::InitInstance()
 	if(!m_pDeviceDocMgr)	{CPMSplash::Hide();	return FALSE;}
 	AddDocTemplate(m_pDeviceDocMgr);
 
-	m_pCamDocMgr = new CMultiDocTemplate(IDR_MAINFRAME,
-		RUNTIME_CLASS(MVC::Camera::CCamDoc),
-		RUNTIME_CLASS(MVC::Camera::CCamFrame),
-		RUNTIME_CLASS(MVC::Camera::CCamView));
-	if(!m_pCamDocMgr)	{CPMSplash::Hide();	return FALSE;}
-	AddDocTemplate(m_pCamDocMgr);
-
 	RegisterShellFileTypes();
 
 	if(CPMSplash::Visible())
@@ -153,7 +142,7 @@ BOOL CPMApp::InitInstance()
 	pMainFrame->UpdateWindow();
 
 	//!< 打开起始页
-//	ShowStartPage();
+	ShowStartPage();
 
 	//!< 初始化通信服务器
 	Servers::DXP::CServerCtrl::GetMe().InitServerMgr(m_pMainWnd);

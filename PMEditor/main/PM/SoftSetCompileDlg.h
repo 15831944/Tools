@@ -10,7 +10,6 @@ public:
 	BOOL m_bOutPut;				//!< 是否激活输出栏
 	BOOL m_bOutPutWarning;		//!< 是否输出警告信息
 	int m_nCplType;				//!< 编译文件类型0二进制,1描述
-	int m_nScanType;			//!< 扫描文件类型0二进制,1描述
 
 public:
 	CSoftSetCompileDlg(CWnd* pParent = NULL);   // 标准构造函数

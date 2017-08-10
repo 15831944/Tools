@@ -67,10 +67,6 @@ bool CXmlMgr::SerializeXml(TiXmlElement* pNode, bool bRead)
 				device = std::shared_ptr<CXmlDevice>(new CXmlDevice);
 				if(device->SerializeMgr(pElement, true))	ltDevice.push_back(device);
 			}
-			else if(SCAN == name){
-				scan = std::shared_ptr<CXmlScan>(new CXmlScan);
-				if(scan->SerializeMgr(pElement, true))		m_ltScan.push_back(scan);
-			}
 			pElement = pElement->NextSiblingElement();
 		}
 
@@ -87,8 +83,6 @@ bool CXmlMgr::SerializeXml(TiXmlElement* pNode, bool bRead)
 			if(!device)		continue;
 			device->SerializeMgr(pNode->AddTiXmlChild((LPCTSTR)DEVICE), false);
 		}
-		for (auto scan : m_ltScan)
-			scan->SerializeMgr(pNode->AddTiXmlChild((LPCTSTR)SCAN), false);
 	}
 	return true;
 }

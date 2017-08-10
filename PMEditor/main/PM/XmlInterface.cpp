@@ -41,7 +41,6 @@ bool CXmlInterface::SerializeXml(TiXmlElement* pNode)
 		else if(INTERFACETYPE == name){	cvr.ChangeType(VT_I4);		iValue = cvr.intVal;	m_uiType = UINT(iValue);		}
 		else if(DATAPORT == name){		cvr.ChangeType(VT_I4);		iValue = cvr.intVal;	m_uiDataPort = UINT(iValue);	}
 		else if(LISTENPORT == name){	cvr.ChangeType(VT_I4);		iValue = cvr.intVal;	m_uiListenPort = UINT(iValue);	}
-		else if(SCANTIME == name){		cvr.ChangeType(VT_I4);		iValue = cvr.intVal;	m_uiScanTime = UINT(iValue);	}
 		else if(REVIVETIME == name){	cvr.ChangeType(VT_I4);		iValue = cvr.intVal;	m_uiReviveTime = UINT(iValue);	}
 		else if(RETRYNUM == name){		cvr.ChangeType(VT_I4);		iValue = cvr.intVal;	m_uiRetryNum = UINT(iValue);	}
 		else if(COOLTIME == name){		cvr.ChangeType(VT_I4);		iValue = cvr.intVal;	m_uiCoolTime = UINT(iValue);	}

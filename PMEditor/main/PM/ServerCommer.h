@@ -87,12 +87,5 @@ public:
 		InvokeHelper(0x7, DISPATCH_METHOD, VT_I4, (void*)&result, parms, lBehaviorID, &varValue, lDeviceID);
 		return result;
 	}
-	long ExecScanBehavior(long lDevType, long lInfType, long lLevel, long lBevID, long * pAddr, VARIANT varValue)
-	{
-		long result;
-		static BYTE parms[] = VTS_I4 VTS_I4 VTS_I4 VTS_I4 VTS_PI4 VTS_VARIANT ;
-		InvokeHelper(0x8, DISPATCH_METHOD, VT_I4, (void*)&result, parms, lDevType, lInfType, lLevel, lBevID, pAddr, &varValue);
-		return result;
-	}
 };
 }}

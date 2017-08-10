@@ -230,11 +230,6 @@ void CBehaviorParamDlg::OnTreeLClick(CTreeCtrl* pTreeCtrl, HTREEITEM hItem)
 
 	//!< 监控时或扫描时才能上下载
 	CProjectMgr* projMgr = &CProjectMgr::GetMe();
-	if(!projMgr->IsWatch() && !projMgr->IsScan())
-	{
-		GetDlgItem(ID_BEHAVIOR_UPLOAD)->EnableWindow(FALSE);
-		GetDlgItem(ID_BEHAVIOR_DOWNLOAD)->EnableWindow(FALSE);
-	}
 
 	//!< 如果是组的，需要显示出组的下拉列表
 	UINT arrayNum = 1;
@@ -389,9 +384,6 @@ void Dialog::CBehaviorParamDlg::OnBnClickedBehaviorUpload()
 		if(behavior->m_uiType == 0){
 			if(behavior->m_uiArrayNum > 1)		cvr = int(m_GroupList.GetCurSel());
 			else								cvr = int(0);
-			if(!CProjectMgr::GetMe().IsScan())
-				m_ShowDev->UpLoadBehavior(behavior->m_uiID, cvr);
-			else
 			{
 				std::list<UINT> ltAddr;
 				m_ShowDev->GetWholeAddr(ltAddr, true);
@@ -426,9 +418,6 @@ void Dialog::CBehaviorParamDlg::OnBnClickedBehaviorDownload()
 		if(behavior->m_uiType == 1){
 			if(behavior->m_uiArrayNum > 1)		cvr = int(m_GroupList.GetCurSel());
 			else								cvr = int(0);
-			if(!CProjectMgr::GetMe().IsScan())
-				m_ShowDev->DownLoadBehavior(behavior->m_uiID, cvr);
-			else
 			{
 				std::list<UINT> ltAddr;
 				m_ShowDev->GetWholeAddr(ltAddr, true);

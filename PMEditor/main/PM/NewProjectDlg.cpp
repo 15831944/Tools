@@ -161,10 +161,10 @@ void CNewProjectDlg::OnLvnItemchangedListProjectType(NMHDR *pNMHDR, LRESULT *pRe
 		switch (pNMLV->iItem)
 		{
 		case 0:
-			SetDlgItemText(IDC_TXT_PROJECT_TYPE_DESC, _T("创建一个同时支持本地和Web方式运行的DView工程"));
+			SetDlgItemText(IDC_TXT_PROJECT_TYPE_DESC, _T("创建一个同时支持本地和Web方式运行的PM工程"));
 			break;
 		case 1:
-			SetDlgItemText(IDC_TXT_PROJECT_TYPE_DESC, _T("创建一个支持跨平台运行的DView工程"));
+			SetDlgItemText(IDC_TXT_PROJECT_TYPE_DESC, _T("创建一个支持跨平台运行的PM工程"));
 			break;
 		default:
 			break;

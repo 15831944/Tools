@@ -18,7 +18,6 @@ public:
 	CMultiDocTemplate* m_pStartDocMgr;
 	CMultiDocTemplate* m_pItemDocMgr;
 	CMultiDocTemplate* m_pDeviceDocMgr;
-	CMultiDocTemplate* m_pCamDocMgr;
 	MVC::Start::CPMHtmlDialog* m_StartPage;				/**< 当前的起始页Dialog指针 */
 
 	std::shared_ptr<XmlInfo::CXmlMgr> m_XmlMgr;
