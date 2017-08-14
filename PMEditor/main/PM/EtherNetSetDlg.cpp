@@ -51,7 +51,8 @@ BOOL CEtherNetSetDlg::OnInitDialog()
 	if(!m_PropertyGrid.Create(rc, this, IDC_PROPERTY_GRID))		return FALSE;
 	m_PropertyGrid.SetFont(GetFont());							//!< 设置一下字体，以确保每次打开的字体都一样
 	//m_PropertyGrid.HighlightChangedItems(TRUE);					//!< 高亮被修改的部分
-	m_PropertyGrid.SetTheme(xtpGridThemeNativeWinXP);			//!< 设置主题
+	//m_PropertyGrid.SetTheme(xtpGridThemeNativeWinXP);			//!< 设置主题
+	m_PropertyGrid.SetTheme(xtpGridThemeVisualStudio2010);
 	m_Object.ShowInfo(m_PropertyGrid);
 
 	//!< 初始化网卡树

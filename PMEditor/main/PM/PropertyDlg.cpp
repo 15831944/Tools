@@ -55,7 +55,8 @@ BOOL Dialog::CPropertyDlg::OnInitDialog()
 	m_PropertyGrid.SetFont(GetFont());						//!< 设置一下字体，以确保每次打开的字体都一样
 	m_PropertyGrid.HighlightChangedItems(TRUE);				//!< 高亮被修改的部分
 //	m_PropertyGrid.SetShowInplaceButtonsAlways(TRUE);		//!< 保持功能图标，表示每个item的值类型
-	m_PropertyGrid.SetTheme(xtpGridThemeNativeWinXP);		//!< 设置主题
+	//m_PropertyGrid.SetTheme(xtpGridThemeNativeWinXP);		//!< 设置主题
+	m_PropertyGrid.SetTheme(xtpGridThemeVisualStudio2010);
 
 	SetResize(IDC_PROPERTY_GRID, SZ_TOP_LEFT, SZ_BOTTOM_RIGHT);
 	SetResize(ID_APPLAY, SZ_BOTTOM_RIGHT, SZ_BOTTOM_RIGHT);

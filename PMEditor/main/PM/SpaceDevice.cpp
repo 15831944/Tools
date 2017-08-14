@@ -30,11 +30,11 @@ bool CSpaceDevice::CreateSpace()
 	}
 
 #ifdef DEBUG
-	SetTheme(xtpTaskPanelThemeShortcutBarOffice2003);
+	//SetTheme(xtpTaskPanelThemeShortcutBarOffice2003);
 #else
-	SetTheme(xtpTaskPanelThemeToolboxWhidbey);
+	//SetTheme(xtpTaskPanelThemeToolboxWhidbey);
 #endif
-	SetTheme(xtpTaskPanelThemeToolboxWhidbey);
+	SetTheme(xtpTaskPanelThemeVisualStudio2010);
 
 	// Tell the control to send message to this window (the mainframe)
 	// and not to its real parent (the splitter)

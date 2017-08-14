@@ -177,7 +177,8 @@ AFX_INLINE void ShowSampleHelpPopup(CWnd* pParentWnd, UINT nIDResource)
 {
 	CXTPPopupControl* pPopup = new CXTPPopupControl();
 	pPopup->SetTransparency(200);
-	pPopup->SetTheme(xtpPopupThemeOffice2003);
+	//pPopup->SetTheme(xtpPopupThemeOffice2003);
+	pPopup->SetTheme(xtpPopupThemeMSN);
 	pPopup->AllowMove(TRUE);
 	pPopup->SetAnimateDelay(500);
 	pPopup->SetPopupAnimation();

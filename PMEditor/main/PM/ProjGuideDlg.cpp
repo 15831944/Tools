@@ -142,7 +142,8 @@ BOOL CProjGuideDlg::OnInitDialog()
 	// Set control resizing.
 	SetResize(IDC_PROJ_CTRL, SZ_TOP_LEFT, SZ_TOP_CENTER);
 
-	CXTPPaintManager::SetTheme(xtpThemeWhidbey);
+	//CXTPPaintManager::SetTheme(xtpThemeWhidbey);
+	CXTPPaintManager::SetTheme(xtpThemeVisualStudio2010);
 	RedrawWindow(0, 0, RDW_ALLCHILDREN|RDW_INVALIDATE);
 
 	FreshToolBar();

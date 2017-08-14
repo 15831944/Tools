@@ -238,7 +238,8 @@ CCustomItemColor::CCustomItemColor(CString strCaption, COLORREF clr)
 void CCustomItemColor::OnInplaceButtonDown(CXTPPropertyGridInplaceButton* /*pButton*/)
 {
 	CCustomItemColorPopup *pColorPopup = new CCustomItemColorPopup();
-	pColorPopup->SetTheme(xtpControlThemeOffice2003);
+	//pColorPopup->SetTheme(xtpControlThemeOffice2003);
+	pColorPopup->SetTheme(xtpControlThemeVisualStudio2010);
 
 	CRect rcItem= GetItemRect();
 	m_pGrid->ClientToScreen(&rcItem);
@@ -620,7 +621,8 @@ void CCustomItemMenu::OnInplaceButtonDown(CXTPPropertyGridInplaceButton* pButton
 	CRect rc = pButton->GetRect();
 	pButton->GetGrid()->ClientToScreen(&rc);
 
-	XTPPaintManager()->SetTheme(xtpThemeWhidbey);
+	//XTPPaintManager()->SetTheme(xtpThemeWhidbey);
+	XTPPaintManager()->SetTheme(xtpThemeVisualStudio2010);
 	UINT nCmd = CXTPCommandBars::TrackPopupMenu(&menu, TPM_RETURNCMD|TPM_NONOTIFY, 
 		rc.right, rc.top, pButton->GetGrid(), 0);
 	

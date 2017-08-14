@@ -92,6 +92,7 @@ BOOL CBehaviorParamDlg::OnInitDialog()
 	m_PropertyGrid.SetFont(GetFont());					//!< 设置一下字体，以确保每次打开的字体都一样
 // 	m_PropertyGrid.HighlightChangedItems(TRUE);			//!< 高亮被修改的部分
 	m_PropertyGrid.SetTheme(xtpGridThemeNativeWinXP);	//!< 设置主题
+	m_PropertyGrid.SetTheme(xtpGridThemeVisualStudio2010);
 
 	//!< 初始化树中的行为列表
 	ASSERT(m_ShowDev);

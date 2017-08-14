@@ -130,10 +130,12 @@ void CMainFrame::SetTheme(int index)
 	case 2:		XTPPaintManager()->SetTheme(xtpThemeOffice2003);		break;
 	case 3:		XTPPaintManager()->SetTheme(xtpThemeNativeWinXP);		break;
 	case 4:		XTPPaintManager()->SetTheme(xtpThemeWhidbey);			break;
-	case 5:		XTPPaintManager()->SetTheme(xtpThemeOffice2007);		break;
+	case 5:		XTPPaintManager()->SetTheme(xtpThemeResource);			break;	// Office 2007 
 	case 6:		XTPPaintManager()->SetTheme(xtpThemeRibbon);			break;
 	case 7:		XTPPaintManager()->SetTheme(xtpThemeVisualStudio2008);	break;
-	case 8:		XTPPaintManager()->SetTheme(xtpThemeCustom);			break;
+	case 8:		XTPPaintManager()->SetTheme(xtpThemeVisualStudio6);		break;
+	case 9:		XTPPaintManager()->SetTheme(xtpThemeVisualStudio2010);	break;
+	case 10:	XTPPaintManager()->SetTheme(xtpThemeCustom);			break;
 	}
 }
 
@@ -142,20 +144,25 @@ void CMainFrame::SetPaneTheme(int index)
 {
 	switch(index)
 	{
-	case 0:		m_paneManager.SetTheme(xtpPaneThemeDefault);			break;
-	case 1:		m_paneManager.SetTheme(xtpPaneThemeOffice);				break;
-	case 2:		m_paneManager.SetTheme(xtpPaneThemeOffice2003);			break;
-	case 3:		m_paneManager.SetTheme(xtpPaneThemeNativeWinXP);		break;
-	case 4:		m_paneManager.SetTheme(xtpPaneThemeGrippered);			break;
-	case 5:		m_paneManager.SetTheme(xtpPaneThemeVisio);				break;
-	case 6:		m_paneManager.SetTheme(xtpPaneThemeWhidbey);			break;
-	case 7:		m_paneManager.SetTheme(xtpPaneThemeShortcutBar2003);	break;
-	case 8:		m_paneManager.SetTheme(xtpPaneThemeExplorer);			break;
-	case 9:		m_paneManager.SetTheme(xtpPaneThemeVisualStudio2005);	break;
-	case 10:	m_paneManager.SetTheme(xtpPaneThemeOffice2007);			break;
-	case 11:	m_paneManager.SetTheme(xtpPaneThemeWord2007);			break;
-	case 12:	m_paneManager.SetTheme(xtpPaneThemeOutlook2007);		break;
-	case 13:	m_paneManager.SetTheme(xtpPaneThemeCustom);;			break;
+	case 0:		m_paneManager.SetTheme(xtpPaneThemeDefault);				break;
+	case 1:		m_paneManager.SetTheme(xtpPaneThemeVisualStudio2003);		break;
+	case 2:		m_paneManager.SetTheme(xtpPaneThemeOffice2003);				break;
+	case 3:		m_paneManager.SetTheme(xtpPaneThemeWinNative);				break;
+	case 4:		m_paneManager.SetTheme(xtpPaneThemeGrippered);				break;
+	case 5:		m_paneManager.SetTheme(xtpPaneThemeOffice2002Visio);		break;
+	case 6:		m_paneManager.SetTheme(xtpPaneThemeVisualStudio2005Beta1);	break;
+	case 7:		m_paneManager.SetTheme(xtpPaneThemeOffice2003Outlook);		break;
+	case 8:		m_paneManager.SetTheme(xtpPaneThemeWinExplorer);			break;
+	case 9:		m_paneManager.SetTheme(xtpPaneThemeVisualStudio2005);		break;
+	case 10:	m_paneManager.SetTheme(xtpPaneThemeResource);				break;
+	case 11:	m_paneManager.SetTheme(xtpPaneThemeOffice2007Word);			break;
+	case 12:	m_paneManager.SetTheme(xtpPaneThemeOffice2007Outlook);		break;
+	case 13:	m_paneManager.SetTheme(xtpPaneThemeVisualStudio6);			break;
+	case 14:	m_paneManager.SetTheme(xtpPaneThemeVisualStudio2005Beta2);	break;
+	case 15:	m_paneManager.SetTheme(xtpPaneThemeVisualStudio2008);		break;
+	case 16:	m_paneManager.SetTheme(xtpPaneThemeVisualStudio2010);		break;
+	case 17:	m_paneManager.SetTheme(xtpPaneThemeOffice2003Visio);		break;
+	case 18:	m_paneManager.SetTheme(xtpPaneThemeOffice2007Visio);		break;
 	}
 }
 
@@ -172,9 +179,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_wndStatusBar.GetPane(0)->SetBeginGroup(FALSE);
 	FillToStatusBar();
-	SetTheme(7);											//!< 设置窗口的风格
+	SetTheme(xtpThemeVisualStudio2010);						//!< 设置窗口的风格
+	//SetTheme(xtpThemeVisualStudio6);
 	m_paneManager.InstallDockingPanes(this);				//!< Add pane
-	SetPaneTheme(9);										//!< 设置每个pane的风格
+	SetPaneTheme(xtpPaneThemeVisualStudio2010);				//!< 设置每个pane的风格
 
 	CXTPDockingPane* paneDeviceView = m_paneManager.CreatePane(ID_VIEW_DEVICE, CRect(0, 0, 150, 140), xtpPaneDockRight);
 	CXTPDockingPane* paneOutputView = m_paneManager.CreatePane(ID_VIEW_OUTPUT, CRect(0, 0, 150, 200), xtpPaneDockBottom);
