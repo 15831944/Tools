@@ -1,5 +1,5 @@
 #pragma once
-#include "PugiXml\pugixml.hpp"
+
 class CCreateDB
 {
 private:

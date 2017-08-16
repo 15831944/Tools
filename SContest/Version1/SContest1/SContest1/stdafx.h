@@ -48,7 +48,7 @@
 #include <thread>
 #include <functional>
 
-//#include "../../TinyXml/TinyXmlInclude.h"
+#include "..\..\pugixml1.8\src\pugixml.hpp"
 
 #ifdef _UNICODE
 #define tstring std::wstring

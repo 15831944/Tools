@@ -354,25 +354,6 @@ CString CGbl::UintToCString(UINT number)
 	return temp;
 }
 
-__int64 __nStart = 0;
-__int64 __nEnd = 0;
-__int64 __nFrequency = 0;
-
-bool CGbl::StartHighTime()
-{
-	if (!QueryPerformanceFrequency((LARGE_INTEGER *)&__nFrequency))	return false;
-	if (!QueryPerformanceCounter((LARGE_INTEGER *)&__nStart))		return false;
-	return true;
-}
-
-double CGbl::GetHighTime(bool bReStart)
-{
-	if (!QueryPerformanceCounter((LARGE_INTEGER *)&__nEnd))			return -1.0;
-	__int64 n = __nEnd - __nStart;
-	if (bReStart)	__nStart = __nEnd;
-	double t = (double)n / (double)__nFrequency;
-	return t;
-}
 bool CGbl::IsNumber(CString str)
 {
 	int n=str.GetLength();
