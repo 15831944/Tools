@@ -22,7 +22,7 @@ void CCreateDB::CreateData()
 	pugi::xml_document doc;
 	pugi::xml_node root = doc.append_child(_T("Items"));
 	SerializeXml(root);
-	bool bSave = doc.save_file(m_strPN);
+	bool bSave = doc.save_file(m_strPN, _T("\t"), pugi::format_default, pugi::encoding_wchar);
 	ASSERT(bSave);
 }
 

@@ -8,9 +8,11 @@
 void CTestObj::StartTest()
 {
 	CString strPath = CGbl::GetMe().getExePath();
-	strPath += _T("DB_UNICODE.xml");
-	//CCreateDB db(strPath);
+	CString strXmlName = strPath + _T("DB_UNICODE.xml");
+	CString strCSVName = strPath + _T("DB.csv");
+	//CCreateDB db(strXmlName);
 	CLoadDB db;
-	db.LoadDB(strPath);
+	db.LoadDB(strXmlName);
+	db.SaveCSV(strCSVName);
 }
 

@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CreateDB.h" />
+    <ClInclude Include="CSVFileStream.h" />
     <ClInclude Include="Gbl.h" />
     <ClInclude Include="LoadDB.h" />
     <ClInclude Include="PugiXml\pugiconfig.hpp" />
@@ -105,6 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CreateDB.cpp" />
+    <ClCompile Include="CSVFileStream.cpp" />
     <ClCompile Include="Gbl.cpp" />
     <ClCompile Include="LoadDB.cpp" />
     <ClCompile Include="SContest1.cpp" />
