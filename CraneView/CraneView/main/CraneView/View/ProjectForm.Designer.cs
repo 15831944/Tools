@@ -36,9 +36,12 @@
 			this._colTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._colComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._tabCreate = new System.Windows.Forms.TabPage();
+			this._btPath = new System.Windows.Forms.Button();
 			this._commentBox = new System.Windows.Forms.TextBox();
+			this._pathBox = new System.Windows.Forms.TextBox();
 			this._nameBox = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
+			this.label3 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this._btOK = new System.Windows.Forms.Button();
 			this._tabCtrl.SuspendLayout();
@@ -122,9 +125,12 @@
 			// 
 			// _tabCreate
 			// 
+			this._tabCreate.Controls.Add(this._btPath);
 			this._tabCreate.Controls.Add(this._commentBox);
+			this._tabCreate.Controls.Add(this._pathBox);
 			this._tabCreate.Controls.Add(this._nameBox);
 			this._tabCreate.Controls.Add(this.label2);
+			this._tabCreate.Controls.Add(this.label3);
 			this._tabCreate.Controls.Add(this.label1);
 			this._tabCreate.Location = new System.Drawing.Point(4, 23);
 			this._tabCreate.Name = "_tabCreate";
@@ -134,16 +140,36 @@
 			this._tabCreate.Text = "Create";
 			this._tabCreate.UseVisualStyleBackColor = true;
 			// 
+			// _btPath
+			// 
+			this._btPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this._btPath.Location = new System.Drawing.Point(558, 47);
+			this._btPath.Name = "_btPath";
+			this._btPath.Size = new System.Drawing.Size(41, 23);
+			this._btPath.TabIndex = 3;
+			this._btPath.Text = "...";
+			this._btPath.UseVisualStyleBackColor = true;
+			this._btPath.Click += new System.EventHandler(this._btPath_Click);
+			// 
 			// _commentBox
 			// 
 			this._commentBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this._commentBox.Location = new System.Drawing.Point(13, 66);
+			this._commentBox.Location = new System.Drawing.Point(13, 98);
 			this._commentBox.Multiline = true;
 			this._commentBox.Name = "_commentBox";
-			this._commentBox.Size = new System.Drawing.Size(586, 152);
+			this._commentBox.Size = new System.Drawing.Size(586, 120);
 			this._commentBox.TabIndex = 2;
+			// 
+			// _pathBox
+			// 
+			this._pathBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this._pathBox.Location = new System.Drawing.Point(78, 48);
+			this._pathBox.Name = "_pathBox";
+			this._pathBox.Size = new System.Drawing.Size(474, 22);
+			this._pathBox.TabIndex = 0;
 			// 
 			// _nameBox
 			// 
@@ -157,11 +183,20 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(13, 46);
+			this.label2.Location = new System.Drawing.Point(13, 81);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(60, 14);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Comment";
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(13, 51);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(32, 14);
+			this.label3.TabIndex = 0;
+			this.label3.Text = "Path";
 			// 
 			// label1
 			// 
@@ -217,8 +252,11 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn _colTime;
 		private System.Windows.Forms.DataGridViewTextBoxColumn _colComment;
 		private System.Windows.Forms.TextBox _commentBox;
-		private System.Windows.Forms.TextBox _nameBox;
 		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Button _btPath;
+		private System.Windows.Forms.TextBox _pathBox;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.TextBox _nameBox;
 		private System.Windows.Forms.Label label1;
 	}
 }

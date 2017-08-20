@@ -74,10 +74,10 @@ namespace CraneView.Project
 			return true;
 		}
 
-		internal void CreateProj(string strName, string strComment)
+		internal void CreateProj(string strName, string strPath, string strComment)
 		{
 			var phi = new ProjectHeadInfo();
-			phi.OnCreate(strName, strComment);
+			phi.OnCreate(strName, strPath, strComment);
 			_projHeadList.Add(phi);
 
 			var proj = new Project(phi);

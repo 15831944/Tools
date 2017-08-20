@@ -9,7 +9,7 @@ namespace CraneView.Project.Display
 {
 	internal class DisplayGroup
 	{
-		private string _name;
+		private string _name = null;
 		internal DisplayGroup ParentGroup { get; set; }
 
 		internal DisplayGroup()

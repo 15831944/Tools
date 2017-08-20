@@ -14,17 +14,21 @@ namespace CraneView.Project
 		public Guid ID { get; set; }
 		[XmlAttribute("name")]
 		public string Name { get; set; }
+		[XmlAttribute("path")]
+		public string Path { get; set; }
 		[XmlAttribute("comment")]
 		public string Comment { get; set; }
 		[XmlAttribute("time")]
+
 		public DateTime Time { get; set; }
 		
 		internal ProjectHeadInfo()
 		{}
 
-		internal void OnCreate(string name, string comment)
+		internal void OnCreate(string name, string path, string comment)
 		{
 			Name = name;
+			Path = path;
 			Comment = comment;
 			Time = DateTime.UtcNow;
 			ID = Guid.NewGuid();

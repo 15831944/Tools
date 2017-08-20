@@ -23,7 +23,6 @@ namespace CraneView.View
 		private void ProjectCreater_Load(object sender, EventArgs e)
 		{
 			((System.ComponentModel.ISupportInitialize)(this._dgProj)).BeginInit();
-
 			this._dgProj.Rows.Clear();
 			this._dgProj.Rows.Add(_editor.ProjMgr.ProjHeadList.Count);
 			int index = 0;
@@ -31,8 +30,9 @@ namespace CraneView.View
 			{
 				this._dgProj.Rows[index++].Tag = proj;
 			}
-
 			((System.ComponentModel.ISupportInitialize)(this._dgProj)).EndInit();
+
+			_pathBox.Text = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\Crane";
 		}
 
 		private void _btOK_Click(object sender, EventArgs e)
@@ -48,10 +48,17 @@ namespace CraneView.View
 			else if (this._tabCreate.Visible)
 			{
 				string strName = _nameBox.Text.Trim();
+				string strPath = _pathBox.Text.Trim();
 				if (!FileHelper.FileNameRight(strName))
 				{
 					MessageBox.Show(this, FileHelper.ErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					_nameBox.Focus();
+					return;
+				}
+				if (string.IsNullOrEmpty(strPath))
+				{
+					MessageBox.Show(this, "Path is wrong.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					_pathBox.Focus();
 					return;
 				}
 				if (_editor.ProjMgr.IfProjExist(strName))
@@ -60,7 +67,14 @@ namespace CraneView.View
 					_nameBox.Focus();
 					return;
 				}
-				_editor.ProjMgr.CreateProj(strName, _commentBox.Text);
+				strPath = strPath + "\\" + strName;
+				if (!CraneTool.FileHelper.CreatePath(strPath))
+				{
+					MessageBox.Show(this, "Create path failed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					_pathBox.Focus();
+					return;
+				}
+				_editor.ProjMgr.CreateProj(strName, strPath,_commentBox.Text);
 				this.DialogResult = System.Windows.Forms.DialogResult.OK;
 			}
 		}
@@ -93,6 +107,16 @@ namespace CraneView.View
 		private void _dgProj_DoubleClick(object sender, EventArgs e)
 		{
 			_btOK_Click(sender, e);
+		}
+
+		private void _btPath_Click(object sender, EventArgs e)
+		{
+			FolderBrowserDialog folderDlg = new FolderBrowserDialog();
+			folderDlg.SelectedPath = _pathBox.Text;
+			if (folderDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				_pathBox.Text = folderDlg.SelectedPath;
+			}
 		}
 	}
 }
