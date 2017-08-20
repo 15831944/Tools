@@ -31,16 +31,16 @@
 			this._tabCtrl = new System.Windows.Forms.TabControl();
 			this._tabOpen = new System.Windows.Forms.TabPage();
 			this._dgProj = new System.Windows.Forms.DataGridView();
-			this._tabCreate = new System.Windows.Forms.TabPage();
-			this._btOK = new System.Windows.Forms.Button();
 			this._colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._colNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._colTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._colComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.label1 = new System.Windows.Forms.Label();
+			this._tabCreate = new System.Windows.Forms.TabPage();
+			this._commentBox = new System.Windows.Forms.TextBox();
 			this._nameBox = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
-			this._commentBox = new System.Windows.Forms.TextBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this._btOK = new System.Windows.Forms.Button();
 			this._tabCtrl.SuspendLayout();
 			this._tabOpen.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._dgProj)).BeginInit();
@@ -89,31 +89,7 @@
 			this._dgProj.Size = new System.Drawing.Size(608, 228);
 			this._dgProj.TabIndex = 1;
 			this._dgProj.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this._dgProj_CellFormatting);
-			// 
-			// _tabCreate
-			// 
-			this._tabCreate.Controls.Add(this._commentBox);
-			this._tabCreate.Controls.Add(this._nameBox);
-			this._tabCreate.Controls.Add(this.label2);
-			this._tabCreate.Controls.Add(this.label1);
-			this._tabCreate.Location = new System.Drawing.Point(4, 23);
-			this._tabCreate.Name = "_tabCreate";
-			this._tabCreate.Padding = new System.Windows.Forms.Padding(3);
-			this._tabCreate.Size = new System.Drawing.Size(614, 234);
-			this._tabCreate.TabIndex = 1;
-			this._tabCreate.Text = "Create";
-			this._tabCreate.UseVisualStyleBackColor = true;
-			// 
-			// _btOK
-			// 
-			this._btOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this._btOK.Location = new System.Drawing.Point(559, 279);
-			this._btOK.Name = "_btOK";
-			this._btOK.Size = new System.Drawing.Size(75, 23);
-			this._btOK.TabIndex = 2;
-			this._btOK.Text = "OK";
-			this._btOK.UseVisualStyleBackColor = true;
-			this._btOK.Click += new System.EventHandler(this._btOK_Click);
+			this._dgProj.DoubleClick += new System.EventHandler(this._dgProj_DoubleClick);
 			// 
 			// _colName
 			// 
@@ -144,32 +120,19 @@
 			this._colComment.ReadOnly = true;
 			this._colComment.Width = 200;
 			// 
-			// label1
+			// _tabCreate
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(13, 19);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(38, 14);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Name";
-			// 
-			// _nameBox
-			// 
-			this._nameBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this._nameBox.Location = new System.Drawing.Point(78, 17);
-			this._nameBox.Name = "_nameBox";
-			this._nameBox.Size = new System.Drawing.Size(521, 22);
-			this._nameBox.TabIndex = 1;
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(13, 46);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(60, 14);
-			this.label2.TabIndex = 0;
-			this.label2.Text = "Comment";
+			this._tabCreate.Controls.Add(this._commentBox);
+			this._tabCreate.Controls.Add(this._nameBox);
+			this._tabCreate.Controls.Add(this.label2);
+			this._tabCreate.Controls.Add(this.label1);
+			this._tabCreate.Location = new System.Drawing.Point(4, 23);
+			this._tabCreate.Name = "_tabCreate";
+			this._tabCreate.Padding = new System.Windows.Forms.Padding(3);
+			this._tabCreate.Size = new System.Drawing.Size(614, 234);
+			this._tabCreate.TabIndex = 1;
+			this._tabCreate.Text = "Create";
+			this._tabCreate.UseVisualStyleBackColor = true;
 			// 
 			// _commentBox
 			// 
@@ -180,7 +143,45 @@
 			this._commentBox.Multiline = true;
 			this._commentBox.Name = "_commentBox";
 			this._commentBox.Size = new System.Drawing.Size(586, 152);
-			this._commentBox.TabIndex = 1;
+			this._commentBox.TabIndex = 2;
+			// 
+			// _nameBox
+			// 
+			this._nameBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this._nameBox.Location = new System.Drawing.Point(78, 17);
+			this._nameBox.Name = "_nameBox";
+			this._nameBox.Size = new System.Drawing.Size(521, 22);
+			this._nameBox.TabIndex = 0;
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(13, 46);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(60, 14);
+			this.label2.TabIndex = 0;
+			this.label2.Text = "Comment";
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(13, 19);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(38, 14);
+			this.label1.TabIndex = 0;
+			this.label1.Text = "Name";
+			// 
+			// _btOK
+			// 
+			this._btOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this._btOK.Location = new System.Drawing.Point(559, 279);
+			this._btOK.Name = "_btOK";
+			this._btOK.Size = new System.Drawing.Size(75, 23);
+			this._btOK.TabIndex = 2;
+			this._btOK.Text = "OK";
+			this._btOK.UseVisualStyleBackColor = true;
+			this._btOK.Click += new System.EventHandler(this._btOK_Click);
 			// 
 			// ProjectForm
 			// 

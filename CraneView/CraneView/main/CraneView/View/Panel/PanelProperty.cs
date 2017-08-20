@@ -12,7 +12,7 @@ namespace CraneView.View.Panel
 
 		internal PanelProperty() { }
 
-		internal void InitializeComponent(MainEditor editor)
+		internal override void InitializeComponent(MainEditor editor)
 		{
 			_editor = editor;
 
@@ -325,5 +325,7 @@ namespace CraneView.View.Panel
 			//finish:
 			//userCommandControl21.theglobal.OldShapes.Clear();
 		}
+
+		public System.Windows.Forms.PropertyGrid PropertyGrid { get { return _propertyGrid; } }
 	}
 }

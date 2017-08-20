@@ -7,12 +7,13 @@ namespace CraneView.View.Panel
 	internal class PanelSolution : PanelControl
 	{
 		private MainEditor _editor;
-		private System.Windows.Forms.TreeView _tree = new System.Windows.Forms.TreeView();
+		//private DevExpress.XtraTreeList.TreeList _tree = new DevExpress.XtraTreeList.TreeList();
+		private CraneTool.TreeCtrl _tree = new CraneTool.TreeCtrl();
 
 		internal PanelSolution()
 		{ }
 
-		internal void InitializeComponent(MainEditor editor)
+		internal override void InitializeComponent(MainEditor editor)
 		{
 			_editor = editor;
 
@@ -27,5 +28,7 @@ namespace CraneView.View.Panel
 			this._tree.TabIndex = 1;
 			InitializeCtrl(this._tree, "Solution", DevExpress.XtraBars.Docking.DockingStyle.Left);
 		}
+
+		public CraneTool.TreeCtrl SlnTree { get { return _tree; } }
 	}
 }

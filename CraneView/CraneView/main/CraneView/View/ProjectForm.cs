@@ -89,5 +89,10 @@ namespace CraneView.View
 				e.Value = phi.Comment;
 			}
 		}
+
+		private void _dgProj_DoubleClick(object sender, EventArgs e)
+		{
+			_btOK_Click(sender, e);
+		}
 	}
 }

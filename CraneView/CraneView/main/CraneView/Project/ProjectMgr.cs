@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 using CraneTool;
+using System.Windows.Forms;
 
 namespace CraneView.Project
 {
@@ -92,6 +93,17 @@ namespace CraneView.Project
 		{
 			if (_projList.Count == 0) return null;
 			return _projList[0];
+		}
+
+		internal TreeNode InitProjTree(CraneTool.TreeCtrl treeCtrl)
+		{
+			TreeNode node = treeCtrl.AddNode(this, "Projects", null);
+			foreach(var proj in _projList)
+			{
+				proj.InitProjTree(treeCtrl, node);
+			}
+			node.ExpandAll();
+			return node;
 		}
 	}
 }

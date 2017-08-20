@@ -51,6 +51,9 @@
     <Compile Include="EncryptHelper.cs" />
     <Compile Include="FileHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TreeCtrl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="XmlHelper.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

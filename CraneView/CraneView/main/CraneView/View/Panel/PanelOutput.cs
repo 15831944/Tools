@@ -12,7 +12,7 @@ namespace CraneView.View.Panel
 		internal PanelOutput()
 		{ }
 
-		internal void InitializeComponent(MainEditor editor)
+		internal override void InitializeComponent(MainEditor editor)
 		{
 			_editor = editor;
 
@@ -27,5 +27,13 @@ namespace CraneView.View.Panel
 			this._output.Text = "";
 			InitializeCtrl(this._output, "Output", DevExpress.XtraBars.Docking.DockingStyle.Bottom);
 		}
+
+		public void PrintOutput(string strOutput)
+		{
+			_output.Text = _output.Text + strOutput + "\r\n";
+			DockPanel.Show();
+		}
+
+		public System.Windows.Forms.RichTextBox Output { get { return _output; } }
 	}
 }

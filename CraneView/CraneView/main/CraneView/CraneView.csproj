@@ -101,6 +101,7 @@
     <Compile Include="Project\ProjectMgr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\Panel\PanelControl.cs" />
+    <Compile Include="View\Panel\PanelMgr.cs" />
     <Compile Include="View\Panel\PanelProperty.cs" />
     <Compile Include="View\Panel\PanelSolution.cs" />
     <Compile Include="View\Panel\PanelOutput.cs" />

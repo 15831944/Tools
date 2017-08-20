@@ -26,8 +26,7 @@ namespace CraneView
 		private Project.ProjectMgr _projMgr = new Project.ProjectMgr();
 		internal Project.ProjectMgr ProjMgr { get { return _projMgr; } }
 		private MdiClient _mdiClient;
-		private List<View.Panel.PanelControl> _ltPanel = new List<View.Panel.PanelControl>();
-		internal List<View.Panel.PanelControl> LtPanel { get { return _ltPanel; } }
+		private View.Panel.PanelMgr _panelMgr = new View.Panel.PanelMgr();
 
 		//public View.Panel.PanelFind PanelFind1 { get { return _panelFind1; } }
 
@@ -35,17 +34,17 @@ namespace CraneView
 
 		public MainEditor()
 		{
-			var splash = new SplashForm();
-			splash.Show();
-			splash.ShowInfo("欢迎使用CraneView产品");
+			//var splash = new SplashForm();
+			//splash.Show();
+			//splash.ShowInfo("欢迎使用CraneView产品");
 
 			//Operation.bEditEnvironment = true;
 			//CEditEnvironmentGlobal.mdiparent = this;
 			ProjMgr.Editor = this;
 
-			splash.ShowInfo("正在初始化功能控件");
+			//splash.ShowInfo("正在初始化功能控件");
 			InitializeComponent();
-			View.Panel.PanelControl.CreatePanels(this);
+			_panelMgr.CreatePanels(this);
 
 			foreach (var c in Controls)
 			{
@@ -60,7 +59,7 @@ namespace CraneView
 			//VarTableImageManage.GetImage = new GetImageName(CForDCCEControl.GetImage);//图片资源
 			//this.helpProvider1.HelpNamespace = AppDomain.CurrentDomain.BaseDirectory + "..\\..\\Doc\\DView使用说明.chm";
 
-			splash.ShowInfo("正在初始化ToolBar");
+			//splash.ShowInfo("正在初始化ToolBar");
 			LoadBarLayout();
 
 			//CEditEnvironmentGlobal.scriptUnitForm = new ScriptUnit();
@@ -72,7 +71,7 @@ namespace CraneView
 			//_slnTree.Nodes[0].Text = "工程(" + _projMgr.FirstProject().Name + ")";
 			//_slnTree.ExpandAll();
 			
-			splash.ShowInfo("正在初始化菜单");
+			//splash.ShowInfo("正在初始化菜单");
 			//LoadShapeLibraryConfig();		// Shape configuration
 			//
 			//try
@@ -140,8 +139,14 @@ namespace CraneView
 			{
 				this.Close();
 			}
-		}
 
+			var pan = _panelMgr.GetPanel("Solution") as View.Panel.PanelSolution;
+			if (pan != null)
+			{
+				pan.SlnTree.Nodes.Add(_projMgr.InitProjTree(pan.SlnTree));
+				PrintOutput("加载工程成功！");
+			}
+		}
 
 		private string DockConfigurationFileName()
 		{
@@ -203,6 +208,10 @@ namespace CraneView
 		}
 		private void MdiClient_Paint(object sender, PaintEventArgs e)
 		{ }
-
+		public void PrintOutput(string strOutput)
+		{
+			var pan = _panelMgr.GetPanel("Output") as View.Panel.PanelOutput;
+			if (pan != null) pan.PrintOutput(strOutput);
+		}
 	}
 }

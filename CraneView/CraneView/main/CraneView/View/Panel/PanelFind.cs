@@ -12,7 +12,7 @@ namespace CraneView.View.Panel
 		internal PanelFind()
 		{ }
 
-		internal void InitializeComponent(MainEditor editor)
+		internal override void InitializeComponent(MainEditor editor)
 		{
 			_editor = editor;
 
@@ -26,5 +26,7 @@ namespace CraneView.View.Panel
 			this._listFind.Text = "";
 			InitializeCtrl(this._listFind, "Find", DevExpress.XtraBars.Docking.DockingStyle.Bottom);
 		}
+
+		public System.Windows.Forms.ListBox ListFind { get { return _listFind; } }
 	}
 }
