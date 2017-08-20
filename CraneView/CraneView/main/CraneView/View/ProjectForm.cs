@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CraneTool;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,14 +13,81 @@ namespace CraneView.View
 {
 	public partial class ProjectForm : DevExpress.XtraEditors.XtraForm
 	{
-		public ProjectForm()
+		private MainEditor _editor;
+		public ProjectForm(MainEditor editor)
 		{
+			_editor = editor;
 			InitializeComponent();
 		}
 
 		private void ProjectCreater_Load(object sender, EventArgs e)
 		{
+			((System.ComponentModel.ISupportInitialize)(this._dgProj)).BeginInit();
 
+			this._dgProj.Rows.Clear();
+			this._dgProj.Rows.Add(_editor.ProjMgr.ProjHeadList.Count);
+			int index = 0;
+			foreach (var proj in _editor.ProjMgr.ProjHeadList)
+			{
+				this._dgProj.Rows[index++].Tag = proj;
+			}
+
+			((System.ComponentModel.ISupportInitialize)(this._dgProj)).EndInit();
+		}
+
+		private void _btOK_Click(object sender, EventArgs e)
+		{
+			if (this._tabOpen.Visible)
+			{
+				if (this._dgProj.SelectedRows.Count > 0)
+				{
+					_editor.ProjMgr.LoadProj((Project.ProjectHeadInfo)this._dgProj.SelectedRows[0].Tag);
+					this.DialogResult = System.Windows.Forms.DialogResult.OK;
+				}
+			}
+			else if (this._tabCreate.Visible)
+			{
+				string strName = _nameBox.Text.Trim();
+				if (!FileHelper.FileNameRight(strName))
+				{
+					MessageBox.Show(this, FileHelper.ErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					_nameBox.Focus();
+					return;
+				}
+				if (_editor.ProjMgr.IfProjExist(strName))
+				{
+					MessageBox.Show(this, "Project already exist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					_nameBox.Focus();
+					return;
+				}
+				_editor.ProjMgr.CreateProj(strName, _commentBox.Text);
+				this.DialogResult = System.Windows.Forms.DialogResult.OK;
+			}
+		}
+
+		private void _dgProj_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+		{
+			var row = this._dgProj.Rows[e.RowIndex];
+			Project.ProjectHeadInfo phi = (Project.ProjectHeadInfo)row.Tag;
+
+			string name = this._dgProj.Columns[e.ColumnIndex].Name;
+
+			if (string.Compare(name, "_colNo", true) == 0)
+			{
+				e.Value = phi.ID.ToString();
+			}
+			else if (string.Compare(name, "_colName", true) == 0)
+			{
+				e.Value = phi.Name;
+			}
+			else if (string.Compare(name, "_colTime", true) == 0)
+			{
+				e.Value = phi.Time.ToLocalTime().ToString();
+			}
+			else if (string.Compare(name, "_colComment", true) == 0)
+			{
+				e.Value = phi.Comment;
+			}
 		}
 	}
 }

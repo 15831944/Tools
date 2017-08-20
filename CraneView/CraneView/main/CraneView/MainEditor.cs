@@ -115,6 +115,7 @@ namespace CraneView
 			//
 			//splash.ShowInfo("正在初始化界面样式");
 			DevExpress.UserSkins.OfficeSkins.Register();
+			//DevExpress.UserSkins.BonusSkins.Register();
 			DevExpress.Skins.SkinManager.EnableFormSkinsIfNotVista();
 			DevExpress.LookAndFeel.UserLookAndFeel.Default.SetWindowsXPStyle();
 			//
@@ -127,12 +128,18 @@ namespace CraneView
 			//	AutoResetEvent autoEvent = new AutoResetEvent(false);
 			//	clocktimer = new System.Threading.Timer(new TimerCallback(clocktext), autoEvent, 0, 1000);
 			//}
+
+			//_projMgr.SaveProjectHeadInfo();
+			_projMgr.LoadProjectHeadInfo();
 		}
 
 		private void MainEditor_Load(object sender, EventArgs e)
 		{
-			View.ProjectForm pf = new View.ProjectForm();
-			pf.ShowDialog();
+			View.ProjectForm pf = new View.ProjectForm(this);
+			if (pf.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+			{
+				this.Close();
+			}
 		}
 
 
@@ -169,8 +176,8 @@ namespace CraneView
 
 		private void LoadSkin()
 		{
-			string defaultSkin = "Office 2010 Black";
-			//string defaultSkin = "Black";
+			//string defaultSkin = "Office 2010 Black";
+			string defaultSkin = "Black";
 			//try
 			//{
 			//	if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "ThemeConfig.txt"))
