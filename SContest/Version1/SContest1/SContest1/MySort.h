@@ -142,11 +142,11 @@ void SangSort(int *a, int lo, int hi)
 
 void TestSort()
 {
-	g_exe = std::shared_ptr<TaskExecutor>(new TaskExecutor(16));
-	//int count = 1000000;
-	//int *arr = new int[count];
-	int count = 50;
-	int arr[50];
+	//g_exe = std::shared_ptr<TaskExecutor>(new TaskExecutor(16));
+	int count = 1000000;
+	int *arr = new int[count];
+	//int count = 100;
+	//int arr[100];
 	double dt = 0;
 	int round = 1;
 	int nsize = 0;
@@ -154,23 +154,15 @@ void TestSort()
 		for (int i = 0; i < count; i++) {
 			arr[i] = rand() % (count / 1);
 		}
-		thread_count = 0;
 		PrintTime pt;
 		//QuickSort1(arr, 0, count - 1);
-		//QuickSort4(arr, &arr[count - 1]);
-		g_exe->commit(QuickSort4, arr, &arr[count - 1]);
-		nsize = g_exe->size();
+		QuickSort3(arr, &arr[count - 1]);
+		//g_exe->commit(QuickSort4, arr, &arr[count - 1]);
 		dt += pt.CalcTime();
 	}
-	Sleep(1000);
-	while (!g_exe->empty())
-	{
-		Sleep(1);
-	}
-	//pt.MessageBoxTime();
 	CString str;
-	str.Format(_T("%f"), dt / round);
+	str.Format(_T("%f, %d"), dt / round, nsize);
 	MessageBox(NULL, str, _T("Info"), MB_OK);
-	g_exe->shutdown();
-	//delete[] arr;
+
+	delete[] arr;
 }
