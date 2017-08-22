@@ -46,6 +46,7 @@
 
 #include <memory>
 #include <thread>
+#include <mutex>
 #include <functional>
 
 #include "..\..\pugixml1.8\src\pugixml.hpp"

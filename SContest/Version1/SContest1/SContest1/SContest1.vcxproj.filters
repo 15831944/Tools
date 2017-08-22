@@ -39,16 +39,19 @@
     <ClInclude Include="CreateDB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PugiXml\pugiconfig.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PugiXml\pugixml.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LoadDB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CSVFileStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadWorker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MySort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyThreadPool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -72,6 +75,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CSVFileStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadWorker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -36,12 +36,9 @@ std::string TCHAR2STRING(CString cstr)
 
 void CLoadDB::AnalyzeData(pugi::xml_node root)
 {
-	PrintTime pt;
-	SYSTEMTIME st1, st2;
-	::GetLocalTime(&st1);
-
 	int count = 0, childCount = 0;
 	pugi::xml_node item = root.first_child();
+	auto children = root.children();
 	m_vlData.clear();
 	while (item)
 	{
@@ -60,7 +57,6 @@ void CLoadDB::AnalyzeData(pugi::xml_node root)
 		}
 		item = item.next_sibling();
 	}
-
 	int idx = 0;
 	item = root.first_child();
 	m_vlData.resize(childCount);
@@ -88,16 +84,16 @@ void CLoadDB::AnalyzeData(pugi::xml_node root)
 		item = item.next_sibling();
 	}
 
-	::GetLocalTime(&st2);
-	pt.MessageBoxTime();
-	CString strTime;
-	strTime.Format(_T("%.4d-%.2d-%.2d %.2d:%.2d:%.2d %.3d \r\n%.4d-%.2d-%.2d %.2d:%.2d:%.2d %.3d\r\n"),
-		st1.wYear, st1.wMonth, st1.wDay, st1.wHour, st1.wMinute, st1.wSecond, st1.wMilliseconds,
-		st2.wYear, st2.wMonth, st2.wDay, st2.wHour, st2.wMinute, st2.wSecond, st2.wMilliseconds);
+	//::GetLocalTime(&st2);
 	//pt.MessageBoxTime();
-	CString str;
-	str.Format(_T("Item count is %d, Child count is %d"), count, childCount);
-	MessageBox(NULL, strTime + str, _T("Infi"), MB_OK);
+	//CString strTime;
+	//strTime.Format(_T("%.4d-%.2d-%.2d %.2d:%.2d:%.2d %.3d \r\n%.4d-%.2d-%.2d %.2d:%.2d:%.2d %.3d\r\n"),
+	//	st1.wYear, st1.wMonth, st1.wDay, st1.wHour, st1.wMinute, st1.wSecond, st1.wMilliseconds,
+	//	st2.wYear, st2.wMonth, st2.wDay, st2.wHour, st2.wMinute, st2.wSecond, st2.wMilliseconds);
+	////pt.MessageBoxTime();
+	//CString str;
+	//str.Format(_T("Item count is %d, Child count is %d"), count, childCount);
+	//MessageBox(NULL, strTime + str, _T("Infi"), MB_OK);
 }
 
 void CLoadDB::SaveCSV(CString strPath)

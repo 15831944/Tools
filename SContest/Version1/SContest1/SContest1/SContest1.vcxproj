@@ -96,13 +96,14 @@
     <ClInclude Include="CSVFileStream.h" />
     <ClInclude Include="Gbl.h" />
     <ClInclude Include="LoadDB.h" />
-    <ClInclude Include="PugiXml\pugiconfig.hpp" />
-    <ClInclude Include="PugiXml\pugixml.hpp" />
+    <ClInclude Include="MySort.h" />
+    <ClInclude Include="MyThreadPool.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SContest1.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TestObj.h" />
+    <ClInclude Include="ThreadWorker.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CreateDB.cpp" />
@@ -115,6 +116,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TestObj.cpp" />
+    <ClCompile Include="ThreadWorker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SContest1.rc" />
