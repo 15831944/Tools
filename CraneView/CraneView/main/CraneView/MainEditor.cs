@@ -143,7 +143,8 @@ namespace CraneView
 			var pan = _panelMgr.GetPanel("Solution") as View.Panel.PanelSolution;
 			if (pan != null)
 			{
-				pan.SlnTree.Nodes.Add(_projMgr.InitProjTree(pan.SlnTree));
+				//pan.SlnTree.Nodes.Add(_projMgr.InitProjTree(pan.SlnTree));
+				pan.SlnTree.InitProjTree(_projMgr);
 				PrintOutput("加载工程成功！");
 			}
 		}

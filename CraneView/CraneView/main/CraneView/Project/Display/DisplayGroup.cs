@@ -11,20 +11,35 @@ namespace CraneView.Project.Display
 	{
 		private string _name = null;
 		internal DisplayGroup ParentGroup { get; set; }
+		internal List<DisplayGroup> ChildrenGroup { get; set; }
 
 		internal DisplayGroup()
-		{ }
-
-		internal TreeNode InitGroupTree(CraneTool.TreeCtrl treeCtrl, TreeNode root)
 		{
-			TreeNode tn = treeCtrl.FindNode(this);
-			if (tn != null)	return tn;
-
-			if (ParentGroup == null)
-				return treeCtrl.AddNode(this, _name, root);
-
-			TreeNode parent = ParentGroup.InitGroupTree(treeCtrl, root);
-			return treeCtrl.AddNode(this, _name, parent);
+			ChildrenGroup = new List<DisplayGroup>();
 		}
+		internal DisplayGroup(string name)
+		{
+			_name = name;
+			ChildrenGroup = new List<DisplayGroup>();
+		}
+
+		//internal TreeNode InitGroupTree(View.ProjectTree treeCtrl, TreeNode root)
+		//{
+		//	TreeNode tn = treeCtrl.FindNode(this);
+		//	if (tn != null)	return tn;
+		//
+		//	if (ParentGroup == null)
+		//	{
+		//		tn = treeCtrl.AddNode(this, _name, root);
+		//	}
+		//	else
+		//	{
+		//		TreeNode parent = ParentGroup.InitGroupTree(treeCtrl, root);
+		//		tn = treeCtrl.AddNode(this, _name, parent);
+		//	}
+		//	tn.ContextMenuStrip = treeCtrl.MenuGroup;
+		//	return tn;
+		//}
+		internal string Name { get { return _name; } }
 	}
 }

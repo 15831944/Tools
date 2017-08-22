@@ -49,22 +49,26 @@ namespace CraneView.View
 			{
 				string strName = _nameBox.Text.Trim();
 				string strPath = _pathBox.Text.Trim();
-				if (!FileHelper.FileNameRight(strName))
+				string strError = "";
+				if (!FileHelper.FileNameRight(strName, ref strError))
 				{
-					MessageBox.Show(this, FileHelper.ErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(this, strError, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					_nameBox.Focus();
+					_nameBox.SelectAll();
 					return;
 				}
 				if (string.IsNullOrEmpty(strPath))
 				{
 					MessageBox.Show(this, "Path is wrong.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					_pathBox.Focus();
+					_pathBox.SelectAll();
 					return;
 				}
 				if (_editor.ProjMgr.IfProjExist(strName))
 				{
 					MessageBox.Show(this, "Project already exist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					_nameBox.Focus();
+					_nameBox.SelectAll();
 					return;
 				}
 				strPath = strPath + "\\" + strName;
@@ -72,6 +76,7 @@ namespace CraneView.View
 				{
 					MessageBox.Show(this, "Create path failed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					_pathBox.Focus();
+					_pathBox.SelectAll();
 					return;
 				}
 				_editor.ProjMgr.CreateProj(strName, strPath,_commentBox.Text);
