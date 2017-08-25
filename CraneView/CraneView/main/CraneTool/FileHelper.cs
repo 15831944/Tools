@@ -10,17 +10,23 @@ namespace CraneTool
 	public class FileHelper
 	{
 		private static readonly string ErrorStr = "\\/:*?\"<>|,;@#$%^&";
-		public static readonly string ErrorMessage = "Name is error, can not contains below character:\r\n" + ErrorStr;
-		public static bool FileNameRight(string strFile)
+		public static bool FileNameRight(string strFile, ref string strError)
 		{
 			strFile = strFile.Trim();
-			string[] errorStr = new string[] {  };
+			if (string.IsNullOrEmpty(strFile))
+			{
+				strError = "Name can not be empty";
+				return false;
+			}
 
-			if (string.IsNullOrEmpty(strFile))	return false;
+			string[] errorStr = new string[] {  };
 			for (int i = 0; i < ErrorStr.Length; i++)
 			{
 				if (strFile.Contains(ErrorStr[i]))
+				{
+					strError = "Name is error, can not contains below character:\r\n" + ErrorStr;
 					return false;
+				}
 			}
 			return true;
 		}

@@ -16,10 +16,6 @@ namespace CraneView.Project
 		internal List<ProjectHeadInfo> _projHeadList = new List<ProjectHeadInfo>();
 		internal List<Project> _projList = new List<Project>();
 
-		internal MainEditor Editor { get; set; }
-
-		internal List<ProjectHeadInfo> ProjHeadList { get { return _projHeadList; } }
-
 		internal ProjectMgr()
 		{ }
 
@@ -89,21 +85,23 @@ namespace CraneView.Project
 			return _projList.Find(x => (string.Compare(x.Name, strName, true) == 0)) != null;
 		}
 
-		internal Project FirstProject()
-		{
-			if (_projList.Count == 0) return null;
-			return _projList[0];
-		}
+		internal Project FirstProject {get{return _projList.Count > 0 ? _projList[0] : null;}}
 
-		internal TreeNode InitProjTree(CraneTool.TreeCtrl treeCtrl)
-		{
-			TreeNode node = treeCtrl.AddNode(this, "Projects", null);
-			foreach(var proj in _projList)
-			{
-				proj.InitProjTree(treeCtrl, node);
-			}
-			node.ExpandAll();
-			return node;
-		}
+		//internal TreeNode InitProjTree(View.ProjectTree treeCtrl)
+		//{
+		//	TreeNode node = treeCtrl.AddNode(this, "Projects", null);
+		//	foreach(var proj in _projList)
+		//	{
+		//		proj.InitProjTree(treeCtrl, node);
+		//	}
+		//	node.ExpandAll();
+		//	return node;
+		//}
+
+		internal MainEditor Editor { get; set; }
+
+		internal List<ProjectHeadInfo> ProjHeadList { get { return _projHeadList; } }
+
+		internal List<Project> ProjList { get { return _projList; } }
 	}
 }

@@ -9,17 +9,23 @@
 #include <vector>
 #include <queue>
 
+//using Task = std::function<void()>;
+//class TaskExecutor;
+//
+//bool get_one_task(Task& task);
+//void schedual(TaskExecutor* exe);
+
 class TaskExecutor
 {
 	using Task = std::function<void()>;
 	//using Task = std::function<void(void*)>;
 	//using Task2 = std::function<void(void*, void*)>;
 
-private:
+public:
 	std::vector<std::thread> pool;		// 线程池
 	std::queue<Task> tasks;				// 任务队列
 	std::mutex m_task;					// 同步
-	std::condition_variable cv_task;
+	//std::condition_variable cv_task;
 	std::atomic<bool> begin;			// 是否开启提交
 	std::atomic<bool> work;				// 是否开始工作
 
@@ -30,6 +36,7 @@ public:
 		size = size < 1 ? 1 : size;
 		for (size_t i = 0; i< size; ++i){
 			pool.emplace_back(&TaskExecutor::schedual, this);    // push_back(std::thread{...})
+			//pool.push_back(std::thread{ &schedual, this });
 		}
 	}
 
@@ -78,14 +85,14 @@ public:
 
 		using ResType = decltype(f(args...));    // typename std::result_of<F(Args...)>::type, 函数 f 的返回值类型
 		auto task = std::make_shared<std::packaged_task<ResType()>>(
-			std::bind(std::forward<F>(f), std::forward<Args>(args)...));    // wtf !
+			std::bind(std::forward<F>(f), std::forward<Args>(args)...));
 		{    // 添加任务到队列
 			std::lock_guard<std::mutex> lock{ m_task };
 			tasks.emplace([task](){   // push(Task{...})
 				(*task)();
 			});
 		}
-		cv_task.notify_all();    // 唤醒线程执行
+		//cv_task.notify_all();    // 唤醒线程执行
 
 		std::future<ResType> future = task->get_future();
 		return future;
@@ -111,23 +118,46 @@ private:
 	//	}
 	//}
 	// 获取一个待执行的 task
-	Task get_one_task(){
+	//Task get_one_task(){
+	//	std::unique_lock<std::mutex> lock{ m_task };
+	//	cv_task.wait(lock, [this](){ return !tasks.empty(); });    // wait 直到有 task
+	//	Task task{ std::move(tasks.front()) };    // 取一个 task
+	//	tasks.pop();
+	//	return task;
+	//}
+	bool get_one_task(Task& task)
+	{
 		std::unique_lock<std::mutex> lock{ m_task };
-		cv_task.wait(lock, [this](){ return !tasks.empty(); });    // wait 直到有 task
-		Task task{ std::move(tasks.front()) };    // 取一个 task
+		//if (!cv_task.wait_for(lock, std::chrono::milliseconds(10), [this](){ return !tasks.empty(); }))
+		if (tasks.empty())
+			return false;    // wait 直到有 task
+		task = std::move(tasks.front());    // 取一个 task
 		tasks.pop();
-		return task;
+		return true;
 	}
 
-	// 任务调度
-	void schedual(){
-		while (true){
-			if (Task task = get_one_task()){
-				task();    //
-			}
-			else{
-				// return;    // done
-			}
+	//// 任务调度
+	void schedual()
+	{
+		while (this->work)
+		{
+			//std::unique_lock<std::mutex> lock{ m_task };
+			//m_task.lock();
+			//cv_task.wait(lock, [this](){ return !tasks.empty(); });    // wait 直到有 task
+			//Task task{ std::move(tasks.front()) };    // 取一个 task
+			//tasks.pop();
+			//task();
+			//m_task.unlock();
+			Task k;
+			if (get_one_task(k))
+				k();
+			Sleep(1);
+			//if (Task task = get_one_task()){
+			//	task();    //
+			//}
+			//else{
+			//	// return;    // done
+			//}
 		}
 	}
 };

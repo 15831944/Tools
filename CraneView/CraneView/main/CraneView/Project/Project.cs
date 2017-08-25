@@ -19,14 +19,16 @@ namespace CraneView.Project
 			_displayMgr = new Display.DisplayMgr(this);
 		}
 
-		internal void InitProjTree(CraneTool.TreeCtrl treeCtrl, TreeNode root)
-		{
-			TreeNode node = treeCtrl.AddNode(this, Name, root);
-			_displayMgr.InitDisplayTree(treeCtrl, node);
-		}
+		//internal void InitProjTree(View.ProjectTree treeCtrl, TreeNode root)
+		//{
+		//	TreeNode node = treeCtrl.AddNode(this, Name, root);
+		//	_displayMgr.InitDisplayTree(treeCtrl, node);
+		//}
 
 		public ProjectHeadInfo ProjInfo { get { return _projInfo; } }
 		public string Name { get { return _projInfo.Name; } }
 		public string Path { get { return _path; } }
+		public Display.DisplayMgr DisplayMgr { get { return _displayMgr; } }
+
 	}
 }

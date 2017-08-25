@@ -167,7 +167,6 @@ void TestSort()
 		for (int i = 0; i < count; i++) {
 			arr[i] = rand() % (count / 1);
 		}
-		thread_count = 0;
 		PrintTime pt;
 		//QuickSort1(arr, 0, count - 1);
 		//QuickSort3(arr, arr + count);
@@ -184,7 +183,7 @@ void TestSort()
 	//}
 	//pt.MessageBoxTime();
 	CString str;
-	str.Format(_T("%f"), dt / round);
+	str.Format(_T("%f, %d"), dt / round, nsize);
 	MessageBox(NULL, str, _T("Info"), MB_OK);
 	//g_exe->shutdown();
 	delete[] arr;

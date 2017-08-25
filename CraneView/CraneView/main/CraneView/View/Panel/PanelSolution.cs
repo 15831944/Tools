@@ -7,8 +7,7 @@ namespace CraneView.View.Panel
 	internal class PanelSolution : PanelControl
 	{
 		private MainEditor _editor;
-		//private DevExpress.XtraTreeList.TreeList _tree = new DevExpress.XtraTreeList.TreeList();
-		private CraneTool.TreeCtrl _tree = new CraneTool.TreeCtrl();
+		private CraneView.Project.View.ProjectTree _tree = new CraneView.Project.View.ProjectTree();
 
 		internal PanelSolution()
 		{ }
@@ -29,6 +28,6 @@ namespace CraneView.View.Panel
 			InitializeCtrl(this._tree, "Solution", DevExpress.XtraBars.Docking.DockingStyle.Left);
 		}
 
-		public CraneTool.TreeCtrl SlnTree { get { return _tree; } }
+		public CraneView.Project.View.ProjectTree SlnTree { get { return _tree; } }
 	}
 }
