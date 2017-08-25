@@ -12,13 +12,17 @@ CLoadDB::~CLoadDB()
 {
 }
 
-void CLoadDB::LoadDB(CString strPath)
+void CLoadDB::LoadDB(CString strPath, pugi::xml_encoding mode)
 {
 	pugi::xml_document doc;
-	pugi::xml_parse_result result = doc.load_file(strPath, pugi::parse_default, pugi::encoding_wchar);
+	PrintTime tp;
+	pugi::xml_parse_result result = doc.load_file(strPath, pugi::parse_default, mode);
+	tp.MessageBoxTime();
 	if (result)
 	{
+		PrintTime pt;
 		AnalyzeData(doc.child(_T("Items")));
+		pt.MessageBoxTime();
 	}
 }
 
@@ -58,8 +62,8 @@ void CLoadDB::AnalyzeData(pugi::xml_node root)
 		item = item.next_sibling();
 	}
 	int idx = 0;
-	item = root.first_child();
 	m_vlData.resize(childCount);
+	item = root.first_child();
 	while (item)
 	{
 		pugi::xml_node child = item.first_child();
@@ -79,8 +83,8 @@ void CLoadDB::AnalyzeData(pugi::xml_node root)
 				attr = attr.next_attribute();
 			}
 			child = child.next_sibling();
+			++idx;
 		}
-		++idx;
 		item = item.next_sibling();
 	}
 

@@ -8,7 +8,7 @@ private:
 public:
 	CLoadDB();
 	~CLoadDB();
-	void LoadDB(CString strPath);
+	void LoadDB(CString strPath, pugi::xml_encoding mode = pugi::encoding_utf8);
 	void SaveCSV(CString strPath);
 };
 

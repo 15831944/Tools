@@ -27,8 +27,11 @@ int cmpDouble(const void *l, const void *r)
 #define Mid(a, b, c) \
 	a > b ? (b > c ? b : (a > c ? c : a)) : (a > c ? a : (b > c ? c : b));
 
-//template<typename T>
-//void QuickSort1(T* arr, int l, int r)
+template<typename T>
+void QuickSort(T* arr, int l, int r)
+{
+}
+
 void QuickSort1(int* arr, int l, int r)
 {
 	int i = l, j = r, x = arr[l];
@@ -78,13 +81,13 @@ void QuickSort3(int* arrI, int* arrJ)
 	if (arrL < --arrI)
 	{
 		if (bT)	tr1 = new std::thread(QuickSort3, arrL, arrI);
-		else	QuickSort2(arrL, arrI);
+		else	QuickSort3(arrL, arrI);
 	}
 	arrI += 2;
 	if (arrI < arrR)
 	{
 		if (bT)	tr2 = new std::thread(QuickSort3, arrI, arrR);
-		else	QuickSort2(arrI, arrR);
+		else	QuickSort3(arrI, arrR);
 	}
 	if (tr1 != nullptr) { tr1->join(); delete tr1; }
 	if (tr2 != nullptr) { tr2->join(); delete tr2; }
@@ -140,15 +143,25 @@ void SangSort(int *a, int lo, int hi)
 	SangSort(a, gt + 1, hi);
 }
 
+int Cmpl(const void *l, const void *r)
+{
+	return *(int *)l - *(int *)r;
+}
+
+bool Cmpli(int& l, int& r){ return l < r; }
+
 void TestSort()
 {
-	g_exe = std::shared_ptr<TaskExecutor>(new TaskExecutor(16));
-	//int count = 1000000;
-	//int *arr = new int[count];
-	int count = 50;
-	int arr[50];
+	auto fun = std::bind(QuickSort<int>, std::placeholders::_1, std::placeholders::_2);
+
+
+	//g_exe = std::shared_ptr<TaskExecutor>(new TaskExecutor(16));
+	int count = 1000000;
+	int *arr = new int[count];
+	//int count = 50;
+	//int arr[50];
 	double dt = 0;
-	int round = 1;
+	int round = 5;
 	int nsize = 0;
 	for (int n = 0; n < round; n++) {
 		for (int i = 0; i < count; i++) {
@@ -157,20 +170,22 @@ void TestSort()
 		thread_count = 0;
 		PrintTime pt;
 		//QuickSort1(arr, 0, count - 1);
-		//QuickSort4(arr, &arr[count - 1]);
-		g_exe->commit(QuickSort4, arr, &arr[count - 1]);
-		nsize = g_exe->size();
+		//QuickSort3(arr, arr + count);
+		std::sort(arr, arr + count, [](int& l, int& r)->bool{return l < r; });
+		//std::qsort(arr, count, sizeof(int), [](const void *l, const void *r)->int{return *(int *)l - *(int *)r; });
+		//g_exe->commit(QuickSort4, arr, &arr[count - 1]);
+		//nsize = g_exe->size();
 		dt += pt.CalcTime();
 	}
-	Sleep(1000);
-	while (!g_exe->empty())
-	{
-		Sleep(1);
-	}
+	//Sleep(1000);
+	//while (!g_exe->empty())
+	//{
+	//	Sleep(1);
+	//}
 	//pt.MessageBoxTime();
 	CString str;
 	str.Format(_T("%f"), dt / round);
 	MessageBox(NULL, str, _T("Info"), MB_OK);
-	g_exe->shutdown();
-	//delete[] arr;
+	//g_exe->shutdown();
+	delete[] arr;
 }

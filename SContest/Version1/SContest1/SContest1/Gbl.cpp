@@ -256,7 +256,7 @@ LONGLONG CGbl::VariantCompare(CComVariant cvr1, CComVariant cvr2)
 CString CGbl::GetCPUID()
 {
 	CString strCPU = _T("PMLowLevel");
-	int iEAXValue,iEBXValue,iECXValue,iEDXValue;
+	/*int iEAXValue,iEBXValue,iECXValue,iEDXValue;
 	_asm
 	{
 		mov eax,1
@@ -275,7 +275,7 @@ CString CGbl::GetCPUID()
 		mov eax,2
 		CPUID
 	}
-	return strCPU;
+	*/return strCPU;
 }
 
 //!< Get system path, include '\', CSIDL_XXX
