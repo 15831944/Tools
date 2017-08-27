@@ -152,16 +152,12 @@ bool Cmpli(int& l, int& r){ return l < r; }
 
 void TestSort()
 {
-	auto fun = std::bind(QuickSort<int>, std::placeholders::_1, std::placeholders::_2);
-
-
-	//g_exe = std::shared_ptr<TaskExecutor>(new TaskExecutor(16));
-	int count = 1000000;
-	int *arr = new int[count];
-	//int count = 50;
-	//int arr[50];
+	//int count = 1000000;
+	//int *arr = new int[count];
+	int count = 500;
+	int arr[500];
 	double dt = 0;
-	int round = 5;
+	int round = 1;
 	int nsize = 0;
 	for (int n = 0; n < round; n++) {
 		for (int i = 0; i < count; i++) {
@@ -186,5 +182,5 @@ void TestSort()
 	str.Format(_T("%f, %d"), dt / round, nsize);
 	MessageBox(NULL, str, _T("Info"), MB_OK);
 	//g_exe->shutdown();
-	delete[] arr;
+	//delete[] arr;
 }
