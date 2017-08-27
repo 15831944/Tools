@@ -9,25 +9,42 @@ namespace CraneView.Project.Display
 {
 	internal class Display
 	{
-		internal DisplayGroup Group { get; set; }
-		internal string Name { get; set; }
+		private Guid _id;
+		private string _name;
+		private DisplayMgr _displayMgr = null;
 
-		internal Display()
-		{ }
-		internal TreeNode InitDisplayTree(View.ProjectTree treeCtrl, TreeNode root)
+		internal Display(DisplayMgr mgr, string name, DisplayGroup group)
 		{
-			TreeNode tn = null;
-			if (Group == null)
-			{
-				tn = treeCtrl.AddNode(this, Name, root);
-			}
-			else
-			{
-				TreeNode tr = treeCtrl.FindNode(Group);
-				if (tr != null)
-					tn = treeCtrl.AddNode(this, Name, tr);
-			}
-			return tn;
+			_displayMgr = mgr;
+			_id = Guid.NewGuid();
+			_name = name;
+			Group = group;
 		}
+		internal Display(DisplayMgr mgr, Guid id, string name, DisplayGroup group)
+		{
+			_displayMgr = mgr;
+			_id = id;
+			_name = name;
+			Group = group;
+		}
+		//internal TreeNode InitDisplayTree(View.ProjectTree treeCtrl, TreeNode root)
+		//{
+		//	TreeNode tn = null;
+		//	if (Group == null)
+		//	{
+		//		tn = treeCtrl.AddNode(this, Name, root);
+		//	}
+		//	else
+		//	{
+		//		TreeNode tr = treeCtrl.FindNode(Group);
+		//		if (tr != null)
+		//			tn = treeCtrl.AddNode(this, Name, tr);
+		//	}
+		//	return tn;
+		//}
+
+		internal Guid ID { get { return _id; } }
+		internal string Name { get { return _name; } }
+		internal DisplayGroup Group { get; set; }
 	}
 }

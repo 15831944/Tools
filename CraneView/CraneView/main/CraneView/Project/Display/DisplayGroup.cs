@@ -9,16 +9,21 @@ namespace CraneView.Project.Display
 {
 	internal class DisplayGroup
 	{
+		private Guid _id;
 		private string _name = null;
-		internal DisplayGroup ParentGroup { get; set; }
-		internal List<DisplayGroup> ChildrenGroup { get; set; }
+		private DisplayMgr _displayMgr = null;
 
-		internal DisplayGroup()
+		internal DisplayGroup(DisplayMgr mgr, string name)
 		{
+			_displayMgr = mgr;
+			_id = Guid.NewGuid();
+			_name = name;
 			ChildrenGroup = new List<DisplayGroup>();
 		}
-		internal DisplayGroup(string name)
+		internal DisplayGroup(DisplayMgr mgr, Guid id, string name)
 		{
+			_displayMgr = mgr;
+			_id = id;
 			_name = name;
 			ChildrenGroup = new List<DisplayGroup>();
 		}
@@ -40,6 +45,9 @@ namespace CraneView.Project.Display
 		//	tn.ContextMenuStrip = treeCtrl.MenuGroup;
 		//	return tn;
 		//}
+		internal Guid ID { get { return _id; } }
 		internal string Name { get { return _name; } }
+		internal DisplayGroup ParentGroup { get; set; }
+		internal List<DisplayGroup> ChildrenGroup { get; set; }
 	}
 }

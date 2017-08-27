@@ -76,25 +76,29 @@ namespace CraneView.Project.View
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				string name = form.NewName;
-				foreach (var g in _projMgr.FirstProject.DisplayMgr.GroupList)
+				string err = "";
+				var group = _projMgr.FirstProject.DisplayMgr.AddGroup(name, null, ref err);
+				if (group == null)
 				{
-					if (g.ParentGroup == null)
-					{
-						if (string.Compare(name, g.ParentGroup.Name, true) == 0)
-						{
-							MessageBox.Show("Name already exist", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-							return;
-						}
-					}
-					var group = _projMgr.FirstProject.DisplayMgr.AddGroup(name);
-					TreeNode groupNode = AddNode(group, group.Name, _projMgr.FirstProject.DisplayMgr);
-					groupNode.ContextMenuStrip = _menuGroup;
+					MessageBox.Show("Add group failed!\r\n"+err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 		}
 
 		private void OnAddDisplay(object sender, EventArgs e)
-		{ }
+		{
+			CraneView.View.AddComponentForm form = new CraneView.View.AddComponentForm();
+			if (form.ShowDialog() == DialogResult.OK)
+			{
+				string name = form.NewName;
+				string err = "";
+				var display = _projMgr.FirstProject.DisplayMgr.AddDisplay(name, null, ref err);
+				if (display == null)
+				{
+					MessageBox.Show("Add display failed!\r\n" + err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
+		}
 		private void OnAddSubGroup(object sender, EventArgs e){}
 		private void OnRenameGroup(object sender, EventArgs e){}
 		private void OnDeleteGroup(object sender, EventArgs e){}

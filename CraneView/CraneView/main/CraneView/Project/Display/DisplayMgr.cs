@@ -18,29 +18,47 @@ namespace CraneView.Project.Display
 			_project = proj;
 		}
 
-		//internal void InitDisplayTree(View.ProjectTree treeCtrl, TreeNode root)
-		//{
-		//	TreeNode node = treeCtrl.AddNode(this, "Displays", root);
-		//	node.ContextMenuStrip = treeCtrl.MenuProj;
-		//	node.ContextMenuStrip.Click += new System.EventHandler(this._menuProj_Click);
-		//
-		//	foreach (var g in _ltGroup)
-		//		g.InitGroupTree(treeCtrl, node);
-		//	foreach (var d in _ltDisplay)
-		//		d.InitDisplayTree(treeCtrl, node);
-		//}
-
 		private void _menuProj_Click(object sender, EventArgs e)
 		{
 			string str1 = sender.ToString();
 			string str2 = e.ToString();
 		}
 
-		public DisplayGroup AddGroup(string name)
+		public DisplayGroup AddGroup(string name, DisplayGroup parent, ref string err)
 		{
-			DisplayGroup group = new DisplayGroup(name);
+			foreach (var g in GroupList)
+			{
+				if (g.ParentGroup == parent)
+				{
+					if (string.Compare(name, g.Name, true) == 0)
+					{
+						err = "Name already exist";
+						return null;
+					}
+				}
+			}
+			DisplayGroup group = new DisplayGroup(this, name);
 			_ltGroup.Add(group);
 			return group;
+		}
+
+		public Display AddDisplay(string name, DisplayGroup parent, ref string err)
+		{
+			foreach (var d in DisplayList)
+			{
+				if (d.Group == parent)
+				{
+					if (string.Compare(name, d.Name, true) == 0)
+					{
+						err = "Name already exist";
+						return null;
+					}
+
+				}
+			}
+			Display display = new Display(this, name, null);
+			_ltDisplay.Add(display);
+			return display;
 		}
 
 		public List<DisplayGroup> GroupList { get { return _ltGroup; } }
