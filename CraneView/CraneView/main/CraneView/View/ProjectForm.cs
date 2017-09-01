@@ -24,7 +24,8 @@ namespace CraneView.View
 		{
 			((System.ComponentModel.ISupportInitialize)(this._dgProj)).BeginInit();
 			this._dgProj.Rows.Clear();
-			this._dgProj.Rows.Add(_editor.ProjMgr.ProjHeadList.Count);
+            if (_editor.ProjMgr.ProjHeadList.Count > 0)
+			    this._dgProj.Rows.Add(_editor.ProjMgr.ProjHeadList.Count);
 			int index = 0;
 			foreach (var proj in _editor.ProjMgr.ProjHeadList)
 			{

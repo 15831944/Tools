@@ -16,7 +16,7 @@ namespace CraneTool
 			TypeBad,
 
 		}
-		private static byte[] _keyC01 = { 0x00, 0x00, 0x00, 0x00, 0x41, 0x74, 0x6c, 0x61, 0x73, 0x4c, 0x69, 0x75 };
+		//private static byte[] _keyC01 = { 0x00, 0x00, 0x00, 0x00}; //, 0x41, 0x74, 0x6c, 0x61, 0x73, 0x4c, 0x69, 0x75 };
 		private static byte[] _version = {0x01, 0x00, 0x00, 0x00};
 
 		public static EncryptResult Encrypt(string xml, string type, out byte[] data)
@@ -29,12 +29,14 @@ namespace CraneTool
 
 			// get key
 			byte[] byLen = BitConverter.GetBytes(byteArray.Length);
-			Array.Copy(byLen, _keyC01, byLen.Length);
+            uint crc32FromLen = CRC32.GetCRC32(byLen);
+            byte[] key = BitConverter.GetBytes(crc32FromLen);
+			//Array.Copy(byCrc32FromLen, _keyC01, byLen.Length);
 
 			// encrypt
 			data = new byte[byteArray.Length + 8];
 			byte[] dataOut;
-			EncryptData(_keyC01, byteArray, 0, out dataOut);
+			EncryptData(key, byteArray, 0, out dataOut);
 
 			// crc32
 			uint crc32 = CRC32.GetCRC32(dataOut, 0);
@@ -49,7 +51,7 @@ namespace CraneTool
 		}
 		public static EncryptResult Decrypt(byte[] data, string type, ref string xml)
 		{
-			if (data.Length < 8)	return EncryptResult.DataBad;
+			if (data.Length <= 8)	return EncryptResult.DataBad;
 
 			byte[] dataXml = new byte[data.Length - 8];
 			Array.Copy(data, 8, dataXml, 0, dataXml.Length);
@@ -66,11 +68,13 @@ namespace CraneTool
 
 			// key
 			byte[] byLen = BitConverter.GetBytes(dataXml.Length);
-			Array.Copy(byLen, _keyC01, byLen.Length);
+            uint crc32FromLen = CRC32.GetCRC32(byLen);
+            byte[] key = BitConverter.GetBytes(crc32FromLen);
+			//Array.Copy(byLen, _keyC01, byLen.Length);
 
 			// decrypt
 			byte[] dataOut;
-			EncryptData(_keyC01, dataXml, 0, out dataOut);
+			EncryptData(key, dataXml, 0, out dataOut);
 
 			// type
 			xml = System.Text.Encoding.Default.GetString(dataOut);

@@ -214,5 +214,10 @@ namespace CraneView
 			var pan = _panelMgr.GetPanel("Output") as View.Panel.PanelOutput;
 			if (pan != null) pan.PrintOutput(strOutput);
 		}
+
+        private void MainEditor_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _projMgr.SaveProjectHeadInfo();
+        }
 	}
 }
