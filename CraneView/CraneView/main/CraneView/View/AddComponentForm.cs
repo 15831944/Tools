@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace CraneView.View
 {
-	public partial class AddComponentForm : Form
+    public partial class AddComponentForm : DevExpress.XtraEditors.XtraForm
 	{
 		public AddComponentForm()
 		{
