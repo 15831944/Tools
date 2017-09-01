@@ -27,11 +27,11 @@ void CDataMgr::DoWork()
 void CDataMgr::Step0_InitData()
 {
 	PrintTime pt;
-	std::thread *tr1 = new std::thread(std::bind(InitData, m_JuniorInfo));
-	//m_JuniorInfo.InitData();
-	//m_SeniorInfo.InitData();
-	//m_StudentInfo.InitData();
-	tr1->join();
+	//std::thread *tr1 = new std::thread(std::bind(InitData, m_JuniorInfo));
+	m_JuniorInfo.InitData();
+	m_SeniorInfo.InitData();
+	m_StudentInfo.InitData();
+	//tr1->join();
 	pt.MessageBoxTime();
 }
 
