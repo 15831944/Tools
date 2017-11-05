@@ -33,7 +33,7 @@ namespace CraneView.View
 			}
 			((System.ComponentModel.ISupportInitialize)(this._dgProj)).EndInit();
 
-			_pathBox.Text = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\Crane";
+			_pathBox.Text = FileHelper.GetSpecialPath(Environment.SpecialFolder.Personal) + "\\Crane";
 		}
 
 		private void _btOK_Click(object sender, EventArgs e)

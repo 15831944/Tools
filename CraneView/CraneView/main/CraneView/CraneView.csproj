@@ -176,9 +176,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CraneLanguage\CraneLanguage.csproj">
+      <Project>{24c636d1-4a2c-4e91-b195-1d2c83ee08a8}</Project>
+      <Name>CraneLanguage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CraneTool\CraneTool.csproj">
       <Project>{1af4469a-53a1-4f4c-a009-72bec6ad64a1}</Project>
       <Name>CraneTool</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LanguageResource\CraneLanguageResource.csproj">
+      <Project>{d29e9152-619a-4814-8765-20b19f255bf6}</Project>
+      <Name>CraneLanguageResource</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

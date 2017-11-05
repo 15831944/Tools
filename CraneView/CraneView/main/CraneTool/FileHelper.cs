@@ -81,21 +81,25 @@ namespace CraneTool
 		#endregion
 
 		#region 7.读取文件
-		//using System.IO;
-		//StreamReader s = File.OpenText(%%1);
-		//string %%2 = null;
-		//while ((%%2 = s.ReadLine()) != null){
-		//%%3
-		//}
-		//s.Close(); 
+		public static string ReadFileStr(string strFilePathName)
+		{
+			return File.ReadAllText(strFilePathName, Encoding.UTF8);
+		}
+		public static byte[] ReadFileByte(string strFilePathName)
+		{
+			return File.ReadAllBytes(strFilePathName);
+		}
 		#endregion
 
 		#region 8.写入文件
-		//using System.IO;
-		//FileInfo f = new FileInfo(%%1);
-		//StreamWriter w = f.CreateText();
-		//w.WriteLine(%%2);
-		//w.Close(); 
+		public static void WriteFileStr(string strFilePathName, string str)
+		{
+			File.WriteAllText(strFilePathName, str, Encoding.UTF8);
+		}
+		public static void WriteFileByte(string strFilePathName, byte[] data)
+		{
+			File.WriteAllBytes(strFilePathName, data);
+		}
 		#endregion
 
 		#region 9.写入随机文件
@@ -3252,6 +3256,20 @@ namespace CraneTool
 		//   mstrHost = host;
 		//   mintPort = port;
 		//}
+		#endregion
+
+		#region 95.可执行文件所在目录
+		public static string GetExePath()
+		{
+			return System.Environment.CurrentDirectory;
+		}
+		#endregion
+
+		#region 96.获得特殊目录
+		public static string GetSpecialPath(Environment.SpecialFolder sf)
+		{
+			return Environment.GetFolderPath(sf);
+		}
 		#endregion
 	}
 }

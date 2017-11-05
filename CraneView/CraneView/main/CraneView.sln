@@ -10,6 +10,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraneView", "CraneView\Cran
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraneTool", "CraneTool\CraneTool.csproj", "{1AF4469A-53A1-4F4C-A009-72BEC6AD64A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraneLanguage", "CraneLanguage\CraneLanguage.csproj", "{24C636D1-4A2C-4E91-B195-1D2C83EE08A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraneLanguageResource", "LanguageResource\CraneLanguageResource.csproj", "{D29E9152-619A-4814-8765-20B19F255BF6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +28,14 @@ Global
 		{1AF4469A-53A1-4F4C-A009-72BEC6AD64A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AF4469A-53A1-4F4C-A009-72BEC6AD64A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AF4469A-53A1-4F4C-A009-72BEC6AD64A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24C636D1-4A2C-4E91-B195-1D2C83EE08A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24C636D1-4A2C-4E91-B195-1D2C83EE08A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24C636D1-4A2C-4E91-B195-1D2C83EE08A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24C636D1-4A2C-4E91-B195-1D2C83EE08A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D29E9152-619A-4814-8765-20B19F255BF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D29E9152-619A-4814-8765-20B19F255BF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D29E9152-619A-4814-8765-20B19F255BF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D29E9152-619A-4814-8765-20B19F255BF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

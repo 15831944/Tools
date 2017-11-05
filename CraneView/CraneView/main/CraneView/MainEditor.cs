@@ -145,7 +145,8 @@ namespace CraneView
 			{
 				//pan.SlnTree.Nodes.Add(_projMgr.InitProjTree(pan.SlnTree));
 				pan.SlnTree.InitProjTree(_projMgr);
-				PrintOutput("加载工程成功！");
+				PrintOutput(Language.LanguageHelper.Data(Language.Resource.LOAD_PROJ_SUCCEED));
+				//PrintOutput("加载工程成功！");
 			}
 		}
 

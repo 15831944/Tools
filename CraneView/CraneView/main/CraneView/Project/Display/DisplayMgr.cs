@@ -53,7 +53,6 @@ namespace CraneView.Project.Display
 						err = "Name already exist";
 						return null;
 					}
-
 				}
 			}
 			Display display = new Display(this, name, null);

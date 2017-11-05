@@ -19,7 +19,6 @@ namespace CraneView.Project
 		[XmlAttribute("comment")]
 		public string Comment { get; set; }
 		[XmlAttribute("time")]
-
 		public DateTime Time { get; set; }
 		
 		internal ProjectHeadInfo()
