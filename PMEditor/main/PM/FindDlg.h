@@ -37,30 +37,6 @@ public:
 	BOOL m_bMatchWhole;
 	BOOL m_bUseRegex;					//!< 是否使用正则表达式
 
-// 	CXTNoFlickerWnd <CButton> m_CK_Item_ID;
-// 	CXTNoFlickerWnd <CButton> m_CK_Item_Name;
-// 	CXTNoFlickerWnd <CButton> m_CK_Item_Tag;
-// 	CXTNoFlickerWnd <CButton> m_CK_Item_Desp;
-// 	CXTNoFlickerWnd <CButton> m_CK_Item_Src;
-// 	CXTNoFlickerWnd <CButton> m_CK_Item_Access;
-// 	CXTNoFlickerWnd <CButton> m_CK_Item_ProjType;
-// 	CXTNoFlickerWnd <CButton> m_CK_Item_IOType;
-// 	CXTNoFlickerWnd <CButton> m_CK_Item_Convert;
-// 	CXTNoFlickerWnd <CButton> m_CK_Item_Script;
-// 	CXTNoFlickerWnd <CButton> m_CK_Item_Device;
-// 	CXTNoFlickerWnd <CButton> m_CK_Item_Addr;
-// 	CXTNoFlickerWnd <CButton> m_CK_Item_FreshTime;
-// 	CXTNoFlickerWnd <CButton> m_CK_Item_AlarmOnOff;
-// 	CXTNoFlickerWnd <CButton> m_CK_Item_AlarmLimit;
-// 	CXTNoFlickerWnd <CButton> m_CK_Item_AlarmAim;
-// 	CXTNoFlickerWnd <CButton> m_CK_Item_AlarmShift;
-// 
-// 	CXTNoFlickerWnd <CButton> m_CK_Dev_ID;
-// 	CXTNoFlickerWnd <CButton> m_CK_Dev_Name;
-// 	CXTNoFlickerWnd <CButton> m_CK_Dev_Tag;
-// 	CXTNoFlickerWnd <CButton> m_CK_Dev_Type;
-// 	CXTNoFlickerWnd <CButton> m_CK_Dev_Inf;
-
 public:
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnBnClickedRegex();

@@ -20,13 +20,6 @@
 #include "ItemDoc.h"
 #include "ItemView.h"
 
-#include "DevMgr.h"
-#include "DeviceOne.h"
-#include "DeviceMapDoc.h"
-#include "DeviceMapView.h"
-#include "DBMgr.h"
-#include "ConfigMgr.h"
-
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -55,7 +48,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 	ON_COMMAND(ID_COMPILE_CHECK, &CMainFrame::OnCompileCheck)
 	ON_COMMAND(ID_SERVER_RUN, &CMainFrame::OnServerRun)
 	ON_COMMAND(ID_SERVER_STOP, &CMainFrame::OnServerStop)
-	ON_COMMAND(ID_ADD_DEVICE, &CMainFrame::OnAddDevice)
 	ON_COMMAND(ID_ADD_ITEM, &CMainFrame::OnAddItem)
 	ON_COMMAND(ID_RENAME, &CMainFrame::OnRename)
 	ON_COMMAND(ID_PROJ_INFO, &CMainFrame::OnProjInfo)
@@ -63,7 +55,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 	ON_COMMAND(ID_FIND, &CMainFrame::OnFind)
 	ON_COMMAND(ID_VIEW_PROJECT, &CMainFrame::OnShowViewProject)
 	ON_COMMAND(ID_VIEW_ITEM, &CMainFrame::OnShowViewItem)
-	ON_COMMAND(ID_VIEW_DEVICE, &CMainFrame::OnShowViewDevice)
 	ON_COMMAND(ID_VIEW_OUTPUT, &CMainFrame::OnShowViewOutput)
 	ON_COMMAND(ID_HELP_FILE, &CMainFrame::OnHelpShow)
 	ON_UPDATE_COMMAND_UI(ID_PROJ_CLOSE, &CMainFrame::OnUpdateWithProj)
@@ -84,11 +75,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 END_MESSAGE_MAP()
 
 BEGIN_EVENTSINK_MAP(CMainFrame, CMDIFrameWnd)
-	ON_EVENT(CMainFrame, IDS_PMCLIENT, 1, OnDataReady, VTS_I4)
-	ON_EVENT(CMainFrame, IDS_PMCLIENT, 2, OnVariableAlarm, VTS_I4 VTS_I4 VTS_PVARIANT)
-	ON_EVENT(CMainFrame, IDS_PMCLIENT, 3, OnVariableLag, VTS_I4 VTS_I4 VTS_PVARIANT)
-	ON_EVENT(CMainFrame, IDS_PMCLIENT, 4, OnLoadOver, VTS_I4 VTS_I4)
-	ON_EVENT(CMainFrame, IDS_PMCLIENT, 6, OnBehavior, VTS_I4 VTS_I4 VTS_VARIANT VTS_I4)
 END_EVENTSINK_MAP()
 
 static UINT indicators[] =
@@ -214,9 +200,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	EnableAutomation();
 	UpdateData(TRUE);
 
-	//!< 初始化服务通信器
-	m_SevCommer.Create(NULL, WS_VISIBLE, CRect(10, 10, 20, 20), this, IDS_PMCLIENT);
-
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	SetIcon(m_hIcon, TRUE);
 	SetTitle(TITLE);
@@ -287,8 +270,6 @@ LRESULT CMainFrame::OnTabbarMouseMsg(WPARAM wParam,LPARAM lParam)
 
 void CMainFrame::InitCommerTime()
 {
-	if(m_SevCommer.GetSafeHwnd())
-		m_SevCommer.DataInit(SoftInfo::CSoftInfo::GetMe().getFreshDataTime());
 }
 
 //!< 启动或停止时间限制
@@ -452,8 +433,7 @@ void CMainFrame::OnClose()
 	CProjectMgr* projMgr = &CProjectMgr::GetMe();
 	if(!projMgr->GetProj() || 
 		(!projMgr->IsModify() &&
-		!projMgr->GetProj()->IsHmiModify() &&
-		Servers::Config::CConfigMgr::GetMe().GetConfigOpenCount() == 0))
+		!projMgr->GetProj()->IsHmiModify()))
 	{
 		int nResult = MessageBox(_T("是否确定退出程序？"), _T("提示"), MB_YESNO | MB_ICONINFORMATION);
 		if(IDNO == nResult)						return;
@@ -473,8 +453,7 @@ void CMainFrame::OnClose()
 		ProjClose();
 	}
 	SaveCommandBars(_T("CommandBars"));
-// 	CComVariant cvr;
-// 	m_SevCommer.Execute(7, cvr, 0, 0, 0);			//!< 清空Client中的内存
+
 	CXTPMDIFrameWnd::OnClose();
 }
 
@@ -524,12 +503,8 @@ bool CMainFrame::AskAndProjClose()
 void CMainFrame::ProjClose()
 {
 	if(CProjectMgr::GetMe().IsWatch()){
-//		MVC::Item::CItemMgr::GetMe().SetWatch(false);
-//		MVC::Device::CDevMgr::GetMe().SetWatch(false);
 		CProjectMgr::GetMe().SetWatch(false);
 		KillTimer(TIME_WATCH);
-		CComVariant cvr;
-		m_SevCommer.Execute(7, cvr, 0, 0, 0);			//!< 清空Client中的内存
 	}
 	CProjectMgr::GetMe().CloseProject();
 }
@@ -581,9 +556,6 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
 {
 	if(pCopyDataStruct)
 	{
-	/*	CString str;
-		str.Format("%d",(UINT)pCopyDataStruct->dwData);
-		CGbl::GetMe().PrintOut(str);*/
 		if(PRINT == (UINT)pCopyDataStruct->dwData)
 		{
 			char *data = new char[pCopyDataStruct->cbData + 1];
@@ -609,8 +581,6 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
 			Servers::DXP::CServerCtrl::GetMe().OnReceive(pCopyDataStruct);
 		else if(Servers::HMI::CHmi::GetMe().IsINeed((UINT)pCopyDataStruct->dwData))
 			Servers::HMI::CHmi::GetMe().OnReceive(pCopyDataStruct);
-		else if(Servers::DB::CDBMgr::GetMe().IsNeed((UINT)pCopyDataStruct->dwData))
-			Servers::DB::CDBMgr::GetMe().OnReceive(pCopyDataStruct);
 	}
 	return CXTPMDIFrameWnd::OnCopyData(pWnd, pCopyDataStruct);
 }
@@ -667,40 +637,6 @@ void CMainFrame::OnUpdateServerStop(CCmdUI *pCmdUI)
 	OnUpdateWithProj(pCmdUI);
 	Servers::DXP::CServerCtrl* server = &Servers::DXP::CServerCtrl::GetMe();
 	if(server->GetState() != 1)				pCmdUI->Enable(FALSE);
-}
-
-void CMainFrame::OnDataReady(long nShakeInterval)
-{
-	if(!CProjectMgr::GetMe().IsWatch())		return;		//!< 不监控，不处理
-}
-
-void CMainFrame::OnVariableAlarm(int nAlarmType,int nID,VARIANT* varValue)
-{
-	if(!CProjectMgr::GetMe().IsWatch())		return;		//!< 不监控，不处理
-	MVC::Item::CItemMgr::GetMe().OnVariableAlarm(nAlarmType, nID, varValue);
-}
-
-void CMainFrame::OnVariableLag(int nID,int nDevice,VARIANT* varValue)
-{
-	if(!CProjectMgr::GetMe().IsWatch())		return;		//!< 不监控，不处理
-}
-
-void CMainFrame::OnLoadOver(int nLoadType,int nLoadSize)
-{
-	if(!CProjectMgr::GetMe().IsWatch())		return;		//!< 不监控，不处理
-}
-
-void CMainFrame::OnBehavior(long lBehaviorID, long lDeviceID, VARIANT& varValue, long lResult)
-{
-	MVC::Device::CDevMgr::GetMe().OnBehavior(lBehaviorID, lDeviceID, varValue, lResult);
-}
-
-void CMainFrame::OnAddDevice()
-{
-	if(!CProjectMgr::GetMe().GetProj())	return;
-	//!< 如果拓扑图没打开，那么打开拓扑图
-	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	devMgr->OpenDoc();
 }
 
 void CMainFrame::OnAddItem()
@@ -808,8 +744,6 @@ void CMainFrame::OnHelpShow()
 		SoftInfo::CMyHelp::GetMe().ShowHelp(_T("目录"));
 	else if(pView->IsKindOf(RUNTIME_CLASS(MVC::Item::CItemView)))
 		SoftInfo::CMyHelp::GetMe().ShowHelp(_T("变量"));
-	else if(pView->IsKindOf(RUNTIME_CLASS(MVC::Device::CDeviceMapView)))
-		SoftInfo::CMyHelp::GetMe().ShowHelp(_T("设备拓扑"));
 	else
 		SoftInfo::CMyHelp::GetMe().ShowHelp(_T("目录"));
 }

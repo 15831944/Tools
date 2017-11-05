@@ -11,9 +11,6 @@
 #include "ItemGroup.h"
 #include "Item.h"
 #include "SourceProperty.h"
-#include "DevMgr.h"
-#include "DeviceOne.h"
-#include "XmlDevice.h"
 
 #include "ItemInConfigDlg.h"
 
@@ -352,7 +349,6 @@ void CItemDoc::SerializeIn(TiXmlElement* pNode)
 		_T("EditItemFile") != (CString)pNode->FirstAttribute()->Value()))		return;
 	Dialog::CItemInConfigDlg* dlg = &Dialog::CItemInConfigDlg::GetMe();
 	if(IDOK != dlg->DoModal(Dialog::CItemInConfigDlg::ItemIn, GetView()->m_ItemGrid.GetGroupID()))	return;
-	int devID = dlg->GetDeviceID();
 
 	CString name;
 	TiXmlElement* pChild = pNode->FirstChildElement();
@@ -365,7 +361,6 @@ void CItemDoc::SerializeIn(TiXmlElement* pNode)
 		{
 			item = std::shared_ptr<CItem>(new CItem(_T("")));
 			if(!item->SerializeXml(pChild, true, true))		return;
-			if(item->getSrcType() == CItem::SRC_TYPE_IO)	item->getSrcInfo()->setDevID(devID);
 			ltItem.push_back(item);
 		}
 		pChild = pChild->NextSiblingElement();
@@ -377,69 +372,6 @@ void CItemDoc::SerializeIn(TiXmlElement* pNode)
 //!< 读取Config导出的变量表文件
 void CItemDoc::SerializeConfig(CString strPath, CString strTitle, CString strExt)
 {
-//	Dialog::CItemInConfigDlg* dlg = &Dialog::CItemInConfigDlg::GetMe();
-//	if(IDOK != dlg->DoModal(Dialog::CItemInConfigDlg::ItemIn, GetView()->m_ItemGrid.GetGroupID()))	return;
-//	int devID = dlg->GetDeviceID();
-//
-//	//!< 启动导入器
-//	COperation excelop;
-//	if(!excelop.FileGuid(true, strTitle + _T(".") + strExt, strPath))	return;
-//	int nCount = excelop.ReadRowCount();
-//	int nColCount = excelop.ReadColCount();
-//	CString strText;
-//	strText = excelop.ReadAll(2, nCount, 1, nColCount);
-//	excelop.Close();
-//
-//	// 解析这个大字符串吧
-//	std::vector<CString> vtLines;
-//	CGbl::SpliteBy(strText, "\r\n", vtLines);
-//	int rowCount = vtLines.size();
-//
-//	//!< 开始读取每一行,第一行忽略
-//	std::list<std::shared_ptr<CItem> > ltItem;
-//	for (int i = 0; i < rowCount; ++i)
-//	{
-//		std::shared_ptr<CItem> pItem = std::shared_ptr<CItem>(new CItem(_T("")));
-//		CString strLine = vtLines[i];
-//		strLine = strLine.Trim();
-//		if (strLine.IsEmpty())	continue;
-//		bool b = false;
-//		if (nColCount < 20)
-//			b = pItem->ReadFromConfig(strLine, devID);
-//		else
-//			b = pItem->ReadFromPM(strLine, devID);
-//		if (b)
-//			ltItem.push_back(pItem);
-//	}
-//
-//	//int nPLC_PM = 0;		// 到底是哪个文档,1Config导出的,2PM导出,否则不管
-////	for (int i = 2; i <= nCount; ++i)
-////	{
-////		std::shared_ptr<CItem> pItem = std::shared_ptr<CItem>(new CItem(_T("")));
-//// 		if (nPLC_PM == 1)			// 确定了是Config导出的
-//// 		{
-//// 			bool b = pItem->ReadFromConfig(excelop, i, devID);
-//// 			if (!b)	continue;
-//// 		}
-//// 		else if (nPLC_PM == 2)		// 确定了是PM导出的
-//// 		{
-//// 			bool b = pItem->ReadFromPM(excelop, i, devID);
-//// 			if(!b)	continue;
-//// 		}
-//// 		else
-//// 		{
-//// 			if (pItem->ReadFromConfig(excelop, i, devID))
-//// 				nPLC_PM = 1;
-//// 			else if (pItem->ReadFromPM(excelop, i, devID))
-//// 				nPLC_PM = 2;
-//// 			else
-//// 				continue;
-//// 		}
-//// 		ltItem.push_back(pItem);
-////	}
-//
-//	//!< 加载完毕，现在开始导入到表里
-//	InItem(ltItem, dlg);
 }
 
 //!< 添加多个变量

@@ -67,7 +67,6 @@ public:
 
 private:
 	void ShowItem(CString str);						//!< 从本文中找到对应的变量，并显示出来
-	void ShowDevice(CString str);					//!< 从本文中找到对应的设备，并显示出来
 
 protected:
 	//{{AFX_MSG(COutputPane)

@@ -572,7 +572,6 @@
 #define ID_HMI                          32989
 #define ID_RUN                          32990
 #define ID_PANE_ITEMGROUP               32995
-#define ID_PANE_ITEMDEVICE              32996
 #define ID_32997                        32997
 #define ID_32998                        32998
 #define ID_PROJ                         32999

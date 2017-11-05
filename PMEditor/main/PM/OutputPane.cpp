@@ -26,7 +26,6 @@
 #include "OutputPane.h"
 
 #include "ItemMgr.h"
-#include "DevMgr.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

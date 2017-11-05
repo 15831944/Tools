@@ -4,8 +4,6 @@
 #include "ProjectMgr.h"
 #include "Project.h"
 #include "Gbl.h"
-#include "DevMgr.h"
-//#include "Power.h"
 #include "ServerCtrl.h"
 
 using namespace Servers;
@@ -20,7 +18,6 @@ const UINT SERVER_STOP = 3003;					//!< 停止服务器
 const UINT SERVER_STATE = 3004;					//!< 询问服务器当前状态
 const UINT SCAN_START = 3005;					//!< 开始扫描
 const UINT SCAN_STOP = 3006;					//!< 停止扫描
-const UINT FRESH_DEVICE = 3007;					//!< 强制扫描设备
 const UINT SERVER_STATE_BACK = 3010	;			//!< 询问服务器当前状态的描述格式返回
 const UINT REGIST_SOFT = 3012;					//!< 注册软件
 //const UINT TIME_LIMIT = 3010;					//!< 发送时限报文
@@ -202,18 +199,6 @@ void CServerCtrl::OnStopSev()
 	if(::IsWindow(m_hServerWnd))
 		::SendMessageTimeout(m_hServerWnd, WM_COPYDATA, (WPARAM)GetParent()->GetSafeHwnd(), (LPARAM)&cpd, SMTO_NORMAL, 500, &dwrst);
 	FindState();
-}
-
-//!< 发送强制扫描设备的功能
-void CServerCtrl::SendFreshDev(int devID)
-{
-	COPYDATASTRUCT cpd;
-	cpd.dwData = FRESH_DEVICE;
-	cpd.cbData = 4;
-	cpd.lpData = &devID;
-	DWORD dwrst = 0;
-	if(::IsWindow(m_hServerWnd))
-		::SendMessageTimeout(m_hServerWnd, WM_COPYDATA, (WPARAM)GetParent()->GetSafeHwnd(), (LPARAM)&cpd, SMTO_NORMAL, 500, &dwrst);
 }
 
 //!< 通知DXP打开注册页面

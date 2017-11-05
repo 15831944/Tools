@@ -25,9 +25,7 @@ BEGIN_MESSAGE_MAP(CSpaceItem, CWnd)
 	ON_COMMAND(ID_GROUP_EDIT, &OnGroupEdit)
 	ON_COMMAND(ID_GROUP_REMOVE, &OnGroupRemove)
 	ON_COMMAND(ID_PANE_ITEMGROUP, &OnItemGroup)
-	ON_COMMAND(ID_PANE_ITEMDEVICE, &OnItemDevice)
 	ON_UPDATE_COMMAND_UI(ID_PANE_ITEMGROUP, &OnUpdateItemGroup)
-	ON_UPDATE_COMMAND_UI(ID_PANE_ITEMDEVICE, &OnUpdateItemDevice)
 END_MESSAGE_MAP()
 
 CSpaceItem::CSpaceItem(void)
@@ -276,20 +274,9 @@ void CSpaceItem::OnItemGroup()
 	m_bShowItemGroup = TRUE;
 }
 
-void CSpaceItem::OnItemDevice()
-{
-	m_bShowItemGroup = FALSE;
-}
-
 void CSpaceItem::OnUpdateItemGroup(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(m_bShowItemGroup?1:0);
-}
-
-void CSpaceItem::OnUpdateItemDevice(CCmdUI *pCmdUI)
-{
-	pCmdUI->SetCheck(m_bShowItemGroup?0:1);
-	pCmdUI->Enable(FALSE);
 }
 
 BOOL Space::CSpaceItem::OnHelpInfo(HELPINFO* pHelpInfo)

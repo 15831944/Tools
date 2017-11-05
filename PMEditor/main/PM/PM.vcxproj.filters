@@ -10,19 +10,10 @@
     <ClCompile Include="AlarmProperty.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="BehaviorParamDlg.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="CloneItemDlg.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Compiler.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Config.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="ConfigMgr.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="CreatProjectDlg.cpp">
@@ -31,55 +22,13 @@
     <ClCompile Include="CustomItems.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="DBMgr.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="DEthernet.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="DevCompanyDlg.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="DeviceComputer.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="DeviceInterface.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="DeviceLine.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="DeviceMapDoc.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="DeviceMapFrm.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="DeviceMapView.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="DeviceOne.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="DeviceParam.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="DevMgr.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="DMemDC.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="DReport.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="DSerial.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="DTreeCtrl.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="EtherNetSetDlg.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="FindDlg.cpp">
@@ -154,22 +103,10 @@
     <ClCompile Include="ProjGuideDlg.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="PropertyDB.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="PropertyDevice.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="PropertyDlg.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="PropertyEthernet.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="PropertyItems.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="PropertyParam.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="ReNameDlg.cpp">
@@ -184,9 +121,6 @@
     <ClCompile Include="ScriptObject.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="ServerCommer.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="ServerCtrl.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -196,9 +130,6 @@
     <ClCompile Include="SoftSetCompileDlg.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="SoftSetDeviceXmlDlg.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="SoftSetDlg.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -206,9 +137,6 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="SoftSetServerDlg.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="SoftSetTuoPuDlg.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="SourceProperty.cpp">
@@ -241,36 +169,6 @@
     <ClCompile Include="WriteItemDlg.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="XmlArea.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="XmlBehavior.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="XmlDevice.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="XmlEnum.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="XmlInterface.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="XmlMgr.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="XmlParaInfo.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="XmlProgramInfo.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="XmlProtocol.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="XmlScan.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="XTooltip.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -297,19 +195,10 @@
     <ClInclude Include="AlarmProperty.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="BehaviorParamDlg.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="CloneItemDlg.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Compiler.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Config.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="ConfigMgr.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="CreatProjectDlg.h">
@@ -318,55 +207,13 @@
     <ClInclude Include="CustomItems.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="DBMgr.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="DEthernet.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="DevCompanyDlg.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="DeviceComputer.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="DeviceInterface.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="DeviceLine.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="DeviceMapDoc.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="DeviceMapFrm.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="DeviceMapView.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="DeviceOne.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="DeviceParam.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="DevMgr.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="DMemDC.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="DReport.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="DSerial.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="DTreeCtrl.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="EtherNetSetDlg.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="FindDlg.h">
@@ -441,22 +288,10 @@
     <ClInclude Include="ProjGuideDlg.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="PropertyDB.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="PropertyDevice.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="PropertyDlg.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="PropertyEthernet.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="PropertyItems.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="PropertyParam.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="ReNameDlg.h">
@@ -474,9 +309,6 @@
     <ClInclude Include="ScriptObject.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="ServerCommer.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="ServerCtrl.h">
       <Filter>Header</Filter>
     </ClInclude>
@@ -486,9 +318,6 @@
     <ClInclude Include="SoftSetCompileDlg.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="SoftSetDeviceXmlDlg.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="SoftSetDlg.h">
       <Filter>Header</Filter>
     </ClInclude>
@@ -496,9 +325,6 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="SoftSetServerDlg.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="SoftSetTuoPuDlg.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="SourceProperty.h">
@@ -529,36 +355,6 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="WriteItemDlg.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="XmlArea.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="XmlBehavior.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="XmlDevice.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="XmlEnum.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="XmlInterface.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="XmlMgr.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="XmlParaInfo.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="XmlProgramInfo.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="XmlProtocol.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="XmlScan.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="XTooltip.h">

@@ -5,7 +5,6 @@
 #include "PMApp.h"
 #include "ProjectMgr.h"
 #include "XTooltip.h"
-#include "DevMgr.h"
 
 // CXTooltip
 using namespace Tool;

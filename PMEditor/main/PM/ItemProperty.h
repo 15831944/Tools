@@ -12,8 +12,6 @@ private:
 	CItem* m_Item;		//!< 当前所指向的变量，如果是新建，这个为空
 	std::shared_ptr<CItem> m_ShowItem;			//!< 要显示用的变量
 
-	UINT m_DevIDOld;	//!< 记录旧的所属设备节点对应设备的编号,与最新的比较,如果一样就不刷新变量区列表了
-
 public:
 	std::shared_ptr<CItem> m_NewItem;				//!< 记录上次添加的变量的所有信息，这次添加时显示上次添加的信息
 	void SetType(bool add = true){m_bAdd = add;}
@@ -36,16 +34,10 @@ private:
 	virtual void OnButtonClick(CXTPPropertyGrid& grid, UINT btID);	//!< 按钮被按下
 	void CreateNew();
 	void CreateEdit();
-	void OnDeviceChange(CXTPPropertyGrid& grid);
-	void OnAreaChange(CXTPPropertyGrid& grid);
 
 	void ShowAndHide(CXTPPropertyGrid& grid);						//!< 在这里统一做显示与隐藏
 	void EnableAndDisenable(CXTPPropertyGrid& grid);				//!< 在这里统一使能
-	void OnChangeDev(CXTPPropertyGrid& grid);						//!< 当改变所属设备时
-	void OnChangeArea(CXTPPropertyGrid& grid);						//!< 当改变所属区时
-	void OnChangeIOType(CXTPPropertyGrid& grid);					//!< 当改变所属操作类型时
 	bool IfRightItemName(CString strName);							//!< 变量名是否合法
-	bool IfSameArea(CString name1, UINT id2);						//!< 判断这两个设备是否具有完全相同的区
 };
 }
 }

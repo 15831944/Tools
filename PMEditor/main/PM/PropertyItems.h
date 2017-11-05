@@ -16,10 +16,7 @@ private:
 	BOOL m_bAccessRight;		//!< 访问权限是否相同
 	BOOL m_bReservFlag;			//!< 是否是保留值是否相同
 	BOOL m_bReservDB;			//!< 是否是保留数据库是否相同
-	BOOL m_bModbus485;			//!< 是否导出Modbus变量
-	BOOL m_bDev;				//!< 所属设备是否相同
 	BOOL m_bFreshTime;			//!< 刷新时间是否相同
-	BOOL m_bDelayFlag;			//!< 是否允许滞后是否相同
 	BOOL m_bConvertFlag;		//!< 转换类型是否相同
 	BOOL m_bMinProj;			//!< 最小工程值是否相同
 	BOOL m_bMaxProj;			//!< 最大工程值是否相同

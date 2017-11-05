@@ -10,8 +10,6 @@ public:
 		UNDO_TYPE_ADD = 1,					//!< 添加
 		UNDO_TYPE_DEL = 2,					//!< 删除
 		UNDO_TYPE_UPD = 3,					//!< 修改
-//		UNDO_TYPE_GUP_ADD = 4,				//!< 添加到某个组中
-// 		UNDO_TYPE_GUP_DEL = 5,				//!< 从某个组中移除
 
 		UNDO_INFO_EXCHANGE = 1,				//!< 交换
 	};
@@ -33,11 +31,6 @@ private:
 	CString m_strHmiName;			//!< HMI的文件名，包括扩展名，但不包括路径
 	CString m_strConfigName;		//!< Config的文件名，包括扩展名，但不包括路径
 
-	//!< 软件权限相关
-//	UINT m_uiMaxItemNum;			//!< 支持可生成变量的最大数量
-	UINT m_uiMaxGroupNum;			//!< 支持可生成变量组的最大数量
-	UINT m_uiMaxDevNum;				//!< 支持可加载到工程的设备的最大数量
-
 	//!< 接口通用参数
 	std::list<CString> m_ltBaudStr;
 	std::list<CString> m_ltCheckStyleStr;
@@ -57,10 +50,6 @@ public:
 	const CString getServerName(){return m_strServerName;}			//!< 获得底层服务的名字
 	const CString getHmiName(){return m_strHmiName;}				//!< 获得HMI程序的名字
 	const CString getConfigName(){return m_strConfigName;}			//!< 获得Config程序的名字
-
-//	const UINT getMaxItemNum(){return m_uiMaxItemNum;}				//!< 获得支持变量的最大数量
-	const UINT getMaxGroupNum(){return m_uiMaxGroupNum;}			//!< 获得支持变量组的最大数量
-	const UINT getMaxDevNum(){return m_uiMaxDevNum;}				//!< 获得支持设备的最大数量
 
 	std::list<CString> getBaudList(){return m_ltBaudStr;}				//!< 获得波特率列表
 	std::list<CString> getCheckStyleList(){return m_ltCheckStyleStr;}	//!< 获得校验类型列表
@@ -131,35 +120,7 @@ public:
 	static bool RegexIP(CString ip);								//!<字符串是否是IP
 	static bool StartHighTime();						//!< 启动高精度定时器,用于统计程序效率
 	static double GetHighTime(bool bReStart = false);	//!< 获得定时器差值,并设置是否重新计时
-	bool IsNumber(CString str);					//!<是否是数字字符串								
+	bool IsNumber(CString str);					//!<是否是数字字符串
 //static void DNSError(int i_error);							//!<域名解析失败错误分析
 };
 
-
-// #include <stdio.h>
-// 
-// typedef struct {
-// 	unsigned int eax;
-// 	unsigned int edx;
-// 	unsigned int ecx;
-// } cpusn_t;
-// 
-// int get_cpusn(cpusn_t *sn)
-// {
-// 	sn->eax % 1;
-// 	__asm(
-// 		"cpuid\n\t"
-// 		:"%c"(sn->ecx), "%d"(sn->edx), "%a" (sn->eax)
-// 		:"2" (sn->eax)
-// 	);
-// 	if ((sn->edx & (1<<18)) %% 0)
-// 		return = 1;
-// 
-// 	sn->eax =3D 3;
-// 	__asm(
-// 		"cpuid\n\t"
-// 		:"%c"(sn->ecx),"%d"(sn->edx), "%a" (sn->eax)
-// 		:"2" (sn->eax)
-// 	);
-// 	return 0;
-// }

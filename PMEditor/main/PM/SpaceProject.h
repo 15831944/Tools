@@ -24,11 +24,9 @@ private:
 	CXTPToolBar m_wndToolBar;						//!< 工程树上方的小工具栏
 	afx_msg void OnProjInfo();
 	afx_msg void OnProjSave();
-	afx_msg void OnAddDevice();
 	afx_msg void OnAddItem();
 	afx_msg void OnUpdateProjSave(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateAddItem(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateAddDevice(CCmdUI *pCmdUI);
 	afx_msg BOOL OnHelpInfo(HELPINFO* pHelpInfo);
 };
 }

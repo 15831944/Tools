@@ -24,9 +24,6 @@
 #include "WriteItemDlg.h"
 #include "ItemInConfigDlg.h"
 
-#include "DevMgr.h"
-#include "DeviceOne.h"
-
 #include <afxdisp.h>
 #include <time.h>
 #include <locale.h>
@@ -148,8 +145,6 @@ void CItemGrid::InitCol()
 	GetCell(0, -1, &cell);
 	for(i = 0; i < (int)csi->m_vtColInfo.size(); ++i){	//!< 遍历所有字段栏
 		if (!csi->m_vtColInfo[i].bShow)	continue;
-		if (i == COL_MODBUS485 && 
-			!csi->IsModbus485())		continue;
 		if (i == COL_VALUE)		m_nProjCol = index;		//!< 记住工程值所在的列
 		if (i == COL_IOVALUE)	m_nIOCol = index;		//!< 记住IO值所在的列
 		cell.SetText(csi->m_vtColInfo[i].name);			//!< 设置字段的名称
@@ -167,10 +162,7 @@ bool CItemGrid::InitItemOne(UINT id, UINT row)
 	if(!item)	return false;
 	std::shared_ptr<CPropertySource> src = item->getSrcInfo();
 	std::shared_ptr<CPropertyAlarm> alarm = item->getAlarmInfo();
-	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	std::shared_ptr<MVC::Device::CDeviceOne> device;
 	bool bIsIO = false;
-	if(item->getSrcType() == CItem::SRC_TYPE_IO){	device = devMgr->GetDevice(src->getDeviceID()); bIsIO = true;}
 	CComVariant cvr;
 	CUGCell cell;
 	SoftInfo::CSoftInfo* csi = &SoftInfo::CSoftInfo::GetMe();
@@ -240,28 +232,6 @@ bool CItemGrid::InitItemOne(UINT id, UINT row)
 		}
 		else if(csi->m_vtColInfo[COL_VALUE].name == colName)					//!< 工程值
 		{
-			//CComVariant cvrProj = item->getValue();
-			//if(cvrProj.vt == VT_BOOL)									{text = cvrProj.boolVal?_T("1"):_T("0");}
-			//else if(cvrProj.vt == VT_R4)								{text = GetFloatStr(cvrProj.fltVal);}
-			//else
-			//{
-			//	int temp=cvrProj.vt;
-			//	CGbl::ChangeVariantType(cvrProj, VT_I8);
-			//	LONGLONG llValue = cvrProj.llVal;
-			//	if (csi->isShowHex())
-			//	{
-			//		text.Format("0x%.8X", llValue);
-			//	}
-			//	else
-			//	{
-			//		if(temp==VT_I1||temp==VT_I2||temp==VT_I4)
-			//			text.Format("%d", llValue);
-			//		else if(temp==VT_UI1||temp==VT_UI2||temp==VT_UI4)
-			//			text.Format("%u",llValue);
-			//		else
-			//			text.Format("%d",llValue);
-			//	}
-			//}
 			text=item->getStrValue(csi->isShowHex());
 			if(text.GetAt(0) == '.')									text = _T("0") + text;
 			else if(text.GetAt(0) == '-' && text.GetAt(1) == '.')		text = _T("-0") + text.Right(text.GetLength() - 1);
@@ -301,29 +271,6 @@ bool CItemGrid::InitItemOne(UINT id, UINT row)
 		else if(csi->m_vtColInfo[COL_IOVALUE].name == colName)					//!< IO值
 		{
 			if(bIsIO){
-//				CComVariant ioVar = item->getIOValue();
-////				cvr = item->getIOValue();
-//				if(ioVar.vt == VT_BOOL)	{text = ioVar.boolVal?_T("1"):_T("0");}
-//				else if(ioVar.vt == VT_R4){text = GetFloatStr(ioVar.fltVal);}
-//				else
-//				{
-//					int temp=ioVar.vt;
-//					CGbl::ChangeVariantType(ioVar, VT_I8);
-//					LONGLONG llValue = ioVar.llVal;
-//					if (csi->isShowHex())
-//					{
-//						text.Format("0x%.8X", llValue);
-//					}
-//					else
-//					{
-//						if(temp==VT_I1||temp==VT_I2||temp==VT_I4)
-//							text.Format("%d", llValue);
-//						else if(temp==VT_UI1||temp==VT_UI2||temp==VT_UI4)
-//							text.Format("%u", llValue);
-//						else
-//							text.Format("%d", llValue);
-//					}
-//				}
 				text=item->getStrIOValue(csi->isShowHex());
 				if(text.GetAt(0) == '.')								text = _T("0") + text;
 				else if(text.GetAt(0) == '-' && text.GetAt(1) == '.')	text = _T("-0") + text.Right(text.GetLength() - 1);
@@ -341,18 +288,6 @@ bool CItemGrid::InitItemOne(UINT id, UINT row)
 		{
 			if(bIsIO)						cell.SetText(_T(""));
 			else							cell.SetText(src->getScriptText());
-			SetMyCell(i, row, &cell, id, bAlarm);
-		}
-		else if(csi->m_vtColInfo[COL_DEVICE].name == colName)					//!< 设备
-		{
-			if(device)						cell.SetText(device->getName());
-			else							cell.SetText(_T(""));
-			SetMyCell(i, row, &cell, id, bAlarm);
-		}
-		else if(csi->m_vtColInfo[COL_ADDR].name == colName)						//!< 地址
-		{
-			if(device)						cell.SetText(src->GetAreaString());
-			else							cell.SetText(_T(""));
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
 		else if(csi->m_vtColInfo[COL_FRESHTIME].name == colName)				//!< 刷新时间
@@ -403,12 +338,6 @@ bool CItemGrid::InitItemOne(UINT id, UINT row)
 			else							cell.SetText(_T(""));
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_MODBUS485].name == colName)				//!< Modbus485
-		{
-			if(item->getModbus485())		cell.SetText(_T("1"));
-			else							cell.SetText(_T(""));
-			SetMyCell(i, row, &cell, id, bAlarm);
-		}
 		else if (csi->m_vtColInfo[COL_REV_DB].name == colName)					//!< 保留历史数据
 		{
 			if (item->getReservDB())		cell.SetText(_T("1"));
@@ -442,7 +371,6 @@ void CItemGrid::InitItemValue(UINT id, UINT row, CUGCell* cell)
 {
 	std::shared_ptr<CItem> item = CItemMgr::GetMe().GetItem(id);
 	if(!item || !cell)		return;
-//	CUGCell cell;
 	CString text;
 	COLORREF bkColor, hbkColor;
 	if(item->IsAlarm())		{bkColor = RGB(255,50,0);				hbkColor = RGB(255,0,255);}
@@ -452,29 +380,6 @@ void CItemGrid::InitItemValue(UINT id, UINT row, CUGCell* cell)
 	//!< 工程值
 	if(m_nProjCol >= 0)
 	{
-//		GetCell(m_nProjCol, row, &cell);
-	/*	CComVariant cvr = item->getValue();
-		if(cvr.vt == VT_BOOL)		text = cvr.boolVal?_T("1"):_T("0");
-		else if(cvr.vt == VT_R4)	text = GetFloatStr(cvr.fltVal);
-		else
-		{
-			int temp=cvr.vt;
-			CGbl::ChangeVariantType(cvr, VT_I8);
-			LONGLONG llValue = cvr.llVal;
-			if (csi->isShowHex())
-			{
-				text.Format("0x%.8X", llValue);
-			}
-			else
-			{
-				if(temp==VT_I1||temp==VT_I2||temp==VT_I4)
-					text.Format("%d", llValue);
-				else if(temp==VT_UI1||temp==VT_UI2||temp==VT_UI4)
-					text.Format("%u", llValue);
-				else
-					text.Format("%d", llValue);
-			}
-		}*/
 		text=item->getStrValue(csi->isShowHex());
 		if(text.GetAt(0) == '.')		text = _T("0") + text;
 		else if(text.GetAt(0) == '-' && text.GetAt(1) == '.'){
@@ -483,35 +388,12 @@ void CItemGrid::InitItemValue(UINT id, UINT row, CUGCell* cell)
 		cell->SetText(text);
 		cell->SetBackColor(bkColor);
 		cell->SetHBackColor(hbkColor);
-//		cell.SetAlignment(UG_ALIGNRIGHT | UG_ALIGNVCENTER);
 		SetCell(m_nProjCol, row, cell);
 	}
 
 	//!< IO值
 	if(m_nIOCol >= 0)
 	{
-	/*	CComVariant cvr = item->getIOValue();
-		if(cvr.vt == VT_BOOL)		text = cvr.boolVal?_T("1"):_T("0");
-		else if(cvr.vt == VT_R4)	text = GetFloatStr(cvr.fltVal);
-		else
-		{
-			int temp=cvr.vt;
-			CGbl::ChangeVariantType(cvr, VT_I8);
-			LONGLONG llValue = cvr.llVal;
-			if (csi->isShowHex())
-			{
-				text.Format("0x%.8X", llValue);
-			}
-			else
-			{
-				if(temp==VT_I1||temp==VT_I2||temp==VT_I4)
-					text.Format("%d", llValue);
-				else if(temp==VT_UI1||temp==VT_UI2||temp==VT_UI4)
-					text.Format("%u", llValue);
-				else
-					text.Format("%d", llValue);
-			}
-		}*/
 	     text=item->getStrIOValue(csi->isShowHex());
 		if(text.GetAt(0) == '.')		text = _T("0") + text;
 		else if(text.GetAt(0) == '-' && text.GetAt(1) == '.'){
@@ -521,7 +403,6 @@ void CItemGrid::InitItemValue(UINT id, UINT row, CUGCell* cell)
 		cell->SetText(text);
 		cell->SetBackColor(bkColor);
 		cell->SetHBackColor(hbkColor);
-//		cell.SetAlignment(UG_ALIGNRIGHT | UG_ALIGNVCENTER);
 		SetCell(m_nIOCol, row, cell);
 	}
 }
@@ -574,35 +455,6 @@ void CItemGrid::FreshData()
 	}
 	RedrawCol(m_nProjCol);
 	RedrawCol(m_nIOCol);
-
-	//!< 获得当前页内所有显示的变量
-// 	CUGCell cell;
-// 	CItemMgr* itemMgr = &CItemMgr::GetMe();
-// 	std::shared_ptr<CItem> item;
-// 	for(int i = 0; i < (int)GetNumberRows() - 1; ++i)
-// 	{
-// 		GetCell(0, i, &cell);
-// 		item = itemMgr->GetItem(cell.GetParam());
-// 		if(!item)	continue;
-// 		ASSERT(item);
-// 		vtRowItem.push_back(item);
-// 	}
-// 
-// 	//!< 判断哪些值被改变了
-// 	bool bNeedFresh = false;
-// 	for(long row = 0; row < (int)vtRowItem.size(); ++row)
-// 	{
-// 		//!< 刷新那些值被改变的
-// 		if(vtRowItem[row]->IsValueChange() || vtRowItem[row]->IsIOValueChange()){
-// 			bNeedFresh = true;
-// 			InitItemValue(vtRowItem[row]->getID(), row);		//!< 只修改值的那两个格
-// 		}
-// 	}
-// 
-// 	if(bNeedFresh){				//!< 如果有值被改变了，则需要刷一下
-// 		if(m_nProjCol >= 0)		RedrawCol(m_nProjCol);
-// 		if(m_nIOCol >= 0)		RedrawCol(m_nIOCol);
-// 	}
 }
 
 //!< 编辑结束，统一处理
@@ -636,17 +488,6 @@ void CItemGrid::OnDClicked(int col,long row,RECT *rect,POINT *point,BOOL process
 	UINT itemID = cell.GetParam();
 	CItemView* pView = (CItemView *)GetParent();
 
-// 	if(CProjectMgr::GetMe().IsWatch())
-// 	{
-// 		WriteValue();											//!< 这里证明了是要修改变量的监控值
-// 	}
-// 	else
-// 	{
-// 		if(row == GetNumberRows() - 1){							//!< 这里证明了是要新增变量元素
-// 			pView->OnItemAdd();
-// 			SelectRowAt(GetNumberRows() - 1);
-// 		}else{	pView->OnItemEdit();}							//!< 这里证明了是要修改某个变量元素
-// 	}
 	if(row == GetNumberRows() - 1){
 		pView->OnItemAdd();
 		SelectRowAt(GetNumberRows() - 1);
@@ -704,7 +545,7 @@ std::shared_ptr<CItem> CItemGrid::AddNewItem()
 	//!< 看看还能不能加了变量
 	int count = MAX_ITEM_COUNT;
 	count = count << 1;
-	if(itemMgr->GetItemSize() >= (count >> 1))
+	if(itemMgr->GetItemSize() >= UINT(count >> 1))
 	{
 		CString strError;
 		strError.Format("数量超过了限制 %d 个，无法再添加变量！", (count >> 1));
@@ -735,7 +576,7 @@ void CItemGrid::ItemClone()
 	else
 		dlg->m_nRadioType = 0;
 	if(IDOK != dlg->DoModal(id))		return;
-	//RedrawGrid();
+
 	SetFocus();
 	RedrawAll();                                                                                                      
 
@@ -829,8 +670,6 @@ void MVC::Item::CItemGrid::OnLButtonUp(int col, long row, RECT *rect, POINT *poi
 			ltAddID.push_back(newItem->getID());
 		}
 	}
-// 	SoftInfo::CSoftInfo::GetMe().setCloneNumber(baseNum);
-// 	SoftInfo::CSoftInfo::GetMe().setCloneFloat(baseFlt);
 
 	//!< 添加撤销对象
 	CItemDoc* pDoc = (CItemDoc *)((CItemView *)GetParent())->GetDocument();
@@ -1102,20 +941,6 @@ bool CItemGrid::SortItem(UINT& lth, UINT& rth)
 		else if(ltype == CItem::SRC_TYPE_IO && rtype == CItem::SRC_TYPE_MEM)	bSort = false;
 		else	bSort = lItem->getSrcInfo()->getConvertType() <= rItem->getSrcInfo()->getConvertType();
 	}
-	else if(m_strSortCol == csi->m_vtColInfo[COL_DEVICE].name)
-	{
-		int ltype = lItem->getSrcType(), rtype = rItem->getSrcType();
-		if(ltype == CItem::SRC_TYPE_MEM && rtype == CItem::SRC_TYPE_IO)			bSort = true;
-		else if(ltype == CItem::SRC_TYPE_IO && rtype == CItem::SRC_TYPE_MEM)	bSort = false;
-		else	bSort = lItem->getSrcInfo()->getDeviceID() <= rItem->getSrcInfo()->getDeviceID();
-	}
-	else if(m_strSortCol == csi->m_vtColInfo[COL_ADDR].name)
-	{
-		int ltype = lItem->getSrcType(), rtype = rItem->getSrcType();
-		if(ltype == CItem::SRC_TYPE_MEM && rtype == CItem::SRC_TYPE_IO)			bSort = true;
-		else if(ltype == CItem::SRC_TYPE_IO && rtype == CItem::SRC_TYPE_MEM)	bSort = false;
-		else	bSort = lItem->getSrcInfo()->GetAreaString().Compare(rItem->getSrcInfo()->GetAreaString()) <= 0?true:false;
-	}
 	//!< 数值比较
 	else if(m_strSortCol == csi->m_vtColInfo[COL_ID].name)
 	{
@@ -1188,12 +1013,6 @@ bool CItemGrid::SortItem(UINT& lth, UINT& rth)
 		if(!lItem->getAlarmInfo()->getShiftActive())							bSort = true;
 		else if(!rItem->getAlarmInfo()->getShiftActive())						bSort = false;
 		else	bSort = lItem->getAlarmInfo()->getShiftDelta() <= rItem->getAlarmInfo()->getShiftDelta();
-	}
-	else if(m_strSortCol == csi->m_vtColInfo[COL_MODBUS485].name)
-	{
-		if(!lItem->getModbus485())												bSort = true;
-		else if(!rItem->getModbus485())											bSort = false;
-		else																	bSort = bSort;
 	}
 	else if (m_strSortCol == csi->m_vtColInfo[COL_REV_DB].name)
 	{
@@ -1470,7 +1289,7 @@ void MVC::Item::CItemGrid::ItemCopy()
 	std::list<UINT> ltItemID;
 	CUGCell cell;
 	std::shared_ptr<CItem> srcItem, newItem;
-	for(UINT i = 0; i < numRow; ++i)
+	for(int i = 0; i < numRow; ++i)
 	{
 		if(IsSelected(0, i))
 		{
@@ -1517,10 +1336,6 @@ void MVC::Item::CItemGrid::ItemPaste()
 	Dialog::CItemInConfigDlg* dlg = &Dialog::CItemInConfigDlg::GetMe();
 	if(IDOK != dlg->DoModal(Dialog::CItemInConfigDlg::Paste, GetGroupID()))	return;
 	pDoc->ItemInAdvanceOptions(ltItem);
-	int devID = dlg->GetDeviceID();
-	for (auto item : ltItem)
-		if(item->getSrcType() == CItem::SRC_TYPE_IO)
-			item->getSrcInfo()->setDevID(devID);
 	if(dlg->m_nSameNameType == 0)			pDoc->ItemInRenameItem(ltItem, dlg->m_uiGroupID);
 	else if(dlg->m_nSameNameType == 1)		pDoc->ItemInDelFileItem(ltItem, dlg->m_uiGroupID);
 	else if(dlg->m_nSameNameType == 2)		pDoc->ItemInDelMgrItem(ltItem, dlg->m_uiGroupID);
@@ -1873,7 +1688,7 @@ UINT CItemGrid::GetRowItem(long row)
 void CItemGrid::FreshItemRows(std::list<UINT> ltItemID)
 {
 	if(ltItemID.empty())								return;
-	UINT id, rowID;
+	UINT rowID;
 	long row, selRow = 0;
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	EnableUpdate(FALSE);

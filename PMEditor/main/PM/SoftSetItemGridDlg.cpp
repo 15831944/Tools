@@ -90,8 +90,6 @@ BOOL CSoftSetItemGridDlg::OnInitDialog()
 	m_bCheck22 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_GROUP].bShow;
 	m_bCheck9 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_DESCRIPT].bShow;
 	m_bCheck10 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_SCRIPT].bShow;
-	m_bCheck11 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_DEVICE].bShow;
-	m_bCheck12 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_ADDR].bShow;
 	m_bCheck13 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_FRESHTIME].bShow;
 	m_bCheck14 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_BIT].bShow;
 	m_bCheck15 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_LOLO].bShow;
@@ -100,14 +98,11 @@ BOOL CSoftSetItemGridDlg::OnInitDialog()
 	m_bCheck18 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_HIHI].bShow;
 	m_bCheck19 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_AIM].bShow;
 	m_bCheck20 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_SHIFT].bShow;
-	m_bCheck30 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_MODBUS485].bShow;
 	m_uiFloatWidth = csi->getItemFloatWidth();
 	Dialog::CItemInConfigDlg *itemIn = &Dialog::CItemInConfigDlg::GetMe();
 	m_bCheckPaste = itemIn->m_bKeepPaste;
 	m_bCheckItemIn = itemIn->m_bKeepItemIn;
 	m_bCheckHex = csi->isShowHex();
-//	GetDlgItem(IDC_CHECK14)->EnableWindow(FALSE);
-	if (!csi->IsModbus485())	GetDlgItem(IDC_CHECK30)->ShowWindow(SW_HIDE);
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
 }
@@ -131,8 +126,6 @@ BOOL CSoftSetItemGridDlg::DestroyWindow()
 	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_GROUP].bShow, m_bCheck22, uiShowCount))		bNeedFresh = true;
 	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_DESCRIPT].bShow, m_bCheck9, uiShowCount))	bNeedFresh = true;
 	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_SCRIPT].bShow, m_bCheck10, uiShowCount))		bNeedFresh = true;
-	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_DEVICE].bShow, m_bCheck11, uiShowCount))		bNeedFresh = true;
-	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_ADDR].bShow, m_bCheck12, uiShowCount))		bNeedFresh = true;
 	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_FRESHTIME].bShow, m_bCheck13, uiShowCount))	bNeedFresh = true;
 	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_BIT].bShow, m_bCheck14, uiShowCount))		bNeedFresh = true;
 	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_LOLO].bShow, m_bCheck15, uiShowCount))		bNeedFresh = true;
@@ -141,7 +134,6 @@ BOOL CSoftSetItemGridDlg::DestroyWindow()
 	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_HIHI].bShow, m_bCheck18, uiShowCount))		bNeedFresh = true;
 	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_AIM].bShow, m_bCheck19, uiShowCount))		bNeedFresh = true;
 	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_SHIFT].bShow, m_bCheck20, uiShowCount))		bNeedFresh = true;
-	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_MODBUS485].bShow, m_bCheck30, uiShowCount))	bNeedFresh = true;
 
 	if(uiShowCount == 0)		//!< ±ØÐëÏÔÊ¾1ÁÐ
 		if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_NAME].bShow, TRUE, uiShowCount))			bNeedFresh = true;

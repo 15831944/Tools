@@ -9,11 +9,6 @@
 #include "SourceProperty.h"
 #include "ItemGroup.h"
 
-#include "DevMgr.h"
-#include "DeviceOne.h"
-#include "XmlDevice.h"
-#include "XmlArea.h"
-
 using namespace MVC;
 using namespace Item;
 
@@ -154,11 +149,7 @@ bool MVC::Item::CItem::ReadFromConfig(CString strLine, int devID)
 	setTag(vtCell[2].Trim());							//!< 变量标签
 	if (vtCell.size() > 4)
 		setDescription(vtCell[4].Trim());				//!< 变量注释
-	setSrcType(CItem::SRC_TYPE_IO);										//!< 变量数据源类型
-	if (getSrcInfo()->SetConfigAddr(devID, strAddr, strType))		//!< 数据源信息
-		setValType(getSrcInfo()->getIOType());
-	else
-		setValType(strType);
+	setSrcType(CItem::SRC_TYPE_IO);						//!< 变量数据源类型
 	return true;
 }
 
@@ -184,7 +175,6 @@ bool MVC::Item::CItem::ReadFromPM(CString strLine, int devID)
 	setReservDB(vtCell[9].Trim() == "1");				//!< 变量保留历史数据
 
 	m_spSrcInfo->ReadFromPMExcel(vtCell);				//!< 解析数据源属性
-	m_spSrcInfo->setDevID(devID);						//!< 设置所属设备
 	m_spAlarmInfo->ReadFromPMExcel(vtCell);				//!< 解析报警属性
 
 	setValType((UINT)atoi(vtCell[4].Trim())); 			//!< 变量类型
@@ -308,8 +298,6 @@ bool CItem::OnCloneMe(CItem& item, int index, int addrUnit, int nType /* = 0 */)
 	item = *this;
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	item.setMyGroupID(getMyGroupID());
-	//!< 对IO变量特殊处理
-	if(m_uiSrcType > 0)		OnCloneDealIOInfo(item, index * addrUnit);
 
 	//!< 
 	item.setID(UINT(-1));
@@ -370,41 +358,6 @@ bool CItem::OnCloneMe(CItem& item, int index, int addrUnit, int nType /* = 0 */)
 	return true;
 }
 
-void CItem::OnCloneDealIOInfo(CItem& item, int addrUnit)
-{
-	std::shared_ptr<MVC::Device::CDeviceOne> projDev = MVC::Device::CDevMgr::GetMe().GetDevice(item.getSrcInfo()->getDeviceID());
-	if(!projDev)		return;
-	std::shared_ptr<XmlInfo::CXmlDevice> xmlDev = projDev->GetXmlInfo();
-	if(!xmlDev)			return;
-	std::shared_ptr<XmlInfo::CXmlArea> xmlArea = xmlDev->getArea(item.getSrcInfo()->getAreaID());
-	if(!xmlArea)		return;
-	UINT bitLen = xmlArea->m_uiUnitBitLen;			//!< 获得寻址长度，PEC8000是字寻址，这里是16
-
-	UINT ioType = item.getSrcInfo()->GetOperateType();
-	if(ioType == 0)		//!< 如果操作类型是位操作，就在位偏移上 + addrUnit
-	{
-		item.getSrcInfo()->setBitIndex(item.getSrcInfo()->getBitIndex() + addrUnit);
-		if(item.getSrcInfo()->getBitIndex() >= bitLen)
-		{
-			UINT unitNum = (UINT)item.getSrcInfo()->getBitIndex() / bitLen;
-			item.getSrcInfo()->setBitIndex(item.getSrcInfo()->getBitIndex() % bitLen);
-			item.getSrcInfo()->setUnitIndex(item.getSrcInfo()->getUnitIndex() + unitNum);
-		}
-	}
-	else if(ioType == 1)//!< 如果操作类型不是位操作，就在寻址偏移上 + addrUnit
-	{
-		item.getSrcInfo()->setUnitIndex(item.getSrcInfo()->getUnitIndex() + addrUnit);
-	}
-	else if(ioType == 2)//!< 如果操作类型不是位操作，就在寻址偏移上 + index
-	{
-		item.getSrcInfo()->setUnitIndex(item.getSrcInfo()->getUnitIndex() + addrUnit);
-	}
-	else if(ioType == 4)//!< 如果操作类型不是位操作，就在寻址偏移上 + index
-	{
-		item.getSrcInfo()->setUnitIndex(item.getSrcInfo()->getUnitIndex() + addrUnit);
-	}
-}
-
 //!< 获得一个检验值
 CString CItem::GetCheckValue()
 {
@@ -412,14 +365,6 @@ CString CItem::GetCheckValue()
 	value.Format("%d", getID() + 1);	//!< +1 是为了防止有些公式写0下去非法，比如除数不能是0
 	if(m_uiValType == 0)			return _T("1.000001");
 	else							return _T("0.000001");
-// 	else if(m_uiValType == 1)		return value;
-// 	else if(m_uiValType == 2)		return value;
-// 	else if(m_uiValType == 3)		return value;
-// 	else if(m_uiValType == 4)		return value;
-// 	else if(m_uiValType == 5)		return value;
-// 	else if(m_uiValType == 6)		return value;
-// 	else if(m_uiValType == 7)		return value + _T(".1");
-// 	else if(m_uiValType == 8)		return value + _T(".1");
 	return value;
 }
 
@@ -536,19 +481,6 @@ bool CItem::DoSearch(CString str, bool bMatchWhole, bool bAllCase, bool bRegex /
 	cvr = m_strDescription;
 	if(CGbl::SearchT(cvr, str, bMatchWhole, bAllCase, bRegex, _T("备注"), strInfo))		++nMatchCount;
 
-	//!< 地址是否匹配
-	if(getSrcType() == SRC_TYPE_IO)
-	{
-		MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-		std::shared_ptr<MVC::Device::CDeviceOne> dev = devMgr->GetDevice(getSrcInfo()->getDeviceID());
-		if(dev){
-			cvr = dev->getName();
-			if(CGbl::SearchT(cvr, str, bMatchWhole, bAllCase, bRegex, _T("所属设备"), strInfo))	++nMatchCount;
-		}
-
-		cvr = getSrcInfo()->GetAreaString();
-		if(CGbl::SearchT(cvr, str, bMatchWhole, false, bRegex, _T("地址"), strInfo))		++nMatchCount;
-	}
 	//!< 脚本是否匹配
 	else if(getSrcType() == SRC_TYPE_MEM)
 	{

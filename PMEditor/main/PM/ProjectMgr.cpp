@@ -9,8 +9,6 @@
 #include "SpaceProject.h"
 #include "Project.h"
 #include "ItemMgr.h"
-#include "DevMgr.h"
-#include "DBMgr.h"
 
 CProjectMgr::CProjectMgr(void)
 {
@@ -31,9 +29,7 @@ bool CProjectMgr::IsModify()
 {
 	if(!GetProj())										return false;
 	if(GetProj()->IsModify())							return true;
-	if(MVC::Device::CDevMgr::GetMe().IsModify())		return true;
 	if(MVC::Item::CItemMgr::GetMe().IsModify())			return true;
-	if(Servers::DB::CDBMgr::GetMe().IsModify())			return true;
 	return false;
 }
 
@@ -46,7 +42,6 @@ bool CProjectMgr::NewProject()
 
 	//!< 创建新工程，用户操作
 	CString path = CGbl::GetMe().getProjDefPath();
-	//Dialog::CCreatProjectDlg *dlg = &Dialog::CCreatProjectDlg::GetMe();
 	CNewProjectDlg* dlg = &CNewProjectDlg::GetMe();
 	dlg->SetDefaultPath(path);
 	if(dlg->DoModal()!=IDOK)	return false;
@@ -99,7 +94,6 @@ bool CProjectMgr::OpenProject(CString pathName/* = _T("") */)
 
 	m_CulProject = std::shared_ptr<CProject>(new CProject());
 	if(!m_CulProject->OpenProject(title, name, path)){
-//		AfxMessageBox(_T("打开工程失败！"));
 		m_CulProject.reset();
 		return false;
 	}
@@ -143,7 +137,6 @@ bool CProjectMgr::BackUpProject()
 bool CProjectMgr::CloseProject()
 {
 	CPMApp* pApp = (CPMApp *)AfxGetApp();
-	pApp->m_pDeviceDocMgr->CloseAllDocuments(FALSE);
 	pApp->m_pItemDocMgr->CloseAllDocuments(FALSE);
 	SetWatch(false);
 	if(m_CulProject)
@@ -169,25 +162,19 @@ void CProjectMgr::SetWatch(const bool b)
 	if(m_bWatch == b)	return;
 	m_bWatch = b;
 	MVC::Item::CItemMgr::GetMe().SetItemWatch(b);
-	MVC::Device::CDevMgr::GetMe().SetDevWatch(b);
 	CMainFrame* mf = (CMainFrame*)g_App.GetMainWnd();
 	CComVariant cvr = 0;
 	if(b)
 	{
 		mf->InitCommerTime();
 		mf->SetTimer(CMainFrame::TIME_WATCH, SoftInfo::CSoftInfo::GetMe().getFreshDataTime(), NULL);
-		mf->m_SevCommer.Execute(6, cvr, 0, 0, 0);	//!< 主动获取一下所有事件(报警和设备上下线)
 	}
 	else
 	{
 		mf->KillTimer(CMainFrame::TIME_WATCH);
-		mf->m_SevCommer.Execute(8, cvr, 0, 0, 0);	//!< 停止Clinet获取数据
-		mf->m_SevCommer.Execute(7, cvr, 0, 0, 0);	//!< 清空Client中的内存
 	}
 
-	POSITION pos = g_App.m_pDeviceDocMgr->GetFirstDocPosition();
-	while(pos)		g_App.m_pDeviceDocMgr->GetNextDoc(pos)->SetTitle(_T(""));
-	pos = g_App.m_pItemDocMgr->GetFirstDocPosition();
+	POSITION pos = g_App.m_pItemDocMgr->GetFirstDocPosition();
 	while(pos)		g_App.m_pItemDocMgr->GetNextDoc(pos)->SetTitle(_T(""));
 }
 

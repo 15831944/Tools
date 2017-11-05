@@ -8,10 +8,8 @@
 #include "SoftSetDlg.h"
 
 #include "SoftSetItemGridDlg.h"
-#include "SoftSetTuoPuDlg.h"
 #include "SoftSetCompileDlg.h"
 #include "SoftSetServerDlg.h"
-#include "SoftSetDeviceXmlDlg.h"
 
 
 // CSoftSetDlg 对话框
@@ -66,19 +64,14 @@ BOOL CSoftSetDlg::OnInitDialog()
 	//!< 添加子页
 	CSoftSetItemGridDlg* page1 = NULL;
 	AddPage(page1, _T("变量表"), 4);
-	CSoftSetTuoPuDlg* page2 = NULL;
-	AddPage(page2, _T("拓扑图"), 17);
-	CSoftSetCompileDlg* page3 = NULL;
-	AddPage(page3, _T("编译与扫描"), 18);
-	CSoftSetServerDlg* page4 = NULL;
-	AddPage(page4, _T("运行与监控"), 23);
-	CSoftSetDeviceXmlDlg* page5 = NULL;
-	AddPage(page5, _T("支持的设备"), 13);
+	CSoftSetCompileDlg* page2 = NULL;
+	AddPage(page2, _T("编译与扫描"), 18);
+	CSoftSetServerDlg* page3 = NULL;
+	AddPage(page3, _T("运行与监控"), 23);
 
 	//!< 显示第一个
 	if(!m_vtPage.empty())
 		OnTreeLClick(&m_PageTree, m_PageTree.GetRootItem());
-		//ShowPage(m_vtPage[0]);
 	return TRUE;
 }
 

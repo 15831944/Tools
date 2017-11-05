@@ -42,10 +42,6 @@ CGbl::CGbl(void)
 		m_strProjDefPath = CString(szDocPath) + _T("\\PM\\Projects\\");					//!< 工程默认路径
 	}
 
-//	m_uiMaxItemNum = 65535;
-	m_uiMaxGroupNum = 1024;
-	m_uiMaxDevNum = 1024;
-
 	m_ltBaudStr.push_back(_T("1200"));
 	m_ltBaudStr.push_back(_T("2400"));
 	m_ltBaudStr.push_back(_T("4800"));

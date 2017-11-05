@@ -7,7 +7,7 @@
 #include "MainFrm.h"
 #include "AboutDlg.h"
 #include "ProjectMgr.h"
-#include "XmlMgr.h"
+
 #include "SoftInfo.h"
 #include "ServerCtrl.h"
 #include "Hmi.h"
@@ -21,13 +21,8 @@
 #include "ItemView.h"
 #include "ItemFrame.h"
 
-#include "DeviceMapDoc.h"
-#include "DeviceMapView.h"
-#include "DeviceMapFrm.h"
-
 #include "PMSplash.h"
 #include "CreatProjectDlg.h"
-#include "ServerCommer.h"
 #include "ServerCtrl.h"
 
 #ifdef _DEBUG
@@ -94,13 +89,6 @@ BOOL CPMApp::InitInstance()
 	if (!m_pItemDocMgr)		{CPMSplash::Hide();	return FALSE;}
 	AddDocTemplate(m_pItemDocMgr);
 
-	m_pDeviceDocMgr = new CMultiDocTemplate(IDR_MAINFRAME,
-		RUNTIME_CLASS(MVC::Device::CDeviceMapDoc),
-		RUNTIME_CLASS(MVC::Device::CDeviceMapFrm),
-		RUNTIME_CLASS(MVC::Device::CDeviceMapView));
-	if(!m_pDeviceDocMgr)	{CPMSplash::Hide();	return FALSE;}
-	AddDocTemplate(m_pDeviceDocMgr);
-
 	RegisterShellFileTypes();
 
 	if(CPMSplash::Visible())
@@ -109,13 +97,6 @@ BOOL CPMApp::InitInstance()
 		CPMSplash::StepOne(_T(""));
 	}
 
-	//!< 装载描述信息
-	m_XmlMgr = std::shared_ptr<XmlInfo::CXmlMgr>(new XmlInfo::CXmlMgr);
-	//if(!m_XmlMgr->OpenXml()){
-	//	CPMSplash::Hide();
-	//	AfxMessageBox("解析描述文件失败！");
-	//	return FALSE;
-	//}
 	if(CPMSplash::Visible())
 	{
 		Sleep(300);

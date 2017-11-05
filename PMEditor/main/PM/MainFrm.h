@@ -1,14 +1,11 @@
 // MainFrm.h : CMainFrame 类的接口
 //
-
-
 #pragma once
 
 #include "SpaceProject.h"
 #include "SpaceItem.h"
 #include "SpaceDevice.h"
 #include "OutputPane.h"
-#include "ServerCommer.h"
 
 #define VARIABLELEN_MAX 64000
 
@@ -23,7 +20,6 @@ public:
 		PRINT = 9999,		//!< 打印信息
 	};
 	CMainFrame();
-	Servers::DXP::CServerCommer	m_SevCommer;				//!< 与服务器的通信器
 	CProgressCtrl	m_wndProgCtrl;							//!< 底边进度条
 	CComVariant m_VarArray[VARIABLELEN_MAX];				//!< 建立一个VARIANT的数组，以备以后使用
 
@@ -89,7 +85,6 @@ public:
 	afx_msg void OnServerRun();					//!< 启动服务器运行
 	afx_msg void OnServerStop();				//!< 启动服务器停止
 	afx_msg BOOL OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct);		//!< 接收被启动程序传回来的数据
-	afx_msg void OnAddDevice();
 	afx_msg void OnAddItem();
 	afx_msg void OnRename();					//!< 重命名工程名
 	afx_msg void OnProjInfo();
@@ -113,10 +108,5 @@ public:
 
 public:
 	DECLARE_EVENTSINK_MAP()
-	void OnDataReady(long nShakeInterval);				//!< 接收事件
-	void OnVariableAlarm(int nAlarmType,int nID,VARIANT* varValue);	//!< 变量报警事件
-	void OnVariableLag(int nID,int nDevice,VARIANT* varValue);		//!< 
-	void OnLoadOver(int nLoadType,int nLoadSize);					//!< 
-	void OnBehavior(long lBehaviorID, long lDeviceID, VARIANT& varValue, long lResult);	//!< 行为执行结束事件
 };
 

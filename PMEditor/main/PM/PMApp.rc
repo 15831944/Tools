@@ -154,7 +154,6 @@ END
 IDR_PANE_ITEMVIEW TOOLBAR 16, 16
 BEGIN
     BUTTON      ID_PANE_ITEMGROUP
-    BUTTON      ID_PANE_ITEMDEVICE
 END
 
 IDR_TOOLBAR_TMP TOOLBAR 16, 16
@@ -203,7 +202,6 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "添加"
         BEGIN
-            MENUITEM "设备",                          ID_ADD_DEVICE
             MENUITEM "变量",                          ID_ADD_ITEM
         END
         MENUITEM SEPARATOR
@@ -239,23 +237,6 @@ BEGIN
         MENUITEM "变量视图(&I)",                    ID_VIEW_ITEM
         MENUITEM "设备视图(&D)",                    ID_DEVICE_VIEW
         MENUITEM "输出栏(&O)",                     ID_VIEW_OUTPUT
-    END
-    POPUP "设备(&D)"
-    BEGIN
-        MENUITEM "工程师站通信接口配置(&W)",              ID_INTERFACE_SET
-        MENUITEM SEPARATOR
-        MENUITEM "添加主设备(&A)",                   ID_ADD_MAINDEV
-        MENUITEM "添加从设备(&S)",                   ID_ADD_SLAVE
-        MENUITEM "移除该设备(&D)",                   ID_DELETE
-        MENUITEM SEPARATOR
-        MENUITEM "设备基本信息(&D)",                  ID_DEVINTERFACE_SET
-        MENUITEM "设备参数信息(&R)",                  ID_DEV_PARAINFO
-        MENUITEM SEPARATOR
-        MENUITEM "复制(&C)\tCtrl+C",              ID_EDIT_COPY
-        MENUITEM "粘贴(&V)\tCtrl+V",              ID_EDIT_PASTE
-        MENUITEM SEPARATOR
-        MENUITEM "导入设备拓扑(&I)",                  ID_TUOPU_IN
-        MENUITEM "导入该设备配置(&P)",                 ID_DEV_IN
     END
     POPUP "变量(&I)"
     BEGIN
@@ -308,10 +289,6 @@ BEGIN
         MENUITEM "运行(&R)\tF5",                  ID_SERVER_RUN
         MENUITEM "停止(&S)\tShift+F5",            ID_SERVER_STOP
         MENUITEM SEPARATOR
-        MENUITEM "开始扫描(&R)",                    ID_SCAN_START
-        MENUITEM "停止扫描(&S)",                    ID_SCAN_STOP
-        MENUITEM "扫描设置(&W)",                    ID_SCAN_SET
-        MENUITEM SEPARATOR
         MENUITEM "写入选中变量值(&W)\tCtrl+W",         ID_ITEM_WRITE
         MENUITEM "显示十六进制数值(&H)",                ID_SHOW_HEX, CHECKED
     END
@@ -360,51 +337,6 @@ BEGIN
         MENUITEM "编辑变量组(&E)",                   ID_GROUP_EDIT
         MENUITEM "移除变量组(&R)",                   ID_GROUP_REMOVE
     END
-    POPUP "设备右键"
-    BEGIN
-        MENUITEM "将扫描上线的通信接口加载到工程中(&I)",        ID_ADDINF2PROJ
-        MENUITEM SEPARATOR
-        MENUITEM "添加主设备(&A)",                   ID_ADD_MAINDEV
-        MENUITEM "添加从设备(&S)",                   ID_ADD_SLAVE
-        MENUITEM "移除本设备(&D)\tDelete",           ID_DELETE
-        MENUITEM SEPARATOR
-        MENUITEM "复制本设备(&C)\tCtrl+C",           ID_EDIT_COPY
-        MENUITEM "复制包括从设备(&W)\tCtrl+Shift+C",   ID_COPY_WITH_CHILD
-        MENUITEM "剪切(&X)\tCtrl+X",              ID_EDIT_CUT
-        MENUITEM "粘贴(&V)\tCtrl+V",              ID_EDIT_PASTE
-        MENUITEM SEPARATOR
-        MENUITEM "设备基本信息(&F)",                  ID_DEVINTERFACE_SET
-        MENUITEM SEPARATOR
-        MENUITEM "强制扫描该设备(&T)",                 ID_FRESH_STATE
-        MENUITEM "设备参数信息(&S)",                  ID_DEV_PARAINFO
-        MENUITEM SEPARATOR
-        MENUITEM "对该设备编程(&P)",                  ID_PROGRAM
-    END
-    POPUP "拓扑右键"
-    BEGIN
-        MENUITEM "工程师站通信接口配置(&E)",              ID_INTERFACE_SET
-        MENUITEM "扫描配置(&W)",                    ID_SCAN_SET
-        MENUITEM "强制扫描离线设备(&T)",                ID_FRESH_STATE
-        MENUITEM SEPARATOR
-        MENUITEM "添加主设备(&A)",                   ID_ADD_MAINDEV
-        MENUITEM "粘贴(&P)\tCtrl+P",              ID_EDIT_PASTE
-        MENUITEM SEPARATOR
-        MENUITEM "撤销(&U)\tCtrl+Z",              ID_EDIT_UNDO
-        MENUITEM "恢复(&R)\tCtrl+Y",              ID_EDIT_REDO
-        MENUITEM SEPARATOR
-        POPUP "界面大小(&Z)"
-        BEGIN
-            MENUITEM "80%",                         ID_ZOOM80
-            MENUITEM "100%",                        ID_ZOOM100
-            MENUITEM "150%",                        ID_ZOOM150
-            MENUITEM "200%",                        ID_ZOOM200
-        END
-        POPUP "界面方向(&D)"
-        BEGIN
-            MENUITEM "横向(&H)",                      ID_H
-            MENUITEM "纵向(&V)",                      ID_V
-        END
-    END
     POPUP "工程右键"
     BEGIN
         MENUITEM "新建工程(&N)\tCtrl+N",            ID_PROJ_NEW
@@ -416,7 +348,6 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "添加(&A)"
         BEGIN
-            MENUITEM "设备",                          ID_ADD_DEVICE
             MENUITEM "变量",                          ID_ADD_ITEM
         END
         MENUITEM SEPARATOR
@@ -431,30 +362,6 @@ BEGIN
     BEGIN
         MENUITEM "清空(&C)",                      ID_OUTPUT_CLEAR
         MENUITEM "锁定(&L)",                      ID_OUTPUT_LOCK, CHECKED
-    END
-    POPUP "扫描设备右键"
-    BEGIN
-        MENUITEM "添加到工程中(&A)",                  ID_SCAN_ADD
-        MENUITEM "设备参数信息(&P)",                  ID_DEV_PARAINFO
-    END
-    POPUP "设备拓扑节点右键"
-    BEGIN
-        MENUITEM "扫描在线设备",                      ID_SCANANDSHOW
-        MENUITEM "扫描配置",                        ID_SCAN_SET
-    END
-    POPUP "视频列表右键"
-    BEGIN
-        MENUITEM "添加新摄像头(&N)",                  ID_CAM_ADD
-        MENUITEM "修改当前选中摄像头(&E)",               ID_CAM_EDIT
-        MENUITEM "移除所有选中摄像头(&R)\tDelete",       ID_CAM_DELETE
-        MENUITEM SEPARATOR
-        MENUITEM "复制(&C)\tCtrl+C",              ID_EDIT_COPY
-        MENUITEM "剪切(&X)\tCtrl+X",              ID_EDIT_CUT
-        MENUITEM "粘贴(&V)\tCtrl+V",              ID_EDIT_PASTE
-        MENUITEM "全选(&A)\tCtrl+A",              ID_SELECT_ALL
-        MENUITEM SEPARATOR
-        MENUITEM "上移(&U)\tCtrl+U",              ID_ITEM_UP
-        MENUITEM "下移(&D)\tCtrl+D",              ID_ITEM_DOWN
     END
 END
 
@@ -1586,7 +1493,6 @@ END
 STRINGTABLE
 BEGIN
     ID_PANE_ITEMGROUP       "按变量组显示\n按变量组显示"
-    ID_PANE_ITEMDEVICE      "按设备显示\n按设备显示"
     ID_PROJ_IN              "导入\n导入"
     ID_PROJ_SEARCH          "本地搜索\n搜索"
 END

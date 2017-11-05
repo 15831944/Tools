@@ -5,10 +5,6 @@
 #include "ProjectMgr.h"
 #include "Project.h"
 
-#include "DevMgr.h"
-#include "DeviceMapDoc.h"
-#include "DeviceMapView.h"
-
 #include "ItemMgr.h"
 #include "ItemDoc.h"
 #include "ItemView.h"
@@ -23,11 +19,9 @@ BEGIN_MESSAGE_MAP(CSpaceProject, CWnd)
 	ON_WM_SETFOCUS()
 	ON_COMMAND(ID_PROJ_INFO, &CSpaceProject::OnProjInfo)
 	ON_COMMAND(ID_PROJ_SAVE, &CSpaceProject::OnProjSave)
-	ON_COMMAND(ID_ADD_DEVICE, &CSpaceProject::OnAddDevice)
 	ON_COMMAND(ID_ADD_ITEM, &CSpaceProject::OnAddItem)
 	ON_UPDATE_COMMAND_UI(ID_PROJ_SAVE, &CSpaceProject::OnUpdateProjSave)
 	ON_UPDATE_COMMAND_UI(ID_ADD_ITEM, &CSpaceProject::OnUpdateAddItem)
-	ON_UPDATE_COMMAND_UI(ID_ADD_DEVICE, &CSpaceProject::OnUpdateAddDevice)
 END_MESSAGE_MAP()
 
 CSpaceProject::CSpaceProject(void)
@@ -123,11 +117,6 @@ void CSpaceProject::OnProjSave()
 	((CMainFrame *)g_App.GetMainWnd())->OnProjSave();
 }
 
-void CSpaceProject::OnAddDevice()
-{
-	((CMainFrame *)g_App.GetMainWnd())->OnAddDevice();
-}
-
 void CSpaceProject::OnAddItem()
 {
 	((CMainFrame *)g_App.GetMainWnd())->OnAddItem();
@@ -139,11 +128,6 @@ void CSpaceProject::OnUpdateProjSave(CCmdUI *pCmdUI)
 }
 
 void CSpaceProject::OnUpdateAddItem(CCmdUI *pCmdUI)
-{
-	pCmdUI->Enable(CProjectMgr::GetMe().GetProj()?TRUE:FALSE);
-}
-
-void CSpaceProject::OnUpdateAddDevice(CCmdUI *pCmdUI)
 {
 	pCmdUI->Enable(CProjectMgr::GetMe().GetProj()?TRUE:FALSE);
 }

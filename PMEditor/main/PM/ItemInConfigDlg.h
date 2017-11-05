@@ -19,9 +19,6 @@ public:
 	BOOL m_bUseAdvanceOptionsItemIn;	//!< 导入是否使用高级选项
 	BOOL m_bUseAdvanceOptionsPaste;		//!< 粘贴是否使用高级选项
 
-	CComboBox m_cbDevice;				//!< 设备列表
-	CString m_strDevice;				//!< 列表显示的设备
-
 	UINT m_uiGroupID;					//!< 
 	CString m_strGroupName;
 
@@ -52,7 +49,7 @@ private:
 
 public:
 	static CItemInConfigDlg& GetMe();
-	int GetDeviceID();
+
 // 对话框数据
 	enum { IDD = IDD_ITEMIN_DLG };
 

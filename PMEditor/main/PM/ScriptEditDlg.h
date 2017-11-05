@@ -101,7 +101,6 @@ public:
 	CString m_strItemName;								//!< 变量名称
 	CString m_strDescription;							//!< 变量注释
 	CComboBox m_cbItemGroup;							//!< 筛选-变量组
-	CComboBox m_cbItemDevice;							//!< 筛选-设备
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持

@@ -7,7 +7,6 @@
 #include "MainFrm.h"
 #include "ItemMgr.h"
 #include "ItemGrid.h"
-#include "DevMgr.h"
 
 using namespace SoftInfo;
 
@@ -27,8 +26,6 @@ CSoftInfo::CSoftInfo(void)
 	m_vtColInfo[MVC::Item::CItemGrid::COL_GROUP].Init(_T("变量组"), false, 80);
 	m_vtColInfo[MVC::Item::CItemGrid::COL_DESCRIPT].Init(_T("备注"), false, 100);
 	m_vtColInfo[MVC::Item::CItemGrid::COL_SCRIPT].Init(_T("脚本"), false, 100);
-	m_vtColInfo[MVC::Item::CItemGrid::COL_DEVICE].Init(_T("设备"), true, 100);
-	m_vtColInfo[MVC::Item::CItemGrid::COL_ADDR].Init(_T("地址"), true, 80);
 	m_vtColInfo[MVC::Item::CItemGrid::COL_FRESHTIME].Init(_T("刷新时间"), true, 60);
 	m_vtColInfo[MVC::Item::CItemGrid::COL_BIT].Init(_T("位报警"), true, 100);
 	m_vtColInfo[MVC::Item::CItemGrid::COL_LOLO].Init(_T("下下限"), true, 50);
@@ -37,17 +34,12 @@ CSoftInfo::CSoftInfo(void)
 	m_vtColInfo[MVC::Item::CItemGrid::COL_HIHI].Init(_T("上上限"), true, 50);
 	m_vtColInfo[MVC::Item::CItemGrid::COL_AIM].Init(_T("目标"), true, 50);
 	m_vtColInfo[MVC::Item::CItemGrid::COL_SHIFT].Init(_T("变化率"), true, 50);
-	m_vtColInfo[MVC::Item::CItemGrid::COL_MODBUS485].Init(_T("Md485"), true, 40);
 	m_vtColInfo[MVC::Item::CItemGrid::COL_REV_DB].Init(_T("保留历史"), true, 40);
 
 	m_bTooltip = true;														//!< 悬停提示，要不要有
-	m_bHDevMap = false;														//!< 默认纵向显示
 	m_uiFreshDataTime = 500;												//!< 刷新数据的默认周期，默认500毫秒
 	m_bIsOutPut = true;														//!< 是否启动输出框进行输出
 	m_bIsOutWarning = false;												//!< 是否输出警告信息
-	m_bUploadBehaviorFirst = false;											//!< 是否上来就先读一下行为
-	m_bShowAddr = true;														//!< 是否在拓扑上直接显示设备地址
-	m_bModbus485 = false;													//!< 是否使能Modbus485服务的功能,启动后变量可以导入到485服务中
 	m_uiZoomSize = 100;														//!< 缩放比例，X%
 	m_uiCloneNumber = 1;													//!< 克隆变量名称整数间隔数
 	m_uiCloneFloat = 16;													//!< 克隆变量名称浮点进位数
@@ -96,7 +88,6 @@ void CSoftInfo::LoadFile()
 	if(!pTiXml.LoadFile())		return;
 	//!< 开始解析
 	SerializeXml(pTiXml.RootElement(), true);
-	if (!IsModbus485())		m_vtColInfo[MVC::Item::CItemGrid::COL_MODBUS485].bShow = false;
 }
 
 void CSoftInfo::SerializeXml(TiXmlElement *pNode, bool bRead)
@@ -160,10 +151,6 @@ void CSoftInfo::SerializeItem(TiXmlElement *pNode, bool bRead)
 				m_vtColInfo[MVC::Item::CItemGrid::COL_DESCRIPT].bShow = (value == _T("1")?true:false);
 			else if(name == m_vtColInfo[MVC::Item::CItemGrid::COL_SCRIPT].name)
 				m_vtColInfo[MVC::Item::CItemGrid::COL_SCRIPT].bShow = (value == _T("1")?true:false);
-			else if(name == m_vtColInfo[MVC::Item::CItemGrid::COL_DEVICE].name)
-				m_vtColInfo[MVC::Item::CItemGrid::COL_DEVICE].bShow = (value == _T("1")?true:false);
-			else if(name == m_vtColInfo[MVC::Item::CItemGrid::COL_ADDR].name)
-				m_vtColInfo[MVC::Item::CItemGrid::COL_ADDR].bShow = (value == _T("1")?true:false);
 			else if(name == m_vtColInfo[MVC::Item::CItemGrid::COL_FRESHTIME].name)
 				m_vtColInfo[MVC::Item::CItemGrid::COL_FRESHTIME].bShow = (value == _T("1")?true:false);
 			else if(name == m_vtColInfo[MVC::Item::CItemGrid::COL_BIT].name)
@@ -180,8 +167,6 @@ void CSoftInfo::SerializeItem(TiXmlElement *pNode, bool bRead)
 				m_vtColInfo[MVC::Item::CItemGrid::COL_AIM].bShow = (value == _T("1")?true:false);
 			else if(name == m_vtColInfo[MVC::Item::CItemGrid::COL_SHIFT].name)
 				m_vtColInfo[MVC::Item::CItemGrid::COL_SHIFT].bShow = (value == _T("1")?true:false);
-			else if(name == m_vtColInfo[MVC::Item::CItemGrid::COL_MODBUS485].name)
-				m_vtColInfo[MVC::Item::CItemGrid::COL_MODBUS485].bShow = (value == _T("1")?true:false);
 			else if (name == m_vtColInfo[MVC::Item::CItemGrid::COL_REV_DB].name)
 				m_vtColInfo[MVC::Item::CItemGrid::COL_REV_DB].bShow = (value == _T("1") ? true : false);
 			else if(name == _T("CloneNumber"))		m_uiCloneNumber = (UINT)atoi(value);
@@ -206,8 +191,6 @@ void CSoftInfo::SerializeItem(TiXmlElement *pNode, bool bRead)
 		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_GROUP].name, m_vtColInfo[MVC::Item::CItemGrid::COL_GROUP].bShow?1:0);
 		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_DESCRIPT].name, m_vtColInfo[MVC::Item::CItemGrid::COL_DESCRIPT].bShow?1:0);
 		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_SCRIPT].name, m_vtColInfo[MVC::Item::CItemGrid::COL_SCRIPT].bShow?1:0);
-		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_DEVICE].name, m_vtColInfo[MVC::Item::CItemGrid::COL_DEVICE].bShow?1:0);
-		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_ADDR].name, m_vtColInfo[MVC::Item::CItemGrid::COL_ADDR].bShow?1:0);
 		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_FRESHTIME].name, m_vtColInfo[MVC::Item::CItemGrid::COL_FRESHTIME].bShow?1:0);
 		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_BIT].name, m_vtColInfo[MVC::Item::CItemGrid::COL_BIT].bShow?1:0);
 		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_LOLO].name, m_vtColInfo[MVC::Item::CItemGrid::COL_LOLO].bShow?1:0);
@@ -216,7 +199,6 @@ void CSoftInfo::SerializeItem(TiXmlElement *pNode, bool bRead)
 		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_HIHI].name, m_vtColInfo[MVC::Item::CItemGrid::COL_HIHI].bShow?1:0);
 		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_AIM].name, m_vtColInfo[MVC::Item::CItemGrid::COL_AIM].bShow?1:0);
 		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_SHIFT].name, m_vtColInfo[MVC::Item::CItemGrid::COL_SHIFT].bShow?1:0);
-		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_MODBUS485].name, m_vtColInfo[MVC::Item::CItemGrid::COL_MODBUS485].bShow?1:0);
 		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_REV_DB].name, m_vtColInfo[MVC::Item::CItemGrid::COL_REV_DB].bShow ? 1 : 0);
 		pNode->SetAttribute(_T("CloneNumber"), m_uiCloneNumber);
 		pNode->SetAttribute(_T("CloneFloat"), m_uiCloneFloat);
@@ -234,27 +216,17 @@ void CSoftInfo::SerializeTuoPu(TiXmlElement *pNode, bool bRead)
 		{
 			CString name = pAttr->Name();
 			CString value = pAttr->Value();
-			if(name == _T("HVMap"))				m_bHDevMap = (value == _T("1")?true:false);
-			else if(name == _T("ToolTip"))		m_bTooltip = (value == _T("1")?true:false);
-			else if(name == _T("UpBehFirst"))	m_bUploadBehaviorFirst = (value == _T("1")?true:false);
+			 if(name == _T("ToolTip"))			m_bTooltip = (value == _T("1")?true:false);
 			else if(name == _T("ZoomSize"))		m_uiZoomSize = (UINT)atoi(value.Trim());
 			else if(name == _T("Font"))			SetFont(m_lgTuopuFontInfo, value.Trim());
-			else if(name == _T("UploadBFirst"))	m_bUploadBehaviorFirst = (value == _T("1")?true:false);
-			else if(name == _T("ShowAddr"))		m_bShowAddr = (value == _T("1")?true:false);
-			else if(name == _T("Modbus485"))	m_bModbus485 = (value == _T("1")?true:false);
 			pAttr = pAttr->Next();
 		}
 	}
 	else
 	{
-		pNode->SetAttribute(_T("HVMap"), m_bHDevMap?1:0);
 		pNode->SetAttribute(_T("ToolTip"), m_bTooltip?1:0);
-		pNode->SetAttribute(_T("UpBehFirst"), m_bUploadBehaviorFirst?1:0);
 		pNode->SetAttribute(_T("ZoomSize"), m_uiZoomSize);
 		pNode->SetAttribute(_T("Font"), GetFontText(m_lgTuopuFontInfo));
-		pNode->SetAttribute(_T("UploadBFirst"), m_bUploadBehaviorFirst?1:0);
-		pNode->SetAttribute(_T("ShowAddr"), m_bShowAddr?1:0);
-		pNode->SetAttribute(_T("Modbus485"), m_bModbus485?1:0);
 	}
 }
 

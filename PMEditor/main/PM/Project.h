@@ -20,9 +20,7 @@ private:
 	SYSTEMTIME m_ctUpdateTime;	//!< 工程修改时间
 
 	HTREEITEM m_hProjectItem;	//!< 工程在树中的节点
-	HTREEITEM m_hDeviceItem;	//!< 设备拓扑在树中的节点
 	HTREEITEM m_hItemItem;		//!< 变量在树中的节点
-	HTREEITEM m_hDBItem;		//!< 数据库配置节点
 
 public:
 	bool IsCompiled(){return m_bCompiled;}

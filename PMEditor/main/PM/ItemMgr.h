@@ -56,7 +56,6 @@ public:
 	void OpenDoc();
 	void SaveItemFile();												//!< 保存文件
 	void OutItem(std::list<UINT> ltItem);							//!< 导出变量
-	void OnVariableAlarm(int nAlarmType,int nID,VARIANT* varValue);	//!< 变量报警
 
 	std::list<UINT> GetItemIDAll();
 	std::list<UINT> GetItemIDMem();

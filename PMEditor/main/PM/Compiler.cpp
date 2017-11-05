@@ -6,7 +6,6 @@
 #include "Compiler.h"
 #include "ProjectMgr.h"
 #include "Project.h"
-#include "DevMgr.h"
 #include "ServerCtrl.h"
 
 const UINT COMPILE_START = 2001;
@@ -42,12 +41,6 @@ void CCompiler::CompileProj()
 	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
 	if(!proj)					return;
 	if(IsCompiling())			return;
-// 	if(proj->IsCompiled())
-// 	{
-// 		OnRunObj();
-// 		m_ltNeedRunObj.clear();
-// 		return;
-// 	}
 
 	CMainFrame* mf = (CMainFrame *)g_App.GetMainWnd();
 	UINT uiH = (UINT)mf->GetSafeHwnd();

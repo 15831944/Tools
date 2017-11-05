@@ -47,7 +47,6 @@ public:
 	virtual void OnRun();				//!< 启动运行
 	void OnRunSev(CString cmdLine);		//!< 启动运行
 	void OnStopSev();					//!< 停止运行
-	void SendFreshDev(int devID);		//!< 发送强制扫描设备的功能
 	void RegistSoft();					//!< 通知DXP打开注册页面
 
 	bool IsINeed(UINT dwData);			//!< 看看是不是自己要的数字

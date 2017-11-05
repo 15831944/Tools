@@ -4,9 +4,6 @@
 #include "MainFrm.h"
 #include "SpaceDevice.h"
 
-#include "XmlMgr.h"
-#include "XmlDevice.h"
-
 using namespace Space;
 
 CSpaceDevice::CSpaceDevice(void)
@@ -63,32 +60,6 @@ bool CSpaceDevice::CreateSpace()
 
 void CSpaceDevice::FreshCompanyDevice()
 {
-	m_pGroups->Clear();
-	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CPMApp *)AfxGetApp())->m_XmlMgr;
-	std::shared_ptr<XmlInfo::CXmlDevice> device;
-
-	std::map<CString, CXTPTaskPanelGroup*> m_mpCompany;
-	CXTPTaskPanelGroup* pGroup;
-	CXTPTaskPanelGroupItem* pItem;
-
-	GetImageManager()->SetImageList(IDB_BMP_DEVICELIST, 32, 0, RGB(255,255,255));
-	for (auto device : xmlMgr->m_vtDevice)
-	{
-		if(!device)			continue;
-		pGroup = m_mpCompany[device->getCompany()];
-		if(!pGroup)
-		{
-			pGroup = AddGroup(0);
-			pGroup->SetCaption(device->getCompany());
-			m_mpCompany[device->getCompany()] = pGroup;
-		}
-		pItem = pGroup->AddLinkItem(ID_INDICATOR_MASTER, ID_INDICATOR_MASTER);
-		pItem->SetIconIndex(device->getIcon());
-		pItem->SetID(device->getID() + 100);		//!< 如果不加100,会和group混淆,因为group默认为0
-		pItem->SetCaption(device->getName());
-	}
-	if(GetGroupCount() > 0)
-		GetAt(0)->SetExpanded(TRUE);
 }
 
 void CSpaceDevice::OnClick(CXTPTaskPanelGroupItem* pItem)

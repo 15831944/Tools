@@ -234,18 +234,8 @@ bool CItemMgr::AddGroup(std::shared_ptr<CItemGroup> group,UINT parentid)
 		m_vtItemGroup[i] = group;
 		return true;
 	}
-	//!< 如果前边没有空的位置，则从最后添加
-	if(m_vtItemGroup.size() < CGbl::GetMe().getMaxGroupNum())	//!< 数量不能超过权限值
-	{
-		group->setID((UINT)m_vtItemGroup.size());		//!< 设置变量ID号
-		m_vtItemGroup.push_back(group);
-		return true;
-	}
-	else
-	{
-		MessageBox(NULL, _T("数量超过了限制，无法再添加变量组！"), _T("警告"), MB_OK);
-	}
-	return false;
+	m_vtItemGroup.push_back(group);
+	return true;
 }
 
 //!< 查找编号为no的元素，返回它的编号，没有返回-1
@@ -454,151 +444,6 @@ bool CItemMgr::SerializeXmlItem(TiXmlElement* pNode, bool bRead)
 //!< 变量表导出
 void CItemMgr::OutItem(std::list<UINT> ltItem)
 {
-	//CProjectMgr* projMgr = &CProjectMgr::GetMe();
-	//std::shared_ptr<CProject> proj = projMgr->GetProj();
-	//ASSERT(proj);
-	//CString defFileName = _T("导出变量表");
-	//defFileName = defFileName;
-	//CString extendNames = _T("变量表导出文件 (*.vxpt)|*.vxpt|");
-	//extendNames = extendNames + _T("Excel文件 (*.xls)|*.xls|");
-	//extendNames = extendNames + _T("Txt文件 (*.txt)|*.txt|");
-	//extendNames = extendNames + _T("|");
-	//CFileDialog saveDlg(FALSE, (LPCTSTR)extendNames, (LPCTSTR)defFileName, OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT, (LPCTSTR)extendNames);
-	//if(IDOK == saveDlg.DoModal())
-	//{
-	//	CString strExt = saveDlg.GetFileExt();
-	//	if(strExt == _T("xls") || strExt == _T("txt"))
-	//	{
-	//		COperation excelop;
-	//		std::shared_ptr<CItem> pItem;
-	//		std::shared_ptr<CPropertySource> pSrc;
-	//		std::shared_ptr<CPropertyAlarm> pAlarm;
-	//		int nRow = 0;
-	//		CString strValue;
-	//		CComVariant cvrValue;
-
-	//		//!< 启动导出器
-	//		excelop.FileGuid(FALSE, saveDlg.GetFileName(), saveDlg.GetPathName());
-	//		CGbl::SetProgressRange(ltItem.size() + 1);
-	//		CGbl::SetProgressStep(1);
-
-	//		//!< 加载标题
-	//		strValue = _T("编号");			cvrValue = strValue;	excelop.WriteItem(nRow, 1, cvrValue);
-	//		strValue = _T("名称");			cvrValue = strValue;	excelop.WriteItem(nRow, 2, cvrValue);
-	//		strValue = _T("标签");			cvrValue = strValue;	excelop.WriteItem(nRow, 3, cvrValue);
-	//		strValue = _T("备注");			cvrValue = strValue;	excelop.WriteItem(nRow, 4, cvrValue);
-	//		strValue = _T("变量类型");		cvrValue = strValue;	excelop.WriteItem(nRow, 5, cvrValue);
-	//		strValue = _T("默认值");		cvrValue = strValue;	excelop.WriteItem(nRow, 6, cvrValue);
-	//		strValue = _T("数据源类型");	cvrValue = strValue;	excelop.WriteItem(nRow, 7, cvrValue);
-	//		strValue = _T("访问权限");		cvrValue = strValue;	excelop.WriteItem(nRow, 8, cvrValue);
-	//		strValue = _T("保留值");		cvrValue = strValue;	excelop.WriteItem(nRow, 9, cvrValue);
-	//		strValue = _T("保留历史数据");	cvrValue = strValue;	excelop.WriteItem(nRow, 10, cvrValue);
-	//		strValue = _T("创建时间");		cvrValue = strValue;	excelop.WriteItem(nRow, 11, cvrValue);
-	//		strValue = _T("脚本");			cvrValue = strValue;	excelop.WriteItem(nRow, 12, cvrValue);
-	//		strValue = _T("设备");			cvrValue = strValue;	excelop.WriteItem(nRow, 13, cvrValue);
-	//		strValue = _T("区地址");		cvrValue = strValue;	excelop.WriteItem(nRow, 14, cvrValue);
-	//		strValue = _T("IO类型");		cvrValue = strValue;	excelop.WriteItem(nRow, 15, cvrValue);
-	//		strValue = _T("寻址偏移");		cvrValue = strValue;	excelop.WriteItem(nRow, 16, cvrValue);
-	//		strValue = _T("位偏移");		cvrValue = strValue;	excelop.WriteItem(nRow, 17, cvrValue);
-	//		strValue = _T("刷新时间");		cvrValue = strValue;	excelop.WriteItem(nRow, 18, cvrValue);
-	//		strValue = _T("允许滞后");		cvrValue = strValue;	excelop.WriteItem(nRow, 19, cvrValue);
-	//		strValue = _T("转换类型");		cvrValue = strValue;	excelop.WriteItem(nRow, 20, cvrValue);
-	//		strValue = _T("最小工程值");	cvrValue = strValue;	excelop.WriteItem(nRow, 21, cvrValue);
-	//		strValue = _T("最大工程值");	cvrValue = strValue;	excelop.WriteItem(nRow, 22, cvrValue);
-	//		strValue = _T("最小IO值");		cvrValue = strValue;	excelop.WriteItem(nRow, 23, cvrValue);
-	//		strValue = _T("最大IO值");		cvrValue = strValue;	excelop.WriteItem(nRow, 24, cvrValue);
-	//		strValue = _T("开关报警类型");	cvrValue = strValue;	excelop.WriteItem(nRow, 25, cvrValue);
-	//		strValue = _T("限值死区");		cvrValue = strValue;	excelop.WriteItem(nRow, 26, cvrValue);
-	//		strValue = _T("下下限报警激活");cvrValue = strValue;	excelop.WriteItem(nRow, 27, cvrValue);
-	//		strValue = _T("下下限报警值");	cvrValue = strValue;	excelop.WriteItem(nRow, 28, cvrValue);
-	//		strValue = _T("下限报警激活");	cvrValue = strValue;	excelop.WriteItem(nRow, 29, cvrValue);
-	//		strValue = _T("下限报警值");	cvrValue = strValue;	excelop.WriteItem(nRow, 30, cvrValue);
-	//		strValue = _T("上限报警激活");	cvrValue = strValue;	excelop.WriteItem(nRow, 31, cvrValue);
-	//		strValue = _T("上限报警值");	cvrValue = strValue;	excelop.WriteItem(nRow, 32, cvrValue);
-	//		strValue = _T("上上限报警激活");cvrValue = strValue;	excelop.WriteItem(nRow, 33, cvrValue);
-	//		strValue = _T("上上限报警值");	cvrValue = strValue;	excelop.WriteItem(nRow, 34, cvrValue);
-	//		strValue = _T("目标报警激活");	cvrValue = strValue;	excelop.WriteItem(nRow, 35, cvrValue);
-	//		strValue = _T("目标值");		cvrValue = strValue;	excelop.WriteItem(nRow, 36, cvrValue);
-	//		strValue = _T("目标偏差值");	cvrValue = strValue;	excelop.WriteItem(nRow, 37, cvrValue);
-	//		strValue = _T("目标死区");		cvrValue = strValue;	excelop.WriteItem(nRow, 38, cvrValue);
-	//		strValue = _T("变化率报警激活");cvrValue = strValue;	excelop.WriteItem(nRow, 39, cvrValue);
-	//		strValue = _T("最大变化量");	cvrValue = strValue;	excelop.WriteItem(nRow, 40, cvrValue);
-	//		strValue = _T("变化时间");		cvrValue = strValue;	excelop.WriteItem(nRow, 41, cvrValue);
-
-	//		++nRow;
-
-	//		//!< 加载变量信息
-	//		for (UINT id : ltItem)
-	//		{
-	//			CGbl::SetProgressStep(1);
-	//			pItem = GetItem(id);
-	//			if(!pItem)		continue;
-	//			pSrc = pItem->getSrcInfo();
-	//			pAlarm = pItem->getAlarmInfo();
-
-	//			cvrValue = pItem->getID();				excelop.WriteItem(nRow, 1, cvrValue);	//!< 变量ID号
-	//			cvrValue = pItem->getName();			excelop.WriteItem(nRow, 2, cvrValue);	//!< 变量名称
-	//			cvrValue = pItem->getTag();				excelop.WriteItem(nRow, 3, cvrValue);	//!< 变量标签
-	//			cvrValue = pItem->getDescription();		excelop.WriteItem(nRow, 4, cvrValue);	//!< 变量的备注信息
-	//			cvrValue = pItem->getValType();			excelop.WriteItem(nRow, 5, cvrValue);	//!< 变量类型，0-bit，1-char，2-byte，3-short，4-word，5-int，6-dword，7-float，8-double
-	//			cvrValue = pItem->getDefault();			excelop.WriteItem(nRow, 6, cvrValue);	//!< 变量默认值
-	//			cvrValue = pItem->getSrcType();			excelop.WriteItem(nRow, 7, cvrValue);	//!< 数据源类型，0内存变量，1I/O变量
-	//			cvrValue = pItem->getAccessRight();		excelop.WriteItem(nRow, 8, cvrValue);	//!< 访问权限，0可读可写，1只读，只写
-	//			cvrValue = pItem->getReservFlag();		excelop.WriteItem(nRow, 9, cvrValue);	//!< 是否设置成保留值，true设置，false不设置
-	//			cvrValue = pItem->getReservDB();		excelop.WriteItem(nRow, 10, cvrValue);	//!< 是否保存历史数据
-	//			strValue = _T("2009-12-28");	cvrValue = strValue;	excelop.WriteItem(nRow, 11, cvrValue);	//!< 创建时间
-	//			cvrValue = pSrc->getScriptText();		excelop.WriteItem(nRow, 12, cvrValue);	//!< 赋值脚本文本
-	//			cvrValue = pSrc->getDeviceID();			excelop.WriteItem(nRow, 13, cvrValue);	//!< 设备编号
-	//			cvrValue = pSrc->getAreaID();			excelop.WriteItem(nRow, 14, cvrValue);	//!< 区编号
-	//			cvrValue = pSrc->getIOType();			excelop.WriteItem(nRow, 15, cvrValue);	//!< IO类型，具体内容看描述文件
-	//			cvrValue = pSrc->getUnitIndex();		excelop.WriteItem(nRow, 16, cvrValue);	//!< 寻址偏移
-	//			cvrValue = pSrc->getBitIndex();			excelop.WriteItem(nRow, 17, cvrValue);	//!< 位偏移
-	//			cvrValue = pSrc->getFreshTime();		excelop.WriteItem(nRow, 18, cvrValue);	//!< 变量刷新时间,单位100毫秒
-	//			cvrValue = pSrc->getDelayFlag();		excelop.WriteItem(nRow, 19, cvrValue);	//!< 可否允许滞后
-	//			cvrValue = pSrc->getConvertType();		excelop.WriteItem(nRow, 20, cvrValue);	//!< 转换类型，0不转换，1是否取反(位变量使用)，1线性转换
-	//			cvrValue = pSrc->getProjMin();			excelop.WriteItem(nRow, 21, cvrValue);	//!< 最小工程值
-	//			cvrValue = pSrc->getProjMax();			excelop.WriteItem(nRow, 22, cvrValue);	//!< 最大工程值
-	//			cvrValue = pSrc->getIOMin();			excelop.WriteItem(nRow, 23, cvrValue);	//!< 最小IO值
-	//			cvrValue = pSrc->getIOMax();			excelop.WriteItem(nRow, 24, cvrValue);	//!< 最大IO值
-	//			cvrValue = pAlarm->getBitAlarmType();	excelop.WriteItem(nRow, 25, cvrValue);	//!< 开关报警类型，0不报警，1开时报警，2关时报警，3开到关报警，4关到开报警，5变化就报警
-	//			cvrValue = pAlarm->getDeadArea();		excelop.WriteItem(nRow, 26, cvrValue);	//!< 死区，开始报警和恢复报警之间的界限，为了放置报警波动。真正的报警值和恢复值 = 报警值 ± 死区值
-	//			cvrValue = pAlarm->getLoloActive();		excelop.WriteItem(nRow, 27, cvrValue);	//!< 下下限报警是否启动
-	//			cvrValue = pAlarm->getLoloValue();		excelop.WriteItem(nRow, 28, cvrValue);	//!< 下下限报警值
-	//			cvrValue = pAlarm->getLowActive();		excelop.WriteItem(nRow, 29, cvrValue);	//!< 下限报警是否启动
-	//			cvrValue = pAlarm->getLowValue();		excelop.WriteItem(nRow, 30, cvrValue);	//!< 下限报警值
-	//			cvrValue = pAlarm->getHighActive();		excelop.WriteItem(nRow, 31, cvrValue);	//!< 上限报警是否启动
-	//			cvrValue = pAlarm->getHighValue();		excelop.WriteItem(nRow, 32, cvrValue);	//!< 上限报警值
-	//			cvrValue = pAlarm->getHihiActive();		excelop.WriteItem(nRow, 33, cvrValue);	//!< 上上限报警是否启动
-	//			cvrValue = pAlarm->getHihiValue();		excelop.WriteItem(nRow, 34, cvrValue);	//!< 上上限报警值
-	//			cvrValue = pAlarm->getAimActive();		excelop.WriteItem(nRow, 35, cvrValue);	//!< 目标报警是否启动
-	//			cvrValue = pAlarm->getAimValue();		excelop.WriteItem(nRow, 36, cvrValue);	//!< 目标值
-	//			cvrValue = pAlarm->getAimPercent();		excelop.WriteItem(nRow, 37, cvrValue);	//!< 目标偏差
-	//			cvrValue = pAlarm->getAimDeadPercent();	excelop.WriteItem(nRow, 38, cvrValue);	//!< 目标偏差死区
-	//			cvrValue = pAlarm->getShiftActive();	excelop.WriteItem(nRow, 39, cvrValue);	//!< 变化率报警是否启动
-	//			cvrValue = pAlarm->getShiftDelta();		excelop.WriteItem(nRow, 40, cvrValue);	//!< 最大变化量
-	//			cvrValue = pAlarm->getShiftTime();		excelop.WriteItem(nRow, 41, cvrValue);	//!< 变化时间，单位秒
-	//			++nRow;
-	//		}
-	//		excelop.SaveFile();
-	//		CGbl::SetProgressEnd();
-	//	}
-	//	else
-	//	{
-	//		TiXmlDocument pTiXml(saveDlg.GetPathName());
-	//		TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "GB2312", "" );	//!< 起始声明
-	//		pTiXml.LinkEndChild(decl);
-	//		TiXmlComment * comment = new TiXmlComment();							//!< 注释信息
-	//		comment->SetValue(_T("请勿手工编辑此文档"));
-	//		pTiXml.LinkEndChild(comment);
-	//		TiXmlElement *pRoot=new TiXmlElement("DocumentRoot");					//!< 写入根节点
-	//		SerializeOut(pRoot, ltItem);											//!< 添加工程节点,写操作
-	//		pTiXml.LinkEndChild(pRoot);
-	//		if(!pTiXml.SaveFile())
-	//			MessageBox(NULL, _T("导出失败！"), _T("错误"), MB_ICONEXCLAMATION);
-	//		else
-	//			MessageBox(NULL, _T("导出成功！"), _T("提示"), MB_ICONINFORMATION);
-	//	}
-	//}
 }
 
 //!< 变量表导出
@@ -676,20 +521,6 @@ void CItemMgr::WriteItemValue(UINT id, bool proj, CString value)
 		CGbl::PrintOut(_T("数值类型不匹配，请查看是否数值越界..."));
 		return;
 	}
-	if(proj){
-		mf->m_SevCommer.Write(id, cvr);
-	}
-	else{
-		CComVariant _ccomvar;
-		_ccomvar.ChangeType(VT_ARRAY|VT_VARIANT);
-		_ccomvar.parray = ::SafeArrayCreateVector(VT_VARIANT,0,1);
-		void* pDest;
-		AfxCheckError(::SafeArrayAccessData(_ccomvar.parray, &pDest));
-		memcpy(pDest, &cvr, sizeof(VARIANT));
-		AfxCheckError(::SafeArrayUnaccessData(_ccomvar.parray));
-
-		mf->m_SevCommer.Execute(5, _ccomvar, -1, id, 1);
-	}
 }
 
 //!< 改变监控状态
@@ -714,10 +545,6 @@ void CItemMgr::ReadItemValue(bool bProj)
 	CComVariant cvr;
 	VARIANT safeArray;
 	CMainFrame* mf = (CMainFrame*)g_App.GetMainWnd();
-
-	//!< 读所有变量的工程值
-	if(bProj)		safeArray = mf->m_SevCommer.ReadEx(0, last_id);
-	else			safeArray = mf->m_SevCommer.Execute(4, cvr, -1, 0, item_count);
 
 	VARIANT *pValue = NULL;
 	if(safeArray.vt == (VT_ARRAY|VT_VARIANT))
@@ -879,48 +706,3 @@ void CItemMgr::FreshAllGrid()
 	}
 }
 
-//!< 变量报警
-void CItemMgr::OnVariableAlarm(int nAlarmType,int nID,VARIANT* varValue)
-{
-	std::shared_ptr<CItem> item = GetItem(nID);
-	if(!item)					return;
-	if(!varValue)				return;
-	SYSTEMTIME t;
-	GetLocalTime(&t);
-	CComVariant cvr = *varValue;
-	cvr.ChangeType(VT_BSTR);
-	CString text;
-	byte* alarmByte = (byte *)&nAlarmType;
-	if(alarmByte[0] == 0){
-		if(alarmByte[1] == 1)		text = _T("开");
-		if(alarmByte[1] == 2)		text = _T("关");
-		if(alarmByte[1] == 3)		text = _T("开->关");
-		if(alarmByte[1] == 4)		text = _T("关->开");
-		if(alarmByte[1] == 5)		text = _T("开关改变");
-	}
-	else{
-		if(alarmByte[0] == 1)		text = _T("下下限报警");
-		else if(alarmByte[0] == 2)	text = _T("下限报警");
-		else if(alarmByte[0] == 3)	text = _T("上限报警");
-		else if(alarmByte[0] == 4)	text = _T("上上限报警");
-		else if(alarmByte[0] == 5)	text = _T("目标报警");
-		else if(alarmByte[0] == 6)	text = _T("变化率报警");
-	}
-	CString title;
-	if(alarmByte[3] == 0){
-		item->SetAlarm(alarmByte[0], true);
-		title = _T("系统提示-变量报警：变量报警 [");
-	}
-	else if(alarmByte[3] == 0xFF){
-		item->SetAlarm(alarmByte[0], false);
-		title = _T("系统提示-变量报警：报警解除 [");
-	}
-	else{
-		return;
-	}
-	text = title + item->getName() + _T("] 类型 [") + text + _T("]");
-
-	CString strTime;
-	strTime.Format("%.4d/%.2d/%.2d %.2d:%.2d:%.2d(%.3d) —— ",t.wYear,t.wMonth,t.wDay,t.wHour,t.wMinute,t.wSecond,t.wMilliseconds);
-	CGbl::PrintOut(strTime + text);
-}

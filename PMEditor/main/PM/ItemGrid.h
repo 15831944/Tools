@@ -15,33 +15,30 @@ public:
 		MENU_BOOL_ALLCOL = 2002
 	};
 	enum{
-		COL_NAME = 0,					//!< 名称
-		COL_TAG = COL_NAME + 1,			//!< 标签
-		COL_ID = COL_TAG + 1,			//!< 编号
-		COL_SRC = COL_ID + 1,			//!< 数据源类型
-		COL_ACCESS = COL_SRC + 1,		//!< 访问权限
-		COL_TYPE = COL_ACCESS + 1,		//!< 工程类型
-		COL_IOTYPE = COL_TYPE + 1,		//!< IO类型
-		COL_VALUE = COL_IOTYPE + 1,		//!< 工程值
-		COL_IOVALUE = COL_VALUE + 1,	//!< 原始值
-		COL_CONVERT = COL_IOVALUE + 1,	//!< 转换
-		COL_GROUP = COL_CONVERT + 1,	//!< 变量组
-		COL_DESCRIPT = COL_GROUP + 1,	//!< 备注信息
-		COL_SCRIPT = COL_DESCRIPT + 1,	//!< 脚本
-		COL_DEVICE = COL_SCRIPT + 1,	//!< 设备
-		COL_ADDR = COL_DEVICE + 1,		//!< 地址
-		COL_FRESHTIME = COL_ADDR + 1,	//!< 刷新时间
-		COL_BIT = COL_FRESHTIME + 1,	//!< 变量报警
-		COL_LOLO = COL_BIT + 1,			//!< 下下限
-		COL_LOW = COL_LOLO + 1,			//!< 下限
-		COL_HIGH = COL_LOW + 1,			//!< 上限
-		COL_HIHI = COL_HIGH + 1,		//!< 上上限
-		COL_AIM = COL_HIHI + 1,			//!< 目标
-		COL_SHIFT = COL_AIM + 1,		//!< 变化量
-		COL_MODBUS485 = COL_SHIFT + 1,	//!< Modbus485
-		COL_REV_DB = COL_MODBUS485 + 1,	//!< 保留历史
+		COL_NAME = 0,		//!< 名称
+		COL_TAG,			//!< 标签
+		COL_ID,				//!< 编号
+		COL_SRC,			//!< 数据源类型
+		COL_ACCESS,			//!< 访问权限
+		COL_TYPE,			//!< 工程类型
+		COL_IOTYPE,			//!< IO类型
+		COL_VALUE,			//!< 工程值
+		COL_IOVALUE,		//!< 原始值
+		COL_CONVERT,		//!< 转换
+		COL_GROUP,			//!< 变量组
+		COL_DESCRIPT,		//!< 备注信息
+		COL_SCRIPT,			//!< 脚本
+		COL_FRESHTIME,		//!< 刷新时间
+		COL_BIT,			//!< 变量报警
+		COL_LOLO,			//!< 下下限
+		COL_LOW,			//!< 下限
+		COL_HIGH,			//!< 上限
+		COL_HIHI,			//!< 上上限
+		COL_AIM,			//!< 目标
+		COL_SHIFT,			//!< 变化量
+		COL_REV_DB,			//!< 保留历史
 	};
-	UINT m_uiShowType;				//!< 显示类型，0所有变量，1内存，2IO，3变量分组，4按设备显示
+	UINT m_uiShowType;				//!< 显示类型，0所有变量，1内存，2IO，3变量分组
 	UINT m_uiCulGroupID;			//!< 当先显示的组号，只在 m_uiShowType = 3 时有效
 
 private:
@@ -49,10 +46,9 @@ private:
 	BOOL m_bSortType;				//!< 记录当前列的排序方向
 	int m_iArrowIndex;				//!< 排序‘三角号’小标志
 	int m_iSortCol;
-//	static CString m_strSortCol;
+
 	CUGSortArrowType m_sortArrow;
 	CFont m_ItemFont,m_HeadFont;
-	UINT m_uiCulDevID;				//!< 当先显示的设备号，只在 m_uiShowType = 4 时有效
 	int m_nProjCol;					//!< 工程值所在的列，为了刷数据方便，所以要先记录这两列
 	int m_nIOCol;					//!< IO值所在的列
 

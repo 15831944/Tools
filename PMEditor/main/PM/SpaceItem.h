@@ -26,11 +26,9 @@ public:
 	afx_msg void OnGroupEdit();
 	afx_msg void OnGroupRemove();
 	afx_msg void OnItemGroup();
-	afx_msg void OnItemDevice();
 	afx_msg BOOL OnHelpInfo(HELPINFO* pHelpInfo);
 
 	afx_msg void OnUpdateItemGroup(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateItemDevice(CCmdUI *pCmdUI);
 	DECLARE_MESSAGE_MAP()
 
 private:

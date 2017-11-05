@@ -110,7 +110,6 @@ void CScriptEditDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SCRIPT_TEXT, m_ScriptTextCtrl);
 	DDX_Control(pDX, IDC_ITEM_LIST, m_ItemCtrl);
 	DDX_Control(pDX, IDC_SCRIPT_GROUP, m_cbItemGroup);
-	DDX_Control(pDX, IDC_SCRIPT_DEVICE, m_cbItemDevice);
 	DDX_Text(pDX, IDC_ITEM_NAME, m_strItemName);
 	DDX_Text(pDX, IDC_ITEM_DESCRIPT, m_strDescription);
 }
@@ -177,9 +176,7 @@ BOOL CScriptEditDlg::OnInitDialog()
 
 	//!< 初始化筛选的两个列表
 	m_cbItemGroup.AddString(_T("全部"));
-	m_cbItemDevice.AddString(_T("全部"));
 	m_cbItemGroup.SetCurSel(0);
-	m_cbItemDevice.SetCurSel(0);
 
 	UpdateData(FALSE);
 	return TRUE;

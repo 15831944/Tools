@@ -19,10 +19,7 @@ public:
 private:
 	//!< 软件配置
 	UINT m_uiLanguage;					//!< 当前语言，0中文简体，1英文……
-	bool m_bHDevMap;					//!< 设备拓扑的显示方向，1横向，0纵向
 	bool m_bTooltip;					//!< 悬停提示，要不要有
-	bool m_bUploadBehaviorFirst;		//!< 是否上来就先读一下行为
-	bool m_bShowAddr;					//!< 是否在拓扑上直接显示设备地址
 	UINT m_uiZoomSize;					//!< 缩放比例，X%
 	CString m_strTPFontName;			//!< 拓扑图中的文字的字体
 	LOGFONT m_lgTuopuFontInfo;			//!< 拓扑图中的文字信息，全局只能配置它的字体、字号
@@ -41,7 +38,6 @@ private:
 	CString m_strItemNabled;			//!< 变量名称是否能修改
 
 	CString m_strSerialNo;				//!< 序列号
-	bool m_bModbus485;					//!< 是否使能Modbus485服务的功能,启动后变量可以导入到485服务中
 
 private:
 	CSoftInfo(void);
@@ -53,11 +49,7 @@ private:
 
 public:
 	const CString getSerialNo(){return m_strSerialNo;}				//!< 获得已注册的序列号
-	const bool getHDevMap(){return m_bHDevMap;}						//!< 获得设备拓扑的显示方向，1横向，0纵向
 	const bool getTooltip(){return m_bTooltip;}						//!< 获得拓扑编辑时是否要有鼠标悬停的提示框
-	const bool getShowAddr(){return m_bShowAddr;}					//!< 是否在拓扑上直接显示设备地址
-	const bool IsModbus485(){return m_bModbus485;}					//!< 是否使能Modbus485服务的功能,启动后变量可以导入到485服务中}
-	const bool getUploadBFirst(){return m_bUploadBehaviorFirst;}	//!< 获得是否上来就先读一下行为
 	const bool IsCplXml(){return m_bCplXml;}						//!< 获得编译是否存描述，true存，false不存
 	const UINT getZoomSize(){return m_uiZoomSize;}					//!< 获得缩放比例，单位%
 	const UINT getFreshDataTime(){return m_uiFreshDataTime;}		//!< 获得刷新数据的默认周期
@@ -74,11 +66,7 @@ public:
 	const int getCompileOverTime(){return m_nCmplOverTime;}			//!< 编译超时时间
 
 	void setSerialNo(CString strNo){m_strSerialNo = strNo;}			//!< 设置序列号
-	void setHDevMap(bool h){m_bHDevMap = h;}						//!< 设置设备拓扑的显示方向，1横向，0纵向
 	void setTooltip(bool h){m_bTooltip = h;}						//!< 设置拓扑编辑时是否要有鼠标悬停的提示框
-	void setUploadBFrist(bool ubf){m_bUploadBehaviorFirst = ubf;}	//!< 设置是否上来就先读一下行为
-	void setShowAddr(bool bShow){m_bShowAddr = bShow;}				//!< 是否在拓扑上直接显示设备地址
-	void setModbus485(bool b485){m_bModbus485 = b485;}				//!< 是否使能Modbus485服务的功能,启动后变量可以导入到485服务中}
 	void setZoomSize(UINT size){if(size >= 50 && size <= 500)		m_uiZoomSize = size;}				//!< 设置缩放比例，单位%
 	void setOutPut(bool output){m_bIsOutPut = output;}				//!< 设置是否启动输出栏
 	void setOutWarning(bool bOut){m_bIsOutWarning = bOut;}			//!< 设置是否输出警告信息

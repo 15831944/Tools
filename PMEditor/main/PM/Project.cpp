@@ -8,8 +8,6 @@
 #include "Project.h"
 #include "DTreeCtrl.h"
 #include "ItemMgr.h"
-#include "DevMgr.h"
-#include "DBMgr.h"
 #include "Compiler.h"
 #include "CreatProjectDlg.h"
 #include "ReNameDlg.h"
@@ -33,11 +31,6 @@ const CString ITEM_NAME = _T("Name");
 const CString ITEM_PATH = _T("Path");
 const CString ITEM_VERSION = _T("Version");
 const CString EDIT_TIME = _T("EditTime");
-const CString DEVICE = _T("DeviceMap");
-const CString DEVICE_NAME = _T("Name");
-const CString DEVICE_PATH = _T("Path");
-const CString DEVICE_VERSION = _T("Version");
-const CString DBSET = _T("DBSet");
 
 //!< 新建工程时使用这个构造
 CProject::CProject()
@@ -86,7 +79,6 @@ CProject::~CProject(void)
 bool CProject::IsModify()
 {
 	if(m_bModify)										return true;
-	if(Servers::DB::CDBMgr::GetMe().IsModify())			return true;
 	return false;
 }
 
@@ -100,11 +92,8 @@ CString CProject::GetWholePathName()
 bool CProject::CreateProject()
 {
 	MVC::Item::CItemMgr::GetMe().OnCreate();
-	MVC::Device::CDevMgr::GetMe().OnCreate();
-	Servers::DB::CDBMgr::GetMe().setBackupPath(m_strPath);
 	SaveProject();	//新建的工程需要立即保存一下才能算是成功
 	SetModify(true);
-	MVC::Device::CDevMgr::GetMe().OpenDoc();		// 打开工程之后,直接打开拓扑图
 	return true;
 }
 
@@ -112,8 +101,6 @@ bool CProject::CreateProject()
 bool CProject::OnClose()
 {
 	MVC::Item::CItemMgr::GetMe().OnClose();
-	MVC::Device::CDevMgr::GetMe().OnClose();
-	Servers::DB::CDBMgr::GetMe().OnClose();
 	SetModify(false);
 	return true;
 }
@@ -134,7 +121,6 @@ bool CProject::OpenProject(CString title, CString name,CString pathname)
 		return false;
 	}
 	SetModify(false);
-	MVC::Device::CDevMgr::GetMe().OpenDoc();		// 打开工程之后,直接打开拓扑图
 	return true;
 }
 
@@ -145,7 +131,7 @@ bool CProject::SaveProject()
 	if(CProjectMgr::GetMe().IsModify())			SetCompiled(false);
 
 	//!< 设置一下滚动条
-	UINT processlen = 3 + MVC::Device::CDevMgr::GetMe().GetDeviceSize();
+	UINT processlen = 3;
 	processlen += MVC::Item::CItemMgr::GetMe().GetItemSize();
 	CGbl::SetProgressRange(processlen);
 
@@ -171,7 +157,6 @@ bool CProject::SaveProject()
 	}
 	CGbl::SetProgressStep(1);
 
-	MVC::Device::CDevMgr::GetMe().SaveFile();
 	MVC::Item::CItemMgr::GetMe().SaveItemFile();
 	CGbl::SetProgressEnd();
 	SetModify(false);
@@ -185,9 +170,7 @@ bool CProject::SerializeXml(TiXmlElement* pNode, bool bRead/* = true*/)
 		//!< 软件版本
 		TiXmlAttribute* pAttr = pNode->FirstAttribute();
 		CString text, strValue;
-		CString devPath, devName, devVer, deviceTime;
 		CString itemPath, itemName, itemVer, itemTime;
-		CString camPath, camName, camVer, camActive;
 		while(pAttr)
 		{
 			text = pAttr->NameTStr().c_str();
@@ -226,29 +209,8 @@ bool CProject::SerializeXml(TiXmlElement* pNode, bool bRead/* = true*/)
 					pAttr = pAttr->Next();
 				}
 			}
-			else if(DEVICE == text)
-			{
-				pAttr = pChild->FirstAttribute();
-				CString path,name,ver;
-				while(pAttr)
-				{
-					text = pAttr->NameTStr().c_str();
-					strValue = pAttr->Value();
-					if(DEVICE_NAME == text)					devName = strValue;
-					else if(DEVICE_PATH == text)			devPath = strValue;
-					else if(DEVICE_VERSION == text)			devVer = strValue;
-					else if(EDIT_TIME == text)				deviceTime =strValue;
-					pAttr = pAttr->Next();
-				}
-			}
-			else if(DBSET == text)
-			{
-				Servers::DB::CDBMgr::GetMe().SerializeXml(pChild, bRead);
-			}
 			pChild = pChild->NextSiblingElement();
 		}
-		if(!MVC::Device::CDevMgr::GetMe().OpenDevMgrFile(devName, m_strPath + devPath, devVer, deviceTime))
-			return false;
 		if(!MVC::Item::CItemMgr::GetMe().OpenItemFile(itemName, m_strPath + itemPath, itemVer, itemTime))
 			return false;
 	}
@@ -259,17 +221,10 @@ bool CProject::SerializeXml(TiXmlElement* pNode, bool bRead/* = true*/)
 		pNode->SetAttribute(_T("SoftVersion"), _T("1.0"));
 
 		TiXmlElement* pInfo = pNode->AddTiXmlChild((LPCTSTR)PROJ);
-//		pInfo->SetAttribute(PROJ_NAME, GetProjName());
 		pInfo->SetAttribute(PROJ_COMPILED, IsCompiled() ? _T("1") : _T("0"));
 		pInfo->SetAttribute(PROJ_AUTHOR, GetAuthor());
 		pInfo->SetAttribute(PROJ_DECSRIP, GetDescription());
 
-		TiXmlElement* pDevice = pNode->AddTiXmlChild((LPCTSTR)DEVICE);
-		MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-		pDevice->SetAttribute(DEVICE_NAME, devMgr->getName());
-		pDevice->SetAttribute(DEVICE_PATH, devMgr->getFileName());
-		pDevice->SetAttribute(DEVICE_VERSION, devMgr->getVersion());
-		pDevice->SetAttribute(EDIT_TIME, devMgr->GetEditTime());
 
 		TiXmlElement* pItem = pNode->AddTiXmlChild((LPCTSTR)ITEM);
 		MVC::Item::CItemMgr* itemMgr = &MVC::Item::CItemMgr::GetMe();
@@ -277,9 +232,6 @@ bool CProject::SerializeXml(TiXmlElement* pNode, bool bRead/* = true*/)
 		pItem->SetAttribute(ITEM_PATH, itemMgr->getFileName());
 		pItem->SetAttribute(ITEM_VERSION, itemMgr->getVersion());
 		pItem->SetAttribute(EDIT_TIME, itemMgr->GetEditTime());
-
-		TiXmlElement* pDBSet = pNode->AddTiXmlChild((LPCTSTR)DBSET);
-		Servers::DB::CDBMgr::GetMe().SerializeXml(pDBSet, bRead);
 
 		Servers::Compile::CCompiler::GetMe().SerializeXml(pNode, bRead);
 	}
@@ -299,7 +251,6 @@ bool CProject::BackUpProject(CString name,CString path)
 	if(!CGbl::CopyDirectoryAll(m_strPath, path))	return false;
 	ReName(strOldName);
 	SaveProject();
-	//rename(path + m_strFileName + _T(".") + PROJ_EXPAND_NAME, path + name + _T(".") + PROJ_EXPAND_NAME);
 	return true;
 }
 
@@ -313,8 +264,6 @@ void CProject::OnTreeEnter(CTreeCtrl* treeCtrl, HTREEITEM item)
 void CProject::OnTreeDblClick(CTreeCtrl* treeCtrl, HTREEITEM item)
 {
 	if(item == m_hItemItem)				MVC::Item::CItemMgr::GetMe().OpenDoc();
-	else if(item == m_hDeviceItem)		MVC::Device::CDevMgr::GetMe().OpenDoc();
-	else if(item == m_hDBItem)			Servers::DB::CDBMgr::GetMe().OnSetDB();
 }
 
 //!< 接收右键消息
@@ -325,14 +274,6 @@ void CProject::OnTreeRClick(CTreeCtrl* treeCtrl, HTREEITEM item, CPoint point)
 		popMenu.LoadMenu(IDR_RBUTTON_MENU);
 		CMenu* menu =popMenu.GetSubMenu(4);
 		menu->EnableMenuItem(ID_PROJ_IN, MF_DISABLED | MF_BYCOMMAND);
-		CXTPCommandBars::TrackPopupMenu(menu, TPM_LEFTALIGN | TPM_NONOTIFY, point.x, point.y, g_App.GetMainWnd());
-	}
-	else if(item == m_hDeviceItem){
-		CMenu popMenu;
-		popMenu.LoadMenu(IDR_RBUTTON_MENU);
-		CMenu* menu =popMenu.GetSubMenu(8);
-		if(CProjectMgr::GetMe().IsWatch())
-			menu->EnableMenuItem(ID_SCANANDSHOW, MF_DISABLED | MF_BYCOMMAND);
 		CXTPCommandBars::TrackPopupMenu(menu, TPM_LEFTALIGN | TPM_NONOTIFY, point.x, point.y, g_App.GetMainWnd());
 	}
 }
@@ -352,9 +293,7 @@ void CProject::UpdateProjView(Tool::CDTreeCtrl& pTreeCtrl)
 		m_hProjectItem = pTreeCtrl.InsertItem(_T("工程(") + m_strProjName + _T(")"), 1, 1);
 		break;
 	}
-	m_hDeviceItem = pTreeCtrl.InsertItem(_T("设备拓扑结构"), 17, 17, m_hProjectItem);
 	m_hItemItem = pTreeCtrl.InsertItem(_T("变量表"), 4, 4, m_hProjectItem);
-	m_hDBItem = pTreeCtrl.InsertItem(_T("历史数据库配置"), 16, 16, m_hProjectItem);
 
 	pTreeCtrl.Expand(m_hProjectItem, TVM_EXPAND);
 	pTreeCtrl.Expand(m_hItemItem, TVM_EXPAND);
@@ -413,7 +352,5 @@ void CProject::OnHelpInfo(HTREEITEM hItem)
 
 	SoftInfo::CMyHelp* pHelp = &SoftInfo::CMyHelp::GetMe();
 	if(hItem == m_hProjectItem)			pHelp->ShowHelp(_T("工程"));				//!< 工程在树中的节点
-	else if(hItem == m_hDeviceItem)		pHelp->ShowHelp(_T("设备拓扑"));			//!< 设备拓扑在树中的节点
 	else if(hItem == m_hItemItem)		pHelp->ShowHelp(_T("变量"));				//!< 变量在树中的节点
-	else if(hItem == m_hDBItem)			pHelp->ShowHelp(_T("历史数据库"));			//!< 数据库配置节点
 }

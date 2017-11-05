@@ -13,9 +13,6 @@
 #include "ItemGroup.h"
 #include "ScriptEditDlg.h"
 
-#include "DevMgr.h"
-#include "DeviceOne.h"
-
 const CString ITEM_TITLE = _T("变量属性统一修改");
 
 const CString ITEM_BASE_INFO = _T("变量基本信息");
@@ -41,10 +38,6 @@ const CString SRC_INFO = _T("数据源信息");
 const CString SRC_INFO_TOOLTIP = _T("数据源信息");
 const CString SRC_FRESHTIME = _T("变量刷新时间,单位1ms");
 const CString SRC_FRESHTIME_TOOLTIP = _T("变量刷新时间,单位1ms");
-const CString SRC_DEVICEID = _T("所属设备");
-const CString SRC_DEVICEID_TOOLTIP = _T("所属设备，仅对IO变量有效");
-const CString SRC_DELAYFLAG = _T("是否允许滞后");
-const CString SRC_DELAYFLAG_TOOLTIP = _T("滞后表示读取的是刷新值，不允许滞后表示读取的是存储值，仅对IO变量有效");
 const CString SRC_CONVERT = _T("转换类型");
 const CString SRC_CONVERT_TOOLTIP = _T("转换类型，仅对IO变量有效");
 const CString SRC_MINPROJ = _T("最小工程值");
@@ -106,9 +99,7 @@ const UINT ITEM_RESFDB_ID = ITEM_RESERVE_ID + 1;
 const UINT ITEM_MODBUS485_ID = ITEM_RESFDB_ID + 1;
 
 const UINT SRC_FRESHTIME_ID = 101;
-const UINT SRC_DEVICE_ID = SRC_FRESHTIME_ID + 1;
-const UINT SRC_DELAYFLAG_ID = SRC_DEVICE_ID + 1;
-const UINT SRC_CONVERT_ID = SRC_DELAYFLAG_ID + 1;
+const UINT SRC_CONVERT_ID = SRC_FRESHTIME_ID + 1;
 const UINT SRC_MINPROJ_ID = SRC_CONVERT_ID + 1;
 const UINT SRC_MAXPROJ_ID = SRC_MINPROJ_ID + 1;
 const UINT SRC_MINIO_ID = SRC_MAXPROJ_ID + 1;
@@ -235,54 +226,18 @@ void CPropertyItems::ShowInfo(CXTPPropertyGrid& grid)
 	else
 		AddItemList(*pGroup, ITEM_RESFDB, ITEM_RESFDB_TOOLTIP, boolList, -1, ITEM_RESFDB_ID);
 
-	//!< 是否导出Modbus变量
-	if (SoftInfo::CSoftInfo::GetMe().IsModbus485())
-	{
-		if (m_bModbus485)
-			AddItemList(*pGroup, ITEM_MODBUS485, ITEM_MODBUS485_TOOLTIP, boolList, m_ShowItem->getModbus485()?1:0, ITEM_MODBUS485_ID);
-		else
-			AddItemList(*pGroup, ITEM_MODBUS485, ITEM_MODBUS485_TOOLTIP, boolList, -1, ITEM_MODBUS485_ID);
-	}
-
 	//!< 数据源信息
 	pGroup = grid.AddCategory(SRC_INFO);
 	pGroup->SetTooltip(SRC_INFO_TOOLTIP);
 	pGroup->Expand();
 
-	//!< 所属设备
-	strList.clear();
-	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	std::shared_ptr<MVC::Device::CDeviceOne> myDev;		//!< 本变量所属的设备
-	int defIndex = -1;
-	for (std::shared_ptr<MVC::Device::CDeviceOne> device : devMgr->m_vtDevice)
-	{
-		if(!device)					continue;
-		if(!device->IsProj())		continue;
-		if(device->getID() == showSrc->getDeviceID()){
-			defIndex = (int)strList.size();
-			myDev = device;
-		}
-		strList.push_back(device->getName());
-	}
-	if(m_bDev)
-		AddItemList(*pGroup, SRC_DEVICEID, SRC_DEVICEID_TOOLTIP, strList, defIndex, SRC_DEVICE_ID);
-	else
-		AddItemList(*pGroup, SRC_DEVICEID, SRC_DEVICEID_TOOLTIP, strList, -1, SRC_DEVICE_ID);
-
 	//!< 刷新时间
 	AddItemNumber(*pGroup, SRC_FRESHTIME, SRC_FRESHTIME_TOOLTIP, showSrc->getFreshTime(), SRC_FRESHTIME_ID, !m_bFreshTime);
-
-	//!< 是否允许滞后
-	//if(m_bDelayFlag)
-	//	AddItemList(*pGroup, SRC_DELAYFLAG, SRC_DELAYFLAG_TOOLTIP, boolList, showSrc->getDelayFlag()?1:0, SRC_DELAYFLAG_ID);
-	//else
-	//	AddItemList(*pGroup, SRC_DELAYFLAG, SRC_DELAYFLAG_TOOLTIP, boolList, -1, SRC_DELAYFLAG_ID);
 
 	//!< 转换类型
 	strList.clear();
 	strList.push_back(_T("不转换"));
 	strList.push_back(_T("线性转换"));
-//	strList.push_back(_T("平方根转换"));
 	if(m_bConvertFlag)
 		AddItemList(*pGroup, SRC_CONVERT, SRC_CONVERT_TOOLTIP, strList, showSrc->getConvertType(), SRC_CONVERT_ID);
 	else
@@ -396,10 +351,7 @@ void CPropertyItems::CreateEdit()
 	m_bAccessRight = true;		//!< 访问权限是否相同
 	m_bReservFlag = true;		//!< 是否是保留值是否相同
 	m_bReservDB = true;			//!< 是否是保留数据库是否相同
-	m_bModbus485 = true;		//!< 是否导出Modbus变量是否相同
-	m_bDev = true;				//!< 所属设备是否相同
 	m_bFreshTime = true;		//!< 刷新时间是否相同
-	m_bDelayFlag = true;		//!< 是否允许滞后是否相同
 	m_bConvertFlag = true;		//!< 转换类型是否相同
 	m_bMinProj = true;			//!< 最小工程值是否相同
 	m_bMaxProj = true;			//!< 最大工程值是否相同
@@ -448,11 +400,8 @@ void CPropertyItems::CreateEdit()
 		if(m_bAccessRight)		m_bAccessRight = (m_ShowItem->getAccessRight() == item->getAccessRight());
 		if(m_bReservFlag)		m_bReservFlag = (m_ShowItem->getReservFlag() == item->getReservFlag());
 		if(m_bReservDB)			m_bReservDB = (m_ShowItem->getReservDB() == item->getReservDB());
-		if(m_bModbus485)		m_bModbus485 = (m_ShowItem->getModbus485() == item->getModbus485());
 
-		if(m_bDev)				m_bDev = (showSrc->getDeviceID() == itemSrc->getDeviceID());
 		if(m_bFreshTime)		m_bFreshTime = (showSrc->getFreshTime() == itemSrc->getFreshTime());
-		if(m_bDelayFlag)		m_bDelayFlag = (showSrc->getDelayFlag() == itemSrc->getDelayFlag());
 		if(m_bConvertFlag)		m_bConvertFlag = (showSrc->getConvertType() == itemSrc->getConvertType());
 		if(m_bMinProj)			m_bMinProj = (showSrc->getProjMin() == itemSrc->getProjMin());
 		if(m_bMaxProj)			m_bMaxProj = (showSrc->getProjMax() == itemSrc->getProjMax());
@@ -506,10 +455,7 @@ bool CPropertyItems::OnSaveModify(CXTPPropertyGrid& grid)
 	m_bAccessRight = true;		//!< 访问权限是否相同
 	m_bReservFlag = true;		//!< 是否是保留值是否相同
 	m_bReservDB = true;			//!< 是否是保留数据库是否相同
-	m_bModbus485 = true;		//!< 是否导出Modbus变量
-	m_bDev = true;				//!< 所属设备是否相同
 	m_bFreshTime = true;		//!< 刷新时间是否相同
-	m_bDelayFlag = true;		//!< 是否允许滞后是否相同
 	m_bConvertFlag = true;		//!< 转换类型是否相同
 	m_bMinProj = true;			//!< 最小工程值是否相同
 	m_bMaxProj = true;			//!< 最大工程值是否相同
@@ -572,25 +518,9 @@ bool CPropertyItems::OnSaveModify(CXTPPropertyGrid& grid)
 			m_ShowItem->setReservDB(item->GetConstraints()->GetCurrent());
 			m_bReservDB = false;
 		}
-		else if(ITEM_MODBUS485_ID == itemID){				//!< 是否导出Modbus变量
-			m_ShowItem->setModbus485(item->GetConstraints()->GetCurrent());
-			m_bModbus485 = false;
-		}
 		else if(SRC_FRESHTIME_ID == itemID){				//!< 刷新时间
 			showSrc->setFreshTime(((CXTPPropertyGridItemNumber *)item)->GetNumber());
 			m_bFreshTime = false;
-		}
-		else if(SRC_DEVICE_ID == itemID){					//!< 所属设备
-			MVC::Device::CDevMgr* mgr = &MVC::Device::CDevMgr::GetMe();
-			std::shared_ptr<MVC::Device::CDeviceOne> device;
-			device = mgr->GetDevice(itemValue);
-			if(device)
-				showSrc->setDevID(device->getID());
-			m_bDev = false;
-		}
-		else if(SRC_DELAYFLAG_ID == itemID){				//!< 是否允许滞后
-			showSrc->setDealyFlag(item->GetConstraints()->GetCurrent());
-			m_bDelayFlag = false;
 		}
 		else if(SRC_CONVERT_ID == itemID){					//!< 转换类型
 			showSrc->setConvertType(item->GetConstraints()->GetCurrent());
@@ -706,10 +636,7 @@ bool CPropertyItems::OnSaveModify(CXTPPropertyGrid& grid)
 		if(!m_bAccessRight)			pItem->setAccessRight(m_ShowItem->getAccessRight());
 		if(!m_bReservFlag)			pItem->setReservFlag(m_ShowItem->getReservFlag());
 		if(!m_bReservDB)			pItem->setReservDB(m_ShowItem->getReservDB());
-		if(!m_bModbus485)			pItem->setModbus485(m_ShowItem->getModbus485());
-		if(!m_bDev)					itemSrc->setDevID(showSrc->getDeviceID());
 		if(!m_bFreshTime)			itemSrc->setFreshTime(showSrc->getFreshTime());
-		if(!m_bDelayFlag)			itemSrc->setDealyFlag(showSrc->getDelayFlag());
 		if(!m_bConvertFlag)			itemSrc->setConvertType(showSrc->getConvertType());
 		if(!m_bMinProj)				itemSrc->setProjMin(showSrc->getProjMin());
 		if(!m_bMaxProj)				itemSrc->setProjMax(showSrc->getProjMax());
@@ -734,8 +661,6 @@ bool CPropertyItems::OnSaveModify(CXTPPropertyGrid& grid)
 		if(!m_bShiftTime)			itemAlarm->setShiftTime(showAlarm->getShiftTime());
 
 		if(!m_bReservFlag || !m_bReservDB)
-			CProjectMgr::GetMe().GetProj()->SetModify(true);
-		if(SoftInfo::CSoftInfo::GetMe().IsModbus485() && !m_bModbus485)
 			CProjectMgr::GetMe().GetProj()->SetModify(true);
 	}
 	return true;

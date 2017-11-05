@@ -115,7 +115,6 @@ public:
 	CItem& operator = (CItem& item);						//!< 赋值操作，包括ID和名称也全都赋过去了
 	bool operator == (CItem& item) const;					//!< 判断本变量是否与item属性一样
 	bool OnCloneMe(CItem& item, int index, int addrUnit, int nType = 0);	//!< 要克隆一个自己，nType=0整数命名，1小数命名
-	void OnCloneDealIOInfo(CItem& item, int addrUnit);
 	CString GetCheckValue();								//!< 获得一个检验值,用于内存脚本检验的
 	CString GetValTypeStr();								//!< 以字符串的形式返回工程值类型
 	CString GetGroupName();									//!< 返回变量所属组的名称

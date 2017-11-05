@@ -14,10 +14,6 @@
 #include "AddItemGroupDlg.h"
 #include "ItemInConfigDlg.h"
 
-#include "DevMgr.h"
-#include "DeviceOne.h"
-
-
 // CItemInConfigDlg 对话框
 using namespace Dialog;
 IMPLEMENT_DYNAMIC(CItemInConfigDlg, CDialog)
@@ -61,7 +57,6 @@ void CItemInConfigDlg::DoDataExchange(CDataExchange* pDX)
 	CDialog::DoDataExchange(pDX);
 	DDX_Text(pDX, IDC_PARENT_NAME, m_strGroupName);
 	DDX_Control(pDX, IDC_GROUP_TREE, m_GroupTree);
-	DDX_Control(pDX, IDC_CB_DEVICE, m_cbDevice);
 	DDX_Radio(pDX, IDC_RADIO_ITEMNAME1, m_nSameNameType);
 	DDX_Radio(pDX, IDC_RADIO_SAMENAME_FRONT, m_nSameNameAddr);
 	DDX_Text(pDX, IDC_ITEMIN_STR, m_strItemSameName);
@@ -137,17 +132,6 @@ BOOL CItemInConfigDlg::OnInitDialog()
 	SetWindowText(m_strTitle);
 	m_GroupTree.InitImg();
 
-	//!< 初始化设备列表
-	MVC::Device::CDevMgr* devMgr = &MVC::Device::CDevMgr::GetMe();
-	std::list<CString> ltName;
-	int defIndex = 0;
-	devMgr->GetDeviceNameList(ltName, defIndex);
-	m_cbDevice.ResetContent();
-	m_strDevice = _T("");
-	for (CString name : ltName)	m_cbDevice.AddString(name);
-	if(!ltName.empty())				m_cbDevice.SetCurSel(0);
-
-
 	//!< 重名处理
 	if(m_nSameNameType != 3)
 	{
@@ -220,14 +204,6 @@ BOOL CItemInConfigDlg::OnInitDialog()
 	return TRUE;
 }
 
-int CItemInConfigDlg::GetDeviceID()
-{
-	if(m_strDevice == _T(""))	return -1;
-	std::shared_ptr<MVC::Device::CDeviceOne> device = MVC::Device::CDevMgr::GetMe().GetDevice(m_strDevice);
-	if(!device)					return -1;
-	return device->getID();
-}
-
 void CItemInConfigDlg::UpdateGroupTree()
 {
 	m_GroupTree.DeleteAllItems();
@@ -292,7 +268,6 @@ void CItemInConfigDlg::OnBnClickedOk()
 		m_bKeepPaste = m_bKeep;
 		m_bUseAdvanceOptionsPaste = m_bUseAdvanceOptions;
 	}
-	m_cbDevice.GetWindowText(m_strDevice);
 	OnOK();
 }
 
