@@ -157,13 +157,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_paneManager.InstallDockingPanes(this);				// Add pane
 	SetPaneTheme(xtpPaneThemeVisualStudio2010);				// 设置每个pane的风格
 
-	CXTPDockingPane* paneDeviceView = m_paneManager.CreatePane(ID_VIEW_DEVICE, CRect(0, 0, 150, 140), xtpPaneDockRight);
 	CXTPDockingPane* paneOutputView = m_paneManager.CreatePane(ID_VIEW_OUTPUT, CRect(0, 0, 150, 200), xtpPaneDockBottom);
 	CXTPDockingPane* paneProjView = m_paneManager.CreatePane(ID_VIEW_PROJECT, CRect(0, 0, 230, 140), xtpPaneDockLeft);
 	CXTPDockingPane* paneItemView = m_paneManager.CreatePane(ID_VIEW_ITEM, CRect(0, 0, 210, 140), xtpPaneDockLeft);
-	paneDeviceView->Hide();
 
-	paneDeviceView->SetTitle("设备视图\n设备视图");			// 在这里设Title是因为CreatePane有语言不兼容的bug
 	paneOutputView->SetTitle("输出栏\n输出栏");
 	paneProjView->SetTitle("工程视图\n工程视图");
 	paneItemView->SetTitle("变量视图\n变量视图");
@@ -213,10 +210,6 @@ LRESULT CMainFrame::OnDockingPaneNotify(WPARAM wParam, LPARAM lParam)
 			if (!m_SpaceItem.GetSafeHwnd())
 				m_SpaceItem.Create(_T("STATIC"), NULL, WS_CHILD|WS_VISIBLE|WS_CLIPCHILDREN|WS_CLIPSIBLINGS, CXTPEmptyRect(), this, 1);
 			pPane->Attach(&m_SpaceItem);
-		}
-		else if(pPane->GetID() == ID_VIEW_DEVICE){
-			if (!m_SpaceDevice.GetSafeHwnd())	CreateSpaceDevice();
-			pPane->Attach(&m_SpaceDevice);
 		}
 		else if(pPane->GetID() == ID_VIEW_OUTPUT){
 			if(!m_SpaceOutput.GetSafeHwnd()){
@@ -307,11 +300,6 @@ bool CMainFrame::CreateToolBar()
 bool CMainFrame::CreateStatusBar()
 {
 	return true;
-}
-
-bool CMainFrame::CreateSpaceDevice()
-{
-	return m_SpaceDevice.CreateSpace();
 }
 
 void CMainFrame::FillToStatusBar()
@@ -522,7 +510,6 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
 			m_paneManager.HidePane(ID_VIEW_OUTPUT);
 			m_paneManager.HidePane(ID_VIEW_PROJECT);
 			m_paneManager.HidePane(ID_VIEW_ITEM);
-			m_paneManager.HidePane(ID_VIEW_DEVICE);
 			ShowWindow(SW_SHOWMAXIMIZED);
 		}
 	}
@@ -625,12 +612,6 @@ void CMainFrame::OnShowViewProject()
 void CMainFrame::OnShowViewItem()
 {
 	m_paneManager.ShowPane(ID_VIEW_ITEM);
-}
-
-// 显示设备视图
-void CMainFrame::OnShowViewDevice()
-{
-	m_paneManager.ShowPane(ID_VIEW_DEVICE);
 }
 
 // 显示输出栏视图

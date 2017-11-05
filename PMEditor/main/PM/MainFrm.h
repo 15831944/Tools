@@ -4,7 +4,6 @@
 
 #include "SpaceProject.h"
 #include "SpaceItem.h"
-#include "SpaceDevice.h"
 #include "OutputPane.h"
 
 #define VARIABLELEN_MAX 64000
@@ -33,13 +32,11 @@ protected:  // 控件条嵌入成员
 	Space::CSpaceOutput m_SpaceOutput;						// 文本输出框
 	CXTPOfficeBorder<Space::CSpaceProject>	m_SpaceProject;	// 解决方案子pane
 	CXTPOfficeBorder<Space::CSpaceItem>	m_SpaceItem;		// 变量组子pane
-	CXTPOfficeBorder<Space::CSpaceDevice>	m_SpaceDevice;	// 设备视图
 	bool			m_bLimitTimer;							// 是否限时定时器开启
 
 public:
 	Space::CSpaceProject* GetSpaceProject(){return &m_SpaceProject;}
 	Space::CSpaceItem* GetSpaceItem(){return &m_SpaceItem;}
-	Space::CSpaceDevice* GetSpaceDevice(){return &m_SpaceDevice;}
 	Space::CSpaceOutput* GetOutPut(){return &m_SpaceOutput;}
 
 public:
@@ -89,7 +86,6 @@ public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnShowViewProject();			// 显示工程试图
 	afx_msg void OnShowViewItem();				// 显示变量组视图
-	afx_msg void OnShowViewDevice();			// 显示设备视图
 	afx_msg void OnShowViewOutput();			// 显示输出栏视图
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnStartpage();

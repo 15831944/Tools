@@ -16,7 +16,6 @@ CSoftSetCompileDlg::CSoftSetCompileDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CSoftSetCompileDlg::IDD, pParent)
 	, m_bOutPut(FALSE)
 	, m_bOutPutWarning(FALSE)
-	, m_nCplType(0)
 {
 
 }
@@ -30,7 +29,6 @@ void CSoftSetCompileDlg::DoDataExchange(CDataExchange* pDX)
 	CDialog::DoDataExchange(pDX);
 	DDX_Check(pDX, IDC_CHECK_ISOUTPUT, m_bOutPut);
 	DDX_Check(pDX, IDC_CHECK_ISWARNING, m_bOutPutWarning);
-	DDX_Radio(pDX, IDC_RADIO_CPL_BIT, m_nCplType);
 }
 
 
@@ -46,7 +44,6 @@ BOOL CSoftSetCompileDlg::OnInitDialog()
 	CSoftInfo* csi = &SoftInfo::CSoftInfo::GetMe();
 	m_bOutPut = csi->isOutPut()?1:0;
 	m_bOutPutWarning = csi->isOutWarning()?1:0;
-	m_nCplType = csi->IsCplXml()?1:0;
 	UpdateData(FALSE);
 	return TRUE;
 }
@@ -57,7 +54,6 @@ BOOL CSoftSetCompileDlg::DestroyWindow()
 	CSoftInfo* csi = &SoftInfo::CSoftInfo::GetMe();
 	csi->setOutPut(m_bOutPut==1?true:false);
 	csi->setOutWarning(m_bOutPutWarning==1?true:false);
-	csi->setCmpXml(m_nCplType==1?true:false);
 	return CDialog::DestroyWindow();
 }
 

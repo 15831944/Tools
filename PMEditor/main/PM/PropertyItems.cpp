@@ -620,7 +620,7 @@ bool CPropertyItems::OnSaveModify(CXTPPropertyGrid& grid)
 		}
 	}
 
-	// 开始修改所有设备的属性
+	// 开始修改所有变量的属性
 	for (auto pItem : m_ltEditItem)
 	{
 		ASSERT(pItem);

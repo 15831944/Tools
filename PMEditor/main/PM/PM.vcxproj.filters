@@ -133,9 +133,6 @@
     <ClCompile Include="SourceProperty.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="SpaceDevice.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="SpaceItem.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -310,9 +307,6 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="SourceProperty.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="SpaceDevice.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="SpaceItem.h">

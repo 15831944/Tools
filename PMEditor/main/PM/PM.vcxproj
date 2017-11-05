@@ -166,7 +166,6 @@
     <ClCompile Include="SoftSetItemGridDlg.cpp" />
     <ClCompile Include="SoftSetServerDlg.cpp" />
     <ClCompile Include="SourceProperty.cpp" />
-    <ClCompile Include="SpaceDevice.cpp" />
     <ClCompile Include="SpaceItem.cpp" />
     <ClCompile Include="SpaceProject.cpp" />
     <ClCompile Include="StartDoc.cpp" />
@@ -230,7 +229,6 @@
     <ClInclude Include="SoftSetItemGridDlg.h" />
     <ClInclude Include="SoftSetServerDlg.h" />
     <ClInclude Include="SourceProperty.h" />
-    <ClInclude Include="SpaceDevice.h" />
     <ClInclude Include="SpaceItem.h" />
     <ClInclude Include="SpaceProject.h" />
     <ClInclude Include="StartDoc.h" />

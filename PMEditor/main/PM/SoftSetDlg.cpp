@@ -147,7 +147,6 @@ BOOL SoftInfo::CSoftSetDlg::OnHelpInfo(HELPINFO* pHelpInfo)
 	else if(itemText == _T("拓扑图"))		pHelp->ShowHelp(_T("拓扑图显示设置"));
 	else if(itemText == _T("编译与扫描"))	pHelp->ShowHelp(_T("检查与编译"));
 	else if(itemText == _T("运行与监控"))	pHelp->ShowHelp(_T("变量监控配置"));
-	else if(itemText == _T("支持的设备"))	pHelp->ShowHelp(_T("支持的设备"));
 
 	return CDialog::OnHelpInfo(pHelpInfo);
 }
