@@ -17,7 +17,7 @@ CXTooltip::CXTooltip()
 	m_Sti.nSizeX = 100;
 	m_Sti.nBodyImage = IDB_TOOLTIP_DEVICE;
 
-	m_Sti.bLineAfterHeader  = FALSE;			//!< 是否画线
+	m_Sti.bLineAfterHeader  = FALSE;			// 是否画线
 	m_Sti.bLineBeforeFooter = TRUE;
 	m_Sti.nFooterImage = IDB_HELP;
 

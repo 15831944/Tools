@@ -18,7 +18,7 @@ private:
 	bool m_bShowTree;
 	HTREEITEM m_CulItem;
 
-	UINT m_uiGroupID;							//!< 如果是修改组信息，这里记录了组的ID号
+	UINT m_uiGroupID;							// 如果是修改组信息，这里记录了组的ID号
 
 private:
 	CAddItemGroupDlg(CWnd* pParent = NULL);   // 标准构造函数

@@ -26,7 +26,7 @@ CItemGroup::~CItemGroup(void)
 {
 }
 
-//!< 获得子组列表
+// 获得子组列表
 std::list<UINT> CItemGroup::getGroupIDList()
 {
 	std::list<UINT> gl;
@@ -34,12 +34,12 @@ std::list<UINT> CItemGroup::getGroupIDList()
 	for(auto group: itemMgr->m_vtItemGroup){
 		if(!group)			continue;
 		if(group->getParentID() == m_uiID)
-			gl.push_back(group->getID());		//!< 遍历所有变量组，找到子组
+			gl.push_back(group->getID());		// 遍历所有变量组，找到子组
 	}
 	return gl;
 }
 
-//!< 获得子变量列表
+// 获得子变量列表
 std::list<UINT> CItemGroup::getMyItem()
 {
 	std::list<UINT> lt;
@@ -93,12 +93,12 @@ void CItemGroup::InitDefault()
 	setParentID(UINT(-1));
 }
 
-//!< 判断此变量组是否是自己的子组，多少层都行，incMe是否包括自己
+// 判断此变量组是否是自己的子组，多少层都行，incMe是否包括自己
 bool CItemGroup::IsChildGroup(UINT id, bool incMe /* = false */)
 {
 	if(id == m_uiID && incMe)			return true;
 	std::shared_ptr<CItemGroup> group = CItemMgr::GetMe().GetGroup(id);
-	if(group->getParentID() == m_uiID)	return true;		//!< 如果父亲是自己，那么返回true
-	if(group->getParentID() == -1)		return false;		//!< 如果到头了，返回false
-	return IsChildGroup(group->getParentID(), incMe);		//!< 否则，看看上一层是不是自己的子组，递归
+	if(group->getParentID() == m_uiID)	return true;		// 如果父亲是自己，那么返回true
+	if(group->getParentID() == -1)		return false;		// 如果到头了，返回false
+	return IsChildGroup(group->getParentID(), incMe);		// 否则，看看上一层是不是自己的子组，递归
 }

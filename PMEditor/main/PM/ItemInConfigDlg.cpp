@@ -125,14 +125,14 @@ INT_PTR CItemInConfigDlg::DoModal(UINT type/* = 0*/, int groupId /* = -1 */)
 	return CDialog::DoModal();
 }
 
-//!< 添加变量组
+// 添加变量组
 BOOL CItemInConfigDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	SetWindowText(m_strTitle);
 	m_GroupTree.InitImg();
 
-	//!< 重名处理
+	// 重名处理
 	if(m_nSameNameType != 3)
 	{
 		GetDlgItem(IDC_ITEMIN_STR)->ShowWindow(SW_HIDE);
@@ -147,7 +147,7 @@ BOOL CItemInConfigDlg::OnInitDialog()
 	}
 	UpdateGroupTree();
 
-	//!< 看看高级选项
+	// 看看高级选项
 	OnBnClickAdvanceOptions();
 	OnBnClickAdvanceOptions();
 	if(m_bUseBaseID)
@@ -235,7 +235,7 @@ void CItemInConfigDlg::AddGroupChild(HTREEITEM root, HTREEITEM& selItem, UINT pa
 	}
 }
 
-//!< 用户可以在这里临时添加变量组
+// 用户可以在这里临时添加变量组
 void CItemInConfigDlg::OnBnClickedAddGroup()
 {
 	Dialog::CAddItemGroupDlg* dlg = &Dialog::CAddItemGroupDlg::GetMe();
@@ -248,7 +248,7 @@ void CItemInConfigDlg::OnBnClickedAddGroup()
 		UpdateGroupTree();
 		SetGroupName(text);
 
-		//!< 如果当前CItemGroupFrame被打开了，则它需要重画
+		// 如果当前CItemGroupFrame被打开了，则它需要重画
 		CMainFrame* pMainFram = (CMainFrame *)g_App.GetMainWnd();
 		ASSERT(pMainFram);
 		pMainFram->GetSpaceItem()->UpdateTreeView();

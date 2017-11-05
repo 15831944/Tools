@@ -25,17 +25,17 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 private:
-	std::list<CString> m_ltMatchStr;	//!< 所有用户在查找中输入过的文本
-	CString m_strMatch;					//!< 用户上次查找的文本
-	std::list<CString> m_ltFindArea;	//!< 用户所能查找的对象
-	int m_nAreaSel;						//!< 用户上次查找的对象
+	std::list<CString> m_ltMatchStr;	// 所有用户在查找中输入过的文本
+	CString m_strMatch;					// 用户上次查找的文本
+	std::list<CString> m_ltFindArea;	// 用户所能查找的对象
+	int m_nAreaSel;						// 用户上次查找的对象
 
 public:
 	CComboBox m_cbFindText;
 	CComboBox m_cbFindArea;
 	BOOL m_bMatchUpDown;
 	BOOL m_bMatchWhole;
-	BOOL m_bUseRegex;					//!< 是否使用正则表达式
+	BOOL m_bUseRegex;					// 是否使用正则表达式
 
 public:
 	afx_msg void OnBnClickedOk();

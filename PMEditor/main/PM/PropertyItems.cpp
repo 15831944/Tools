@@ -134,33 +134,33 @@ CPropertyItems::~CPropertyItems(void)
 {
 }
 
-//!< 获得本窗体的名称
+// 获得本窗体的名称
 CString CPropertyItems::GetTitle()
 {
 	return ITEM_TITLE;
 }
 
-//!< 显示表格的函数
+// 显示表格的函数
 void CPropertyItems::ShowInfo(CXTPPropertyGrid& grid)
 {
 	CreateEdit();
 
-	CXTPPropertyGridItem* pGroup;					//!< 属性组
-	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CPMApp *)AfxGetApp())->m_XmlMgr;		//!< 描述信息
+	CXTPPropertyGridItem* pGroup;					// 属性组
+	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CPMApp *)AfxGetApp())->m_XmlMgr;		// 描述信息
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
-	std::list<CString> strList, boolList;			//!< 下拉列表的内容
+	std::list<CString> strList, boolList;			// 下拉列表的内容
 	boolList.push_back(_T("No"));
 	boolList.push_back(_T("Yes"));
 	CComVariant cvr = _T("");
 	std::shared_ptr<CPropertySource> showSrc = m_ShowItem->getSrcInfo();
 	std::shared_ptr<CPropertyAlarm> showAlarm = m_ShowItem->getAlarmInfo();
 
-	//!< 变量基本信息
+	// 变量基本信息
 	pGroup = grid.AddCategory(ITEM_BASE_INFO);
 	pGroup->SetTooltip(ITEM_BASE_INFO_TOOLTIP);
 	pGroup->Expand();
 
-	//!< 工程值类型
+	// 工程值类型
 	strList.clear();
 	strList.push_back(_T("位"));
 	strList.push_back(_T("有符号字节"));
@@ -176,7 +176,7 @@ void CPropertyItems::ShowInfo(CXTPPropertyGrid& grid)
 	else
 		AddItemList(*pGroup, ITEM_VALTYPE, ITEM_VALTYPE_TOOLTIP, strList, -1, ITEM_VALTYPE_ID);
 
-	//!< 数据源类型
+	// 数据源类型
 	strList.clear();
 	strList.push_back(_T("内存变量"));
 	strList.push_back(_T("I/O变量"));
@@ -185,7 +185,7 @@ void CPropertyItems::ShowInfo(CXTPPropertyGrid& grid)
 	else
 		AddItemList(*pGroup, ITEM_SRCTYPE, ITEM_SRCTYPE_TOOLTIP, strList, -1, ITEM_SRCTYPE_ID);
 
-	//!< 所属变量组
+	// 所属变量组
 	strList.clear();
 	CString myGroupName = m_ShowItem->GetGroupName();
 	std::shared_ptr<CItemGroup> group;
@@ -201,7 +201,7 @@ void CPropertyItems::ShowInfo(CXTPPropertyGrid& grid)
 	else
 		AddItemList(*pGroup, ITEM_GROUP, ITEM_GROUP_TOOLTIP, strList, -1, ITEM_GROUP_ID);
 
-	//!< 访问权限
+	// 访问权限
 	strList.clear();
 	strList.push_back(_T("可读可写"));
 	strList.push_back(_T("只读"));
@@ -211,30 +211,30 @@ void CPropertyItems::ShowInfo(CXTPPropertyGrid& grid)
 	else
 		AddItemList(*pGroup, ITEM_ACCESSRIGHT, ITEM_ACCESSRIGHT_TOOLTIP, strList, -1, ITEM_ACCESSRIGHT_ID);
 
-	//!< 默认值类型
+	// 默认值类型
 	AddItemVariant(*pGroup, ITEM_DEFAULTVALUE, ITEM_DEFAULTVALUE_TOOLTIP, m_ShowItem->getDefault(), ITEM_DEFAULTVALUE_ID, !m_bDefValue);
 
-	//!< 是否是保留值
+	// 是否是保留值
 	if(m_bReservFlag)
 		AddItemList(*pGroup, ITEM_RESERVE, ITEM_RESERVE_TOOLTIP, boolList, m_ShowItem->getReservFlag()?1:0, ITEM_RESERVE_ID);
 	else
 		AddItemList(*pGroup, ITEM_RESERVE, ITEM_RESERVE_TOOLTIP, boolList, -1, ITEM_RESERVE_ID);
 
-	//!< 是否是保留数据库
+	// 是否是保留数据库
 	if(m_bReservDB)
 		AddItemList(*pGroup, ITEM_RESFDB, ITEM_RESFDB_TOOLTIP, boolList, m_ShowItem->getReservDB()?1:0, ITEM_RESFDB_ID);
 	else
 		AddItemList(*pGroup, ITEM_RESFDB, ITEM_RESFDB_TOOLTIP, boolList, -1, ITEM_RESFDB_ID);
 
-	//!< 数据源信息
+	// 数据源信息
 	pGroup = grid.AddCategory(SRC_INFO);
 	pGroup->SetTooltip(SRC_INFO_TOOLTIP);
 	pGroup->Expand();
 
-	//!< 刷新时间
+	// 刷新时间
 	AddItemNumber(*pGroup, SRC_FRESHTIME, SRC_FRESHTIME_TOOLTIP, showSrc->getFreshTime(), SRC_FRESHTIME_ID, !m_bFreshTime);
 
-	//!< 转换类型
+	// 转换类型
 	strList.clear();
 	strList.push_back(_T("不转换"));
 	strList.push_back(_T("线性转换"));
@@ -243,24 +243,24 @@ void CPropertyItems::ShowInfo(CXTPPropertyGrid& grid)
 	else
 		AddItemList(*pGroup, SRC_CONVERT, SRC_CONVERT_TOOLTIP, strList, -1, SRC_CONVERT_ID);
 
-	//!< 最小工程值
+	// 最小工程值
 	AddItemVariant(*pGroup, SRC_MINPROJ, SRC_MINPROJ_TOOLTIP, showSrc->getProjMin(), SRC_MINPROJ_ID, !m_bMinProj);
 
-	//!< 最大工程值
+	// 最大工程值
 	AddItemVariant(*pGroup, SRC_MAXPROJ, SRC_MAXPROJ_TOOLTIP, showSrc->getProjMax(), SRC_MAXPROJ_ID, !m_bMaxProj);
 
-	//!< 最小原始值
+	// 最小原始值
 	AddItemVariant(*pGroup, SRC_MINIO, SRC_MINIO_TOOLTIP, showSrc->getIOMin(), SRC_MINIO_ID, !m_bMinIO);
 
-	//!< 最大原始值
+	// 最大原始值
 	AddItemVariant(*pGroup, SRC_MAXIO, SRC_MAXIO_TOOLTIP, showSrc->getIOMax(), SRC_MAXIO_ID, !m_bMaxIO);
 
-	//!< 变量报警属性
+	// 变量报警属性
 	pGroup = grid.AddCategory(ALARM_INFO);
 	pGroup->SetTooltip(ALARM_INFO_TOOLTIP);
 	pGroup->Expand();
 
-	//!< 开关报警类型
+	// 开关报警类型
 	strList.clear();
 	strList.push_back(_T("不报警"));
 	strList.push_back(_T("开时报警"));
@@ -273,109 +273,109 @@ void CPropertyItems::ShowInfo(CXTPPropertyGrid& grid)
 	else
 		AddItemList(*pGroup, ALARM_BITTYPE, ALARM_BITTYPE_TOOLTIP, strList, -1, ALARM_BITTYPE_ID);
 
-	//!< 限值死区
+	// 限值死区
 	AddItemNumber(*pGroup, ALARM_DEADAREA, ALARM_DEADAREA_TOOLTIP, showAlarm->getDeadArea(), ALARM_DEADAREA_ID, !m_bDeadArea);
 
-	//!< 下下限报警启动
+	// 下下限报警启动
 	if(m_bLoloActive)
 		AddItemList(*pGroup, ALARM_LOLOACTIVE, ALARM_LOLOACTIVE_TOOLTIP, boolList, showAlarm->getLoloActive()?1:0, ALARM_LOLOACTIVE_ID);
 	else
 		AddItemList(*pGroup, ALARM_LOLOACTIVE, ALARM_LOLOACTIVE_TOOLTIP, boolList, -1, ALARM_LOLOACTIVE_ID);
 
-	//!< 下下限报警值
+	// 下下限报警值
 	AddItemVariant(*pGroup, ALARM_LOLOVALUE, ALARM_LOLOVALUE_TOOLTIP, showAlarm->getLoloValue(), ALARM_LOLOVALUE_ID, !m_bLoloValue);
 
-	//!< 下限报警启动
+	// 下限报警启动
 	if(m_bLowActive)
 		AddItemList(*pGroup, ALARM_LOWACTIVE, ALARM_LOWACTIVE_TOOLTIP, boolList, showAlarm->getLowActive()?1:0, ALARM_LOWACTIVE_ID);
 	else
 		AddItemList(*pGroup, ALARM_LOWACTIVE, ALARM_LOWACTIVE_TOOLTIP, boolList, -1, ALARM_LOWACTIVE_ID);
 
-	//!< 下限报警值
+	// 下限报警值
 	AddItemVariant(*pGroup, ALARM_LOWVALUE, ALARM_LOWVALUE_TOOLTIP, showAlarm->getLowValue(), ALARM_LOWVALUE_ID, !m_bLowValue);
 
-	//!< 上限报警启动
+	// 上限报警启动
 	if(m_bHihiActive)
 		AddItemList(*pGroup, ALARM_HIGHACTIVE, ALARM_HIGHACTIVE_TOOLTIP, boolList, showAlarm->getHighActive()?1:0, ALARM_HIGHACTIVE_ID);
 	else
 		AddItemList(*pGroup, ALARM_HIGHACTIVE, ALARM_HIGHACTIVE_TOOLTIP, boolList, -1, ALARM_HIGHACTIVE_ID);
 
-	//!< 上限报警值
+	// 上限报警值
 	AddItemVariant(*pGroup, ALARM_HIGHVALUE, ALARM_HIGHVALUE_TOOLTIP, showAlarm->getHighValue(), ALARM_HIGHVALUE_ID, !m_bHighValue);
 
-	//!< 上上限报警启动
+	// 上上限报警启动
 	if(m_bHihiActive)
 		AddItemList(*pGroup, ALARM_HIHIACTIVE, ALARM_HIHIACTIVE_TOOLTIP, boolList, showAlarm->getHihiActive()?1:0, ALARM_HIHIACTIVE_ID);
 	else
 		AddItemList(*pGroup, ALARM_HIHIACTIVE, ALARM_HIHIACTIVE_TOOLTIP, boolList, -1, ALARM_HIHIACTIVE_ID);
 
-	//!< 上上限报警值
+	// 上上限报警值
 	AddItemVariant(*pGroup, ALARM_HIHIVALUE, ALARM_HIHIVALUE_TOOLTIP, showAlarm->getHihiValue(), ALARM_HIHIVALUE_ID, !m_bHihiValue);
 
-	//!< 目标报警启动
+	// 目标报警启动
 	if(m_bAimActive)
 		AddItemList(*pGroup, ALARM_AIMACTIVE, ALARM_AIMACTIVE_TOOLTIP, boolList, showAlarm->getAimActive()?1:0, ALARM_AIMACTIVE_ID);
 	else
 		AddItemList(*pGroup, ALARM_AIMACTIVE, ALARM_AIMACTIVE_TOOLTIP, boolList, -1, ALARM_AIMACTIVE_ID);
 
-	//!< 目标报警值
+	// 目标报警值
 	AddItemVariant(*pGroup, ALARM_AIMVALUE, ALARM_AIMVALUE_TOOLTIP, showAlarm->getAimValue(), ALARM_AIMVALUE_ID, !m_bAimPercent);
 
-	//!< 目标报警百分比
+	// 目标报警百分比
 	AddItemDouble(*pGroup, ALARM_AIMPERCENT, ALARM_AIMPERCENT_TOOLTIP, showAlarm->getAimPercent(), ALARM_AIMPERCENT_ID, !m_bAimDeadPercent);
 
-	//!< 目标报警百分比死区
+	// 目标报警百分比死区
 	AddItemDouble(*pGroup, ALARM_AIMDEAD, ALARM_AIMDEAD_TOOLTIP, showAlarm->getAimDeadPercent(), ALARM_AIMDEAD_ID, !m_bAimDeadPercent);
 
-	//!< 变化率报警启动
+	// 变化率报警启动
 	if(m_bShiftActive)
 		AddItemList(*pGroup, ALARM_SHIFTACTIVE, ALARM_SHIFTACTIVE_TOOLTIP, boolList, showAlarm->getShiftActive()?1:0, ALARM_SHIFTACTIVE_ID);
 	else
 		AddItemList(*pGroup, ALARM_SHIFTACTIVE, ALARM_SHIFTACTIVE_TOOLTIP, boolList, -1, ALARM_SHIFTACTIVE_ID);
 
-	//!< 变化率报警百分比
+	// 变化率报警百分比
 	AddItemDouble(*pGroup, ALARM_SHIFTDELTA, ALARM_SHIFTDELTA_TOOLTIP, showAlarm->getShiftDelta(), ALARM_SHIFTDELTA_ID, !m_bShiftPercent);
 
-	//!< 变化率取值时间
+	// 变化率取值时间
 	AddItemNumber(*pGroup, ALARM_SHIFTTIME, ALARM_SHIFTTIME_TOOLTIP, showAlarm->getShiftTime(), ALARM_SHIFTTIME_ID, !m_bShiftTime);
 }
 
-//!< 编辑前的数据准备方法
+// 编辑前的数据准备方法
 void CPropertyItems::CreateEdit()
 {
-	//!< 设置默认，都相同
-	m_bValType = true;			//!< 工程值类型是否相同
-	m_bSrcType = true;			//!< 数据源类型是否相同
-	m_bGroup = true;			//!< 所属变量组是否相同
-	m_bDefValue = true;			//!< 默认值类型是否相同
-	m_bAccessRight = true;		//!< 访问权限是否相同
-	m_bReservFlag = true;		//!< 是否是保留值是否相同
-	m_bReservDB = true;			//!< 是否是保留数据库是否相同
-	m_bFreshTime = true;		//!< 刷新时间是否相同
-	m_bConvertFlag = true;		//!< 转换类型是否相同
-	m_bMinProj = true;			//!< 最小工程值是否相同
-	m_bMaxProj = true;			//!< 最大工程值是否相同
-	m_bMinIO = true;			//!< 最小原始值是否相同
-	m_bMaxIO = true;			//!< 最大原始值是否相同
-	m_bBitAlarmType = true;		//!< 开关报警类型是否相同
-	m_bDeadArea = true;			//!< 限值死区是否相同
-	m_bLoloActive = true;		//!< 下下限报警启动是否相同
-	m_bLoloValue = true;		//!< 下下限报警值是否相同
-	m_bLowActive = true;		//!< 下限报警启动是否相同
-	m_bLowValue = true;			//!< 下限报警值是否相同
-	m_bHighActive = true;		//!< 上限报警启动是否相同
-	m_bHighValue = true;		//!< 上限报警值是否相同
-	m_bHihiActive = true;		//!< 上上限报警启动是否相同
-	m_bHihiValue = true;		//!< 上上限报警值是否相同
-	m_bAimActive = true;		//!< 目标报警启动是否相同
-	m_bAimPercent = true;		//!< 目标报警百分比是否相同
-	m_bAimDeadPercent = true;	//!< 目标报警百分比死区是否相同
-	m_bAimValue = true;			//!< 目标报警值是否相同
-	m_bShiftActive = true;		//!< 变化率报警启动是否相同
-	m_bShiftPercent = true;		//!< 变化率报警百分比是否相同
-	m_bShiftTime = true;		//!< 变化率取值时间是否相同
+	// 设置默认，都相同
+	m_bValType = true;			// 工程值类型是否相同
+	m_bSrcType = true;			// 数据源类型是否相同
+	m_bGroup = true;			// 所属变量组是否相同
+	m_bDefValue = true;			// 默认值类型是否相同
+	m_bAccessRight = true;		// 访问权限是否相同
+	m_bReservFlag = true;		// 是否是保留值是否相同
+	m_bReservDB = true;			// 是否是保留数据库是否相同
+	m_bFreshTime = true;		// 刷新时间是否相同
+	m_bConvertFlag = true;		// 转换类型是否相同
+	m_bMinProj = true;			// 最小工程值是否相同
+	m_bMaxProj = true;			// 最大工程值是否相同
+	m_bMinIO = true;			// 最小原始值是否相同
+	m_bMaxIO = true;			// 最大原始值是否相同
+	m_bBitAlarmType = true;		// 开关报警类型是否相同
+	m_bDeadArea = true;			// 限值死区是否相同
+	m_bLoloActive = true;		// 下下限报警启动是否相同
+	m_bLoloValue = true;		// 下下限报警值是否相同
+	m_bLowActive = true;		// 下限报警启动是否相同
+	m_bLowValue = true;			// 下限报警值是否相同
+	m_bHighActive = true;		// 上限报警启动是否相同
+	m_bHighValue = true;		// 上限报警值是否相同
+	m_bHihiActive = true;		// 上上限报警启动是否相同
+	m_bHihiValue = true;		// 上上限报警值是否相同
+	m_bAimActive = true;		// 目标报警启动是否相同
+	m_bAimPercent = true;		// 目标报警百分比是否相同
+	m_bAimDeadPercent = true;	// 目标报警百分比死区是否相同
+	m_bAimValue = true;			// 目标报警值是否相同
+	m_bShiftActive = true;		// 变化率报警启动是否相同
+	m_bShiftPercent = true;		// 变化率报警百分比是否相同
+	m_bShiftTime = true;		// 变化率取值时间是否相同
 
-	//!< 比较每一个，找到哪些属性一样，哪些属性不一样
+	// 比较每一个，找到哪些属性一样，哪些属性不一样
 	*m_ShowItem = *m_ltEditItem.front();
 	std::shared_ptr<CItem> item, front;
 	front = m_ltEditItem.front();
@@ -392,7 +392,7 @@ void CPropertyItems::CreateEdit()
 		itemAlarm = item->getAlarmInfo();
 		ASSERT(itemSrc);
 		ASSERT(itemAlarm);
-		//!< 开始进行匹配
+		// 开始进行匹配
 		if(m_bValType)			m_bValType = (m_ShowItem->getValType() == item->getValType());
 		if(m_bSrcType)			m_bSrcType = (m_ShowItem->getSrcType() == item->getSrcType());
 		if(m_bGroup)			m_bGroup = (m_ShowItem->getMyGroupID() == item->getMyGroupID());
@@ -428,7 +428,7 @@ void CPropertyItems::CreateEdit()
 	}
 }
 
-//!< 要保存被改变的内容
+// 要保存被改变的内容
 bool CPropertyItems::OnSaveModify(CXTPPropertyGrid& grid)
 {
 	int num = grid.GetCount();
@@ -448,179 +448,179 @@ bool CPropertyItems::OnSaveModify(CXTPPropertyGrid& grid)
 	ASSERT(showSrc);
 	ASSERT(showAlarm);
 
-	m_bValType = true;			//!< 工程值类型是否相同
-	m_bSrcType = true;			//!< 数据源类型是否相同
-	m_bGroup = true;			//!< 所属变量组是否相同
-	m_bDefValue = true;			//!< 默认值类型是否相同
-	m_bAccessRight = true;		//!< 访问权限是否相同
-	m_bReservFlag = true;		//!< 是否是保留值是否相同
-	m_bReservDB = true;			//!< 是否是保留数据库是否相同
-	m_bFreshTime = true;		//!< 刷新时间是否相同
-	m_bConvertFlag = true;		//!< 转换类型是否相同
-	m_bMinProj = true;			//!< 最小工程值是否相同
-	m_bMaxProj = true;			//!< 最大工程值是否相同
-	m_bMinIO = true;			//!< 最小原始值是否相同
-	m_bMaxIO = true;			//!< 最大原始值是否相同
-	m_bBitAlarmType = true;		//!< 开关报警类型是否相同
-	m_bDeadArea = true;			//!< 限值死区是否相同
-	m_bLoloActive = true;		//!< 下下限报警启动是否相同
-	m_bLoloValue = true;		//!< 下下限报警值是否相同
-	m_bLowActive = true;		//!< 下限报警启动是否相同
-	m_bLowValue = true;			//!< 下限报警值是否相同
-	m_bHighActive = true;		//!< 上限报警启动是否相同
-	m_bHighValue = true;		//!< 上限报警值是否相同
-	m_bHihiActive = true;		//!< 上上限报警启动是否相同
-	m_bHihiValue = true;		//!< 上上限报警值是否相同
-	m_bAimActive = true;		//!< 目标报警启动是否相同
-	m_bAimPercent = true;		//!< 目标报警百分比是否相同
-	m_bAimDeadPercent = true;	//!< 目标报警百分比死区是否相同
-	m_bAimValue = true;			//!< 目标报警值是否相同
-	m_bShiftActive = true;		//!< 变化率报警启动是否相同
-	m_bShiftPercent = true;		//!< 变化率报警百分比是否相同
-	m_bShiftTime = true;		//!< 变化率取值时间是否相同
+	m_bValType = true;			// 工程值类型是否相同
+	m_bSrcType = true;			// 数据源类型是否相同
+	m_bGroup = true;			// 所属变量组是否相同
+	m_bDefValue = true;			// 默认值类型是否相同
+	m_bAccessRight = true;		// 访问权限是否相同
+	m_bReservFlag = true;		// 是否是保留值是否相同
+	m_bReservDB = true;			// 是否是保留数据库是否相同
+	m_bFreshTime = true;		// 刷新时间是否相同
+	m_bConvertFlag = true;		// 转换类型是否相同
+	m_bMinProj = true;			// 最小工程值是否相同
+	m_bMaxProj = true;			// 最大工程值是否相同
+	m_bMinIO = true;			// 最小原始值是否相同
+	m_bMaxIO = true;			// 最大原始值是否相同
+	m_bBitAlarmType = true;		// 开关报警类型是否相同
+	m_bDeadArea = true;			// 限值死区是否相同
+	m_bLoloActive = true;		// 下下限报警启动是否相同
+	m_bLoloValue = true;		// 下下限报警值是否相同
+	m_bLowActive = true;		// 下限报警启动是否相同
+	m_bLowValue = true;			// 下限报警值是否相同
+	m_bHighActive = true;		// 上限报警启动是否相同
+	m_bHighValue = true;		// 上限报警值是否相同
+	m_bHihiActive = true;		// 上上限报警启动是否相同
+	m_bHihiValue = true;		// 上上限报警值是否相同
+	m_bAimActive = true;		// 目标报警启动是否相同
+	m_bAimPercent = true;		// 目标报警百分比是否相同
+	m_bAimDeadPercent = true;	// 目标报警百分比死区是否相同
+	m_bAimValue = true;			// 目标报警值是否相同
+	m_bShiftActive = true;		// 变化率报警启动是否相同
+	m_bShiftPercent = true;		// 变化率报警百分比是否相同
+	m_bShiftTime = true;		// 变化率取值时间是否相同
 
 	for(int i = 0; i < num; ++i){
 		item = grid.GetItem(i);
-		if(!item->IsValueChanged())		continue;			//!< 只有被修改的才会进行保存，优化了一下
+		if(!item->IsValueChanged())		continue;			// 只有被修改的才会进行保存，优化了一下
 		itemID = item->GetID();
 		itemValue = item->GetValue();
 
-		if(ITEM_VALTYPE_ID == itemID){						//!< 工程值类型
+		if(ITEM_VALTYPE_ID == itemID){						// 工程值类型
 			m_ShowItem->setValType(item->GetConstraints()->GetCurrent());
 //			m_bValType = (m_ShowItem->getValType() == pItem->getValType());
 			m_bValType = false;
 		}
-		else if(ITEM_SRCTYPE_ID == itemID){					//!< 数据源类型
+		else if(ITEM_SRCTYPE_ID == itemID){					// 数据源类型
 			m_ShowItem->setSrcType(item->GetConstraints()->GetCurrent());
 //			m_bSrcType = (m_ShowItem->getSrcType() == pItem->getSrcType());
 			m_bSrcType = false;
 		}
-		else if(ITEM_GROUP_ID == itemID){					//!< 所属变量组是否相同
+		else if(ITEM_GROUP_ID == itemID){					// 所属变量组是否相同
 			std::shared_ptr<CItemGroup> itemGroup = itemMgr->GetGroup(itemValue.Trim());
 			m_ShowItem->setMyGroupID(itemGroup ? itemGroup->getID() : 0);
 			m_bGroup = false;
 		}
-		else if(ITEM_ACCESSRIGHT_ID == itemID){				//!< 访问权限
+		else if(ITEM_ACCESSRIGHT_ID == itemID){				// 访问权限
 			m_ShowItem->setAccessRight(item->GetConstraints()->GetCurrent());
 			m_bAccessRight = false;
 		}
-		else if(ITEM_DEFAULTVALUE_ID == itemID){			//!< 默认值
+		else if(ITEM_DEFAULTVALUE_ID == itemID){			// 默认值
 			CComVariant cvrDef = item->GetValue();
 			cvrDef.ChangeType(m_ShowItem->getDefault().vt);
 			m_ShowItem->setDefault(cvrDef);
 			m_bDefValue = false;
 		}
-		else if(ITEM_RESERVE_ID == itemID){					//!< 是否保留
+		else if(ITEM_RESERVE_ID == itemID){					// 是否保留
 			m_ShowItem->setReservFlag(item->GetConstraints()->GetCurrent());
 			m_bReservFlag = false;
 		}
-		else if(ITEM_RESFDB_ID == itemID){					//!< 是否存数据库
+		else if(ITEM_RESFDB_ID == itemID){					// 是否存数据库
 			m_ShowItem->setReservDB(item->GetConstraints()->GetCurrent());
 			m_bReservDB = false;
 		}
-		else if(SRC_FRESHTIME_ID == itemID){				//!< 刷新时间
+		else if(SRC_FRESHTIME_ID == itemID){				// 刷新时间
 			showSrc->setFreshTime(((CXTPPropertyGridItemNumber *)item)->GetNumber());
 			m_bFreshTime = false;
 		}
-		else if(SRC_CONVERT_ID == itemID){					//!< 转换类型
+		else if(SRC_CONVERT_ID == itemID){					// 转换类型
 			showSrc->setConvertType(item->GetConstraints()->GetCurrent());
 			m_bConvertFlag = false;
 		}
-		else if(SRC_MINPROJ_ID == itemID){					//!< 最小工程值
+		else if(SRC_MINPROJ_ID == itemID){					// 最小工程值
 			CComVariant cvrMinProj = item->GetValue();
 			cvrMinProj.ChangeType(m_ShowItem->getDefault().vt);
 			showSrc->setProjMin(cvrMinProj);
 			m_bMinProj = false;
 		}
-		else if(SRC_MAXPROJ_ID == itemID){					//!< 最大工程值
+		else if(SRC_MAXPROJ_ID == itemID){					// 最大工程值
 			CComVariant cvrMaxProj = item->GetValue();
 			cvrMaxProj.ChangeType(m_ShowItem->getDefault().vt);
 			showSrc->setProjMax(cvrMaxProj);
 			m_bMaxProj = false;
 		}
-		else if(SRC_MINIO_ID == itemID){					//!< 最小原始值
+		else if(SRC_MINIO_ID == itemID){					// 最小原始值
 			CComVariant cvrMinIO = item->GetValue();
 			cvrMinIO.ChangeType(m_ShowItem->getDefault().vt);
 			showSrc->setIOMin(cvrMinIO);
 			m_bMinIO = false;
 		}
-		else if(SRC_MAXIO_ID == itemID){					//!< 最大原始值
+		else if(SRC_MAXIO_ID == itemID){					// 最大原始值
 			CComVariant cvrMaxIO = item->GetValue();
 			cvrMaxIO.ChangeType(m_ShowItem->getDefault().vt);
 			showSrc->setIOMax(cvrMaxIO);
 			m_bMaxIO = false;
 		}
-		else if(ALARM_BITTYPE_ID == itemID){				//!< 为变量报警类型
+		else if(ALARM_BITTYPE_ID == itemID){				// 为变量报警类型
 			showAlarm->setBitAlarmType(item->GetConstraints()->GetCurrent());
 			m_bBitAlarmType = false;
 		}
-		else if(ALARM_DEADAREA_ID == itemID){				//!< 限值死区
+		else if(ALARM_DEADAREA_ID == itemID){				// 限值死区
 			showAlarm->setDeadArea(((CXTPPropertyGridItemNumber *)item)->GetNumber());
 			m_bDeadArea = false;
 		}
-		else if(ALARM_LOLOACTIVE_ID == itemID){				//!< 下下限报警激活
+		else if(ALARM_LOLOACTIVE_ID == itemID){				// 下下限报警激活
 			showAlarm->setLoloActive(item->GetConstraints()->GetCurrent());
 			m_bLoloActive = false;
 		}
-		else if(ALARM_LOLOVALUE_ID == itemID){				//!< 下下限报警值
+		else if(ALARM_LOLOVALUE_ID == itemID){				// 下下限报警值
 			showAlarm->setLoloValue((float)((CXTPPropertyGridItemDouble *)item)->GetDouble());
 			m_bLoloValue = false;
 		}
-		else if(ALARM_LOWACTIVE_ID == itemID){				//!< 下限报警激活
+		else if(ALARM_LOWACTIVE_ID == itemID){				// 下限报警激活
 			showAlarm->setLowActive(item->GetConstraints()->GetCurrent());
 			m_bLowActive = false;
 		}
-		else if(ALARM_LOWVALUE_ID == itemID){				//!< 下限报警值
+		else if(ALARM_LOWVALUE_ID == itemID){				// 下限报警值
 			showAlarm->setLowValue((float)((CXTPPropertyGridItemDouble *)item)->GetDouble());
 			m_bLowValue = false;
 		}
-		else if(ALARM_HIGHACTIVE_ID == itemID){				//!< 上限报警激活
+		else if(ALARM_HIGHACTIVE_ID == itemID){				// 上限报警激活
 			showAlarm->setHighActive(item->GetConstraints()->GetCurrent());
 			m_bHighActive = false;
 		}
-		else if(ALARM_HIGHVALUE_ID == itemID){				//!< 上限报警值
+		else if(ALARM_HIGHVALUE_ID == itemID){				// 上限报警值
 			showAlarm->setHighValue((float)((CXTPPropertyGridItemDouble *)item)->GetDouble());
 			m_bHighValue = false;
 		}
-		else if(ALARM_HIHIACTIVE_ID == itemID){				//!< 上上限报警激活
+		else if(ALARM_HIHIACTIVE_ID == itemID){				// 上上限报警激活
 			showAlarm->setHihiActive(item->GetConstraints()->GetCurrent());
 			m_bHihiActive = false;
 		}
-		else if(ALARM_HIHIVALUE_ID == itemID){				//!< 上上限报警值
+		else if(ALARM_HIHIVALUE_ID == itemID){				// 上上限报警值
 			showAlarm->setHihiValue((float)((CXTPPropertyGridItemDouble *)item)->GetDouble());
 			m_bHihiValue = false;
 		}
-		else if(ALARM_AIMACTIVE_ID == itemID){				//!< 目标报警激活
+		else if(ALARM_AIMACTIVE_ID == itemID){				// 目标报警激活
 			showAlarm->setAimActive(item->GetConstraints()->GetCurrent());
 			m_bAimActive = false;
 		}
-		else if(ALARM_AIMVALUE_ID == itemID){				//!< 目标报警值
+		else if(ALARM_AIMVALUE_ID == itemID){				// 目标报警值
 			showAlarm->setAimValue((float)((CXTPPropertyGridItemDouble *)item)->GetDouble());
 			m_bAimValue = false;
 		}
-		else if(ALARM_AIMPERCENT_ID == itemID){				//!< 目标报警偏差百分比
+		else if(ALARM_AIMPERCENT_ID == itemID){				// 目标报警偏差百分比
 			showAlarm->setAimPercent((float)((CXTPPropertyGridItemDouble *)item)->GetDouble());
 			m_bAimPercent = false;
 		}
-		else if(ALARM_AIMDEAD_ID == itemID){				//!< 目标报警死区
+		else if(ALARM_AIMDEAD_ID == itemID){				// 目标报警死区
 			showAlarm->setAimDeadPercent((float)((CXTPPropertyGridItemDouble *)item)->GetDouble());
 			m_bAimDeadPercent = false;
 		}
-		else if(ALARM_SHIFTACTIVE_ID == itemID){			//!< 变化率激活
+		else if(ALARM_SHIFTACTIVE_ID == itemID){			// 变化率激活
 			showAlarm->setShiftActive(item->GetConstraints()->GetCurrent());
 			m_bShiftActive = false;
 		}
-		else if(ALARM_SHIFTDELTA_ID == itemID){			//!< 变化率百分比
+		else if(ALARM_SHIFTDELTA_ID == itemID){			// 变化率百分比
 			showAlarm->setShiftDelta((float)((CXTPPropertyGridItemDouble *)item)->GetDouble());
 			m_bShiftPercent = false;
 		}
-		else if(ALARM_SHIFTTIME_ID == itemID){				//!< 变化率比对周期
+		else if(ALARM_SHIFTTIME_ID == itemID){				// 变化率比对周期
 			showAlarm->setShiftTime(((CXTPPropertyGridItemNumber *)item)->GetNumber());
 			m_bShiftTime = false;
 		}
 	}
 
-	//!< 开始修改所有设备的属性
+	// 开始修改所有设备的属性
 	for (auto pItem : m_ltEditItem)
 	{
 		ASSERT(pItem);
@@ -666,14 +666,14 @@ bool CPropertyItems::OnSaveModify(CXTPPropertyGrid& grid)
 	return true;
 }
 
-//!< 当某一项被修改时
+// 当某一项被修改时
 void CPropertyItems::OnItemModify(CXTPPropertyGrid& grid, UINT id)
 {
 	CXTPPropertyGridItem* item = grid.FindItem(id);
 	if(!item)			return;
 	CString itemValue = item->GetValue();
 
-	//!< 死区必须为正数
+	// 死区必须为正数
 	if(id == ALARM_DEADAREA_ID){
 		int iVal = ((CXTPPropertyGridItemNumber *)item)->GetNumber();
 		if(iVal < 0){
@@ -690,7 +690,7 @@ void CPropertyItems::OnItemModify(CXTPPropertyGrid& grid, UINT id)
 	}
 }
 
-//!< 显示帮助信息
+// 显示帮助信息
 void CPropertyItems::OnShowHelp()
 {
 	SoftInfo::CMyHelp::GetMe().ShowHelp(_T("统一修改"));

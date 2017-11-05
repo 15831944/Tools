@@ -9,8 +9,8 @@ class COutputIcon : public CXTPReportRecordItem
 {
 	DECLARE_SERIAL(COutputIcon)
 public:
-	COutputIcon();					//!< 0-Information, 1-warning, 2-error
-	COutputIcon(UINT type);			//!< 0-Information, 1-warning, 2-error
+	COutputIcon();					// 0-Information, 1-warning, 2-error
+	COutputIcon(UINT type);			// 0-Information, 1-warning, 2-error
 
 	virtual CString GetGroupCaption(CXTPReportColumn* pColumn);			// Provides custom group captions depending on the type value.
 	virtual int CompareGroupCaption(CXTPReportColumn* pColumn, CXTPReportRecordItem* pItem);	// Provides custom group values comparison based on type value, instead of based on captions.
@@ -18,7 +18,7 @@ public:
 	int Compare(CXTPReportColumn* pColumn, CXTPReportRecordItem* pItem);// Provides custom records comparison by this item based on read/unread value, instead of based on captions.
 
 public:
-	UINT m_uiType;					//!< 0-Information, 1-warning, 2-error, 3-noicon
+	UINT m_uiType;					// 0-Information, 1-warning, 2-error, 3-noicon
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -66,7 +66,7 @@ public:
 	void LockUpdate(bool bLock){m_bLockUpdate = bLock;}
 
 private:
-	void ShowItem(CString str);						//!< 从本文中找到对应的变量，并显示出来
+	void ShowItem(CString str);						// 从本文中找到对应的变量，并显示出来
 
 protected:
 	//{{AFX_MSG(COutputPane)

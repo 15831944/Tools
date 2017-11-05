@@ -20,14 +20,14 @@
 using namespace MVC;
 using namespace Item;
 
-const CString ITEM_EXPAND_NAME = _T("var");			//!< 扩展名
+const CString ITEM_EXPAND_NAME = _T("var");			// 扩展名
 
 const CString INFO_HEAD = _T("Infomation");
 const CString VERSION = _T("Version");
 const CString GROUPS = _T("Group");
 const CString ITEM = _T("Item");
 
-const CString ITEM_OUTFILE = _T("ItemOutFile");		//!< 变量表导出的标志
+const CString ITEM_OUTFILE = _T("ItemOutFile");		// 变量表导出的标志
 
 CItemMgr::CItemMgr(void)
 	: m_pItemDoc(NULL)
@@ -80,7 +80,7 @@ std::list<UINT> CItemMgr::GetItemIDIO()
 	return ltItemID;
 }
 
-//!< 获得id号变量
+// 获得id号变量
 std::shared_ptr<CItem> CItemMgr::GetItem(ULONG id)
 {
 	std::shared_ptr<CItem> _item;
@@ -89,7 +89,7 @@ std::shared_ptr<CItem> CItemMgr::GetItem(ULONG id)
 	return m_vtItem[id];
 }
 
-//!< 得到名字为name的变量元素
+// 得到名字为name的变量元素
 std::shared_ptr<CItem> CItemMgr::GetItem(CString name)
 {
 	for (std::shared_ptr<CItem> item : m_vtItem){
@@ -100,13 +100,13 @@ std::shared_ptr<CItem> CItemMgr::GetItem(CString name)
 	return _empty;
 }
 
-//!< 获得变量,用快速的获得方式
+// 获得变量,用快速的获得方式
 std::shared_ptr<CItem> CItemMgr::GetItemFast(CString name)
 {
 	return m_mpItem[name];
 }
 
-//!< 获得第一个变量
+// 获得第一个变量
 std::shared_ptr<CItem> CItemMgr::GetFirstItem()
 {
 	std::vector<std::shared_ptr<CItem> >::iterator iter = m_vtItem.begin();
@@ -117,7 +117,7 @@ std::shared_ptr<CItem> CItemMgr::GetFirstItem()
 	return empty;
 }
 
-//!< 获得最后一个变量
+// 获得最后一个变量
 std::shared_ptr<CItem> CItemMgr::GetLastItem()
 {
 	std::vector<std::shared_ptr<CItem> >::reverse_iterator iter = m_vtItem.rbegin();
@@ -146,8 +146,8 @@ std::shared_ptr<CItemGroup> CItemMgr::GetGroup(CString name)
 	return _empty;
 }
 
-//!< 在某个组中添加新变量，组内变量不能重名
-//!< 用户添加的变量调用这个函数，别的不调
+// 在某个组中添加新变量，组内变量不能重名
+// 用户添加的变量调用这个函数，别的不调
 bool CItemMgr::AddItem(std::shared_ptr<CItem> item,int maxID,UINT groupid)
 {
 	if(!item)												return false;
@@ -160,17 +160,17 @@ bool CItemMgr::AddItem(std::shared_ptr<CItem> item,int maxID,UINT groupid)
 		if(i >= (maxID << 1))								goto SAY_ERROR;
 		id = i;
 		break;
-		//item->setID(i);										//!< 找到了一个空的位置，把item的编号附上
+		//item->setID(i);										// 找到了一个空的位置，把item的编号附上
 		//item->setMyGroupID(groupid);
 		//m_vtItem[i]=item;
 		//m_mpItem[item->getName()] = item;
 		//return true;
 	}
 	if (id == -1)	id = m_vtItem.size();
-	//!< 如果前边没有空的位置，则从最后添加
-	if (id < (maxID << 1))			//!< 数量不能超过权限值
+	// 如果前边没有空的位置，则从最后添加
+	if (id < (maxID << 1))			// 数量不能超过权限值
 	{
-		item->setID((UINT)id);		//!< 设置变量ID号
+		item->setID((UINT)id);		// 设置变量ID号
 		item->setMyGroupID(groupid);
 		if (id == m_vtItem.size())	m_vtItem.push_back(item);
 		else						m_vtItem[id] = item;
@@ -184,7 +184,7 @@ SAY_ERROR:
 	return false;
 }
 
-//!< 在变量的最后边增加
+// 在变量的最后边增加
 bool CItemMgr::AddItemBack(std::shared_ptr<CItem> item, int maxID, UINT groupid)
 {
 	if (!item)												return false;
@@ -192,10 +192,10 @@ bool CItemMgr::AddItemBack(std::shared_ptr<CItem> item, int maxID, UINT groupid)
 	maxID = maxID >> 1;
 	if (m_vtItem.size() >= (maxID << 1))					goto SAY_ERROR;
 	int id = m_vtItem.size();
-	//!< 如果前边没有空的位置，则从最后添加
-	if (id < (maxID << 1))			//!< 数量不能超过权限值
+	// 如果前边没有空的位置，则从最后添加
+	if (id < (maxID << 1))			// 数量不能超过权限值
 	{
-		item->setID((UINT)id);		//!< 设置变量ID号
+		item->setID((UINT)id);		// 设置变量ID号
 		item->setMyGroupID(groupid);
 		m_vtItem.push_back(item);
 		m_mpItem[item->getName()] = item;
@@ -208,7 +208,7 @@ SAY_ERROR:
 	return false;
 }
 
-//!< 删除结尾的空变量
+// 删除结尾的空变量
 void CItemMgr::RemoveItemBackEmpty()
 {
 	int nIndex = -1;
@@ -222,7 +222,7 @@ void CItemMgr::RemoveItemBackEmpty()
 		m_vtItem.resize(nIndex + 1);
 }
 
-//!< 只适合用户添加组，不适合解析描述文件获得的组
+// 只适合用户添加组，不适合解析描述文件获得的组
 bool CItemMgr::AddGroup(std::shared_ptr<CItemGroup> group,UINT parentid)
 {
 	if(!group)												return false;
@@ -230,7 +230,7 @@ bool CItemMgr::AddGroup(std::shared_ptr<CItemGroup> group,UINT parentid)
 	for(UINT i = 0; i < m_vtItemGroup.size(); ++i)
 	{
 		if(m_vtItemGroup[i])	continue;
-		group->setID(i);		//!< 找到了一个空的位置，把group的编号附上
+		group->setID(i);		// 找到了一个空的位置，把group的编号附上
 		m_vtItemGroup[i] = group;
 		return true;
 	}
@@ -238,7 +238,7 @@ bool CItemMgr::AddGroup(std::shared_ptr<CItemGroup> group,UINT parentid)
 	return true;
 }
 
-//!< 查找编号为no的元素，返回它的编号，没有返回-1
+// 查找编号为no的元素，返回它的编号，没有返回-1
 bool CItemMgr::FindItem(ULONG id)
 {
 	if(id >= m_vtItem.size())			return false;
@@ -251,7 +251,7 @@ bool CItemMgr::FindGroup(UINT id)
 	return !!m_vtItemGroup[id];
 }
 
-//!< 删除编号为no的元素，彻底删除
+// 删除编号为no的元素，彻底删除
 void CItemMgr::DeleteItem(ULONG id)
 {
 	std::shared_ptr<CItem> pItem = GetItem(id);
@@ -260,7 +260,7 @@ void CItemMgr::DeleteItem(ULONG id)
 	m_mpItem[pItem->getName()].reset();
 }
 
-//!< 交换这两个变量
+// 交换这两个变量
 void CItemMgr::ExChangeItem(UINT id1, UINT id2)
 {
 	UINT size = (UINT)m_vtItem.size();
@@ -274,22 +274,22 @@ void CItemMgr::ExChangeItem(UINT id1, UINT id2)
 
 void CItemMgr::RemoveGroup(UINT groupid)
 {
-	if(groupid == 0)	return;					//!< System不能移除
+	if(groupid == 0)	return;					// System不能移除
 	std::shared_ptr<CItemGroup> _group = GetGroup(groupid);
 	if(!_group)			return;
 
-	if(_group->m_ItemDoc)	_group->m_ItemDoc->OnCloseDocument();		//!< 关闭显示此变量组变量表的文档视图
+	if(_group->m_ItemDoc)	_group->m_ItemDoc->OnCloseDocument();		// 关闭显示此变量组变量表的文档视图
 	std::list<UINT> ltItem = _group->getMyItem();
 	for (UINT id : ltItem){
-		DeleteItem(id);							//!< 删除包含的变量
+		DeleteItem(id);							// 删除包含的变量
 	}
 	std::list<UINT>& ltGroup = _group->getGroupIDList();
 	for (UINT id : ltGroup)
-		RemoveGroup(id);						//!< 递归删除所有子组
+		RemoveGroup(id);						// 递归删除所有子组
 	if(m_vtItemGroup[groupid])		m_vtItemGroup[groupid].reset();
 }
 
-//!< 获得变量的数量
+// 获得变量的数量
 UINT CItemMgr::GetItemSize()
 {
 	UINT count = 0;
@@ -299,7 +299,7 @@ UINT CItemMgr::GetItemSize()
 	return count;
 }
 
-//!< 获得变量组的数量
+// 获得变量组的数量
 UINT CItemMgr::GetGroupSize()
 {
 	UINT count = 0;
@@ -309,7 +309,7 @@ UINT CItemMgr::GetGroupSize()
 	return count;
 }
 
-//!< 打开变量表文件，参数 ： 名称 + 路径 + 版本号，最近修改时间
+// 打开变量表文件，参数 ： 名称 + 路径 + 版本号，最近修改时间
 bool CItemMgr::OpenItemFile(CString name, CString pathall, CString ver, CString stime)
 {
 	if(!CGbl::SetSystemTimeFromStr(m_EditTime, stime))		::GetLocalTime(&m_EditTime);
@@ -322,7 +322,7 @@ bool CItemMgr::OpenItemFile(CString name, CString pathall, CString ver, CString 
 		MessageBox(NULL, _T("变量表文件格式错误！"), _T("错误"), MB_ICONEXCLAMATION);
 		return false;
 	}
-	//!< 开始解析
+	// 开始解析
 	SerializeXmlItem(pTiXml.RootElement(), true);
 //	double t=CGbl::GetHighTime();
 //	CString tm;
@@ -339,14 +339,14 @@ void CItemMgr::SaveItemFile()
 		CString pathAll = proj->GetPath() + m_strName + _T(".") + ITEM_EXPAND_NAME;
 		TiXmlDocument pTiXml(pathAll);
 
-		TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "GB2312", "" );	//!< 起始声明
+		TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "GB2312", "" );	// 起始声明
 		pTiXml.LinkEndChild(decl);
-		TiXmlComment * comment = new TiXmlComment();							//!< 注释信息
+		TiXmlComment * comment = new TiXmlComment();							// 注释信息
 		comment->SetValue(_T("请勿手工编辑此文档"));
 		pTiXml.LinkEndChild(comment);
-		TiXmlElement *pRoot=new TiXmlElement("DocumentRoot");					//!< 写入根节点
+		TiXmlElement *pRoot=new TiXmlElement("DocumentRoot");					// 写入根节点
 		
-		SerializeXmlItem(pRoot, false);												//!< 添加工程节点,写操作
+		SerializeXmlItem(pRoot, false);												// 添加工程节点,写操作
 		pTiXml.LinkEndChild(pRoot);
 		if(!pTiXml.SaveFile()){
 			MessageBox(NULL, _T("保存失败！"), _T("错误"), MB_ICONEXCLAMATION);
@@ -361,8 +361,8 @@ bool CItemMgr::SerializeXmlItem(TiXmlElement* pNode, bool bRead)
 {
 	if(bRead)
 	{
-		//!< 软件版本，先不考虑
-		//!< 子节点
+		// 软件版本，先不考虑
+		// 子节点
 		CString text, strValue;
 		TiXmlElement* pChild = pNode->FirstChildElement();
 		std::list<std::shared_ptr<CItemGroup> > ltGroup;
@@ -404,7 +404,7 @@ bool CItemMgr::SerializeXmlItem(TiXmlElement* pNode, bool bRead)
 		m_vtItem.resize(itemcount + 1);
 		for (auto group : ltGroup)		m_vtItemGroup[group->getID()] = group;
 		for (auto item : ltItem)		{ m_vtItem[item->getID()] = item;	m_mpItem[item->getName()] = item; }
-		//!< 每个变量都要记录自己所在的组
+		// 每个变量都要记录自己所在的组
 		for (auto group : m_vtItemGroup)
 		{
 			if(!group)		continue;
@@ -441,12 +441,12 @@ bool CItemMgr::SerializeXmlItem(TiXmlElement* pNode, bool bRead)
 	return true;
 }
 
-//!< 变量表导出
+// 变量表导出
 void CItemMgr::OutItem(std::list<UINT> ltItem)
 {
 }
 
-//!< 变量表导出
+// 变量表导出
 bool CItemMgr::SerializeOut(TiXmlElement* pNode, std::list<UINT> ltItem)
 {
 	pNode->SetAttribute(_T("FileType"), ITEM_OUTFILE);
@@ -469,18 +469,18 @@ void CItemMgr::OnCreate()
 	m_mpItem.clear();
 	m_vtItem.clear();
 	if(m_pItemDoc)		m_pItemDoc->OnCloseDocument();
-	SetModify();		//!< 新建的工程默认为被修改状态
+	SetModify();		// 新建的工程默认为被修改状态
 
-	//!< 创建基本变量和变量组，这里只有一个System变量组
+	// 创建基本变量和变量组，这里只有一个System变量组
 	std::shared_ptr<CItemGroup> group;
 	group = std::shared_ptr<CItemGroup>(new CItemGroup(_T(""),UINT(-1)));
 	group->InitDefault();
 	m_vtItemGroup.push_back(group);
 
-	//!< 初始化路径信息
-	m_strName = _T("变量表");													//!< 名字叫"变量表"，工程名叫"p"
+	// 初始化路径信息
+	m_strName = _T("变量表");													// 名字叫"变量表"，工程名叫"p"
 	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
-	m_strFileName = m_strName + _T(".") + ITEM_EXPAND_NAME;						//!< 路径叫"p_变量表.var"
+	m_strFileName = m_strName + _T(".") + ITEM_EXPAND_NAME;						// 路径叫"p_变量表.var"
 }
 
 void CItemMgr::OnClose()
@@ -523,7 +523,7 @@ void CItemMgr::WriteItemValue(UINT id, bool proj, CString value)
 	}
 }
 
-//!< 改变监控状态
+// 改变监控状态
 void CItemMgr::SetItemWatch(const bool watch)
 {
 	if(!watch)		return;
@@ -537,7 +537,7 @@ void CItemMgr::SetItemWatch(const bool watch)
 void CItemMgr::ReadItemValue(bool bProj)
 {
 	std::shared_ptr<CItem> last_item = GetLastItem();
-	if(!last_item)								return;		//!< 不存在就退出
+	if(!last_item)								return;		// 不存在就退出
 	std::shared_ptr<CItem> item;
 	UINT last_id = last_item->getID();
 	UINT item_count = last_id + 1;
@@ -551,7 +551,7 @@ void CItemMgr::ReadItemValue(bool bProj)
 	{
 		SAFEARRAY *pArray = safeArray.parray;
 		HRESULT hr = SafeArrayAccessData(pArray, (void**)&pValue);
-		if(pArray->rgsabound->cElements != item_count)	return;		//!< 如果返回的数量不符，退出
+		if(pArray->rgsabound->cElements != item_count)	return;		// 如果返回的数量不符，退出
 		if(SUCCEEDED(hr))
 		{
 			for(UINT i = 0, j = 0; i <= last_id && j < item_count; ++i, ++j)
@@ -578,7 +578,7 @@ void CItemMgr::ReadItemValue(bool bProj)
 	}
 }
 
-//!< 显示出编号为id的变量，id为-1表示显示变量一览表
+// 显示出编号为id的变量，id为-1表示显示变量一览表
 void CItemMgr::ShowItem(UINT id)
 {
 	if(!CProjectMgr::GetMe().GetProj())	return;
@@ -589,10 +589,10 @@ void CItemMgr::ShowItem(UINT id)
 		std::shared_ptr<CItem> item = GetItem(id);
 		if(!item)		return;
 
-		//!< 如果变量表没打开，那么打开变量表一览
+		// 如果变量表没打开，那么打开变量表一览
 		BOOL isMax;
 		CMainFrame* mf = (CMainFrame *)g_App.GetMainWnd();
-		CFrameWnd* pFrame = mf->MDIGetActive(&isMax);		//!< 找到当前被激活的子窗口
+		CFrameWnd* pFrame = mf->MDIGetActive(&isMax);		// 找到当前被激活的子窗口
 		if(pFrame)
 		{
 			CDocument* pDoc = pFrame->GetActiveDocument();
@@ -607,7 +607,7 @@ void CItemMgr::ShowItem(UINT id)
 	m_pItemDoc->GetView()->ShowItem(id);
 }
 
-//!< 查找符合该字符串的变量，返回匹配的数量
+// 查找符合该字符串的变量，返回匹配的数量
 int CItemMgr::SearchItem(CString str, bool bMatchCase, bool bMatchWhole, bool bRegex /* = false */)
 {
 	int nMatchCount = 0;
@@ -624,24 +624,24 @@ int CItemMgr::SearchItem(CString str, bool bMatchCase, bool bMatchWhole, bool bR
 	return nMatchCount;
 }
 
-//!< 获得一个相近的名字，等于也可以，但保证没有被仍和变量使用的
+// 获得一个相近的名字，等于也可以，但保证没有被仍和变量使用的
 CString CItemMgr::GetSimilarName(CString name)
 {
 	int number = 0;
 	CString noNumberName = name;
 	bool haveNumber = CGbl::GetNumberFromString(noNumberName, number, 1);
-	//!< 如果这个字符串中不包含数字
+	// 如果这个字符串中不包含数字
 	if(!haveNumber)
 	{
 		if(!GetItem(name))			return name;
 		name = name + _T("0");
 		return GetSimilarName(name);
 	}
-	//!< 如果包含了数字
+	// 如果包含了数字
 	if(!GetItem(name))				return name;
 	CString newName;
 	newName.Format("%d", number + 1);
-	//!< 如果都是9，表示+1时会进位，呵呵，这时如果前边的字符串最后还跟个零，为了工整起见，需要将最后的零去掉
+	// 如果都是9，表示+1时会进位，呵呵，这时如果前边的字符串最后还跟个零，为了工整起见，需要将最后的零去掉
 	CString strNumber;
 	strNumber.Format("%d",number);
 	bool bAll9 = true;
@@ -664,13 +664,13 @@ CString CItemMgr::GetSimilarName(CString name)
 	return GetSimilarName(newName);
 }
 
-//!< 添加刚刚被修改的变量
+// 添加刚刚被修改的变量
 void CItemMgr::AddEditItem(UINT id)
 {
 	m_ltEditItemID.push_back(id);
 }
 
-//!< 设置这个操作结束了
+// 设置这个操作结束了
 void CItemMgr::SetEditEnd()
 {
 	if(m_ltEditItemID.empty())		return;
@@ -686,7 +686,7 @@ void CItemMgr::SetEditEnd()
 	m_ltEditItemID.clear();
 }
 
-//!< 刷新所有表格显示
+// 刷新所有表格显示
 void CItemMgr::FreshAllGrid()
 {
 	POSITION pos = g_App.m_pItemDocMgr->GetFirstDocPosition();

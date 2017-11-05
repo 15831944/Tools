@@ -98,7 +98,7 @@ void CStringAddDelDlg::OnBnClickedCancel()
 	OnCancel();
 }
 
-//!< 双击未添加列表
+// 双击未添加列表
 void CStringAddDelDlg::OnLbnDblclkSerialOut()
 {
 	UINT index;
@@ -110,7 +110,7 @@ void CStringAddDelDlg::OnLbnDblclkSerialOut()
 	m_InList.AddString(text);
 }
 
-//!< 双击已添加列表
+// 双击已添加列表
 void CStringAddDelDlg::OnLbnDblclkSerialIn()
 {
 	UINT index;

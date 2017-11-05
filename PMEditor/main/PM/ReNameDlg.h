@@ -1,7 +1,7 @@
 #pragma once
 
 
-//!< 重命名 对话框
+// 重命名 对话框
 namespace Dialog{
 class CReNameDlg : public CDialog
 {
@@ -19,15 +19,15 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 private:
-	CString m_strOldName;	//!< 原名称
-	CString m_strNewName;	//!< 新名称
+	CString m_strOldName;	// 原名称
+	CString m_strNewName;	// 新名称
 
 public:
 	CString GetNewName(){return m_strNewName;}
 
 public:
-	void SetOldName(CString str);			//!< 设定老名称
-	void SetDefaultName(CString str);		//!< 设定默认值
+	void SetOldName(CString str);			// 设定老名称
+	void SetDefaultName(CString str);		// 设定默认值
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBnClickedOk();
 	afx_msg BOOL OnHelpInfo(HELPINFO* pHelpInfo);

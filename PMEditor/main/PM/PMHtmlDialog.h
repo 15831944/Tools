@@ -9,13 +9,13 @@ class CPMHtmlDialog : public CDHtmlDialog
 	DECLARE_DYNCREATE(CPMHtmlDialog)
 
 public:
-	CString m_LocalURL;			//!< 当前网络地址
-	CString m_HomeRUL;			//!< 主页地址
-	BOOL m_IsButtonLink;		//!< 判断用户是否是点击按钮超链接，导致的网页跳转
+	CString m_LocalURL;			// 当前网络地址
+	CString m_HomeRUL;			// 主页地址
+	BOOL m_IsButtonLink;		// 判断用户是否是点击按钮超链接，导致的网页跳转
 	CStartView *m_pStartPageView;
 
-	stack<CString> m_BackStack;	//!< 后退堆栈
-	stack<CString> m_FrontStack;//!< 前进堆栈
+	stack<CString> m_BackStack;	// 后退堆栈
+	stack<CString> m_FrontStack;// 前进堆栈
 
 public:
 	CPMHtmlDialog(CWnd* pParent = NULL);   // 标准构造函数

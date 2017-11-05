@@ -70,9 +70,9 @@
 //#include <boost/foreach.hpp>
 //#define foreach BOOST_FOREACH
 //#define rforeach BOOST_REVERSE_FOREACH
-//#include <boost/thread/thread.hpp>			//!< 线程
-//#include <boost/thread/mutex.hpp>			//!< 锁
-//#include <boost/bind.hpp>					//!< 线程绑定函数
+//#include <boost/thread/thread.hpp>			// 线程
+//#include <boost/thread/mutex.hpp>			// 锁
+//#include <boost/bind.hpp>					// 线程绑定函数
 //#include <boost/signals.hpp>
 //#include <boost/signals/connection.hpp>
 

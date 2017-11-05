@@ -36,23 +36,23 @@ CSoftInfo::CSoftInfo(void)
 	m_vtColInfo[MVC::Item::CItemGrid::COL_SHIFT].Init(_T("变化率"), true, 50);
 	m_vtColInfo[MVC::Item::CItemGrid::COL_REV_DB].Init(_T("保留历史"), true, 40);
 
-	m_bTooltip = true;														//!< 悬停提示，要不要有
-	m_uiFreshDataTime = 500;												//!< 刷新数据的默认周期，默认500毫秒
-	m_bIsOutPut = true;														//!< 是否启动输出框进行输出
-	m_bIsOutWarning = false;												//!< 是否输出警告信息
-	m_uiZoomSize = 100;														//!< 缩放比例，X%
-	m_uiCloneNumber = 1;													//!< 克隆变量名称整数间隔数
-	m_uiCloneFloat = 16;													//!< 克隆变量名称浮点进位数
-	m_uiItemFloatWidth = 6;													//!< 变量值小数点保留位数
-	m_bShowHex = false;														//!< 是否按十六进制显示
-	m_bPrintItemWaterMark = false;											//!< 是否打印水印
+	m_bTooltip = true;														// 悬停提示，要不要有
+	m_uiFreshDataTime = 500;												// 刷新数据的默认周期，默认500毫秒
+	m_bIsOutPut = true;														// 是否启动输出框进行输出
+	m_bIsOutWarning = false;												// 是否输出警告信息
+	m_uiZoomSize = 100;														// 缩放比例，X%
+	m_uiCloneNumber = 1;													// 克隆变量名称整数间隔数
+	m_uiCloneFloat = 16;													// 克隆变量名称浮点进位数
+	m_uiItemFloatWidth = 6;													// 变量值小数点保留位数
+	m_bShowHex = false;														// 是否按十六进制显示
+	m_bPrintItemWaterMark = false;											// 是否打印水印
 	m_bCplXml = false;
-	m_nCmplOverTime = 600000;												//!< 编译超时时间,默认10分钟
-	m_strItemNabled = _T("Yes");											//!< 变量名称是否能修改
+	m_nCmplOverTime = 600000;												// 编译超时时间,默认10分钟
+	m_strItemNabled = _T("Yes");											// 变量名称是否能修改
 	std::shared_ptr<CFont> tuopuFont= std::shared_ptr<CFont>(new CFont);
 	tuopuFont->CreateFont(14, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET, 
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("宋体"));
-	tuopuFont->GetLogFont(&m_lgTuopuFontInfo);								//!< 拓扑图字体信息
+	tuopuFont->GetLogFont(&m_lgTuopuFontInfo);								// 拓扑图字体信息
 }
 
 CSoftInfo::~CSoftInfo(void)
@@ -68,13 +68,13 @@ CSoftInfo& SoftInfo::CSoftInfo::GetMe()
 void CSoftInfo::SaveFile()
 {
 	TiXmlDocument pTiXml(CGbl::GetMe().getDataPath() + _T("DEditor.cfg"));
-	TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "GB2312", "" );	//!< 起始声明
+	TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "GB2312", "" );	// 起始声明
 	pTiXml.LinkEndChild(decl);
-	TiXmlComment * comment = new TiXmlComment();							//!< 注释信息
+	TiXmlComment * comment = new TiXmlComment();							// 注释信息
 	comment->SetValue(_T("请勿手工编辑此文档"));
 	pTiXml.LinkEndChild(comment);
-	TiXmlElement *pRoot=new TiXmlElement("DocumentRoot");					//!< 写入根节点
-	SerializeXml(pRoot, false);												//!< 添加工程节点,写操作
+	TiXmlElement *pRoot=new TiXmlElement("DocumentRoot");					// 写入根节点
+	SerializeXml(pRoot, false);												// 添加工程节点,写操作
 	pTiXml.LinkEndChild(pRoot);
 	if(!pTiXml.SaveFile()){
 		MessageBox(NULL, _T("保存失败！"), _T("错误"), MB_ICONEXCLAMATION);
@@ -86,7 +86,7 @@ void CSoftInfo::LoadFile()
 {
 	TiXmlDocument pTiXml(CGbl::GetMe().getDataPath() + _T("DEditor.cfg"));
 	if(!pTiXml.LoadFile())		return;
-	//!< 开始解析
+	// 开始解析
 	SerializeXml(pTiXml.RootElement(), true);
 }
 
@@ -304,7 +304,7 @@ void CSoftInfo::SetFreshDataTime(UINT fdt)
 	}
 }
 
-//!< 将本字体信息转成字符串，用于保存
+// 将本字体信息转成字符串，用于保存
 CString CSoftInfo::GetFontText(LOGFONT& lf)
 {
 	CString part, strRet;
@@ -325,12 +325,12 @@ CString CSoftInfo::GetFontText(LOGFONT& lf)
 	return strRet.Left(strRet.GetLength() - 1);
 }
 
-//!< 将字符串解析成字体信息
+// 将字符串解析成字体信息
 void CSoftInfo::SetFont(LOGFONT&lf, CString strFont)
 {
 	std::vector<CString> vtStr;
 	CGbl::SpliteBy(strFont, _T("~"), vtStr);
-	if(vtStr.size() != 14)		return;		//!< 一共14项数据
+	if(vtStr.size() != 14)		return;		// 一共14项数据
 	lf.lfHeight = (LONG)atoi(vtStr[0]);
 	lf.lfWidth = (LONG)atoi(vtStr[1]);
 	lf.lfEscapement = (LONG)atoi(vtStr[2]);
@@ -348,7 +348,7 @@ void CSoftInfo::SetFont(LOGFONT&lf, CString strFont)
 	strcpy(&lf.lfFaceName[0], vtStr[13].GetBuffer());
 }
 
-//!< 设置编译文件是否保存描述
+// 设置编译文件是否保存描述
 void CSoftInfo::setCmpXml(bool b)
 {
 	if(m_bCplXml == b)		return;
@@ -357,7 +357,7 @@ void CSoftInfo::setCmpXml(bool b)
 		CProjectMgr::GetMe().GetProj()->SetModify(true);
 }
 
-//!< 设置显示十六进制数值
+// 设置显示十六进制数值
 void CSoftInfo::setShowHex(bool b)
 {
 	if (b == m_bShowHex)	return;

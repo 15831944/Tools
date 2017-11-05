@@ -7,7 +7,7 @@ class CSoftSetServerDlg : public CDialog
 {
 	DECLARE_DYNAMIC(CSoftSetServerDlg)
 public:
-	UINT m_uiDataFreshTime;		//!< 数据刷新周期
+	UINT m_uiDataFreshTime;		// 数据刷新周期
 
 public:
 	CSoftSetServerDlg(CWnd* pParent = NULL);   // 标准构造函数

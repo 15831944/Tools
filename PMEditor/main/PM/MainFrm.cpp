@@ -7,14 +7,10 @@
 #include "MyHelp.h"
 #include "MainFrm.h"
 #include "ProjectMgr.h"
-#include "Compiler.h"
 #include "ProjectMgr.h"
 #include "Project.h"
 #include "SoftSetDlg.h"
 #include "FindDlg.h"
-
-#include "ServerCtrl.h"
-#include "Hmi.h"
 
 #include "ItemMgr.h"
 #include "ItemDoc.h"
@@ -45,9 +41,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 	ON_COMMAND(ID_PROJ_SAVE, &CMainFrame::OnProjSave)
 	ON_COMMAND(ID_PROJ_BACKUP, &CMainFrame::OnProjBackUp)
 	ON_COMMAND(ID_PROJ_CLOSE, &CMainFrame::OnProjClose)
-	ON_COMMAND(ID_COMPILE_CHECK, &CMainFrame::OnCompileCheck)
-	ON_COMMAND(ID_SERVER_RUN, &CMainFrame::OnServerRun)
-	ON_COMMAND(ID_SERVER_STOP, &CMainFrame::OnServerStop)
 	ON_COMMAND(ID_ADD_ITEM, &CMainFrame::OnAddItem)
 	ON_COMMAND(ID_RENAME, &CMainFrame::OnRename)
 	ON_COMMAND(ID_PROJ_INFO, &CMainFrame::OnProjInfo)
@@ -61,16 +54,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_PROJ_SAVE, &CMainFrame::OnUpdateWithProj)
 	ON_UPDATE_COMMAND_UI(ID_PROJ_BACKUP, &CMainFrame::OnUpdateWithProj)
 	ON_UPDATE_COMMAND_UI(ID_RENAME, &CMainFrame::OnUpdateWithProj)
-	ON_UPDATE_COMMAND_UI(ID_ADD_DEVICE, &CMainFrame::OnUpdateWithProj)
 	ON_UPDATE_COMMAND_UI(ID_ADD_ITEM, &CMainFrame::OnUpdateWithProj)
 	ON_UPDATE_COMMAND_UI(ID_COMPILE_CHECK, &CMainFrame::OnUpdateWithProj)
 	ON_UPDATE_COMMAND_UI(ID_PROJ_INFO, &CMainFrame::OnUpdateWithProj)
 	ON_UPDATE_COMMAND_UI(ID_FIND, &CMainFrame::OnUpdateWithProj)
-	ON_UPDATE_COMMAND_UI(ID_SCAN_SET, &CMainFrame::OnUpdateWithProj)
-	ON_UPDATE_COMMAND_UI(ID_HMI_START, &CMainFrame::OnUpdateWithProj)
-	ON_UPDATE_COMMAND_UI(ID_SERVER_RUN, &CMainFrame::OnUpdateServerRun)
-	ON_UPDATE_COMMAND_UI(ID_SERVER_STOP, &CMainFrame::OnUpdateServerStop)
-	ON_COMMAND(ID_REGIST, &CMainFrame::OnRegist)
 	ON_COMMAND(ID_STARTPAGE, &CMainFrame::OnStartpage)
 END_MESSAGE_MAP()
 
@@ -98,7 +85,7 @@ static UINT uHideCmds[] =   // 隐藏的菜单
 
 // CMainFrame 构造/析构
 CMainFrame::CMainFrame()
-:m_bLimitTimer(false)							//!< 是否限时定时器开启
+:m_bLimitTimer(false)							// 是否限时定时器开启
 {
 }
 
@@ -106,7 +93,7 @@ CMainFrame::~CMainFrame()
 {
 }
 
-//!< 设置窗口样式
+// 设置窗口样式
 void CMainFrame::SetTheme(int index)
 {
 	switch(index)
@@ -125,7 +112,7 @@ void CMainFrame::SetTheme(int index)
 	}
 }
 
-//!< 设置Pane样式
+// 设置Pane样式
 void CMainFrame::SetPaneTheme(int index)
 {
 	switch(index)
@@ -160,15 +147,15 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CMDIFrameWnd::OnCreate(lpCreateStruct) == -1)	return -1;
 	if (!CreateToolBar())								return -1;
 
-	//!< 添加状态栏
+	// 添加状态栏
 	if (!m_wndStatusBar.Create(this) || !m_wndStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(UINT)))		return -1;
 
 	m_wndStatusBar.GetPane(0)->SetBeginGroup(FALSE);
 	FillToStatusBar();
-	SetTheme(xtpThemeVisualStudio2010);						//!< 设置窗口的风格
+	SetTheme(xtpThemeVisualStudio2010);						// 设置窗口的风格
 	//SetTheme(xtpThemeVisualStudio6);
-	m_paneManager.InstallDockingPanes(this);				//!< Add pane
-	SetPaneTheme(xtpPaneThemeVisualStudio2010);				//!< 设置每个pane的风格
+	m_paneManager.InstallDockingPanes(this);				// Add pane
+	SetPaneTheme(xtpPaneThemeVisualStudio2010);				// 设置每个pane的风格
 
 	CXTPDockingPane* paneDeviceView = m_paneManager.CreatePane(ID_VIEW_DEVICE, CRect(0, 0, 150, 140), xtpPaneDockRight);
 	CXTPDockingPane* paneOutputView = m_paneManager.CreatePane(ID_VIEW_OUTPUT, CRect(0, 0, 150, 200), xtpPaneDockBottom);
@@ -176,12 +163,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	CXTPDockingPane* paneItemView = m_paneManager.CreatePane(ID_VIEW_ITEM, CRect(0, 0, 210, 140), xtpPaneDockLeft);
 	paneDeviceView->Hide();
 
-	paneDeviceView->SetTitle("设备视图\n设备视图");			//!< 在这里设Title是因为CreatePane有语言不兼容的bug
+	paneDeviceView->SetTitle("设备视图\n设备视图");			// 在这里设Title是因为CreatePane有语言不兼容的bug
 	paneOutputView->SetTitle("输出栏\n输出栏");
 	paneProjView->SetTitle("工程视图\n工程视图");
 	paneItemView->SetTitle("变量视图\n变量视图");
 
-	m_paneManager.AttachPane(paneItemView, paneProjView);	//!< 将两个pane合并在一起
+	m_paneManager.AttachPane(paneItemView, paneProjView);	// 将两个pane合并在一起
 	paneProjView->Select();
 	m_paneManager.EnableKeyboardNavigate();
 	m_paneManager.SetAlphaDockingContext(TRUE);
@@ -272,7 +259,7 @@ void CMainFrame::InitCommerTime()
 {
 }
 
-//!< 启动或停止时间限制
+// 启动或停止时间限制
 void CMainFrame::SetTimeLimit(bool bLimit)
 {
 	if(m_bLimitTimer == bLimit)			return;
@@ -281,7 +268,7 @@ void CMainFrame::SetTimeLimit(bool bLimit)
 	else			{KillTimer(TIME_LIMIT);		SetTitle(TITLE);}
 }
 
-//!< 得带获得权限信息后再打开工程
+// 得带获得权限信息后再打开工程
 void CMainFrame::WaitPower2OpenProject(CString path)
 {
 	CProjectMgr::GetMe().OpenProject(path);
@@ -296,7 +283,7 @@ void CMainFrame::SetTitle(CString title)
 
 bool CMainFrame::CreateToolBar()
 {
-	if (!InitCommandBars())				return false;	//!< 创建CXTPCommandBars对象
+	if (!InitCommandBars())				return false;	// 创建CXTPCommandBars对象
 	CXTPCommandBars* pCommandBars = GetCommandBars();
 	CXTPCommandBar* pMenuBar = pCommandBars->SetMenu(_T("Menu Bar"), IDR_MAINFRAME);
 	pMenuBar->SetFlags(xtpFlagIgnoreSetMenuMessage);
@@ -428,28 +415,22 @@ void CMainFrame::Dump(CDumpContext& dc) const{CMDIFrameWnd::Dump(dc);}
 void CMainFrame::OnClose()
 {
 //Save Regester
-	//!< 无论关闭与否，先把软件配置保存了
+	// 无论关闭与否，先把软件配置保存了
 	SoftInfo::CSoftInfo::GetMe().SaveFile();
 	CProjectMgr* projMgr = &CProjectMgr::GetMe();
-	if(!projMgr->GetProj() || 
-		(!projMgr->IsModify() &&
-		!projMgr->GetProj()->IsHmiModify()))
+	if (!projMgr->GetProj() || 
+		!projMgr->IsModify())
 	{
 		int nResult = MessageBox(_T("是否确定退出程序？"), _T("提示"), MB_YESNO | MB_ICONINFORMATION);
 		if(IDNO == nResult)						return;
-		Servers::HMI::CHmi::GetMe().SetClose(nResult == IDYES);
 		if(projMgr->GetProj())					ProjClose();
 	}
 	else
 	{
 		CString str = _T("是否保存当前工程？\r\n");
-		str = str + _T("\r\n 是:保存所有工程包括HMI页面信息和Config程序信息，并退出");
-		str = str + _T("\r\n 否:不保存所有工程包括HMI页面信息和Config程序信息，并退出");
-		str = str + _T("\r\n 取消:不退出");
 		int nResult = MessageBox(str, _T("提示"), MB_YESNOCANCEL | MB_ICONINFORMATION);
 		if(IDYES == nResult)					OnProjSave();
 		else if(IDCANCEL == nResult)			return;
-		Servers::HMI::CHmi::GetMe().SetClose(nResult == IDYES);
 		ProjClose();
 	}
 	SaveCommandBars(_T("CommandBars"));
@@ -485,7 +466,7 @@ void CMainFrame::OnProjClose()
 	AskAndProjClose();
 }
 
-//!< 询问并关闭工程
+// 询问并关闭工程
 bool CMainFrame::AskAndProjClose()
 {
 	if (!CProjectMgr::GetMe().GetProj())		return true;
@@ -499,7 +480,7 @@ bool CMainFrame::AskAndProjClose()
 	return true;
 }
 
-//!< 无声无息的关闭工程
+// 无声无息的关闭工程
 void CMainFrame::ProjClose()
 {
 	if(CProjectMgr::GetMe().IsWatch()){
@@ -515,43 +496,12 @@ void CMainFrame::UpdateTreeView()
 	m_SpaceItem.UpdateTreeView();
 }
 
-//!< 启动编译
+// 启动编译
 void CMainFrame::CompileRun(bool bRunServer /* = false */)
 {
-	//!< 编译之前的准备工作
-	std::shared_ptr<CProject> proj = CProjectMgr::GetMe().GetProj();
-	if(!proj)		return;
-	CProjectMgr::GetMe().SaveProject();
-	CGbl::PrintClear();
-
-	//!< 开始编译
-	if(bRunServer)		Servers::Compile::CCompiler::GetMe().AddRunObj(&Servers::DXP::CServerCtrl::GetMe());
-	Servers::Compile::CCompiler::GetMe().CompileProj();
 }
 
-//!< 检查
-void CMainFrame::OnCompileCheck()
-{
-	CompileRun(false);
-}
-
-//!< 启动服务器运行
-void CMainFrame::OnServerRun()
-{
-	if(!CProjectMgr::GetMe().GetProj())	return;
-	int state = Servers::DXP::CServerCtrl::GetMe().GetState();
-	if(state == 1)			return;										//!< 正在运行中,不能操作
-	else if( state == 2)	Servers::DXP::CServerCtrl::GetMe().OnRun();	//!< 处于暂停中,只能直接启动
-	else					CompileRun(true);							//!< 停止状态,启动编译运行
-}
-
-//!< 启动服务器停止
-void CMainFrame::OnServerStop()
-{
-	Servers::DXP::CServerCtrl::GetMe().OnStopSev();
-}
-
-//!< 接收被启动程序传回来的数据
+// 接收被启动程序传回来的数据
 BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
 {
 	if(pCopyDataStruct)
@@ -575,26 +525,16 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
 			m_paneManager.HidePane(ID_VIEW_DEVICE);
 			ShowWindow(SW_SHOWMAXIMIZED);
 		}
-		else if(Servers::Compile::CCompiler::GetMe().IsINeed((UINT)pCopyDataStruct->dwData))	//!< 如果是编译器的消息
-			Servers::Compile::CCompiler::GetMe().OnReceive(pCopyDataStruct);
-		else if(Servers::DXP::CServerCtrl::GetMe().IsINeed((UINT)pCopyDataStruct->dwData))
-			Servers::DXP::CServerCtrl::GetMe().OnReceive(pCopyDataStruct);
-		else if(Servers::HMI::CHmi::GetMe().IsINeed((UINT)pCopyDataStruct->dwData))
-			Servers::HMI::CHmi::GetMe().OnReceive(pCopyDataStruct);
 	}
 	return CXTPMDIFrameWnd::OnCopyData(pWnd, pCopyDataStruct);
 }
 
 void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 {
-	if(nIDEvent == TIME_WATCH)// && SoftInfo::CSoftInfo::GetMe().getHDevMap() == 1)		//!< 监控的时间
+	if(nIDEvent == TIME_WATCH)// && SoftInfo::CSoftInfo::GetMe().getHDevMap() == 1)		// 监控的时间
 	{
 		MVC::Item::CItemMgr::GetMe().ReadItemValue(true);
 		MVC::Item::CItemMgr::GetMe().ReadItemValue(false);
-	}
-	else if(nIDEvent == Servers::Compile::CCompiler::COMPILE_OVERTIME_ID)
-	{
-		Servers::Compile::CCompiler::GetMe().OnCompileOverTime();	//!< 编译超时了
 	}
 	else if(nIDEvent == TIME_LIMIT)
 	{
@@ -609,7 +549,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 			return;
 		}
 		m_nLimitTime--;
-		//!< 设置Title
+		// 设置Title
 		int n = m_nLimitTime;
 		int nHour, nMinute, nSecond;
 		nHour = n / 3600;
@@ -625,26 +565,12 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 	CXTPMDIFrameWnd::OnTimer(nIDEvent);
 }
 
-void CMainFrame::OnUpdateServerRun(CCmdUI *pCmdUI)
-{
-	OnUpdateWithProj(pCmdUI);
-	Servers::DXP::CServerCtrl* server = &Servers::DXP::CServerCtrl::GetMe();
-	if(server->GetState() == 1)				pCmdUI->Enable(FALSE);
-}
-
-void CMainFrame::OnUpdateServerStop(CCmdUI *pCmdUI)
-{
-	OnUpdateWithProj(pCmdUI);
-	Servers::DXP::CServerCtrl* server = &Servers::DXP::CServerCtrl::GetMe();
-	if(server->GetState() != 1)				pCmdUI->Enable(FALSE);
-}
-
 void CMainFrame::OnAddItem()
 {
 	if(!CProjectMgr::GetMe().GetProj())	return;
-	//!< 如果变量表没打开，那么打开变量表一览
+	// 如果变量表没打开，那么打开变量表一览
 	BOOL isMax;
-	CFrameWnd* pFrame = MDIGetActive(&isMax);		//!< 找到当前被激活的子窗口
+	CFrameWnd* pFrame = MDIGetActive(&isMax);		// 找到当前被激活的子窗口
 	if(pFrame)
 	{
 		MVC::Item::CItemDoc* pDoc = (MVC::Item::CItemDoc *)pFrame->GetActiveDocument();
@@ -659,7 +585,7 @@ void CMainFrame::OnAddItem()
 	itemMgr->m_pItemDoc->GetView()->OnItemAdd();
 }
 
-//!< 重命名工程名
+// 重命名工程名
 void CMainFrame::OnRename()
 {
 	CProjectMgr* projMgr = &CProjectMgr::GetMe();
@@ -683,31 +609,31 @@ void CMainFrame::OnSoftSet()
 	dlg.DoModal();
 }
 
-//!< 查找功能
+// 查找功能
 void CMainFrame::OnFind()
 {
 	Dialog::CFindDlg::GetMe().DoModal();
 }
 
-//!< 显示工程试图
+// 显示工程试图
 void CMainFrame::OnShowViewProject()
 {
 	m_paneManager.ShowPane(ID_VIEW_PROJECT);
 }
 
-//!< 显示变量组视图
+// 显示变量组视图
 void CMainFrame::OnShowViewItem()
 {
 	m_paneManager.ShowPane(ID_VIEW_ITEM);
 }
 
-//!< 显示设备视图
+// 显示设备视图
 void CMainFrame::OnShowViewDevice()
 {
 	m_paneManager.ShowPane(ID_VIEW_DEVICE);
 }
 
-//!< 显示输出栏视图
+// 显示输出栏视图
 void CMainFrame::OnShowViewOutput()
 {
 	m_paneManager.ShowPane(ID_VIEW_OUTPUT);
@@ -725,11 +651,6 @@ void CMainFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 void CMainFrame::OnUpdateWithProj(CCmdUI *pCmdUI)
 {
 	pCmdUI->Enable(CProjectMgr::GetMe().GetProj()?TRUE:FALSE);
-}
-
-void CMainFrame::OnRegist()
-{
-	g_App.RegistSoftware();
 }
 
 void CMainFrame::OnStartpage()

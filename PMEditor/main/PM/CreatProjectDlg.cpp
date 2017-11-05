@@ -99,7 +99,7 @@ void CCreatProjectDlg::OnBnClickedOk()
 		GotoDlgCtrl(GetDlgItem(IDC_PROJECT_NAME));
 		return;
 	}
-	if(m_bCreate && _access((LPCTSTR)(m_strPathOnly + m_strName + _T("\\")), 06)==0)	//!< ³åÍ»
+	if(m_bCreate && _access((LPCTSTR)(m_strPathOnly + m_strName + _T("\\")), 06)==0)	// ³åÍ»
 		if(AfxMessageBox("¹¤³Ì³åÍ»£¬ÊÇ·ñ¸²¸Ç?\n\r¸²¸Ç»á¶ªÊ§Ô­ÓÐ¹¤³Ì£¡",MB_YESNO)==IDNO)
 			return;
 	CDialog::OnOK();

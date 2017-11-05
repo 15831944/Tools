@@ -1,4 +1,4 @@
-// PMApp.h : DXPEditor 应用程序的主头文件
+// PMApp.h : PMEditor 应用程序的主头文件
 //
 #pragma once
 #ifndef __AFXWIN_H__
@@ -7,7 +7,7 @@
 #include "resource.h"       // 主符号
 
 // CPMApp:
-// 有关此类的实现，请参阅 DXPEditor.cpp
+// 有关此类的实现，请参阅 PMEditor.cpp
 //
 class CProjectMgr;
 namespace MVC{namespace Start{class CPMHtmlDialog;}}
@@ -34,15 +34,14 @@ public:
 	virtual int ExitInstance();
 	virtual void AddToRecentFileList(LPCTSTR lpszPathName);
 	virtual void DeleteRecentFile(LPCTSTR lpszPathName);
-	virtual void ShowStartPage();			//!< 打开起始页
+	virtual void ShowStartPage();			// 打开起始页
 
 	afx_msg void OnAppAbout();
 	afx_msg void MRUFileHandler(UINT index);
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
-	void RegistSoftware();					//!< 软件注册
-	void ReadCmdLine(CString cmdLine);		//!< 解析命令行
+	void ReadCmdLine(CString cmdLine);		// 解析命令行
 };
 
 extern CPMApp g_App;

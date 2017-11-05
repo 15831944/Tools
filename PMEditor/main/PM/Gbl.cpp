@@ -17,53 +17,26 @@
 #include <shlobj.h>
 
 CGbl::CGbl(void)
-:m_strComplierName(_T("CommCompl.exe"))		//!< 编译器的文件名，包括扩展名，但不包括路径
-,m_strServerName(_T("DXP.exe"))				//!< 服务器的文件名，包括扩展名，但不包括路径
-,m_strHmiName(_T("HMI\\DHMI.exe"))			//!< HMI的文件名，包括扩展名，但不包括路径
-,m_strConfigName(_T("DConfig.exe"))			//!< Config的文件名，包括扩展名，但不包括路径
 {
-	//!< 计算目录
+	// 计算目录
 	TCHAR exePath[MAX_PATH];
 	::ZeroMemory(exePath,sizeof(TCHAR)*MAX_PATH);
 	::GetModuleFileName(NULL,exePath,MAX_PATH);
 	m_strExePath = exePath;
-	m_strExePath = m_strExePath.Left(m_strExePath.ReverseFind('\\'));		//!< 解析完的程序路径后边没有‘\’
-	m_strInstallPath = m_strExePath.Left(m_strExePath.ReverseFind('\\')+1);	//!< 安装程序目录
-	m_strExePath += _T('\\');												//!< 可执行程序的目录，后边+‘\’
-	m_strSlnPath = m_strInstallPath + _T("Solution\\");						//!< 解决方案默认路径
-	m_strDataPath = m_strInstallPath + _T("Data\\");						//!< 主描述文件路径
-	m_strDocPath = m_strInstallPath + _T("Doc\\");							//!< 帮助文件路径
-	m_strLanguagePath = m_strInstallPath + _T("Language\\");				//!< 语言包路径
-	m_strProjDefPath = m_strInstallPath + _T("Projects\\");					//!< 工程默认路径
+	m_strExePath = m_strExePath.Left(m_strExePath.ReverseFind('\\'));		// 解析完的程序路径后边没有‘\’
+	m_strInstallPath = m_strExePath.Left(m_strExePath.ReverseFind('\\')+1);	// 安装程序目录
+	m_strExePath += _T('\\');												// 可执行程序的目录，后边+‘\’
+	m_strSlnPath = m_strInstallPath + _T("Solution\\");						// 解决方案默认路径
+	m_strDataPath = m_strInstallPath + _T("Data\\");						// 主描述文件路径
+	m_strDocPath = m_strInstallPath + _T("Doc\\");							// 帮助文件路径
+	m_strLanguagePath = m_strInstallPath + _T("Language\\");				// 语言包路径
+	m_strProjDefPath = m_strInstallPath + _T("Projects\\");					// 工程默认路径
 
 	TCHAR szDocPath[MAX_PATH];
 	if (SUCCEEDED(::SHGetFolderPath(NULL, CSIDL_PERSONAL | CSIDL_FLAG_CREATE, NULL, 0, szDocPath)))
 	{
-		m_strProjDefPath = CString(szDocPath) + _T("\\PM\\Projects\\");					//!< 工程默认路径
+		m_strProjDefPath = CString(szDocPath) + _T("\\PM\\Projects\\");					// 工程默认路径
 	}
-
-	m_ltBaudStr.push_back(_T("1200"));
-	m_ltBaudStr.push_back(_T("2400"));
-	m_ltBaudStr.push_back(_T("4800"));
-	m_ltBaudStr.push_back(_T("9600"));
-	m_ltBaudStr.push_back(_T("19200"));
-	m_ltBaudStr.push_back(_T("38400"));
-	m_ltBaudStr.push_back(_T("57600"));
-	m_ltBaudStr.push_back(_T("115200"));
-
-	m_ltCheckStyleStr.push_back(_T("无"));
-	m_ltCheckStyleStr.push_back(_T("奇"));
-	m_ltCheckStyleStr.push_back(_T("偶"));
-	m_ltCheckStyleStr.push_back(_T("空格"));
-	m_ltCheckStyleStr.push_back(_T("符号"));
-
-	m_ltDataBitNumStr.push_back(_T("8"));
-	m_ltDataBitNumStr.push_back(_T("7"));
-	m_ltDataBitNumStr.push_back(_T("6"));
-	m_ltDataBitNumStr.push_back(_T("5"));
-
-	m_ltStopBitNumStr.push_back(_T("1"));
-	m_ltStopBitNumStr.push_back(_T("2"));
 }
 
 CGbl::~CGbl(void){}
@@ -74,11 +47,11 @@ CGbl& CGbl::GetMe()
 	return me;
 }
 
-//!< 获得软件版本号,type表示版本类型，0全部，1高版本号，2中版本号
+// 获得软件版本号,type表示版本类型，0全部，1高版本号，2中版本号
 const CString CGbl::getVersionStr(UINT type/* = 0*/)
 {
 	CString ver[4] = {_T(""), _T("2"), _T("6"), _T("2.02091")};
-	//!< 如果要从注册表中读版本号
+	// 如果要从注册表中读版本号
 // 	HKEY hKey;
 // 	UINT id;
 // 	int i = 0;
@@ -106,7 +79,7 @@ const CString CGbl::getVersionStr(UINT type/* = 0*/)
 // 		}
 // 		RegCloseKey(hKey);
 // 	}
-// 	//!< 如果注册表读不到,从软件属性中读版本号
+// 	// 如果注册表读不到,从软件属性中读版本号
 // 	if(!bReadSucceed)
 // 	{
 // 		TCHAR szFullPath[MAX_PATH];
@@ -145,11 +118,11 @@ const CString CGbl::getVersionStr(UINT type/* = 0*/)
 	else			return ver[type];
 }
 
-//!< 获得SVN号,这个需要自己算一下
+// 获得SVN号,这个需要自己算一下
 const CString CGbl::getSVNStr()
 {
-	//!< 这个是我要提交的SVN版本号, 以后可根据这个追溯到对应的SVN内容,
-	//!< 以后增加也不要将原来的删除, 以备后用
+	// 这个是我要提交的SVN版本号, 以后可根据这个追溯到对应的SVN内容,
+	// 以后增加也不要将原来的删除, 以备后用
 	return _T("1172");
 }
 
@@ -198,109 +171,21 @@ const CString CGbl::getLanguageText(UINT id)
 	return _T("");
 }
 
-//!< 获得波特率索引
-UINT CGbl::getBaudIndex(CString str)
-{
-	UINT num = 0;
-	for (CString text : m_ltBaudStr)
-	{
-		if(text == str)		return num;
-		else				++num;
-	}
-	return 0;
-}
-
-//!< 获得校验类型索引
-UINT CGbl::getCheckIndex(CString str)
-{
-	UINT num = 0;
-	for (CString text : m_ltCheckStyleStr)
-	{
-		if(text == str)		return num;
-		else				++num;
-	}
-	return 0;
-}
-
-//!< 获得数据位索引
-UINT CGbl::getDataIndex(CString str)
-{
-	UINT num = 0;
-	for (CString text : m_ltDataBitNumStr)
-	{
-		if(text == str)		return num;
-		else				++num;
-	}
-	return 0;
-}
-
-//!< 获得停止位索引
-UINT CGbl::getStopIndex(CString str)
-{
-	UINT num = 0;
-	for (CString text : m_ltStopBitNumStr)
-	{
-		if(text == str)		return num;
-		else				++num;
-	}
-	return 0;
-}
-
-//!< 获得波特率
-CString CGbl::getBaudStr(int index)
-{
-	UINT num = 0;
-	for (CString str : m_ltBaudStr)
-		if(num++ == index)
-			return str;
-	return _T("");
-}
-
-//!< 获得校验类型
-CString CGbl::getCheckStyleStr(int index)
-{
-	UINT num = 0;
-	for (CString str : m_ltCheckStyleStr)
-		if(num++ == index)
-			return str;
-	return _T("");
-}
-
-//!< 获得数据位
-CString CGbl::getDataBitNumStr(int index)
-{
-	UINT num = 0;
-	for (CString str : m_ltDataBitNumStr)
-		if(num++ == index)
-			return str;
-	return _T("");
-}
-
-//!< 获得停止位
-CString CGbl::getStopBitNumStr(int index)
-{
-	UINT num = 0;
-	for (CString str : m_ltStopBitNumStr)
-		if(num++ == index)
-			return str;
-	return _T("");
-}
-
-//!< 锁住不让输出框刷新
+// 锁住不让输出框刷新
 void CGbl::PrintLock(bool bLock)
 {
 	CMainFrame* mf = (CMainFrame*)g_App.GetMainWnd();
 	if(mf)		mf->GetOutPut()->LockUpdate(bLock);
 }
 
-//!< 清空输出栏
+// 清空输出栏
 void CGbl::PrintClear()
 {
 	CMainFrame* mf = (CMainFrame*)g_App.GetMainWnd();
 	if(mf)		mf->GetOutPut()->Clear();
 }
 
-//!< 输出文本，最后一个参数表示是否允许出现2次相同的提示，true表示允许
+// 输出文本，最后一个参数表示是否允许出现2次相同的提示，true表示允许
 void CGbl::PrintOut(CString text,bool fresh/* =false */, bool twice /* = true */)
 {
 	if(!SoftInfo::CSoftInfo::GetMe().isOutPut())			return;
@@ -384,7 +269,7 @@ CString CGbl::GetSystemTime2Str(const SYSTEMTIME& st)
 	return text;
 }
 
-//!< 将字符串text以rule字符串作为分隔条件分离，并将结果赋到vtList中
+// 将字符串text以rule字符串作为分隔条件分离，并将结果赋到vtList中
 void CGbl::SpliteBy(CString text,CString rule,std::vector<CString>& vtStr)
 {
 // 	int pos = 0;
@@ -410,7 +295,7 @@ void CGbl::SpliteBy(CString text,CString rule,std::vector<CString>& vtStr)
 }
 
 
-//!< 将浮点数从字符串中分离出去，参数type = 0 表示从左提取； = 1 表示从右提取
+// 将浮点数从字符串中分离出去，参数type = 0 表示从左提取； = 1 表示从右提取
 bool CGbl::GetNumberFromString(CString& str, int& number, int type)
 {
 	std::string strRegex, strMatch;
@@ -426,7 +311,7 @@ bool CGbl::GetNumberFromString(CString& str, int& number, int type)
 	else			{str = vtStr[1].c_str();	strNumber = vtStr[2].c_str();}
 	number = atoi(strNumber);
 	if(type == 0)		return true;
-	//!< 如果是从右侧提取，有点讲究，就是遇到a01这种情况怎么办
+	// 如果是从右侧提取，有点讲究，就是遇到a01这种情况怎么办
 	while(!strNumber.IsEmpty() && strNumber != _T("0"))
 	{
 		if(strNumber.Left(1) != _T("0"))		break;
@@ -436,7 +321,7 @@ bool CGbl::GetNumberFromString(CString& str, int& number, int type)
 	return true;
 }
 
-//!< 将浮点数从字符串中分离出去，参数type = 0 表示从左提取； = 1 表示从右提取
+// 将浮点数从字符串中分离出去，参数type = 0 表示从左提取； = 1 表示从右提取
 void CGbl::GetFloatFromString(CString& str, CString& strInt, CString& strDec, UINT type/*=0*/)
 {
 	strInt = _T("0");
@@ -449,8 +334,8 @@ void CGbl::GetFloatFromString(CString& str, CString& strInt, CString& strDec, UI
 	std::vector<std::string> vtStr;
 	strMatch = (LPCTSTR)str;
 	if(!CGbl::GetMe().RegexMatch(strRegex, strMatch, vtStr))	return;
-	if(type == 0)	{str = vtStr[4].c_str();	strInt = vtStr[1].c_str();	strDec = vtStr[3].c_str();}	//!< vtStr[2]是小数点
-	else			{str = vtStr[1].c_str();	strInt = vtStr[2].c_str();	strDec = vtStr[4].c_str();}	//!< vtStr[3]是小数点
+	if(type == 0)	{str = vtStr[4].c_str();	strInt = vtStr[1].c_str();	strDec = vtStr[3].c_str();}	// vtStr[2]是小数点
+	else			{str = vtStr[1].c_str();	strInt = vtStr[2].c_str();	strDec = vtStr[4].c_str();}	// vtStr[3]是小数点
 }
 
 
@@ -469,7 +354,7 @@ bool CGbl::GetCorrectFileName(CString& str, bool showError/* =false */)
 	return true;
 }
 
-//!< 超出部分显示省略号,区分汉字跟字母
+// 超出部分显示省略号,区分汉字跟字母
 CString CGbl::StringFormat(CString str,int n)
 {
 	int i = 0;
@@ -480,7 +365,7 @@ CString CGbl::StringFormat(CString str,int n)
 	return str.Left(i) + _T("...");
 }  
 
-//!< 从文件的全路径名中，获得文件的路径
+// 从文件的全路径名中，获得文件的路径
 CString CGbl::GetPathFromFilePathName(CString pathName)
 {
 	int i = pathName.ReverseFind('\\');
@@ -490,7 +375,7 @@ CString CGbl::GetPathFromFilePathName(CString pathName)
 	return path;
 }
 
-//!< 从文件的全路径名中，获得文件的名称
+// 从文件的全路径名中，获得文件的名称
 CString CGbl::GetNameFromFilePathName(CString pathName)
 {
 	CString path = GetPathFromFilePathName(pathName);
@@ -498,7 +383,7 @@ CString CGbl::GetNameFromFilePathName(CString pathName)
 	return pathName;
 }
 
-//!< 获得串口数量
+// 获得串口数量
 void CGbl::GetSerialCount(std::list<UINT>& ltComID)
 {
 	ltComID.clear();
@@ -523,7 +408,7 @@ void CGbl::GetSerialCount(std::list<UINT>& ltComID)
 	} 
 }
 
-//!< 由数字类型的IP地址获得字符串式的IP地址
+// 由数字类型的IP地址获得字符串式的IP地址
 CString CGbl::GetIPFromNumber(UINT number)
 {
 // 	byte ipByte[4];
@@ -540,7 +425,7 @@ CString CGbl::GetIPFromNumber(UINT number)
 	return ipStr;
 }
 
-//!< 获得本机的IP地址
+// 获得本机的IP地址
 CString CGbl::GetHostIPString()
 {
 // 	CString str;
@@ -572,7 +457,7 @@ CString CGbl::GetHostIPString()
 	return  ip;
 }
 
-//!< 有字符串式的IP地址获得数据类型的IP地址
+// 有字符串式的IP地址获得数据类型的IP地址
 UINT CGbl::GetNumberFromIP(CString ip)
 {
 	std::vector<CString> ltIpItem;
@@ -587,7 +472,7 @@ UINT CGbl::GetNumberFromIP(CString ip)
 	return number;
 }
 
-//!< 给IP加上一个数字，在显示循序上加，比如1.1.1.1 + 1 = 1.1.1.2
+// 给IP加上一个数字，在显示循序上加，比如1.1.1.1 + 1 = 1.1.1.2
 UINT CGbl::IPAddNumber(UINT ip, UINT number)
 {
 	byte *ipItem = (byte *)&ip;
@@ -597,7 +482,7 @@ UINT CGbl::IPAddNumber(UINT ip, UINT number)
 	return ip;
 }
 
-//!< 创建多层目录
+// 创建多层目录
 bool CGbl::MakeDir(CString path)
 {
 	int i = 0, j = 0, k = 0;
@@ -620,7 +505,7 @@ bool CGbl::MakeDir(CString path)
 	return true;
 }
 
-//!< 删除path文件夹下所有名称为name的文件
+// 删除path文件夹下所有名称为name的文件
 bool CGbl::RemoveFiles(CString path, CString name)
 {
 	CFileFind finder;
@@ -647,7 +532,7 @@ bool CGbl::RemoveFiles(CString path, CString name)
 	return bDel;
 }
 
-//!< 复制整个目录(及其子目录和所有内部文件)到指定目录下,目录最后都有'\'
+// 复制整个目录(及其子目录和所有内部文件)到指定目录下,目录最后都有'\'
 bool CGbl::CopyDirectoryAll(CString csSrcFolder, CString csNewFolder)
 {
 	CFileFind floder;
@@ -669,7 +554,7 @@ bool CGbl::CopyDirectoryAll(CString csSrcFolder, CString csNewFolder)
 	return true;
 }
 
-//!< 获得当前时间的字符串，参数表示是否需要显示毫秒
+// 获得当前时间的字符串，参数表示是否需要显示毫秒
 CString CGbl::GetCulTime(bool bMillSec /* = true */)
 {
 	SYSTEMTIME st;
@@ -707,15 +592,15 @@ void CGbl::SetProgressEnd()
 	mf->m_wndProgCtrl.SetPos(0);
 }
 
-//!< 强行将一个CComVariant的变量转换成vt
+// 强行将一个CComVariant的变量转换成vt
 bool CGbl::ChangeVariantType(CComVariant& cvr, UINT vt)
 {
-	if(cvr.vt == vt)			return true;			//!< 不用转，就是要转的类型
+	if(cvr.vt == vt)			return true;			// 不用转，就是要转的类型
 	LRESULT lResult = cvr.ChangeType(vt);
-	if(SUCCEEDED(lResult))		return true;			//!< 直接转成功了
+	if(SUCCEEDED(lResult))		return true;			// 直接转成功了
 	CComVariant cv = cvr;
 	lResult = cv.ChangeType(VT_BSTR);
-	if(!SUCCEEDED(lResult))		return false;			//!< 没转成功
+	if(!SUCCEEDED(lResult))		return false;			// 没转成功
 	CString strValue = (CString)cv.bstrVal;
 	LONGLONG llValue = _atoi64(strValue);
 	float flValue;
@@ -734,7 +619,7 @@ bool CGbl::ChangeVariantType(CComVariant& cvr, UINT vt)
 	return true;
 }
 
-//!< 比较大小，如果大返回整数，小返回负数，等于返回0
+// 比较大小，如果大返回整数，小返回负数，等于返回0
 LONGLONG CGbl::VariantCompare(CComVariant cvr1, CComVariant cvr2)
 {
 	if(cvr1.vt == VT_BSTR || cvr2.vt == VT_BSTR)
@@ -751,7 +636,7 @@ LONGLONG CGbl::VariantCompare(CComVariant cvr1, CComVariant cvr2)
 	return llVal1 - llVal2;
 }
 
-//!< 进行匹配的模板函数
+// 进行匹配的模板函数
 bool CGbl::SearchT(CComVariant cvr, CString strMatch, bool bWhole, bool bCase, bool bRegex, CString strType, CString& strOut)
 {
 	HRESULT lResult = cvr.ChangeType(VT_BSTR);
@@ -775,9 +660,9 @@ bool CGbl::SearchT(CComVariant cvr, CString strMatch, bool bWhole, bool bCase, b
 
 std::wstring CGbl::Change2WString(std::string str)
 {
-	int nwlen = mbstowcs(NULL, str.c_str(), str.length());	//!< 计算转换后宽字符串的长度,不包含字符串结束符
+	int nwlen = mbstowcs(NULL, str.c_str(), str.length());	// 计算转换后宽字符串的长度,不包含字符串结束符
 	wchar_t *lpwsz= new wchar_t[nwlen + 1];
-	int i = mbstowcs(lpwsz, str.c_str(), str.length());		//!< 转换,转换后的字符串有结束符
+	int i = mbstowcs(lpwsz, str.c_str(), str.length());		// 转换,转换后的字符串有结束符
 	lpwsz[nwlen] = 0;
 	std::wstring wstr(lpwsz);
 	delete []lpwsz;
@@ -786,16 +671,16 @@ std::wstring CGbl::Change2WString(std::string str)
 
 std::string CGbl::Change2String(std::wstring wstr)
 {
-	int ilen = wcstombs(NULL, wstr.c_str(), 0);				//!< 计算转换后字符串的长度,不包含字符串结束符
+	int ilen = wcstombs(NULL, wstr.c_str(), 0);				// 计算转换后字符串的长度,不包含字符串结束符
 	char *lpsz = new char[ilen + 1];
-	int i = wcstombs(lpsz, wstr.c_str(), ilen);				//!< 转换,没有结束符
+	int i = wcstombs(lpsz, wstr.c_str(), ilen);				// 转换,没有结束符
 	lpsz[ilen] = '\0';
 	std::string str(lpsz);
 	delete []lpsz;
 	return str;
 }
 
-//!< 匹配正则表达式函数，返回匹配后的分组数据
+// 匹配正则表达式函数，返回匹配后的分组数据
 bool CGbl::RegexMatch(const std::string& strRegex, std::string& strMatch, std::vector<std::string>& vt)
 {
 	if(strRegex.c_str() == "")							return false;
@@ -814,14 +699,14 @@ bool CGbl::RegexMatch(const std::string& strRegex, std::string& strMatch, std::v
 	return !vt.empty();
 }
 
-//!< 匹配正则表达式函数
+// 匹配正则表达式函数
 bool CGbl::RegexMatch(const std::string& strRegex, std::string& strMatch)
 {
 	std::vector<std::string> vt;
 	return RegexMatch(strRegex, strMatch, vt);
 }
 
-//!< 获得CPU号
+// 获得CPU号
 CString CGbl::GetCPUID()
 {
 	CString strCPU = _T("PMLowLevel");
@@ -847,7 +732,7 @@ CString CGbl::GetCPUID()
 	return strCPU;
 }
 
-//!< 获得操作系统关键路径, 带\, 参数都是系统的以 CSIDL_ 开头, 如CSIDL_PERSONAL 我的文档
+// 获得操作系统关键路径, 带\, 参数都是系统的以 CSIDL_ 开头, 如CSIDL_PERSONAL 我的文档
 CString CGbl::GetSpecialPath(int id)
 {
 	TCHAR szDocument[MAX_PATH] = {0};
@@ -864,7 +749,7 @@ CString CGbl::GetSpecialPath(int id)
 	return path;
 }
 
-//!< 从这个文件中获取二进制数据
+// 从这个文件中获取二进制数据
 bool CGbl::ReadFile2Binary(CString pathName, char** data, int& len)
 {
 	CFile file;
@@ -897,7 +782,7 @@ bool CGbl::ReadFile2Binary(CString pathName, char** data, int& len)
 	return true;
 }
 
-//!< 将二进制数据写入文件中
+// 将二进制数据写入文件中
 bool CGbl::WriteBinary2File(CString pathName, char* data, int len)
 {
 	CFile file;
@@ -986,7 +871,7 @@ __int64 __nStart = 0;
 __int64 __nEnd = 0;
 __int64 __nFrequency = 0;
 
-//!< 启动高精度定时器,用于统计程序效率
+// 启动高精度定时器,用于统计程序效率
 bool CGbl::StartHighTime()
 {
 	if (!QueryPerformanceFrequency((LARGE_INTEGER *)&__nFrequency))	return false;
@@ -994,7 +879,7 @@ bool CGbl::StartHighTime()
 	return true;
 }
 
-//!< 获得定时器差值,并设置是否重新计时
+// 获得定时器差值,并设置是否重新计时
 double CGbl::GetHighTime(bool bReStart)
 {
 	if (!QueryPerformanceCounter((LARGE_INTEGER *)&__nEnd))			return -1.0;

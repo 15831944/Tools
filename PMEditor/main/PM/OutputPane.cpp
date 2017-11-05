@@ -46,7 +46,7 @@ COutputIcon::COutputIcon()
 	UpdateIcon();
 }
 
-//!< 0-Information, 1-warning, 2-error
+// 0-Information, 1-warning, 2-error
 COutputIcon::COutputIcon(UINT type){
 	m_uiType = type;
 	if(m_uiType != CSpaceOutput::Information && 
@@ -243,7 +243,7 @@ void CSpaceOutput::OnRButtonUp(UINT nFlags, CPoint point)
 	CXTPCommandBars::TrackPopupMenu(menu, TPM_LEFTALIGN|TPM_NONOTIFY, point.x, point.y, this);
 }
 
-//!< 从本文中找到对应的变量，并显示出来
+// 从本文中找到对应的变量，并显示出来
 void CSpaceOutput::ShowItem(CString strAddr)
 {
 	if(strAddr.Trim() == _T(""))		return;

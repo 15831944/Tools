@@ -61,7 +61,7 @@ BOOL CSoftSetDlg::OnInitDialog()
 	m_PageTree.InitImg();
 	m_PageTree.SetOwner(this);
 
-	//!< 添加子页
+	// 添加子页
 	CSoftSetItemGridDlg* page1 = NULL;
 	AddPage(page1, _T("变量表"), 4);
 	CSoftSetCompileDlg* page2 = NULL;
@@ -69,7 +69,7 @@ BOOL CSoftSetDlg::OnInitDialog()
 	CSoftSetServerDlg* page3 = NULL;
 	AddPage(page3, _T("运行与监控"), 23);
 
-	//!< 显示第一个
+	// 显示第一个
 	if(!m_vtPage.empty())
 		OnTreeLClick(&m_PageTree, m_PageTree.GetRootItem());
 	return TRUE;
@@ -83,7 +83,7 @@ void CSoftSetDlg::AddPage(Page* page, CString name, int nImageID)
 	pageOne->m_Dialog = p;
 	pageOne->m_strName = name;
 
-	CRect rect(190,12,628,320);			//!< 这个数是一点一点量出来的，以后可不好改
+	CRect rect(190,12,628,320);			// 这个数是一点一点量出来的，以后可不好改
 	p->Create(Page::IDD, this);
 	p->ModifyStyle(0, WS_BORDER);
 	p->UpdateWindow();

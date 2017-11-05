@@ -9,7 +9,7 @@ public:
 	~CSpaceDevice(void);
 
 	bool CreateSpace();
-	void FreshCompanyDevice();		//!< 画公司设备列表
+	void FreshCompanyDevice();		// 画公司设备列表
 	virtual void OnClick(CXTPTaskPanelGroupItem* pItem);
 public:
 	DECLARE_MESSAGE_MAP()

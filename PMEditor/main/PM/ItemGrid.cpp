@@ -53,12 +53,12 @@ CItemGrid::CItemGrid()
 ,m_nProjCol(-1)
 ,m_nIOCol(-1)
 ,m_bWatch(false)
-,m_bHoldToClone(false)					//!< 通过鼠标按下进行多重复制的标志
-,m_nHoldToCloneID(-1)					//!< 等待克隆的变量ID
-,m_nHoldToCloneRow(-1)					//!< 等待克隆的变量在第几行
-,m_nHoleToCloneCurCount(0)				//!< 等待克隆的变量的当前数量
+,m_bHoldToClone(false)					// 通过鼠标按下进行多重复制的标志
+,m_nHoldToCloneID(-1)					// 等待克隆的变量ID
+,m_nHoldToCloneRow(-1)					// 等待克隆的变量在第几行
+,m_nHoleToCloneCurCount(0)				// 等待克隆的变量的当前数量
 {
-	//UGXPThemes::UseThemes(false);		//!< 去掉任何主题，简洁一点好，速度也能快点
+	//UGXPThemes::UseThemes(false);		// 去掉任何主题，简洁一点好，速度也能快点
 	UGXPThemes::UseThemes(false);
 	UGXPThemes::SetGridStyle(Style1);
 	m_mpValType[_T("位变量")] = 0;
@@ -96,23 +96,23 @@ void CItemGrid::InitAll()
 {
 	CUGCell cell;
 
-	//!< 设置单元格的格式
+	// 设置单元格的格式
 	GetGridDefault(&cell);
 	cell.SetAlignment(UG_ALIGNRIGHT | UG_ALIGNVCENTER);
 	SetGridDefault(&cell);
 
-	//!< 设置字段标题的格式
+	// 设置字段标题的格式
 	GetHeadingDefault(&cell);
 	cell.SetAlignment(UG_ALIGNCENTER | UG_ALIGNVCENTER);
 	cell.SetFont(&m_HeadFont);
 	SetHeadingDefault(&cell);
 
-	//!< 设置表格的格式
-	EnableExcelBorders(FALSE);						//!< 取消显示的表格线
-	SetDoubleBufferMode(TRUE);						//!< 双缓冲
-	SetHighlightRow(TRUE, FALSE);					//!< 设置整行选中
-	SetMultiSelectMode(TRUE);						//!< 设置可多选
-	PrintSetOption(UG_PRINT_TOPHEADING, TRUE);		//!< 打印需要打列头
+	// 设置表格的格式
+	EnableExcelBorders(FALSE);						// 取消显示的表格线
+	SetDoubleBufferMode(TRUE);						// 双缓冲
+	SetHighlightRow(TRUE, FALSE);					// 设置整行选中
+	SetMultiSelectMode(TRUE);						// 设置可多选
+	PrintSetOption(UG_PRINT_TOPHEADING, TRUE);		// 打印需要打列头
 	SetCurrentCellMode(2);
 	SetVScrollMode (UG_SCROLLTRACKING);
 	SetUniformRowHeight(TRUE);
@@ -131,7 +131,7 @@ void CItemGrid::InitAll()
 	SetRowHeight(0, 20);
 	SetSH_Width(10);
 
-	//!< 初始化列
+	// 初始化列
 	InitCol();
 
 	m_bSortType = TRUE;
@@ -143,17 +143,17 @@ void CItemGrid::InitCol()
 	int i = 0, index = 0;
 	SoftInfo::CSoftInfo* csi = &SoftInfo::CSoftInfo::GetMe();
 	GetCell(0, -1, &cell);
-	for(i = 0; i < (int)csi->m_vtColInfo.size(); ++i){	//!< 遍历所有字段栏
+	for(i = 0; i < (int)csi->m_vtColInfo.size(); ++i){	// 遍历所有字段栏
 		if (!csi->m_vtColInfo[i].bShow)	continue;
-		if (i == COL_VALUE)		m_nProjCol = index;		//!< 记住工程值所在的列
-		if (i == COL_IOVALUE)	m_nIOCol = index;		//!< 记住IO值所在的列
-		cell.SetText(csi->m_vtColInfo[i].name);			//!< 设置字段的名称
-		cell.SetAlignment(UG_ALIGNCENTER);				//!< 设置左侧显示
-		m_mpColName[index] = csi->m_vtColInfo[i].name;	//!< 记录列的名字
-		SetColWidth(index, csi->m_vtColInfo[i].width);	//!< 设置列的默认宽度
+		if (i == COL_VALUE)		m_nProjCol = index;		// 记住工程值所在的列
+		if (i == COL_IOVALUE)	m_nIOCol = index;		// 记住IO值所在的列
+		cell.SetText(csi->m_vtColInfo[i].name);			// 设置字段的名称
+		cell.SetAlignment(UG_ALIGNCENTER);				// 设置左侧显示
+		m_mpColName[index] = csi->m_vtColInfo[i].name;	// 记录列的名字
+		SetColWidth(index, csi->m_vtColInfo[i].width);	// 设置列的默认宽度
 		SetCell(index++, -1, &cell);
 	}
-	LockColumns(1);										//!< 锁住第一个列，让它永远显示
+	LockColumns(1);										// 锁住第一个列，让它永远显示
 }
 
 bool CItemGrid::InitItemOne(UINT id, UINT row)
@@ -182,7 +182,7 @@ bool CItemGrid::InitItemOne(UINT id, UINT row)
 		colName = m_mpColName[i];
 		bool bAlarm = item->IsAlarm();
 		GetCell(i, row, &cell);
-		if(csi->m_vtColInfo[COL_NAME].name == colName)							//!< 名称
+		if(csi->m_vtColInfo[COL_NAME].name == colName)							// 名称
 		{
 			cell.SetText(item->getName());
 			cell.SetAlignment(UG_ALIGNLEFT | UG_ALIGNVCENTER);
@@ -190,34 +190,34 @@ bool CItemGrid::InitItemOne(UINT id, UINT row)
 			else			cell.SetBitmap(GetBitmap(1));
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_TAG].name == colName)						//!< 标签
+		else if(csi->m_vtColInfo[COL_TAG].name == colName)						// 标签
 		{
 			cell.SetText(item->getTag());
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_ID].name == colName)						//!< 编号
+		else if(csi->m_vtColInfo[COL_ID].name == colName)						// 编号
 		{
 			cell.SetNumber(item->getID());
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_TYPE].name == colName)						//!< 数值类型
+		else if(csi->m_vtColInfo[COL_TYPE].name == colName)						// 数值类型
 		{
 			cell.SetText(VAL_TYPE[item->getValType() % 8]);
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_IOTYPE].name == colName)					//!< IO值类型
+		else if(csi->m_vtColInfo[COL_IOTYPE].name == colName)					// IO值类型
 		{
 			if(bIsIO)							cell.SetText(VAL_TYPE[src->getIOType() % 8]);
 			else								cell.SetText(_T(""));
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_SRC].name == colName)						//!< 数据源类型
+		else if(csi->m_vtColInfo[COL_SRC].name == colName)						// 数据源类型
 		{
 			if(bIsIO)							cell.SetText(_T("I/O变量"));
 			else								cell.SetText(_T("内存变量"));
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_ACCESS].name == colName)					//!< 访问权限
+		else if(csi->m_vtColInfo[COL_ACCESS].name == colName)					// 访问权限
 		{
 			if(item->getAccessRight() == 0)		text = _T("可读可写");
 			else if(item->getAccessRight() == 1)text = _T("只读");
@@ -225,12 +225,12 @@ bool CItemGrid::InitItemOne(UINT id, UINT row)
 			cell.SetText(text);
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_DESCRIPT].name == colName)					//!< 备注信息
+		else if(csi->m_vtColInfo[COL_DESCRIPT].name == colName)					// 备注信息
 		{
 			cell.SetText(item->getDescription());
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_VALUE].name == colName)					//!< 工程值
+		else if(csi->m_vtColInfo[COL_VALUE].name == colName)					// 工程值
 		{
 			text=item->getStrValue(csi->isShowHex());
 			if(text.GetAt(0) == '.')									text = _T("0") + text;
@@ -238,17 +238,17 @@ bool CItemGrid::InitItemOne(UINT id, UINT row)
 			cell.SetText(text);
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_GROUP].name == colName)					//!< 变量组
+		else if(csi->m_vtColInfo[COL_GROUP].name == colName)					// 变量组
 		{
 			std::shared_ptr<CItemGroup> myGroup = CItemMgr::GetMe().GetGroup(item->getMyGroupID());
 			ASSERT(myGroup);
 			cell.SetText(myGroup->getName());
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_CONVERT].name == colName)					//!< 转换
+		else if(csi->m_vtColInfo[COL_CONVERT].name == colName)					// 转换
 		{
 			text = _T("");
-			if(bIsIO && src->getConvertType() != 0)								//!< IO变量，并且启动转换
+			if(bIsIO && src->getConvertType() != 0)								// IO变量，并且启动转换
 			{
 				CComVariant minProj = src->getProjMin();
 				CComVariant maxProj = src->getProjMax();
@@ -268,7 +268,7 @@ bool CItemGrid::InitItemOne(UINT id, UINT row)
 			cell.SetText(text);
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_IOVALUE].name == colName)					//!< IO值
+		else if(csi->m_vtColInfo[COL_IOVALUE].name == colName)					// IO值
 		{
 			if(bIsIO){
 				text=item->getStrIOValue(csi->isShowHex());
@@ -279,66 +279,66 @@ bool CItemGrid::InitItemOne(UINT id, UINT row)
 			cell.SetText(text);
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_DESCRIPT].name == colName)					//!< 备注
+		else if(csi->m_vtColInfo[COL_DESCRIPT].name == colName)					// 备注
 		{
 			cell.SetText(item->getDescription());
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_SCRIPT].name == colName)					//!< 脚本
+		else if(csi->m_vtColInfo[COL_SCRIPT].name == colName)					// 脚本
 		{
 			if(bIsIO)						cell.SetText(_T(""));
 			else							cell.SetText(src->getScriptText());
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_FRESHTIME].name == colName)				//!< 刷新时间
+		else if(csi->m_vtColInfo[COL_FRESHTIME].name == colName)				// 刷新时间
 		{
 			cell.SetNumber(src->getFreshTime());
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_BIT].name == colName)						//!< 位报警
+		else if(csi->m_vtColInfo[COL_BIT].name == colName)						// 位报警
 		{
 			if(item->getValType() != 0)		text = _T("");
 			else							text = alarm->GetBitAlarmInfo(false);
 			cell.SetText(text);
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_LOLO].name == colName)						//!< 下下限
+		else if(csi->m_vtColInfo[COL_LOLO].name == colName)						// 下下限
 		{
 			if(alarm->getLoloActive())		cell.SetNumber(alarm->getLoloValue());
 			else							cell.SetText(_T(""));
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_LOW].name == colName)						//!< 下限
+		else if(csi->m_vtColInfo[COL_LOW].name == colName)						// 下限
 		{
 			if(alarm->getLowActive())		cell.SetNumber(alarm->getLowValue());
 			else							cell.SetText(_T(""));
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_HIGH].name == colName)						//!< 上限
+		else if(csi->m_vtColInfo[COL_HIGH].name == colName)						// 上限
 		{
 			if(alarm->getHighActive())		cell.SetNumber(alarm->getHighValue());
 			else							cell.SetText(_T(""));
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_HIHI].name == colName)						//!< 上上限
+		else if(csi->m_vtColInfo[COL_HIHI].name == colName)						// 上上限
 		{
 			if(alarm->getHihiActive())		cell.SetNumber(alarm->getHihiValue());
 			else							cell.SetText(_T(""));
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_AIM].name == colName)						//!< 目标
+		else if(csi->m_vtColInfo[COL_AIM].name == colName)						// 目标
 		{
 			if(alarm->getAimActive())		cell.SetNumber(alarm->getAimValue());
 			else							cell.SetText(_T(""));
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if(csi->m_vtColInfo[COL_SHIFT].name == colName)					//!< 变化率
+		else if(csi->m_vtColInfo[COL_SHIFT].name == colName)					// 变化率
 		{
 			if(alarm->getShiftActive())		cell.SetNumber(alarm->getShiftDelta());
 			else							cell.SetText(_T(""));
 			SetMyCell(i, row, &cell, id, bAlarm);
 		}
-		else if (csi->m_vtColInfo[COL_REV_DB].name == colName)					//!< 保留历史数据
+		else if (csi->m_vtColInfo[COL_REV_DB].name == colName)					// 保留历史数据
 		{
 			if (item->getReservDB())		cell.SetText(_T("1"));
 			else							cell.SetText(_T(""));
@@ -366,7 +366,7 @@ void CItemGrid::SetMyCell(int nCol, long lRow, CUGCell* cell, UINT id, bool bAla
 	SetCell(nCol, lRow, cell);
 }
 
-//!< 刷新变量值
+// 刷新变量值
 void CItemGrid::InitItemValue(UINT id, UINT row, CUGCell* cell)
 {
 	std::shared_ptr<CItem> item = CItemMgr::GetMe().GetItem(id);
@@ -377,7 +377,7 @@ void CItemGrid::InitItemValue(UINT id, UINT row, CUGCell* cell)
 	else					{bkColor = ::GetSysColor(COLOR_WINDOW);	hbkColor = ::GetSysColor(COLOR_HIGHLIGHT);}
 	SoftInfo::CSoftInfo *csi = &SoftInfo::CSoftInfo::GetMe();
 
-	//!< 工程值
+	// 工程值
 	if(m_nProjCol >= 0)
 	{
 		text=item->getStrValue(csi->isShowHex());
@@ -391,7 +391,7 @@ void CItemGrid::InitItemValue(UINT id, UINT row, CUGCell* cell)
 		SetCell(m_nProjCol, row, cell);
 	}
 
-	//!< IO值
+	// IO值
 	if(m_nIOCol >= 0)
 	{
 	     text=item->getStrIOValue(csi->isShowHex());
@@ -420,26 +420,26 @@ void CItemGrid::InitAddRow()
 	SetCell(0, row, &cell);
 }
 
-//!< 删除所有行
+// 删除所有行
 void CItemGrid::DeleteRowAll()
 {
 	UnJoinCells(0,GetNumberRows() - 1);
 	SetNumberRows(0);
 }
 
-//!< 删除所有列
+// 删除所有列
 void CItemGrid::DeleteColAll()
 {
 	SetNumberCols(0);
 }
 
-//!< 刷新一遍变量数值
+// 刷新一遍变量数值
 void CItemGrid::FreshData()
 {
-	std::vector<std::shared_ptr<CItem> > vtRowItem;		//!< 下表是行号，内容是每行所对应的变量
-	int rowCount = GetNumberRows() - 1;						//!< 仅表示变量的行数
-	if(rowCount <= 0)					return;				//!< 
-	if(m_nProjCol < 0 && m_nIOCol < 0)	return;				//!< 
+	std::vector<std::shared_ptr<CItem> > vtRowItem;		// 下表是行号，内容是每行所对应的变量
+	int rowCount = GetNumberRows() - 1;						// 仅表示变量的行数
+	if(rowCount <= 0)					return;				// 
+	if(m_nProjCol < 0 && m_nIOCol < 0)	return;				// 
 
 	CUGCell cell, cellValue;
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
@@ -457,7 +457,7 @@ void CItemGrid::FreshData()
 	RedrawCol(m_nIOCol);
 }
 
-//!< 编辑结束，统一处理
+// 编辑结束，统一处理
 void CItemGrid::OnEditEnd()
 {
 	CItemMgr::GetMe().SetEditEnd();
@@ -465,7 +465,7 @@ void CItemGrid::OnEditEnd()
 	RedrawAll();
 }
 
-//!< 点击表格的标题，重新排序
+// 点击表格的标题，重新排序
 void CItemGrid::OnTH_LClicked(int iCol, long lRow, int iUpdn, RECT* pRect, POINT* pPoint, BOOL bProcessed )
 {
 	if(iUpdn == 0)						return;
@@ -478,11 +478,11 @@ void CItemGrid::OnTH_LClicked(int iCol, long lRow, int iUpdn, RECT* pRect, POINT
 	SortGrid();
 }
 
-//!< 双击表格
+// 双击表格
 void CItemGrid::OnDClicked(int col,long row,RECT *rect,POINT *point,BOOL processed)
 {
 	CUGCtrl::OnDClicked(col, row, rect, point, processed);
-	if(row < 0)		return;										//!< 没有内容，退出
+	if(row < 0)		return;										// 没有内容，退出
 	CUGCell cell;
 	GetCell(0, row, &cell);
 	UINT itemID = cell.GetParam();
@@ -492,12 +492,12 @@ void CItemGrid::OnDClicked(int col,long row,RECT *rect,POINT *point,BOOL process
 		pView->OnItemAdd();
 		SelectRowAt(GetNumberRows() - 1);
 	}
-	else if(CProjectMgr::GetMe().IsWatch())	WriteValue();		//!< 这里证明了是要修改变量的监控值
+	else if(CProjectMgr::GetMe().IsWatch())	WriteValue();		// 这里证明了是要修改变量的监控值
 	else		pView->OnItemEdit();
 	SetFocus();
 }
 
-//!< 写变量的实时值
+// 写变量的实时值
 void CItemGrid::WriteValue()
 {
 	if(!CProjectMgr::GetMe().IsWatch())			return;
@@ -512,7 +512,7 @@ void CItemGrid::WriteValue()
 	Dialog::CWriteItemDlg::GetMe().DoModal(item->getID());
 }
 
-//!< 编辑变量基本属性
+// 编辑变量基本属性
 void CItemGrid::EditItem(std::shared_ptr<CItem> item)
 {
 	if(!item)					return;
@@ -524,7 +524,7 @@ void CItemGrid::EditItem(std::shared_ptr<CItem> item)
 	SetFocus();
 }
 
-//!< 统一编辑变量基本属性
+// 统一编辑变量基本属性
 void CItemGrid::EditItems(std::list<std::shared_ptr<CItem> > ltItem)
 {
 	if(ltItem.empty())			{return;}
@@ -537,12 +537,12 @@ void CItemGrid::EditItems(std::list<std::shared_ptr<CItem> > ltItem)
 	dlg->DoModal(*pp);
 }
 
-//!< 增加新变量
+// 增加新变量
 std::shared_ptr<CItem> CItemGrid::AddNewItem()
 {
 	MVC::Item::CItemMgr* itemMgr = &MVC::Item::CItemMgr::GetMe();
 	std::shared_ptr<CItem> empty;
-	//!< 看看还能不能加了变量
+	// 看看还能不能加了变量
 	int count = MAX_ITEM_COUNT;
 	count = count << 1;
 	if(itemMgr->GetItemSize() >= UINT(count >> 1))
@@ -563,7 +563,7 @@ std::shared_ptr<CItem> CItemGrid::AddNewItem()
 	return empty;
 }
 
-//!< 变量克隆
+// 变量克隆
 void CItemGrid::ItemClone()
 {
 	UINT id = GetRowItem(GetCurrentRow());
@@ -580,7 +580,7 @@ void CItemGrid::ItemClone()
 	SetFocus();
 	RedrawAll();                                                                                                      
 
-	//!< 添加撤销对象
+	// 添加撤销对象
 	CItemDoc* pDoc = (CItemDoc *)((CItemView *)GetParent())->GetDocument();
 	std::shared_ptr<SItemUndo> undo;
 	for (UINT id : dlg->m_ltItemID)
@@ -595,13 +595,13 @@ void CItemGrid::ItemClone()
 	pDoc->SetUndoEnd();
 }
 
-//!< 鼠标左键按下
+// 鼠标左键按下
 void MVC::Item::CItemGrid::OnLButtonDown(int col, long row, RECT *rect, POINT *point, BOOL processed)
 {
 	// 看看要不要克隆
 	long colLhs, colRhs, rowLhs, rowRhs;
 	m_GI->m_multiSelect->GetCurrentBlock((int*)&colLhs, &rowLhs, (int*)&colRhs, &rowRhs);
-	if(rowRhs < 0 || rowRhs >= GetNumberRows() - 1)	return;		//!< 点最后一行无效
+	if(rowRhs < 0 || rowRhs >= GetNumberRows() - 1)	return;		// 点最后一行无效
 
 	CRect rects;
 	GetRangeRect(colLhs, rowRhs, colLhs, rowRhs, rects);
@@ -620,12 +620,12 @@ void MVC::Item::CItemGrid::OnLButtonDown(int col, long row, RECT *rect, POINT *p
 			m_nHoldToCloneID = nID;
 			m_bHoldToClone = true;
 			m_nHoldToCloneRow = rowRhs;
-			m_nHoleToCloneCurCount = 0;		//!< 等待克隆的变量的当前数量
+			m_nHoleToCloneCurCount = 0;		// 等待克隆的变量的当前数量
 		}
 	}
 }
 
-//!< 鼠标左键抬起
+// 鼠标左键抬起
 void MVC::Item::CItemGrid::OnLButtonUp(int col, long row, RECT *rect, POINT *point, BOOL processed)
 {
 	// 看看要不要克隆
@@ -657,21 +657,21 @@ void MVC::Item::CItemGrid::OnLButtonUp(int col, long row, RECT *rect, POINT *poi
 		newItem = std::shared_ptr<MVC::Item::CItem>(new MVC::Item::CItem(_T("")));
 		if (bAdd)
 		{
-			if(!item->OnCloneMe(*newItem, i + 1, nAddrUnit, nBit))		continue;			//!< 如果此项没克隆成功，就克隆下一条
+			if(!item->OnCloneMe(*newItem, i + 1, nAddrUnit, nBit))		continue;			// 如果此项没克隆成功，就克隆下一条
 		}
 		else
 		{
-			if(!item->OnCloneMe(*newItem, -1 - i, nAddrUnit, nBit))		continue;			//!< 如果此项没克隆成功，就克隆下一条
+			if(!item->OnCloneMe(*newItem, -1 - i, nAddrUnit, nBit))		continue;			// 如果此项没克隆成功，就克隆下一条
 		}
 		if(!itemMgr->AddItem(newItem, maxID, item->getMyGroupID())){
-			break;	//!< 如果超界就不再继续遍历了
+			break;	// 如果超界就不再继续遍历了
 		}
 		else{
 			ltAddID.push_back(newItem->getID());
 		}
 	}
 
-	//!< 添加撤销对象
+	// 添加撤销对象
 	CItemDoc* pDoc = (CItemDoc *)((CItemView *)GetParent())->GetDocument();
 	std::shared_ptr<SItemUndo> undo;
 	for (UINT id : ltAddID)
@@ -687,10 +687,10 @@ void MVC::Item::CItemGrid::OnLButtonUp(int col, long row, RECT *rect, POINT *poi
 	RedrawAll();
 }
 
-//!< 鼠标左键点击，如果点击的是那个大点的话，需要特殊处理
+// 鼠标左键点击，如果点击的是那个大点的话，需要特殊处理
 void MVC::Item::CItemGrid::OnLClicked(int col,long row,int updn,RECT *rect,POINT *point,BOOL processed)
 {
-	if(updn == 1)		//!< 鼠标按下
+	if(updn == 1)		// 鼠标按下
 	{
 		OnLButtonDown(col, row, rect, point, processed);
 	}
@@ -700,7 +700,7 @@ void MVC::Item::CItemGrid::OnLClicked(int col,long row,int updn,RECT *rect,POINT
 	}
 }
 
-//!< 右键表格，updn是TRUE表示down，是FALSE表示up
+// 右键表格，updn是TRUE表示down，是FALSE表示up
 void MVC::Item::CItemGrid::OnRClicked(int col,long row,int updn,RECT *rect,POINT *point,BOOL processed)
 {
 	SetFocus();
@@ -710,15 +710,15 @@ void MVC::Item::CItemGrid::OnRClicked(int col,long row,int updn,RECT *rect,POINT
 		CRect rect;
 		GetCellRect(0, -1, &rect);
 		point->x += GetSH_Width();
-		point->y += rect.Height();	//!< 它居然没有把边框给算在里边，可恶！
+		point->y += rect.Height();	// 它居然没有把边框给算在里边，可恶！
 		popMenu.LoadMenu(IDR_RBUTTON_MENU);
 		CMenu* menu =popMenu.GetSubMenu(0);
-		//!< 对于特殊地方的右键会出现不同的菜单项
+		// 对于特殊地方的右键会出现不同的菜单项
 		CItemMgr* itemMgr = &CItemMgr::GetMe();
-		if(!CProjectMgr::GetMe().IsWatch()){				//!< 未监控
+		if(!CProjectMgr::GetMe().IsWatch()){				// 未监控
 			menu->EnableMenuItem(ID_ITEM_WRITE, MF_GRAYED);
 		}
-		else{												//!< 监控
+		else{												// 监控
 			menu->EnableMenuItem(ID_ITEM_ADD, MF_DISABLED|MF_BYCOMMAND);
 			menu->EnableMenuItem(ID_ITEM_EDIT, MF_DISABLED|MF_BYCOMMAND);
 			menu->EnableMenuItem(ID_ITEM_DELETE, MF_DISABLED|MF_BYCOMMAND);
@@ -730,7 +730,7 @@ void MVC::Item::CItemGrid::OnRClicked(int col,long row,int updn,RECT *rect,POINT
 			menu->EnableMenuItem(ID_EDIT_CUT, MF_DISABLED|MF_BYCOMMAND);
 			menu->EnableMenuItem(ID_EDIT_PASTE, MF_DISABLED|MF_BYCOMMAND);
 		}
-		if(row == -1 || row >= GetNumberRows() - 1){		//!< 点最后一行
+		if(row == -1 || row >= GetNumberRows() - 1){		// 点最后一行
 		menu->EnableMenuItem(ID_EDIT_COPY, MF_DISABLED|MF_BYCOMMAND);
 		menu->EnableMenuItem(ID_EDIT_CUT, MF_DISABLED|MF_BYCOMMAND);
 			menu->EnableMenuItem(ID_ITEM_EDIT, MF_DISABLED|MF_BYCOMMAND);
@@ -740,16 +740,16 @@ void MVC::Item::CItemGrid::OnRClicked(int col,long row,int updn,RECT *rect,POINT
 			menu->EnableMenuItem(ID_ITEM_CLONE, MF_DISABLED|MF_BYCOMMAND);
 			menu->EnableMenuItem(ID_ITEM_EDIT_ALL, MF_DISABLED|MF_BYCOMMAND);
 		}
-		if(itemMgr->m_ltItemClipBoard.empty()){				//!< 剪贴板里没东西
+		if(itemMgr->m_ltItemClipBoard.empty()){				// 剪贴板里没东西
 			menu->EnableMenuItem(ID_EDIT_PASTE, MF_DISABLED|MF_BYCOMMAND);
 		}
-		if(GetNumberRows() > 1 && row == 0 ){				//!< 点第一行变量
+		if(GetNumberRows() > 1 && row == 0 ){				// 点第一行变量
 			menu->EnableMenuItem(ID_ITEM_UP, MF_DISABLED|MF_BYCOMMAND);
 		}
-		if(GetNumberRows() > 1 && row == GetNumberRows() - 2){	//!< 点最后一行变量
+		if(GetNumberRows() > 1 && row == GetNumberRows() - 2){	// 点最后一行变量
 			menu->EnableMenuItem(ID_ITEM_DOWN, MF_DISABLED|MF_BYCOMMAND);
 		}
-		//!< 记录被选中的变量，如果多选了，不能克隆
+		// 记录被选中的变量，如果多选了，不能克隆
 		std::list<long> ltSelectRow;
 		for(long row = GetNumberRows() - 2; row >= 0; --row){
 			if(IsSelected(0, row, 0))		ltSelectRow.push_back(row);
@@ -779,7 +779,7 @@ void MVC::Item::CItemGrid::OnKeyDown(UINT *vcKey,BOOL processed)
 		CItemView* pView = (CItemView *)GetParent();
 		if(pView)	pView->OnVkdelete();
 	}
-	else if(*vcKey == 0x41){			//!< 输入的A
+	else if(*vcKey == 0x41){			// 输入的A
 		if(GetAsyncKeyState(VK_CONTROL)){
 			CItemView* pView = (CItemView *)GetParent();
 			if(pView)	pView->OnSelectAll();
@@ -790,15 +790,15 @@ void MVC::Item::CItemGrid::OnKeyDown(UINT *vcKey,BOOL processed)
 	}
 }
 
-//!< 鼠标移动事件
+// 鼠标移动事件
 void MVC::Item::CItemGrid::OnMouseMove(int col,long row,POINT *point,UINT nFlags,BOOL processed)
 {
-	if(nFlags == 0)		//!< 0普通移动，1按下鼠标左键移动，2右键移动，16滚轮移动
+	if(nFlags == 0)		// 0普通移动，1按下鼠标左键移动，2右键移动，16滚轮移动
 	{
 		int sCol, eCol;
 		long sRow, eRow;
 		m_GI->m_multiSelect->GetCurrentBlock(&sCol, &sRow, &eCol, &eRow);
-		if(eRow < 0 || eRow >= GetNumberRows() - 1)	return;		//!< 点击最后一行也无效
+		if(eRow < 0 || eRow >= GetNumberRows() - 1)	return;		// 点击最后一行也无效
 		CRect rect;
 		GetRangeRect(sCol, sRow, sCol, eRow, rect);
 		int iRight = rect.right;
@@ -820,7 +820,7 @@ void MVC::Item::CItemGrid::OnMouseMove(int col,long row,POINT *point,UINT nFlags
 	}
 }
 
-//!< 鼠标按住移动超过屏幕的事件
+// 鼠标按住移动超过屏幕的事件
 void MVC::Item::CItemGrid::OnMouseMoveOver(int col,long row,BOOL bUp)
 {
 	if (m_bHoldToClone)
@@ -835,7 +835,7 @@ void MVC::Item::CItemGrid::OnMouseMoveOver(int col,long row,BOOL bUp)
 	}
 }
 
-//!< 接收右键菜单的消息，iItem是菜单项的ID，lRow和iCol是右键的位置（行列值）
+// 接收右键菜单的消息，iItem是菜单项的ID，lRow和iCol是右键的位置（行列值）
 void MVC::Item::CItemGrid::OnMenuCommand(int iCol, long lRow, int iSection, int iItem)
 {
 	UNREFERENCED_PARAMETER(iCol);
@@ -848,24 +848,24 @@ void MVC::Item::CItemGrid::OnMenuCommand(int iCol, long lRow, int iSection, int 
 	if(!pView)			return;
 	switch(iItem)
 	{
-		case MENU_FIND:			FindDialog();			break;		//!< 查找
-		case ID_ITEM_ADD:		pView->OnItemAdd();		break;		//!< 添加变量
-		case ID_ITEM_EDIT:		pView->OnItemEdit();	break;		//!< 编辑变量
-		case ID_ITEM_DELETE:	pView->OnVkdelete();	break;		//!< 变量移除
-		case ID_EDIT_COPY:		pView->OnEditCopy();	break;		//!< 变量拷贝
-		case ID_EDIT_CUT:		pView->OnEditCut();		break;		//!< 变量剪切
-		case ID_EDIT_PASTE:		pView->OnEditPaste();	break;		//!< 变量粘贴
-		case ID_ITEM_EDIT_ALL:	pView->OnItemEditAll();	break;		//!< 变量统一修改
-		case ID_ITEM_IN:		pView->OnItemIn();		break;		//!< 变量导入
-		case ID_ITEM_UP:		pView->OnItemUp();		break;		//!< 变量上移
-		case ID_ITEM_DOWN:		pView->OnItemDown();	break;		//!< 变量下移
-		case ID_ITEM_CLONE:		pView->OnClone();		break;		//!< 变量克隆
-		case ID_ITEM_OUT:		pView->OnItemOut();		break;		//!< 导出所有的
-		case ID_CURRENT_OUT:	pView->OnCurrentOut();	break;		//!< 导出当前的
-		case ID_SELECT_OUT:		pView->OnSelectOut();	break;		//!< 导出选中的
-		case ID_SELECT_ALL:		pView->OnSelectAll();	break;		//!< 全选
-		case ID_ITEM_WRITE:		WriteValue();			break;		//!< 写入变量值
-		case ID_SHOW_HEX:		pView->OnShowHex();		break;		//!< 显示十六进制
+		case MENU_FIND:			FindDialog();			break;		// 查找
+		case ID_ITEM_ADD:		pView->OnItemAdd();		break;		// 添加变量
+		case ID_ITEM_EDIT:		pView->OnItemEdit();	break;		// 编辑变量
+		case ID_ITEM_DELETE:	pView->OnVkdelete();	break;		// 变量移除
+		case ID_EDIT_COPY:		pView->OnEditCopy();	break;		// 变量拷贝
+		case ID_EDIT_CUT:		pView->OnEditCut();		break;		// 变量剪切
+		case ID_EDIT_PASTE:		pView->OnEditPaste();	break;		// 变量粘贴
+		case ID_ITEM_EDIT_ALL:	pView->OnItemEditAll();	break;		// 变量统一修改
+		case ID_ITEM_IN:		pView->OnItemIn();		break;		// 变量导入
+		case ID_ITEM_UP:		pView->OnItemUp();		break;		// 变量上移
+		case ID_ITEM_DOWN:		pView->OnItemDown();	break;		// 变量下移
+		case ID_ITEM_CLONE:		pView->OnClone();		break;		// 变量克隆
+		case ID_ITEM_OUT:		pView->OnItemOut();		break;		// 导出所有的
+		case ID_CURRENT_OUT:	pView->OnCurrentOut();	break;		// 导出当前的
+		case ID_SELECT_OUT:		pView->OnSelectOut();	break;		// 导出选中的
+		case ID_SELECT_ALL:		pView->OnSelectAll();	break;		// 全选
+		case ID_ITEM_WRITE:		WriteValue();			break;		// 写入变量值
+		case ID_SHOW_HEX:		pView->OnShowHex();		break;		// 显示十六进制
 	}
 	SetFocus();
 }
@@ -879,7 +879,7 @@ int CItemGrid::OnMenuStart(int iCol, long lRow, int iSection)
 	else						return FALSE;
 }
 
-//!< 对该两个ID的变量进行排序
+// 对该两个ID的变量进行排序
 bool CItemGrid::SortItem(UINT& lth, UINT& rth)
 {
 	bool bSort = true;
@@ -888,7 +888,7 @@ bool CItemGrid::SortItem(UINT& lth, UINT& rth)
 	lItem = itemMgr->GetItem(lth).get();
 	rItem = itemMgr->GetItem(rth).get();
 	SoftInfo::CSoftInfo* csi = &SoftInfo::CSoftInfo::GetMe();
-	//!< 字符串比较
+	// 字符串比较
 	if(m_strSortCol == csi->m_vtColInfo[COL_NAME].name)
 	{
 		bSort = lItem->getName().Compare(rItem->getName()) <= 0 ? true : false;
@@ -908,7 +908,7 @@ bool CItemGrid::SortItem(UINT& lth, UINT& rth)
 		else if(ltype == CItem::SRC_TYPE_IO && rtype == CItem::SRC_TYPE_MEM)	bSort = false;
 		else	bSort = lItem->getSrcInfo()->getScriptText().Compare(rItem->getSrcInfo()->getScriptText()) <= 0?true:false;
 	}
-	//!< 列表比较
+	// 列表比较
 	else if(m_strSortCol == csi->m_vtColInfo[COL_SRC].name)
 	{
 		bSort = lItem->getSrcType() <= rItem->getSrcType();
@@ -941,7 +941,7 @@ bool CItemGrid::SortItem(UINT& lth, UINT& rth)
 		else if(ltype == CItem::SRC_TYPE_IO && rtype == CItem::SRC_TYPE_MEM)	bSort = false;
 		else	bSort = lItem->getSrcInfo()->getConvertType() <= rItem->getSrcInfo()->getConvertType();
 	}
-	//!< 数值比较
+	// 数值比较
 	else if(m_strSortCol == csi->m_vtColInfo[COL_ID].name)
 	{
 		bSort = lItem->getID() <= rItem->getID();
@@ -1024,16 +1024,16 @@ bool CItemGrid::SortItem(UINT& lth, UINT& rth)
 	return !bSort;
 }
 
-//!< 排序，比较两个单元格内的数据的大小
+// 排序，比较两个单元格内的数据的大小
 int CItemGrid::OnSortEvaluate(CUGCell* pCell1, CUGCell* pCell2, int iFlags)
 {
-	//!< 无论怎么排，新建变量一栏都必须放在表格末尾
+	// 无论怎么排，新建变量一栏都必须放在表格末尾
 	CString text1=(CString)pCell1->GetText();
 	CString text2=(CString)pCell2->GetText();
 	if(text1 == _T("新建变量...") || text1=="")				return 1;
 	else if(text2 == _T("新建变量...") || text2=="")		return -1;
 
-	//!< 如果是从大到小排列，就把这两个单元格互换了就好了
+	// 如果是从大到小排列，就把这两个单元格互换了就好了
 	if( iFlags & UG_SORT_DESCENDING ){
 		CUGCell *ptr = pCell1;
 		pCell1 = pCell2;
@@ -1043,11 +1043,11 @@ int CItemGrid::OnSortEvaluate(CUGCell* pCell1, CUGCell* pCell2, int iFlags)
 	int retVal = 0;
 
 	CString colName = m_mpColName[m_iSortCol];
-	if(SoftInfo::CSoftInfo::GetMe().m_vtColInfo[COL_TYPE].name == colName)			//!< 类型比较
+	if(SoftInfo::CSoftInfo::GetMe().m_vtColInfo[COL_TYPE].name == colName)			// 类型比较
 	{
 		retVal = m_mpValType[(CString)pCell1->GetText()] - m_mpValType[(CString)pCell2->GetText()];
 	}
-	else														//!< 其它比较
+	else														// 其它比较
 	{
 		switch( pCell1->GetDataType() )
 		{
@@ -1095,7 +1095,7 @@ void CItemGrid::ShowItem(std::list<UINT> ltItemID)
 void CItemGrid::RedrawGrid()
 {
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
-	if(m_uiShowType == 0)			//!< 所有变量
+	if(m_uiShowType == 0)			// 所有变量
 	{
 		std::list<UINT> ltItemID;
 		std::shared_ptr<CItem> item;
@@ -1104,7 +1104,7 @@ void CItemGrid::RedrawGrid()
 		}
 		ShowItem(ltItemID);
 	}
-	else if(m_uiShowType == 3)		//!< 变量组里的变量
+	else if(m_uiShowType == 3)		// 变量组里的变量
 	{
 		std::shared_ptr<CItemGroup> group = itemMgr->GetGroup(m_uiCulGroupID);
 		ShowItem(group->getMyItem());
@@ -1114,8 +1114,8 @@ void CItemGrid::RedrawGrid()
 void MVC::Item::CItemGrid::SortGrid()
 {
 	if(m_bSortType){
-//		SortBy(m_iSortCol, UG_SORT_ASCENDING);				//!< 默认排序的列
-		QuickSetCellType(m_iSortCol, -1, m_iArrowIndex);	//!< 默认显示排序的‘三角号’的位置
+//		SortBy(m_iSortCol, UG_SORT_ASCENDING);				// 默认排序的列
+		QuickSetCellType(m_iSortCol, -1, m_iArrowIndex);	// 默认显示排序的‘三角号’的位置
 		QuickSetCellTypeEx(m_iSortCol, -1, UGCT_SORTARROWDOWN);
 	}
 	else{
@@ -1127,14 +1127,14 @@ void MVC::Item::CItemGrid::SortGrid()
 //	std::list<UINT> ltShowItemID;
 	ltShowItemID.clear();
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
-	if(m_uiShowType == 0)			//!< 所有变量
+	if(m_uiShowType == 0)			// 所有变量
 	{
 		for (auto item : itemMgr->m_vtItem){
 			if(item)
 				ltShowItemID.push_back(item->getID());
 		}
 	}
-	else if(m_uiShowType == 3)		//!< 变量组里的变量
+	else if(m_uiShowType == 3)		// 变量组里的变量
 	{
 		std::shared_ptr<CItemGroup> group = itemMgr->GetGroup(m_uiCulGroupID);
 		ltShowItemID = group->getMyItem();
@@ -1160,22 +1160,22 @@ void MVC::Item::CItemGrid::ItemUp()
 	std::shared_ptr<CItem> item2 = CItemMgr::GetMe().GetItem(cell2.GetParam());
 	ASSERT(item1 && item2);
 
-	//!< 获得原始的变量数据，后边要压撤销栈
+	// 获得原始的变量数据，后边要压撤销栈
 	std::shared_ptr<SItemUndo> undo1 = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item1, 0));
 	std::shared_ptr<SItemUndo> undo2 = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item2, 0));
 
-	//!< 交换这两个变量
+	// 交换这两个变量
 	CItemMgr::GetMe().ExChangeItem(item1->getID(), item2->getID());
 	InitItemOne(item2->getID(), row);
 	InitItemOne(item1->getID(), row - 1);
 
-	//!< 添加撤销对象
+	// 添加撤销对象
 	CItemDoc* pDoc = (CItemDoc *)((CItemView *)GetParent())->GetDocument();
 	pDoc->AddUndoMember(undo1);
 	pDoc->AddUndoMember(undo2);
 	pDoc->SetUndoEnd();
 
-	SelectRowAt(row - 1);										//!< 选中新建变量这一项
+	SelectRowAt(row - 1);										// 选中新建变量这一项
 	RedrawAll();
 }
 
@@ -1195,30 +1195,30 @@ void MVC::Item::CItemGrid::ItemDown()
 	std::shared_ptr<CItem> item2 = CItemMgr::GetMe().GetItem(cell2.GetParam());
 	ASSERT(item1 && item2);
 
-	//!< 获得原始的变量数据，后边要压撤销栈
+	// 获得原始的变量数据，后边要压撤销栈
 	std::shared_ptr<SItemUndo> undo1 = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item1, 0));
 	std::shared_ptr<SItemUndo> undo2 = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item2, 0));
 
-	//!< 交换这两个变量
+	// 交换这两个变量
 	CItemMgr::GetMe().ExChangeItem(item1->getID(), item2->getID());
 	InitItemOne(item2->getID(), row);
 	InitItemOne(item1->getID(), row + 1);
 
-	//!< 添加撤销对象
+	// 添加撤销对象
 	CItemDoc* pDoc = (CItemDoc *)((CItemView *)GetParent())->GetDocument();
 	pDoc->AddUndoMember(undo1);
 	pDoc->AddUndoMember(undo2);
 	pDoc->SetUndoEnd();
 
-	SelectRowAt(row + 1);										//!< 选中新建变量这一项
+	SelectRowAt(row + 1);										// 选中新建变量这一项
 	RedrawAll();
 }
 
-//!< 统计一下要删除的变量，参数表示是否要询问一下用户，剪切时候要删除，就不需要通知用户
+// 统计一下要删除的变量，参数表示是否要询问一下用户，剪切时候要删除，就不需要通知用户
 void MVC::Item::CItemGrid::ItemRemove(bool bAsk /* = true */)
 {
 	std::list<long> ltSelectRow;
-	//!< 记录被选中的行号，从后往前数，因为删除时要从后往前删
+	// 记录被选中的行号，从后往前数，因为删除时要从后往前删
 	for(long row = GetNumberRows() - 2; row >= 0; --row)
 		if(IsSelected(0, row, 0))
 			ltSelectRow.push_back(row);
@@ -1239,7 +1239,7 @@ void MVC::Item::CItemGrid::ItemRemove(bool bAsk /* = true */)
 	std::shared_ptr<CItem> item;
 	std::list<std::shared_ptr<CItem> > ltSelectItem;
 
-	//!< 统计被选中的变量
+	// 统计被选中的变量
 	for (long row : ltSelectRow)
 	{
 		GetCell(0, row, &cell);
@@ -1248,11 +1248,11 @@ void MVC::Item::CItemGrid::ItemRemove(bool bAsk /* = true */)
 		ltSelectItem.push_back(item);
 	}
 
-	ItemRemove(ltSelectItem);				//!< 开始删除
-	m_GI->m_multiSelect->ClearAll();		//!< 清空所有选择的行
+	ItemRemove(ltSelectItem);				// 开始删除
+	m_GI->m_multiSelect->ClearAll();		// 清空所有选择的行
 	SetFocus();
 
-	//!< 添加撤销对象
+	// 添加撤销对象
 	CItemDoc* pDoc = (CItemDoc *)((CItemView *)GetParent())->GetDocument();
 	std::shared_ptr<SItemUndo> undo;
 	for (auto item : ltSelectItem)
@@ -1268,7 +1268,7 @@ void MVC::Item::CItemGrid::ItemRemove(bool bAsk /* = true */)
 	return;
 }
 
-//!< 删除这些变量
+// 删除这些变量
 void MVC::Item::CItemGrid::ItemRemove(std::list<std::shared_ptr<CItem> > ltItem)
 {
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
@@ -1276,12 +1276,12 @@ void MVC::Item::CItemGrid::ItemRemove(std::list<std::shared_ptr<CItem> > ltItem)
 	{
 		if (item)
 			itemMgr->DeleteItem(item->getID());
-//		if(m_uiShowType == 3)		itemMgr->RemoveItem(item->getID(), m_uiCulGroupID);		//!< 分组显示中，不能删除组中的变量
-//		else						itemMgr->DeleteItem(item->getID());						//!< 如果不是分组显示，则把这个变量彻底删除
+//		if(m_uiShowType == 3)		itemMgr->RemoveItem(item->getID(), m_uiCulGroupID);		// 分组显示中，不能删除组中的变量
+//		else						itemMgr->DeleteItem(item->getID());						// 如果不是分组显示，则把这个变量彻底删除
 	}
 }
 
-//!< 变量拷贝
+// 变量拷贝
 void MVC::Item::CItemGrid::ItemCopy()
 {
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
@@ -1309,14 +1309,14 @@ void MVC::Item::CItemGrid::ItemCopy()
 	}
 }
 
-//!< 变量剪切
+// 变量剪切
 void MVC::Item::CItemGrid::ItemCut()
 {
-	ItemCopy();			//!< 先拷贝，再删除
+	ItemCopy();			// 先拷贝，再删除
 	ItemRemove(false);
 }
 
-//!< 变量粘贴
+// 变量粘贴
 void MVC::Item::CItemGrid::ItemPaste()
 {
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
@@ -1324,14 +1324,14 @@ void MVC::Item::CItemGrid::ItemPaste()
 	CString name;
 	std::shared_ptr<CItem> item, srcItem;
 	std::list<std::shared_ptr<CItem> > ltItem;
-	//!< 不能直接把剪贴板里的变量粘到变量表中，而是要拷贝一份过去
+	// 不能直接把剪贴板里的变量粘到变量表中，而是要拷贝一份过去
 	for (auto srcItem : itemMgr->m_ltItemClipBoard)
 	{
 		item = std::shared_ptr<CItem>(new CItem(_T("")));
 		*item = *srcItem;
 		ltItem.push_back(item);
 	}
-	//!< 现在开始粘贴
+	// 现在开始粘贴
 	CItemDoc* pDoc = (CItemDoc *)((CItemView *)GetParent())->GetDocument();
 	Dialog::CItemInConfigDlg* dlg = &Dialog::CItemInConfigDlg::GetMe();
 	if(IDOK != dlg->DoModal(Dialog::CItemInConfigDlg::Paste, GetGroupID()))	return;
@@ -1352,10 +1352,10 @@ void MVC::Item::CItemGrid::SelectRowAt(long row)
 	m_GI->m_multiSelect->OnLClick(0, row, 0);
 	GotoRow(row);
 	if(m_GI->m_dragRow == row)		m_GI->m_dragRow = row - 1;
-	GotoRow(row);		//!< 显示2次没问题，显示1次偶尔会出现不显示的问题，界面库计算有问题
+	GotoRow(row);		// 显示2次没问题，显示1次偶尔会出现不显示的问题，界面库计算有问题
 }
 
-//!< 导出所有变量
+// 导出所有变量
 void MVC::Item::CItemGrid::OutItemAll()
 {
 	CString outText;
@@ -1366,7 +1366,7 @@ void MVC::Item::CItemGrid::OutItemAll()
 		mgr->OutItem(mgr->GetItemIDAll());
 }
 
-//!< 导出当前所有变量
+// 导出当前所有变量
 void MVC::Item::CItemGrid::OutItemCurrent()
 {
 	CString outText;
@@ -1382,7 +1382,7 @@ void MVC::Item::CItemGrid::OutItemCurrent()
 	}
 }
 
-//!< 导出所有选中变量
+// 导出所有选中变量
 void MVC::Item::CItemGrid::OutItemSelect()
 {
 	CString outText;
@@ -1407,7 +1407,7 @@ void MVC::Item::CItemGrid::OutItemSelect()
 		CItemMgr::GetMe().OutItem(ltItem);
 }
 
-//!< 重绘选中框，使其更醒目
+// 重绘选中框，使其更醒目
 void MVC::Item::CItemGrid::OnDrawFocusBackRect(CDC *dc)
 {
 	long startCol, endCol, startRow, endRow, topRow, bottomRow;
@@ -1432,7 +1432,7 @@ void MVC::Item::CItemGrid::OnDrawFocusBackRect(CDC *dc)
 	int firstColLeft = firstColRect.left;
 	int firstColBottom = firstColRect.bottom;
 
-	//!< 画方框黑线
+	// 画方框黑线
 	dc->SelectObject(GetStockObject(BLACK_PEN));
 	dc->MoveTo(firstColRight - 4, bottom);
 	dc->LineTo(left, bottom);
@@ -1448,7 +1448,7 @@ void MVC::Item::CItemGrid::OnDrawFocusBackRect(CDC *dc)
 	dc->LineTo(right - 1, bottom - 2);
 	dc->LineTo(firstColRight + 4, bottom - 2);
 
-	//!< 画黑格
+	// 画黑格
 	dc->SelectObject(GetStockObject(BLACK_PEN));
 	dc->MoveTo(firstColRight - 2, bottom - 3);
 	dc->LineTo(firstColRight + 2, bottom - 3);
@@ -1462,14 +1462,14 @@ void MVC::Item::CItemGrid::OnDrawFocusBackRect(CDC *dc)
 	dc->LineTo(firstColRight - 1, bottom);
 	dc->LineTo(firstColRight - 1, bottom - 2);
 
-	//!< 画白线
+	// 画白线
 	dc->SelectObject(GetStockObject(WHITE_PEN));
 	dc->MoveTo(firstColRight - 3, bottom);
 	dc->LineTo(firstColRight - 3, bottom - 4);
 	dc->LineTo(firstColRight + 3, bottom - 4);
 	dc->LineTo(firstColRight + 3, bottom);
 
-	//!< 画浅灰色的中间线
+	// 画浅灰色的中间线
 	CPen pen;
 	pen.CreatePen(PS_SOLID,1,RGB(120,120,120));
 	dc->SelectObject(pen);
@@ -1483,7 +1483,7 @@ void MVC::Item::CItemGrid::OnDrawFocusBackRect(CDC *dc)
 	dc->LineTo(firstColRight, bottom + 1);
 }
 
-//!< 重绘选中框，使其更醒目
+// 重绘选中框，使其更醒目
 void MVC::Item::CItemGrid::OnDrawFocusHodeText(CDC *dc)
 {
 	if (!m_bHoldToClone)				return;
@@ -1522,14 +1522,14 @@ void MVC::Item::CItemGrid::OnDrawFocusHodeText(CDC *dc)
 
 void MVC::Item::CItemGrid::OnDrawFocusRect(CDC *dc,RECT *rect)
 {
-	if(CProjectMgr::GetMe().IsWatch())	return;		//!< 监控时不画黑框
+	if(CProjectMgr::GetMe().IsWatch())	return;		// 监控时不画黑框
 	int dcID = dc->SaveDC();
 	OnDrawFocusBackRect(dc);
 	if (m_bHoldToClone)
 		OnDrawFocusHodeText(dc);
 }
 
-//!< 画背景，其实是我用来画水印的，不过由于效果不理想，现在已经弃用
+// 画背景，其实是我用来画水印的，不过由于效果不理想，现在已经弃用
 void MVC::Item::CItemGrid::OnDrawBackBitmap(CDC *dc)
 {
 	return;
@@ -1538,8 +1538,8 @@ void MVC::Item::CItemGrid::OnDrawBackBitmap(CDC *dc)
 	OnDrawBackBitmap(dc, rt.left, rt.top, rt.right, rt.bottom);
 }
 
-//!< 打印时画水印，目前还完全没加上，因为打印出来的效果不理想
-//!< 可能是因为平时显示和打印时的尺寸单位不一致造成的，平时显示的单位的像素，打印时可能是毫米或者磅、英寸等单位
+// 打印时画水印，目前还完全没加上，因为打印出来的效果不理想
+// 可能是因为平时显示和打印时的尺寸单位不一致造成的，平时显示的单位的像素，打印时可能是毫米或者磅、英寸等单位
 void MVC::Item::CItemGrid::OnDrawBackBitmap(CDC *dc, int l ,int t, int r, int b)
 {
 /*	if(!SoftInfo::CSoftInfo::GetMe().isItemWaterMark())		return;
@@ -1577,7 +1577,7 @@ void MVC::Item::CItemGrid::SelectAllItem()
 	RedrawAll();
 }
 
-//!< 修改变量
+// 修改变量
 void MVC::Item::CItemGrid::ItemEdit()
 {
 	long row = GetCurrentRow();
@@ -1586,37 +1586,37 @@ void MVC::Item::CItemGrid::ItemEdit()
 	std::shared_ptr<CItem> item = CItemMgr::GetMe().GetItem(cell.GetParam());//itemName);
 	if(!item)					return;
 
-	//SelectRowAt(row);									//!< 修改当前选中的变量，其他变量都取消选中
+	//SelectRowAt(row);									// 修改当前选中的变量，其他变量都取消选中
 	//RedrawAll();
 	std::shared_ptr<CItem> oldItem = std::shared_ptr<CItem>(new CItem(item->getName()));
 	*oldItem = *item;
 	EditItem(item);
 	//SetFocus();
 	//RedrawAll();
-	if(*oldItem == *item)		return;					//!< 相等表示没改
+	if(*oldItem == *item)		return;					// 相等表示没改
 	CItemMgr::GetMe().m_mpItem[oldItem->getName()].reset();
 	CItemMgr::GetMe().m_mpItem[item->getName()] = item;
 
-	//!< 添加撤销对象
+	// 添加撤销对象
 	std::shared_ptr<SItemUndo> undo = std::shared_ptr<SItemUndo>(new SItemUndo);
 	undo->m_Item = oldItem;
 	undo->m_uiEditType = CGbl::UNDO_TYPE_UPD;
 	undo->m_bEnd = true;
 	CItemDoc *pDoc = (CItemDoc *)((CItemView *)GetParent())->GetDocument();
 	pDoc->AddUndoMember(undo);
-	SelectRowAt(row);									//!< 修改当前选中的变量，其他变量都取消选中
+	SelectRowAt(row);									// 修改当前选中的变量，其他变量都取消选中
 	SetFocus();
 	RedrawAll();
 }
 
-//!< 统一修改变量的属性
+// 统一修改变量的属性
 void MVC::Item::CItemGrid::ItemEditAll()
 {
 	CUGCell cell;
 	std::shared_ptr<CItem> item;
-	std::list<std::shared_ptr<CItem> > ltItem;		//!< 所有被选中的变量
-	std::vector<std::shared_ptr<CItem> > vtItem;		//!< 所有被选中的变量
-	std::vector<UINT> vtRow;							//!< 被选中的行
+	std::list<std::shared_ptr<CItem> > ltItem;		// 所有被选中的变量
+	std::vector<std::shared_ptr<CItem> > vtItem;		// 所有被选中的变量
+	std::vector<UINT> vtRow;							// 被选中的行
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	UINT numRow = GetNumberRows() - 1;
 
@@ -1632,7 +1632,7 @@ void MVC::Item::CItemGrid::ItemEditAll()
 		}
 	}
 
-	//!< 备份一下原有的变量
+	// 备份一下原有的变量
 	std::vector<std::shared_ptr<CItem> > vtOldItem;
 	std::shared_ptr<CItem> oldItem;
 	for (auto item : vtItem)
@@ -1643,7 +1643,7 @@ void MVC::Item::CItemGrid::ItemEditAll()
 		vtOldItem.push_back(oldItem);
 	}
 
-	//!< 开始编辑所有
+	// 开始编辑所有
 	EditItems(ltItem);
 
 	std::shared_ptr<SItemUndo> undo;
@@ -1651,9 +1651,9 @@ void MVC::Item::CItemGrid::ItemEditAll()
 	UINT size = (UINT)vtItem.size();
 	for(UINT i = 0; i < size; ++i)
 	{
-		if(*vtItem[i] == *vtOldItem[i])		continue;		//!< 如果此变量没有改变就不用刷新该行
+		if(*vtItem[i] == *vtOldItem[i])		continue;		// 如果此变量没有改变就不用刷新该行
 
-		//!< 添加撤销对象
+		// 添加撤销对象
 		undo = std::shared_ptr<SItemUndo>(new SItemUndo);
 		undo->m_Item = vtOldItem[i];
 		undo->m_uiEditType = CGbl::UNDO_TYPE_UPD;
@@ -1663,7 +1663,7 @@ void MVC::Item::CItemGrid::ItemEditAll()
 	RedrawAll();
 }
 
-//!< 如果没找到，返回-1
+// 如果没找到，返回-1
 long CItemGrid::GetItemRow(UINT id)
 {
 	long rowCount = GetNumberRows() - 1;
@@ -1684,7 +1684,7 @@ UINT CItemGrid::GetRowItem(long row)
 	return (UINT)cell.GetParam();
 }
 
-//!< 刷新这些变量
+// 刷新这些变量
 void CItemGrid::FreshItemRows(std::list<UINT> ltItemID)
 {
 	if(ltItemID.empty())								return;
@@ -1703,15 +1703,15 @@ void CItemGrid::FreshItemRows(std::list<UINT> ltItemID)
 		{
 			GetCell(0, row, &cell);
 			rowID = cell.GetParam();
-			if(mpFreshIDExist[rowID] == _T("e"))		//!< 如果找到，也就是说需要刷新
+			if(mpFreshIDExist[rowID] == _T("e"))		// 如果找到，也就是说需要刷新
 			{
-				ltItemID.remove(rowID);					//!< 先把这项删了
+				ltItemID.remove(rowID);					// 先把这项删了
 				if(itemMgr->GetItem(rowID))				InitItemOne(rowID, row);
 				else									DeleteRow(row);
 				selRow = row;
 			}
 		}
-		for (auto id : ltItemID)							//!< 剩下的都是要增加的
+		for (auto id : ltItemID)							// 剩下的都是要增加的
 		{
 			if(!itemMgr->GetItem(id))					continue;
 			row = GetNumberRows() - 1;
@@ -1727,16 +1727,16 @@ void CItemGrid::FreshItemRows(std::list<UINT> ltItemID)
 		{
 			GetCell(0, row, &cell);
 			rowID = cell.GetParam();
-			if(mpFreshIDExist[rowID] == _T("e"))						//!< 如果找到，也就是说需要刷新
+			if(mpFreshIDExist[rowID] == _T("e"))						// 如果找到，也就是说需要刷新
 			{
-				ltItemID.remove(rowID);									//!< 先把这项删了
+				ltItemID.remove(rowID);									// 先把这项删了
 				std::shared_ptr<CItem> item = itemMgr->GetItem(rowID);
 				if(!item || item->getMyGroupID() !=	group->getID())		DeleteRow(row);
 				else													InitItemOne(rowID, row);
 				selRow = row;
 			}
 		}
-		for (auto id : ltItemID)											//!< 剩下的都是要增加的
+		for (auto id : ltItemID)											// 剩下的都是要增加的
 		{
 			if(!itemMgr->GetItem(id))									continue;
 			if(itemMgr->GetItem(id)->getMyGroupID() != m_uiCulGroupID)	continue;
@@ -1753,7 +1753,7 @@ void CItemGrid::FreshItemRows(std::list<UINT> ltItemID)
 	SelectRowAt(selRow);
 }
 
-//!< 获得浮点字符串
+// 获得浮点字符串
 CString CItemGrid::GetFloatStr(float flt)
 {
 	UINT width = SoftInfo::CSoftInfo::GetMe().getItemFloatWidth();

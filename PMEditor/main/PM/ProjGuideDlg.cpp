@@ -78,7 +78,6 @@ BEGIN_MESSAGE_MAP(CProjGuideDlg, CXTResizeDialog)
 	ON_COMMAND(ID_PROJ_OPEN, &CProjGuideDlg::OnProjOpen)
 	ON_COMMAND(ID_PROJ_BACKUP, &CProjGuideDlg::OnProjBackup)
 	ON_COMMAND(ID_IOSERVER, &CProjGuideDlg::OnIDIOServer)
-	ON_COMMAND(ID_HMI, &CProjGuideDlg::OnHMI)
 	ON_COMMAND(ID_RUN, &CProjGuideDlg::OnRun)
 	ON_COMMAND(ID_HELP, &CProjGuideDlg::OnHelp)
 	ON_COMMAND(ID_CANCLE, &CProjGuideDlg::OnCancel)
@@ -90,7 +89,7 @@ END_MESSAGE_MAP()
 BOOL CProjGuideDlg::OnInitDialog()
 {
 	CDialogSampleDlgBase::OnInitDialog();
-	//!< 初始化ToolBar
+	// 初始化ToolBar
 	VERIFY(InitCommandBars());
 	CXTPCommandBars* pCommandBars = GetCommandBars();
 	pCommandBars->SetMenu(_T("Menu Bar"), IDR_PROJ_MENU);
@@ -104,7 +103,6 @@ BOOL CProjGuideDlg::OnInitDialog()
 	((CXTPControlButton*)m_ToolBar->GetControls()->FindControl(xtpControlButton, ID_PROJ_RECOVER, TRUE, FALSE))->SetStyle(xtpButtonIconAndCaption);
 	((CXTPControlButton*)m_ToolBar->GetControls()->FindControl(xtpControlButton, ID_PROJ_DEL, TRUE, FALSE))->SetStyle(xtpButtonIconAndCaption);
 	((CXTPControlButton*)m_ToolBar->GetControls()->FindControl(xtpControlButton, ID_IOSERVER, TRUE, FALSE))->SetStyle(xtpButtonIconAndCaption);
-	((CXTPControlButton*)m_ToolBar->GetControls()->FindControl(xtpControlButton, ID_HMI, TRUE, FALSE))->SetStyle(xtpButtonIconAndCaption);
 	((CXTPControlButton*)m_ToolBar->GetControls()->FindControl(xtpControlButton, ID_RUN, TRUE, FALSE))->SetStyle(xtpButtonIconAndCaption);
 	((CXTPControlButton*)m_ToolBar->GetControls()->FindControl(xtpControlButton, ID_HELP, TRUE, FALSE))->SetStyle(xtpButtonIconAndCaption);
 	((CXTPControlButton*)m_ToolBar->GetControls()->FindControl(xtpControlButton, ID_CANCLE, TRUE, FALSE))->SetStyle(xtpButtonIconAndCaption);
@@ -116,7 +114,7 @@ BOOL CProjGuideDlg::OnInitDialog()
 	pCommandBars->GetToolTipContext()->SetStyle(xtpToolTipOffice);
 	LoadCommandBars(_T("CommandBars"));
 
-	//!< 初始化表格
+	// 初始化表格
 	m_ProjCtrl.SetOwner(this);
 	CBitmap bp1, bp2;
 	VERIFY(bp1.LoadBitmap(IDB_BMP_ITEMMEMORY));
@@ -154,7 +152,6 @@ BOOL CProjGuideDlg::OnInitDialog()
 void CProjGuideDlg::FreshToolBar()
 {
 	if(!m_ToolBar)		return;
-	//m_ToolBar->GetControl(5)->SetEnabled(FALSE);		//!< HMI
 }
 
 void CProjGuideDlg::InitData()
@@ -218,13 +215,9 @@ void Dialog::CProjGuideDlg::OnIDIOServer()
 {
 }
 
-void Dialog::CProjGuideDlg::OnHMI()
-{
-}
-
 void Dialog::CProjGuideDlg::OnRun()
 {
-	//!< 运行服务器
+	// 运行服务器
 
 	OnCancel();
 }

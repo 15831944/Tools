@@ -13,9 +13,6 @@
     <ClCompile Include="CloneItemDlg.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Compiler.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="CreatProjectDlg.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -35,9 +32,6 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Gbl.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Hmi.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
@@ -121,9 +115,6 @@
     <ClCompile Include="ScriptObject.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="ServerCtrl.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="SoftInfo.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -198,9 +189,6 @@
     <ClInclude Include="CloneItemDlg.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="Compiler.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="CreatProjectDlg.h">
       <Filter>Header</Filter>
     </ClInclude>
@@ -220,9 +208,6 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Gbl.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Hmi.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
@@ -307,9 +292,6 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="ScriptObject.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerCtrl.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="SoftInfo.h">

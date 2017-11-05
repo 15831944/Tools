@@ -6,12 +6,12 @@ namespace Space{
 class CSpaceItem: public CWnd, public Tool::IDTreeOwner
 {
 private:
-	CXTPToolBar m_wndToolBar;						//!< pane上方的小工具栏
-	BOOL m_bShowItemGroup;							//!< 变量树显示排序方式，TRUE表示按组分，FALSE表示按设备分
+	CXTPToolBar m_wndToolBar;						// pane上方的小工具栏
+	BOOL m_bShowItemGroup;							// 变量树显示排序方式，TRUE表示按组分，FALSE表示按设备分
 
-	Tool::CDTreeCtrl m_GroupTree;					//!< 变量组树
-	UINT m_uiCulGroupID;							//!< 当前被激活的变量组
-	HTREEITEM m_AddNew;								//!< 特殊节点“添加新变量组”
+	Tool::CDTreeCtrl m_GroupTree;					// 变量组树
+	UINT m_uiCulGroupID;							// 当前被激活的变量组
+	HTREEITEM m_AddNew;								// 特殊节点“添加新变量组”
 
 public:
 	CSpaceItem(void);

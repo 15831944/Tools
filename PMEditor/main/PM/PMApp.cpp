@@ -1,4 +1,4 @@
-// DXPEditor.cpp : 定义应用程序的类行为。
+// PMEditor.cpp : 定义应用程序的类行为。
 //
 #include "stdafx.h"
 #include "PMApp.h"
@@ -9,8 +9,6 @@
 #include "ProjectMgr.h"
 
 #include "SoftInfo.h"
-#include "ServerCtrl.h"
-#include "Hmi.h"
 
 #include "StartDoc.h"
 #include "StartView.h"
@@ -23,7 +21,6 @@
 
 #include "PMSplash.h"
 #include "CreatProjectDlg.h"
-#include "ServerCtrl.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -103,11 +100,8 @@ BOOL CPMApp::InitInstance()
 		CPMSplash::StepOne(_T(""));
 	}
 
-	//!< 初始化全局变量
+	// 初始化全局变量
 	SoftInfo::CSoftInfo::GetMe().LoadFile();
-
-	//!< 初始化权限
-	Servers::DXP::CServerCtrl::GetMe();				//!< 先得一次,以免在线程中得的时候造成错误
 
 	// 创建主 MDI 框架窗口
 	CMainFrame* pMainFrame = new CMainFrame;
@@ -122,16 +116,10 @@ BOOL CPMApp::InitInstance()
 //	if (!ProcessShellCommand(cmdInfo))
 	pMainFrame->UpdateWindow();
 
-	//!< 打开起始页
+	// 打开起始页
 	ShowStartPage();
 
-	//!< 初始化通信服务器
-	Servers::DXP::CServerCtrl::GetMe().InitServerMgr(m_pMainWnd);
-
-	//!< 初始化HMI通信器
-	Servers::HMI::CHmi::GetMe().InitHmiMgr(m_pMainWnd);
-
-	//!< 初始化帮助文档
+	// 初始化帮助文档
 	SoftInfo::CMyHelp::GetMe().InitInfo();
 
 	if(CPMSplash::Visible())
@@ -179,7 +167,7 @@ void CPMApp::DeleteRecentFile(LPCTSTR lpszPathName)
 	}
 }
 
-//!< 打开起始页
+// 打开起始页
 void CPMApp::ShowStartPage()
 {
 	if(m_StartPage)		return;
@@ -213,13 +201,7 @@ BOOL CPMApp::PreTranslateMessage(MSG* pMsg)
 	return CWinApp::PreTranslateMessage(pMsg);
 }
 
-//!< 软件注册
-void CPMApp::RegistSoftware()
-{
-	Servers::DXP::CServerCtrl::GetMe().RegistSoft();
-}
-
-//!< 解析命令行
+// 解析命令行
 void CPMApp::ReadCmdLine(CString cmdLine)
 {
 	// 去掉字符串两边的"号

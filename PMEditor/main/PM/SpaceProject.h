@@ -20,8 +20,8 @@ public:
 	virtual void OnTreeKeyDown(CTreeCtrl*, HTREEITEM,UINT);
 
 private:
-	Tool::CDTreeCtrl m_ProjectTree;					//!< 工程树
-	CXTPToolBar m_wndToolBar;						//!< 工程树上方的小工具栏
+	Tool::CDTreeCtrl m_ProjectTree;					// 工程树
+	CXTPToolBar m_wndToolBar;						// 工程树上方的小工具栏
 	afx_msg void OnProjInfo();
 	afx_msg void OnProjSave();
 	afx_msg void OnAddItem();

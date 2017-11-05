@@ -39,7 +39,7 @@ void CDTreeCtrl::InitImg()
 	SetImageList(&m_ImgList, TVSIL_NORMAL);
 }
 
-//!< 要对Enter键盘键单独截取，因为在获得OnKeyDown的消息中找不到Enter事件，磕儿了。
+// 要对Enter键盘键单独截取，因为在获得OnKeyDown的消息中找不到Enter事件，磕儿了。
 BOOL CDTreeCtrl::PreTranslateMessage(MSG* pMsg)
 {
 	if(pMsg->message == WM_KEYDOWN){
@@ -92,13 +92,13 @@ void CDTreeCtrl::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	CXTTreeCtrl::OnKeyDown(nChar,nRepCnt,nFlags);
 }
 
-//!< 删除掉相应节点
+// 删除掉相应节点
 void CDTreeCtrl::PMDeleteItem(HTREEITEM item)
 {
-	if(item)		DeleteItem(item);		//!< MFC的bug，当 item 等于 NULL 时就清空所有内容了，在这里把它改了
+	if(item)		DeleteItem(item);		// MFC的bug，当 item 等于 NULL 时就清空所有内容了，在这里把它改了
 }
 
-//!< 删除掉所有相应的子节点
+// 删除掉所有相应的子节点
 void CDTreeCtrl::PMDeleteItems(HTREEITEM item)
 {
 	HTREEITEM pChileItem = GetNextItem(item,TVGN_CHILD);
@@ -110,7 +110,7 @@ void CDTreeCtrl::PMDeleteItems(HTREEITEM item)
 	}
 }
 
-//!< 寻找名字等于 text 的节点
+// 寻找名字等于 text 的节点
 HTREEITEM CDTreeCtrl::GetItemFromName(CString text)
 {
 	HTREEITEM hItem = NULL;
@@ -123,35 +123,35 @@ HTREEITEM CDTreeCtrl::GetItemFromName(CString text)
 	return NULL;
 }
 
-//!< 得到它下边的节点，不管该节点在哪个级别上,findchild表示是否需要查找子节点
+// 得到它下边的节点，不管该节点在哪个级别上,findchild表示是否需要查找子节点
 HTREEITEM CDTreeCtrl::GetNextAny(HTREEITEM item,bool findchild /* =true */ )
 {
-	if(item==NULL)		return GetRootItem();	//!< 什么都没传，会得到树的根
+	if(item==NULL)		return GetRootItem();	// 什么都没传，会得到树的根
 	HTREEITEM next = NULL;
 	if(findchild){
 		next=GetNextItem(item,TVGN_CHILD);
-		if(next!=NULL)	return next;			//!< 有孩子节点，返回孩子节点
+		if(next!=NULL)	return next;			// 有孩子节点，返回孩子节点
 	}
 	next=GetNextItem(item,TVGN_NEXT);
-	if(next!=NULL)		return next;			//!< 没有孩子节点，返回下一个节点
+	if(next!=NULL)		return next;			// 没有孩子节点，返回下一个节点
 	item=GetParentItem(item);
-	if(item==NULL)	return item;				//!< 下一个节点都没有，得到自己的父节点，继续递归查找
-	return GetNextAny(item,false);				//!< 前边以证明子节点没有了，所有递归时不需要再找子节点了
+	if(item==NULL)	return item;				// 下一个节点都没有，得到自己的父节点，继续递归查找
+	return GetNextAny(item,false);				// 前边以证明子节点没有了，所有递归时不需要再找子节点了
 }
 
-//!< 获得第level层的下一个节点，level从0开始
+// 获得第level层的下一个节点，level从0开始
 HTREEITEM CDTreeCtrl::GetNextByLevel(HTREEITEM item, int level)
 {
 	if(GetRootItem() == NULL)		return NULL;
 	HTREEITEM next = NULL;
-	if(GetLevel(item) < level)		next = GetNextAny(item);				//!< 如果当前的节点级别不到，找孩子
-	else							next = GetNextAny(item, false);			//!< 如果当前的节点级别到了，找兄弟
+	if(GetLevel(item) < level)		next = GetNextAny(item);				// 如果当前的节点级别不到，找孩子
+	else							next = GetNextAny(item, false);			// 如果当前的节点级别到了，找兄弟
 	if(!next)						return next;
 	if(GetLevel(next) == level)		return next;
 	return GetNextByLevel(next ,level);
 }
 
-//!< 获得该节点所在第几层，从0开始
+// 获得该节点所在第几层，从0开始
 int CDTreeCtrl::GetLevel(HTREEITEM item)
 {
 	HTREEITEM parent = GetParentItem(item);

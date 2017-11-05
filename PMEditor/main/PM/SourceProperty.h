@@ -6,16 +6,16 @@ class CItem;
 class CPropertySource
 {
 private:
-	CItem* m_pParent;				//!< 所属的变量
-	CString m_strScriptText;		//!< 赋值脚本文本
+	CItem* m_pParent;				// 所属的变量
+	CString m_strScriptText;		// 赋值脚本文本
 
-	UINT m_uiIOType;				//!< IO类型，具体内容看描述文件
-	UINT m_uiFreshTime;				//!< 变量刷新时间,单位1毫秒
-	UINT m_uiConvertType;			//!< 转换类型，0不转换，1是否取反(位变量使用)，1线性转换
-	CComVariant m_MinProjectValue;	//!< 最小工程值
-	CComVariant m_MaxProjectValue;	//!< 最大工程值
-	CComVariant m_MinIOValue;		//!< 最小IO值
-	CComVariant m_MaxIOValue;		//!< 最大IO值
+	UINT m_uiIOType;				// IO类型，具体内容看描述文件
+	UINT m_uiFreshTime;				// 变量刷新时间,单位1毫秒
+	UINT m_uiConvertType;			// 转换类型，0不转换，1是否取反(位变量使用)，1线性转换
+	CComVariant m_MinProjectValue;	// 最小工程值
+	CComVariant m_MaxProjectValue;	// 最大工程值
+	CComVariant m_MinIOValue;		// 最小IO值
+	CComVariant m_MaxIOValue;		// 最大IO值
 
 public:
 	void setScriptText(CString text){m_strScriptText = text;}
@@ -38,15 +38,15 @@ public:
 	CComVariant getIOMin(){return m_MinIOValue;}
 
 private:
-	int GetTypeFromStr(CString strType);				//!< 根据名称获得类型
+	int GetTypeFromStr(CString strType);				// 根据名称获得类型
 
 public:
 	CPropertySource(CItem* item);
 	~CPropertySource(void);
 
-	bool Serialize(CArchive& ar);						//!< 保存二进制信息
+	bool Serialize(CArchive& ar);						// 保存二进制信息
 	bool SerializeXml(TiXmlElement* pNode, bool bRead, bool iExport = false);
-	void ReadFromPMExcel(std::vector<CString>& vtCell);					//!< 解析数据源属性
+	void ReadFromPMExcel(std::vector<CString>& vtCell);					// 解析数据源属性
 
 	CPropertySource& operator = (CPropertySource& src);
 	bool operator == (CPropertySource& src);

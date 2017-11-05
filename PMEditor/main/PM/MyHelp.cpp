@@ -7,9 +7,9 @@ const CString HELP_FILE_NAME = _T("PM使用说明.chm");
 const CString HELP_CONFIG = _T("PM Help.cfg");
 const CString HELP_DEFAULT = _T("目录");
 
-std::map<CString, CString> MP_HELP;		//!< 帮助字典
-std::vector<CString> VT_TITLE;			//!< 名称列表
-std::vector<CString> VT_URL;			//!< 地址列表
+std::map<CString, CString> MP_HELP;		// 帮助字典
+std::vector<CString> VT_TITLE;			// 名称列表
+std::vector<CString> VT_URL;			// 地址列表
 
 using namespace SoftInfo;
 CMyHelp::CMyHelp(void)
@@ -21,17 +21,17 @@ CMyHelp::~CMyHelp(void)
 {
 }
 
-//!< 初始化数据
+// 初始化数据
 void CMyHelp::InitInfo()
 {
 	TiXmlDocument pTiXml(CGbl::GetMe().getDataPath() + HELP_CONFIG);
 	if(!pTiXml.LoadFile())		return;
 	VT_TITLE.clear();			VT_URL.clear();
-	//!< 开始解析
+	// 开始解析
 	SerializeXml(pTiXml.RootElement());
 }
 
-//!< 加载或保存配置
+// 加载或保存配置
 void CMyHelp::SerializeXml(TiXmlElement* pNode)
 {
 	TiXmlElement* pChild = pNode->FirstChildElement();
@@ -58,7 +58,7 @@ void CMyHelp::SerializeXml(TiXmlElement* pNode)
 	}
 }
 
-//!< 显示帮助信息
+// 显示帮助信息
 void CMyHelp::ShowHelp(CString strTitle)
 {
 	//提取功能块信息，然后找到对应chm目录
@@ -67,7 +67,7 @@ void CMyHelp::ShowHelp(CString strTitle)
 		::HtmlHelp(g_App.GetMainWnd()->GetSafeHwnd(), strUrl, HH_DISPLAY_TOPIC, 0);
 }
 
-//!< 根据索引名获得帮助文档的名称
+// 根据索引名获得帮助文档的名称
 CString CMyHelp::GetHelpUrl(CString strTitle)
 {
 	if(MP_HELP[strTitle] == _T("")){						// 如果没找到

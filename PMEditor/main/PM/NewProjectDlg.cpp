@@ -143,7 +143,7 @@ void CNewProjectDlg::OnBnClickedOk()
 	}
 
 	//检测工程路径是否有效
-	if (_access((LPCTSTR)(m_strProjectPath + m_strProjectName + _T("\\")), 06) == 0)	//!< 冲突
+	if (_access((LPCTSTR)(m_strProjectPath + m_strProjectName + _T("\\")), 06) == 0)	// 冲突
 	{
 		if (AfxMessageBox("工程冲突，是否覆盖?\n\r覆盖会丢失原有工程！", MB_YESNO) == IDNO)
 			return;

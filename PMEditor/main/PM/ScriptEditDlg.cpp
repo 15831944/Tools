@@ -129,18 +129,18 @@ BOOL CScriptEditDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	//!< 初始化脚本编译器
+	// 初始化脚本编译器
 	m_ScriptMgr.SetLanguage(_T("VBScript"));
 
-	//!< 初始化脚本文本框
+	// 初始化脚本文本框
 	m_ScriptTextCtrl.SetEventMask(m_ScriptTextCtrl.GetEventMask() | ENM_CHANGE);
-	m_NowEditType = 3;		//!< 进入初始化，为了不增加撤销元素
+	m_NowEditType = 3;		// 进入初始化，为了不增加撤销元素
 	m_OldScript.text = m_strScriptText;
 	m_OldScript.begin = 0;
 	m_OldScript.end = m_OldScript.text.GetLength() - 1;
 	m_ScriptTextCtrl.SetWindowText(m_OldScript.text);
 
-	//!< 初始化表格
+	// 初始化表格
 	m_ItemCtrl.SetOwner(this);
 	CBitmap bp1, bp2;
 	VERIFY(bp1.LoadBitmap(IDB_BMP_ITEMMEMORY));
@@ -171,10 +171,10 @@ BOOL CScriptEditDlg::OnInitDialog()
 	SetResize(IDCANCEL, SZ_BOTTOM_RIGHT, SZ_BOTTOM_RIGHT);
 	SetResize(IDOK, SZ_BOTTOM_RIGHT, SZ_BOTTOM_RIGHT);
 
-	//!< 初始化撤销与恢复按钮的状态
+	// 初始化撤销与恢复按钮的状态
 	SetUndoRedoState();
 
-	//!< 初始化筛选的两个列表
+	// 初始化筛选的两个列表
 	m_cbItemGroup.AddString(_T("全部"));
 	m_cbItemGroup.SetCurSel(0);
 
@@ -218,10 +218,10 @@ void CScriptEditDlg::OnClickScriptBtn(WPARAM wParam)
 	}
 }
 
-//!< 向脚本框中添加数据，后两个参数主要为了在显示时添加到选中文本的一部分
+// 向脚本框中添加数据，后两个参数主要为了在显示时添加到选中文本的一部分
 void CScriptEditDlg::ReplaceSel(CString text, UINT backSelLen /* = 0 */, UINT selId /* = 0 */)
 {
-	m_ScriptTextCtrl.ReplaceSel(text, FALSE);		//!< 设置光标位置
+	m_ScriptTextCtrl.ReplaceSel(text, FALSE);		// 设置光标位置
 	if(backSelLen != 0)
 	{
 		long sel;
@@ -231,14 +231,14 @@ void CScriptEditDlg::ReplaceSel(CString text, UINT backSelLen /* = 0 */, UINT se
 	m_ScriptTextCtrl.SetFocus();
 }
 
-//!< 清空脚本内容
+// 清空脚本内容
 void CScriptEditDlg::ScriptClear()
 {
-	m_ScriptTextCtrl.SetWindowText(_T(""));			//!< 设置光标位置
+	m_ScriptTextCtrl.SetWindowText(_T(""));			// 设置光标位置
 	m_ScriptTextCtrl.SetFocus();
 }
 
-//!< 撤销
+// 撤销
 void CScriptEditDlg::ScriptUndo()
 {
 	if(m_strUndo.empty())	return;
@@ -246,17 +246,17 @@ void CScriptEditDlg::ScriptUndo()
 	STextMemory me;
 	m_ScriptTextCtrl.GetWindowText(me.text);
 	m_ScriptTextCtrl.GetSel(me.begin, me.end);
-	m_strRedo.push(me);								//!< 增加重复元素
+	m_strRedo.push(me);								// 增加重复元素
 
-	me = m_strUndo.top();							//!< 获得撤销元素
+	me = m_strUndo.top();							// 获得撤销元素
 	m_ScriptTextCtrl.SetWindowText(me.text);
-	m_ScriptTextCtrl.SetSel(me.begin, me.end);		//!< 设置光标位置
-	m_strUndo.pop();								//!< 删除撤销元素
+	m_ScriptTextCtrl.SetSel(me.begin, me.end);		// 设置光标位置
+	m_strUndo.pop();								// 删除撤销元素
 	m_ScriptTextCtrl.SetFocus();
-	SetUndoRedoState();								//!< 设置撤销重复状态
+	SetUndoRedoState();								// 设置撤销重复状态
 }
 
-//!< 重复
+// 重复
 void CScriptEditDlg::ScriptRedo()
 {
 	if(m_strRedo.empty())	return; 
@@ -264,23 +264,23 @@ void CScriptEditDlg::ScriptRedo()
 	STextMemory me;
 	m_ScriptTextCtrl.GetWindowText(me.text);
 	m_ScriptTextCtrl.GetSel(me.begin, me.end);
-	m_strUndo.push(me);								//!< 增加撤销元素
+	m_strUndo.push(me);								// 增加撤销元素
 
-	me = m_strRedo.top();							//!< 获得重复元素
+	me = m_strRedo.top();							// 获得重复元素
 	m_ScriptTextCtrl.SetWindowText(me.text);
-	m_strRedo.pop();								//!< 删除重复元素
+	m_strRedo.pop();								// 删除重复元素
 	m_ScriptTextCtrl.SetFocus();
-	m_ScriptTextCtrl.SetSel(me.begin, me.end);		//!< 设置光标位置
-	SetUndoRedoState();								//!< 设置撤销重复状态
+	m_ScriptTextCtrl.SetSel(me.begin, me.end);		// 设置光标位置
+	SetUndoRedoState();								// 设置撤销重复状态
 }
 
-//!< 更多内容
+// 更多内容
 void CScriptEditDlg::ScriptMore()
 {
 	AfxMessageBox("More information required!");
 }
 
-//!< 当数据改变时，判断并设置一下撤销和重复这两个按钮的状态
+// 当数据改变时，判断并设置一下撤销和重复这两个按钮的状态
 void CScriptEditDlg::SetUndoRedoState()
 {
 	if(m_strUndo.empty())		GetDlgItem(IDC_SCRIPT_UNDO)->EnableWindow(FALSE);
@@ -294,7 +294,7 @@ BOOL CScriptEditDlg::PreTranslateMessage(MSG* pMsg)
 	// TODO: 在此添加专用代码和/或调用基类
 	if(pMsg->message == WM_KEYDOWN)
 	{
-		if(pMsg->wParam == 0x59)			//!< 'Y'
+		if(pMsg->wParam == 0x59)			// 'Y'
 		{
 			if(GetKeyState(VK_CONTROL) < 0)
 			{
@@ -302,7 +302,7 @@ BOOL CScriptEditDlg::PreTranslateMessage(MSG* pMsg)
 				return TRUE;
 			}
 		}
-		else if(pMsg->wParam == 0x5A)		//!< 'Z'
+		else if(pMsg->wParam == 0x5A)		// 'Z'
 		{
 			if(GetKeyState(VK_CONTROL) < 0)
 			{
@@ -318,7 +318,7 @@ void CScriptEditDlg::OnEnChangeScriptText()
 {
 	STextMemory script;
 	m_ScriptTextCtrl.GetWindowText(script.text);
-	if(m_NowEditType == 3)			//!< 初始化状态
+	if(m_NowEditType == 3)			// 初始化状态
 	{
 		m_OldScript = script;
 		m_NowEditType = 0;
@@ -353,29 +353,29 @@ void CScriptEditDlg::OnReportDblClick(DReport::CDReport* report, UINT row)
 	ReplaceSel(name);
 }
 
-//!< 开始检查
+// 开始检查
 void CScriptEditDlg::OnBnClickedScriptCheck()
 {
 	CString strScript, strError;
 	m_ScriptTextCtrl.GetWindowText(strScript);
 	strScript = strScript.Trim();
 
-	//!< 输出处理
+	// 输出处理
 	if(strScript == _T("") || CheckScript(strScript, strError))
 		MessageBox(_T("测试正常"), _T("信息"), MB_ICONINFORMATION);
 	else
 		MessageBox(strError, _T("错误"), MB_ICONEXCLAMATION);
 }
 
-//!< 检查这个的脚本的正确定，返回正确与否，和错误信息
+// 检查这个的脚本的正确定，返回正确与否，和错误信息
 bool CScriptEditDlg::CheckScript(CString strScript, CString& strError)
 {
 	
-	//!< 1.拆分文本
+	// 1.拆分文本
 	std::vector<CString> vtStr;
 	CGbl::SpliteBy(strScript, _T("["), vtStr);
 
-	//!< 2.替换变量，赋假值
+	// 2.替换变量，赋假值
 	MVC::Item::CItemMgr* mgr = &MVC::Item::CItemMgr::GetMe();
 	std::shared_ptr<MVC::Item::CItem> item;
 	CString script;
@@ -383,7 +383,7 @@ bool CScriptEditDlg::CheckScript(CString strScript, CString& strError)
 	{
 		script = vtStr[i];
 		int index = script.Find("]");
-		if(index == -1)		continue;	//!< 第一个可能没有 ]
+		if(index == -1)		continue;	// 第一个可能没有 ]
 		CString itemName = script.Left(index);
 		item = mgr->GetItem(itemName);
 		if(!item){
@@ -396,17 +396,17 @@ bool CScriptEditDlg::CheckScript(CString strScript, CString& strError)
 		vtStr[i] = script;
 	}
 
-	//!< 3.重新组合
+	// 3.重新组合
 	strScript = _T("");
 	for (auto script : vtStr)
 		strScript = strScript + script;
 	strScript = _T("Answer = ") + strScript;
 
-	//!< 4.调用脚本组件运行，截获错误信息
+	// 4.调用脚本组件运行，截获错误信息
 	return OnExcute(strScript, strError);
 }
 
-//!< 执行脚本
+// 执行脚本
 bool CScriptEditDlg::OnExcute(CString strScript, CString &strError)
 {
 	m_ScriptMgr.SetTimeout(-1);

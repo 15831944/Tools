@@ -144,8 +144,8 @@ const UINT ALARM_SHIFTTIME_ID = ALARM_SHIFTDELTA_ID + 1;
 using namespace MVC;
 using namespace Item;
 MVC::Item::CPropertyItem::CPropertyItem(void)
-:m_GroupID(0)		//!< 无论是添加还是修改，都要记录一下变量所属组的ID号
-,m_Item(NULL)		//!< 当前所指向的变量，如果是新建，这个为空
+:m_GroupID(0)		// 无论是添加还是修改，都要记录一下变量所属组的ID号
+,m_Item(NULL)		// 当前所指向的变量，如果是新建，这个为空
 {
 	m_NewItem = std::shared_ptr<CItem>(new CItem(_T("新建变量")));
 	m_ShowItem = std::shared_ptr<CItem>(new CItem(_T("")));
@@ -155,7 +155,7 @@ MVC::Item::CPropertyItem::~CPropertyItem(void)
 {
 }
 
-//!< 获得本窗体的名称
+// 获得本窗体的名称
 CString MVC::Item::CPropertyItem::GetTitle()
 {
 	if(m_bAdd)			return ITEM_NEW;
@@ -163,7 +163,7 @@ CString MVC::Item::CPropertyItem::GetTitle()
 	return m_Item->getName() + ITEM_TITLE;
 }
 
-//!< 显示表格的函数
+// 显示表格的函数
 void MVC::Item::CPropertyItem::ShowInfo(CXTPPropertyGrid& grid)
 {
 	if(m_bAdd){
@@ -175,34 +175,34 @@ void MVC::Item::CPropertyItem::ShowInfo(CXTPPropertyGrid& grid)
 		grid.SetWindowText(_T("修改变量"));
 	}
 
-	CXTPPropertyGridItem *pGroup, *pItem;			//!< 属性组
+	CXTPPropertyGridItem *pGroup, *pItem;			// 属性组
 	CXTPPropertyGridInplaceButton* pButton;
-	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CPMApp *)AfxGetApp())->m_XmlMgr;		//!< 描述信息
+	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CPMApp *)AfxGetApp())->m_XmlMgr;		// 描述信息
 	std::shared_ptr<CPropertySource> showSrc = m_ShowItem->getSrcInfo();
 	std::shared_ptr<CPropertyAlarm> showAlarm = m_ShowItem->getAlarmInfo();
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	ASSERT(showSrc);
 	ASSERT(showAlarm);
-	std::list<CString> strList, boolList;			//!< 下拉列表的内容
+	std::list<CString> strList, boolList;			// 下拉列表的内容
 	boolList.push_back(_T("No"));
 	boolList.push_back(_T("Yes"));
 
-	//!< 变量基本信息
+	// 变量基本信息
 	pGroup = grid.AddCategory(ITEM_BASE_INFO);
 	pGroup->SetTooltip(ITEM_BASE_INFO_TOOLTIP);
 	pGroup->Expand();
 
-	//!< 变量名称
+	// 变量名称
 	pItem = AddItemText(*pGroup, ITEM_NAME, ITEM_NAME_TOOLTIP, m_ShowItem->getName(), ITEM_NAME_ID);
 	if(!m_bAdd && !SoftInfo::CSoftInfo::GetMe().isItemNabled())		pItem->SetReadOnly(TRUE);
 
-	//!< 变量标签
+	// 变量标签
 	AddItemText(*pGroup, ITEM_TAG, ITEM_TAG_TOOLTIP, m_ShowItem->getTag(), ITEM_TAG_ID);
 
-	//!< 变量备注
+	// 变量备注
 	AddItemMultiText(*pGroup, ITEM_DESCRIPTION, ITEM_DESCRIPTION_TOOLTIP, m_ShowItem->getDescription(), ITEM_DESCRIPTION_ID);
 
-	//!< 所属变量组
+	// 所属变量组
 	strList.clear();
 	std::shared_ptr<CItemGroup> group;
 	int dftGroup = 0;
@@ -215,7 +215,7 @@ void MVC::Item::CPropertyItem::ShowInfo(CXTPPropertyGrid& grid)
 	//CXTPPropertyGridItem* pItemText = AddItemText(*pGroup, ITEM_GROUP, ITEM_GROUP_TOOLTIP, m_ShowItem->GetGroupText(), ITEM_GROUP_ID);
 	AddItemList(*pGroup, ITEM_GROUP, ITEM_GROUP_TOOLTIP, strList, dftGroup, ITEM_GROUP_ID);
 
-	//!< 变量值类型
+	// 变量值类型
 	strList.clear();
 	strList.push_back(_T("位(bit)"));
 	strList.push_back(_T("有符号字节(char)"));
@@ -227,34 +227,34 @@ void MVC::Item::CPropertyItem::ShowInfo(CXTPPropertyGrid& grid)
 	strList.push_back(_T("单精度浮点(float)"));
 	AddItemList(*pGroup, ITEM_VALTYPE, ITEM_VALTYPE_TOOLTIP, strList,m_ShowItem->getValType(), ITEM_VALTYPE_ID);
 
-	//!< 变量数据源类型
+	// 变量数据源类型
 	strList.clear();
 	strList.push_back(_T("内存变量"));
 	strList.push_back(_T("I/O变量"));
 	AddItemList(*pGroup, ITEM_SRCTYPE, ITEM_SRCTYPE_TOOLTIP, strList, m_ShowItem->getSrcType(), ITEM_SRCTYPE_ID);
 
-	//!< 变量的访问权限
+	// 变量的访问权限
 	strList.clear();
 	strList.push_back(_T("可读可写"));
 	strList.push_back(_T("只读"));
 	strList.push_back(_T("只写"));
 	AddItemList(*pGroup, ITEM_ACCESSRIGHT, ITEM_ACCESSRIGHT_TOOLTIP, strList, m_ShowItem->getAccessRight(), ITEM_ACCESSRIGHT_ID);
 
-	//!< 默认值, 根据类型插入不同的item
+	// 默认值, 根据类型插入不同的item
 	AddItemVariant(*pGroup, ITEM_DEFAULTVALUE, ITEM_DEFAULTVALUE_TOOLTIP, m_ShowItem->getDefault(), ITEM_DEFAULTVALUE_ID);
 
-	//!< 是否保留
+	// 是否保留
 	AddItemList(*pGroup, ITEM_RESERVE, ITEM_RESERVE_TOOLTIP, boolList, m_ShowItem->getReservFlag()?1:0, ITEM_RESERVE_ID);
 
-	//!< 是否保存历史数据
+	// 是否保存历史数据
 	AddItemList(*pGroup, ITEM_RESFDB, ITEM_RESFDB_TOOLTIP, boolList, m_ShowItem->getReservDB()?1:0, ITEM_RESFDB_ID);
 
-	//!< 数据源信息
+	// 数据源信息
 	pGroup = grid.AddCategory(SRC_INFO);
 	pGroup->SetTooltip(SRC_INFO_TOOLTIP);
 	pGroup->Expand();
 
-	//!< 赋值脚本
+	// 赋值脚本
 	grid.SetVariableItemsHeight(TRUE);
 	CXTPPropertyGridItem* pItemText = AddItemText(*pGroup, SRC_SCRIPT, SRC_SCRIPT_TOOLTIP, showSrc->getScriptText(), SRC_SCRIPT_ID);
 	int lineCount = showSrc->getScriptText().GetLength() * 12 / pItemText->GetValueRect().Width();
@@ -262,33 +262,33 @@ void MVC::Item::CPropertyItem::ShowInfo(CXTPPropertyGrid& grid)
 	pButton = pItemText->GetInplaceButtons()->AddButton(new CXTPPropertyGridInplaceButton(ID_BUTTON_SCRIPT));
 	pButton->SetCaption(_T("编辑"));
 
-	//!< 刷新时间
+	// 刷新时间
 	AddItemNumber(*pGroup, SRC_FRESHTIME, SRC_FRESHTIME_TOOLTIP, showSrc->getFreshTime(), SRC_FRESHTIME_ID);
 
-	//!< 转换类型
+	// 转换类型
 	strList.clear();
 	strList.push_back(_T("不转换"));
 	strList.push_back(_T("线性转换"));
 	AddItemList(*pGroup, SRC_CONVERT, SRC_CONVERT_TOOLTIP, strList, showSrc->getConvertType(), SRC_CONVERT_ID);
 
-	//!< 最小工程值
+	// 最小工程值
 	AddItemVariant(*pGroup, SRC_MINPROJ, SRC_MINPROJ_TOOLTIP, showSrc->getProjMin(), SRC_MINPROJ_ID);
 
-	//!< 最大工程值
+	// 最大工程值
 	AddItemVariant(*pGroup, SRC_MAXPROJ, SRC_MAXPROJ_TOOLTIP, showSrc->getProjMax(), SRC_MAXPROJ_ID);
 
-	//!< 最小IO值
+	// 最小IO值
 	AddItemVariant(*pGroup, SRC_MINIO, SRC_MINIO_TOOLTIP, showSrc->getIOMin(), SRC_MINIO_ID);
 
-	//!< 最大IO值
+	// 最大IO值
 	AddItemVariant(*pGroup, SRC_MAXIO, SRC_MAXIO_TOOLTIP, showSrc->getIOMax(), SRC_MAXIO_ID);
 
-	//!< 变量报警属性
+	// 变量报警属性
 	pGroup = grid.AddCategory(ALARM_INFO);
 	pGroup->SetTooltip(ALARM_INFO_TOOLTIP);
 	pGroup->Expand();
 
-	//!< 位变量报警类型
+	// 位变量报警类型
 	strList.clear();
 	strList.push_back(_T("不报警"));
 	strList.push_back(_T("开时报警"));
@@ -298,52 +298,52 @@ void MVC::Item::CPropertyItem::ShowInfo(CXTPPropertyGrid& grid)
 	strList.push_back(_T("变化就报警"));
 	AddItemList(*pGroup, ALARM_BITTYPE, ALARM_BITTYPE_TOOLTIP, strList, showAlarm->getBitAlarmType(), ALARM_BITTYPE_ID);
 
-	//!< 上下限报警死区值
+	// 上下限报警死区值
 	AddItemNumber(*pGroup, ALARM_DEADAREA, ALARM_DEADAREA_TOOLTIP, showAlarm->getDeadArea(), ALARM_DEADAREA_ID);
 
-	//!< 下下限报警激活
+	// 下下限报警激活
 	AddItemList(*pGroup, ALARM_LOLOACTIVE, ALARM_LOLOACTIVE_TOOLTIP, boolList, showAlarm->getLoloActive()?1:0, ALARM_LOLOACTIVE_ID);
 
-	//!< 下下限报警值
+	// 下下限报警值
 	AddItemVariant(*pGroup, ALARM_LOLOVALUE, ALARM_LOLOVALUE_TOOLTIP, showAlarm->getLoloValue(), ALARM_LOLOVALUE_ID);
 
-	//!< 下限报警激活
+	// 下限报警激活
 	AddItemList(*pGroup, ALARM_LOWACTIVE, ALARM_LOWACTIVE_TOOLTIP, boolList, showAlarm->getLowActive()?1:0, ALARM_LOWACTIVE_ID);
 
-	//!< 下限报警值
+	// 下限报警值
 	AddItemVariant(*pGroup, ALARM_LOWVALUE, ALARM_LOWVALUE_TOOLTIP, showAlarm->getLowValue(), ALARM_LOWVALUE_ID);
 
-	//!< 上限报警激活
+	// 上限报警激活
 	AddItemList(*pGroup, ALARM_HIGHACTIVE, ALARM_HIGHACTIVE_TOOLTIP, boolList, showAlarm->getHighActive()?1:0, ALARM_HIGHACTIVE_ID);
 
-	//!< 上限报警值
+	// 上限报警值
 	AddItemVariant(*pGroup, ALARM_HIGHVALUE, ALARM_HIGHVALUE_TOOLTIP, showAlarm->getHighValue(), ALARM_HIGHVALUE_ID);
 
-	//!< 上上限报警激活
+	// 上上限报警激活
 	AddItemList(*pGroup, ALARM_HIHIACTIVE, ALARM_HIHIACTIVE_TOOLTIP, boolList, showAlarm->getHihiActive()?1:0, ALARM_HIHIACTIVE_ID);
 
-	//!< 上上限报警值
+	// 上上限报警值
 	AddItemVariant(*pGroup, ALARM_HIHIVALUE, ALARM_HIHIVALUE_TOOLTIP, showAlarm->getHihiValue(), ALARM_HIHIVALUE_ID);
 
-	//!< 目标报警激活
+	// 目标报警激活
 	AddItemList(*pGroup, ALARM_AIMACTIVE, ALARM_AIMACTIVE_TOOLTIP, boolList, showAlarm->getAimActive()?1:0, ALARM_AIMACTIVE_ID);
 
-	//!< 目标值
+	// 目标值
 	AddItemVariant(*pGroup, ALARM_AIMVALUE, ALARM_AIMVALUE_TOOLTIP, showAlarm->getAimValue(), ALARM_AIMVALUE_ID);
 
-	//!< 目标报警偏移比率
+	// 目标报警偏移比率
 	AddItemDouble(*pGroup, ALARM_AIMPERCENT, ALARM_AIMPERCENT_TOOLTIP, showAlarm->getAimPercent(), ALARM_AIMPERCENT_ID);
 
-	//!< 目标报警死区
+	// 目标报警死区
 	AddItemDouble(*pGroup, ALARM_AIMDEAD, ALARM_AIMDEAD_TOOLTIP, showAlarm->getAimDeadPercent(), ALARM_AIMDEAD_ID);
 
-	//!< 变化率报警激活
+	// 变化率报警激活
 	AddItemList(*pGroup, ALARM_SHIFTACTIVE, ALARM_SHIFTACTIVE_TOOLTIP, boolList, showAlarm->getShiftActive()?1:0, ALARM_SHIFTACTIVE_ID);
 
-	//!< 报警变化比率
+	// 报警变化比率
 	AddItemDouble(*pGroup, ALARM_SHIFTDELTA, ALARM_SHIFTDELTA_TOOLTIP, showAlarm->getShiftDelta(), ALARM_SHIFTDELTA_ID);
 
-	//!< 取值时间数值
+	// 取值时间数值
 	AddItemNumber(*pGroup, ALARM_SHIFTTIME, ALARM_SHIFTTIME_TOOLTIP, showAlarm->getShiftTime(), ALARM_SHIFTTIME_ID);
 }
 
@@ -353,12 +353,12 @@ void MVC::Item::CPropertyItem::OnGridFirstShow(CXTPPropertyGrid& grid)
 	EnableAndDisenable(grid);
 }
 
-//!< 创建新建的变量信息
+// 创建新建的变量信息
 void MVC::Item::CPropertyItem::CreateNew()
 {
 	if(!m_ShowItem)		m_ShowItem = std::shared_ptr<CItem>(new CItem(_T("")));
 
-	//!< 给变量命名，需要等于上一次创建的变量名后边 + 1
+	// 给变量命名，需要等于上一次创建的变量名后边 + 1
 	CString strHead;
 	if(!m_NewItem)		strHead = _T("新建变量");
 	else				strHead = m_NewItem->getName();
@@ -368,40 +368,40 @@ void MVC::Item::CPropertyItem::CreateNew()
 	CGbl::GetNumberFromString(strHead, id, 1);
 	CString name;
 	CItemMgr* mgr = &CItemMgr::GetMe();
-	do{										//!< 这个函数是为了找到一个
+	do{										// 这个函数是为了找到一个
 		if(id == 0)		name = strHead;
 		else{
 			name.Format(strHead + "%d",id);
 //			name = name;
 		}
 		if(!mgr->GetItem(name))				break;
-	} while(++id);							//!< 这个基本上就是死循环，所以后边不用考虑没找到的问题，一定能找到
+	} while(++id);							// 这个基本上就是死循环，所以后边不用考虑没找到的问题，一定能找到
 
 	m_NewItem->setItemName(name);
 	m_NewItem->setMyGroupID(m_GroupID);
 	*m_ShowItem = *m_NewItem;
 }
 
-//!< 创建编辑的变量信息
+// 创建编辑的变量信息
 void MVC::Item::CPropertyItem::CreateEdit()
 {
 	if(!m_ShowItem)		m_ShowItem = std::shared_ptr<CItem>(new CItem(_T("")));
 	if(!m_Item)			return;
 	*m_ShowItem = *m_Item;
-	m_GroupID = m_ShowItem->getMyGroupID();	//!< 记录组号,以便下次添加时能够自动变为该组
+	m_GroupID = m_ShowItem->getMyGroupID();	// 记录组号,以便下次添加时能够自动变为该组
 }
 
-//!< 对话框前，将变量的信息保存起来
+// 对话框前，将变量的信息保存起来
 void MVC::Item::CPropertyItem::OnCloseGrid()
 {
-	if(m_bAdd){			//!< 如果是添加，则记录到m_NewItem中
+	if(m_bAdd){			// 如果是添加，则记录到m_NewItem中
 		*m_NewItem = *m_ShowItem;
 	}
-	else{				//!< 
+	else{				// 
 	}
 }
 
-//!< 在这里初始化那些相互关联的IO属性
+// 在这里初始化那些相互关联的IO属性
 void MVC::Item::CPropertyItem::ShowAndHide(CXTPPropertyGrid& grid)
 {
 	CXTPPropertyGridItem *itemProjType, *itemSrc;
@@ -410,27 +410,27 @@ void MVC::Item::CPropertyItem::ShowAndHide(CXTPPropertyGrid& grid)
 	itemSrc = grid.FindItem(ITEM_SRCTYPE_ID);
 	if(!itemProjType || !itemSrc)						return;
 
-	//!< 报警显示哪些
-	if(itemProjType->GetConstraints()->GetCurrent() == 0){		//!< 位
-		tmp = grid.FindItem(ALARM_BITTYPE_ID);			if(tmp)		tmp->SetHidden(FALSE);	//!< 显示报警位项
+	// 报警显示哪些
+	if(itemProjType->GetConstraints()->GetCurrent() == 0){		// 位
+		tmp = grid.FindItem(ALARM_BITTYPE_ID);			if(tmp)		tmp->SetHidden(FALSE);	// 显示报警位项
 		for(int i = ALARM_DEADAREA_ID; i <= ALARM_SHIFTTIME_ID; ++i){
-			tmp = grid.FindItem(i);						if(tmp)		tmp->SetHidden(TRUE);	//!< 隐藏报警其它项
+			tmp = grid.FindItem(i);						if(tmp)		tmp->SetHidden(TRUE);	// 隐藏报警其它项
 		}
 	}
 	else{
-		tmp = grid.FindItem(ALARM_BITTYPE_ID);			if(tmp)		tmp->SetHidden(TRUE);	//!< 隐藏报警位项
+		tmp = grid.FindItem(ALARM_BITTYPE_ID);			if(tmp)		tmp->SetHidden(TRUE);	// 隐藏报警位项
 		for(int i = ALARM_DEADAREA_ID; i <= ALARM_SHIFTTIME_ID; ++i){
-			tmp = grid.FindItem(i);						if(tmp)		tmp->SetHidden(FALSE);	//!< 显示报警其它项
+			tmp = grid.FindItem(i);						if(tmp)		tmp->SetHidden(FALSE);	// 显示报警其它项
 		}
 	}
 }
 
-//!< 在这里统一使能
+// 在这里统一使能
 void MVC::Item::CPropertyItem::EnableAndDisenable(CXTPPropertyGrid& grid)
 {
 	CXTPPropertyGridItem *item, *tmp;
 
-	//!< 转换
+	// 转换
 	item = grid.FindItem(SRC_CONVERT_ID);
 	if(item->GetConstraints()->GetCurrent() == 0){
 		tmp = grid.FindItem(SRC_MINPROJ_ID);			if(tmp)		tmp->SetReadOnly(TRUE);
@@ -445,49 +445,49 @@ void MVC::Item::CPropertyItem::EnableAndDisenable(CXTPPropertyGrid& grid)
 		tmp = grid.FindItem(SRC_MAXIO_ID);				if(tmp)		tmp->SetReadOnly(FALSE);
 	}
 
-	//!< 上上限报警
+	// 上上限报警
 	item = grid.FindItem(ALARM_LOLOACTIVE_ID);
 	tmp = grid.FindItem(ALARM_LOLOVALUE_ID);			if(tmp)		tmp->SetReadOnly(!item->GetConstraints()->GetCurrent());
 
-	//!< 上限报警
+	// 上限报警
 	item = grid.FindItem(ALARM_LOWACTIVE_ID);
 	tmp = grid.FindItem(ALARM_LOWVALUE_ID);				if(tmp)		tmp->SetReadOnly(!item->GetConstraints()->GetCurrent());
 
-	//!< 下限报警
+	// 下限报警
 	item = grid.FindItem(ALARM_HIGHACTIVE_ID);
 	tmp = grid.FindItem(ALARM_HIGHVALUE_ID);			if(tmp)		tmp->SetReadOnly(!item->GetConstraints()->GetCurrent());
 
-	//!< 下下限报警
+	// 下下限报警
 	item = grid.FindItem(ALARM_HIHIACTIVE_ID);
 	tmp = grid.FindItem(ALARM_HIHIVALUE_ID);			if(tmp)		tmp->SetReadOnly(!item->GetConstraints()->GetCurrent());
 
-	//!< 目标报警
+	// 目标报警
 	item = grid.FindItem(ALARM_AIMACTIVE_ID);
 	tmp = grid.FindItem(ALARM_AIMVALUE_ID);				if(tmp)		tmp->SetReadOnly(!item->GetConstraints()->GetCurrent());
 	tmp = grid.FindItem(ALARM_AIMPERCENT_ID);			if(tmp)		tmp->SetReadOnly(!item->GetConstraints()->GetCurrent());
 	tmp = grid.FindItem(ALARM_AIMDEAD_ID);				if(tmp)		tmp->SetReadOnly(!item->GetConstraints()->GetCurrent());
 
-	//!< 变化率报警
+	// 变化率报警
 	item = grid.FindItem(ALARM_SHIFTACTIVE_ID);
 	tmp = grid.FindItem(ALARM_SHIFTDELTA_ID);			if(tmp)		tmp->SetReadOnly(!item->GetConstraints()->GetCurrent());
 	tmp = grid.FindItem(ALARM_SHIFTTIME_ID);			if(tmp)		tmp->SetReadOnly(!item->GetConstraints()->GetCurrent());
 }
 
-//!< 这个函数专门负责响应用户对变量的修改
+// 这个函数专门负责响应用户对变量的修改
 void MVC::Item::CPropertyItem::OnItemModify(CXTPPropertyGrid& grid, UINT id)
 {
 	CXTPPropertyGridItem* item = grid.FindItem(id);
 	if(!item)			return;
 	CString itemValue = item->GetValue();
 	if(id == ITEM_NAME){						// = _T("变量名称");
-		//!< 在这里判断不能重名，这个再议
+		// 在这里判断不能重名，这个再议
 	}
 	else if(id == SRC_FRESHTIME_ID){
 		UINT uiVal = ((CXTPPropertyGridItemNumber *)item)->GetNumber();
 		if(uiVal < 10)	 ((CXTPPropertyGridItemNumber *)item)->SetNumber(10);
 	}
 
-	//!< 死区必须为正数
+	// 死区必须为正数
 	if(id == ALARM_DEADAREA_ID){
 		int iVal = ((CXTPPropertyGridItemNumber *)item)->GetNumber();
 		if(iVal < 0){
@@ -520,7 +520,7 @@ bool MVC::Item::CPropertyItem::OnSaveModify(CXTPPropertyGrid& grid)
 	ASSERT(showAlarm);
 	for(int i = 0; i < num; ++i){
 		item = grid.GetItem(i);
-		if(!item->IsValueChanged())		continue;			//!< 只有被修改的才会进行保存，优化了一下
+		if(!item->IsValueChanged())		continue;			// 只有被修改的才会进行保存，优化了一下
 		itemID = item->GetID();
 		itemValue = item->GetValue();
 
@@ -662,12 +662,12 @@ bool MVC::Item::CPropertyItem::OnSaveModify(CXTPPropertyGrid& grid)
 		m_bAdd = false;
 		grid.SetWindowText(_T("修改变量"));
 		if(!m_NewItem)		m_NewItem = std::shared_ptr<CItem>(new CItem(_T("")));
-		*m_NewItem = *m_ShowItem;							//!< m_NewItem每次不一样
+		*m_NewItem = *m_ShowItem;							// m_NewItem每次不一样
 		std::shared_ptr<CItem> newItem = std::shared_ptr<CItem>(new CItem(_T("")));
 		*newItem = *m_ShowItem;
 		CItemMgr::GetMe().AddItem(newItem,
 			MAX_ITEM_COUNT,
-			newItem->getMyGroupID());		//!< 
+			newItem->getMyGroupID());		// 
 		m_NewItem->setID(newItem->getID());
 	}
 	else{
@@ -677,7 +677,7 @@ bool MVC::Item::CPropertyItem::OnSaveModify(CXTPPropertyGrid& grid)
 	return true;
 }
 
-//!< 按钮被按下
+// 按钮被按下
 void MVC::Item::CPropertyItem::OnButtonClick(CXTPPropertyGrid &grid, UINT btID)
 {
 	if(ID_BUTTON_SCRIPT == btID)
@@ -693,7 +693,7 @@ void MVC::Item::CPropertyItem::OnButtonClick(CXTPPropertyGrid &grid, UINT btID)
 	}
 }
 
-//!< 变量名是否合法
+// 变量名是否合法
 bool MVC::Item::CPropertyItem::IfRightItemName(CString strName)
 {
 	if(strName.Find('\\') != -1)	return false;
@@ -703,7 +703,7 @@ bool MVC::Item::CPropertyItem::IfRightItemName(CString strName)
 	return true;
 }
 
-//!< 显示帮助
+// 显示帮助
 void MVC::Item::CPropertyItem::OnShowHelp()
 {
 	SoftInfo::CMyHelp::GetMe().ShowHelp(_T("变量属性说明"));

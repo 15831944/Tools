@@ -44,14 +44,14 @@ BOOL CReNameDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	//!< 提供默认值
+	// 提供默认值
 	if(m_strNewName == _T(""))
 		SetDefaultName(m_strOldName);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 }
 
-//!< 设定老名称
+// 设定老名称
 void CReNameDlg::SetOldName(CString str)
 {
 	if(str.GetLength() > 100)
@@ -59,7 +59,7 @@ void CReNameDlg::SetOldName(CString str)
 	m_strNewName = m_strOldName = str;
 }
 
-//!< 设定默认值
+// 设定默认值
 void CReNameDlg::SetDefaultName(CString str)
 {
 	if(str.GetLength() > 100)

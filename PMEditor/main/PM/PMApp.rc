@@ -100,7 +100,6 @@ IDR_TOOLBAR_TMP         BITMAP                  "res\\TB_TMP.bmp"
 IDB_WELCOME_DDS         BITMAP                  "res\\Welcome.bmp"
 IDR_WATCH               BITMAP                  "res\\watch.bmp"
 IDR_STARTPAGE           BITMAP                  "res\\startpage.bmp"
-IDB_BMP_CAMERA          BITMAP                  "res\\bmp_camera.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -130,7 +129,6 @@ IDR_PANE_SOLUTIONEXPLORER TOOLBAR 16, 16
 BEGIN
     BUTTON      ID_PROJ_SAVE
     SEPARATOR
-    BUTTON      ID_ADD_DEVICE
     BUTTON      ID_ADD_ITEM
 END
 
@@ -143,7 +141,6 @@ BEGIN
     BUTTON      ID_PROJ_RECOVER
     BUTTON      ID_PROJ_DEL
     BUTTON      ID_IOSERVER
-    BUTTON      ID_HMI
     SEPARATOR
     BUTTON      ID_RUN
     BUTTON      ID_HELP
@@ -262,26 +259,6 @@ BEGIN
         MENUITEM "写入数值(&W)",                    ID_ITEM_WRITE
         MENUITEM "显示十六进制数值(&H)",                ID_SHOW_HEX, CHECKED
     END
-    POPUP "视频服务(&C)"
-    BEGIN
-        MENUITEM "添加新摄像头(&N)",                  ID_CAM_ADD
-        MENUITEM "修改当前选中摄像头(&E)",               ID_CAM_EDIT
-        MENUITEM "移除所有选中摄像头(&R)\tDelete",       ID_CAM_DELETE
-        MENUITEM "上移(&U)\tCtrl+U",              ID_ITEM_UP
-        MENUITEM "下移(&D)\tCtrl+D",              ID_ITEM_DOWN
-        MENUITEM SEPARATOR
-        MENUITEM "全选(&A)\tCtrl+A",              ID_SELECT_ALL
-        MENUITEM "统一修改(&T)\tCtrl+T",            ID_ITEM_EDIT_ALL
-        MENUITEM SEPARATOR
-        MENUITEM "复制(&C)\tCtrl+C",              ID_EDIT_COPY
-        MENUITEM "剪切(&X)\tCtrl+X",              ID_EDIT_CUT
-        MENUITEM "粘贴(&V)\tCtrl+V",              ID_EDIT_PASTE
-    END
-    POPUP "HMI(&H)"
-    BEGIN
-        MENUITEM SEPARATOR
-        MENUITEM "打开HMI编辑器(&H)",                ID_HMI_START
-    END
     POPUP "监控(&W)"
     BEGIN
         MENUITEM "检查(&C)\tF7",                  ID_COMPILE_CHECK
@@ -300,7 +277,7 @@ BEGIN
     BEGIN
         MENUITEM "使用说明(&F)",                    ID_HELP_FILE
         MENUITEM SEPARATOR
-        MENUITEM "关于 PM(&A)...",             ID_APP_ABOUT
+        MENUITEM "关于 PM(&A)...",                ID_APP_ABOUT
     END
 END
 
@@ -382,8 +359,6 @@ BEGIN
     END
     POPUP "开发与运行(&D)"
     BEGIN
-        MENUITEM "开发(&D)",                      ID_HMI_EDITOR
-        MENUITEM SEPARATOR
         MENUITEM "运行(&R)",                      ID_RUNINGSERVER
     END
     POPUP "工具(&T)"
@@ -635,16 +610,6 @@ BEGIN
     LTEXT           "IO变量",IDC_STATIC,250,62,31,9,WS_BORDER
 END
 
-IDD_SERIAL_SET DIALOGEX 0, 0, 291, 178
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "串口信息配置"
-FONT 9, "宋体", 400, 0, 0x86
-BEGIN
-    CONTROL         "",IDC_SERIAL_TREE,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,7,7,104,146,WS_EX_CLIENTEDGE
-    PUSHBUTTON      "重置串口",ID_ADD_SERIAL,7,157,55,14
-    CONTROL         "",IDC_SERIAL_HOLDER,"Static",SS_BLACKFRAME,118,7,166,164
-END
-
 IDD_SERIALADDDEL_DLG DIALOGEX 0, 0, 211, 193
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "添加配置"
@@ -677,26 +642,6 @@ BEGIN
     EDITTEXT        IDC_DEV_TYPENAME,13,63,73,15,ES_AUTOHSCROLL | ES_READONLY
     LTEXT           "设备说明：",IDC_STATIC,14,85,73,10
     EDITTEXT        IDC_DEV_DESCRIPTION,13,95,73,56,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_READONLY
-END
-
-IDD_BEHAVIOR_PARAM_DLG DIALOGEX 0, 0, 443, 319
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "设备参数配置"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    DEFPUSHBUTTON   "确定",IDOK,386,298,50,14
-    PUSHBUTTON      "上载",ID_BEHAVIOR_UPLOAD,157,298,50,14
-    PUSHBUTTON      "导入",ID_BEHAVIOR_IN,330,298,50,14
-    GROUPBOX        "行为列表",IDC_STATIC,7,7,144,288,0,WS_EX_TRANSPARENT
-    GROUPBOX        "参数列表",IDC_STATIC,157,7,279,288,0,WS_EX_TRANSPARENT
-    PUSHBUTTON      "下载",ID_BEHAVIOR_DOWNLOAD,213,298,50,14
-    CONTROL         "",IDC_BEHAVIOR_TREE,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_SHOWSELALWAYS | TVS_SINGLEEXPAND | WS_BORDER | WS_TABSTOP,15,18,127,268,WS_EX_CLIENTEDGE
-    CONTROL         "",IDC_PLACEHOLDER,"Static",SS_ETCHEDFRAME | SS_SUNKEN | NOT WS_VISIBLE,165,18,264,269,WS_EX_STATICEDGE
-    LTEXT           "从设备",IDC_STATIC_GROUPNAME,168,20,72,12
-    COMBOBOX        IDC_GROUP_LIST,251,18,63,294,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "刷新显示",ID_FRESH,325,17,51,14,NOT WS_VISIBLE
-    PUSHBUTTON      "导出",ID_BEHAVIOR_OUT,273,298,50,14
-    EDITTEXT        IDC_EDIT_OUT,7,298,144,14,ES_AUTOHSCROLL | ES_READONLY
 END
 
 IDD_ETHERNET_SET DIALOGEX 0, 0, 291, 178
@@ -788,29 +733,6 @@ BEGIN
     CONTROL         "Modbus485",IDC_CHECK30,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,221,73,53,10
 END
 
-IDD_SOFT_SET_TUOPU DIALOGEX 0, 0, 289, 175
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    COMBOBOX        IDC_COMBO_HV,67,7,64,48,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "选中1",IDC_CHECK_TOOLTIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,67,26,9,8
-    EDITTEXT        IDC_EDIT_ZOOM_SIZE,67,40,56,12,ES_AUTOHSCROLL
-    CONTROL         "",IDC_SPIN_ZOOM_CTRL,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,110,40,13,12
-    CONTROL         "选中1",IDC_CHECK_UPBEHAVIORFIRST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,67,80,9,8
-    LTEXT           "拓扑方向",IDC_STATIC,7,8,46,10
-    LTEXT           "鼠标悬停提示",IDC_STATIC,7,25,53,10
-    LTEXT           "拓扑缩放比例",IDC_STATIC,7,42,53,10
-    LTEXT           "显示设备参数时如果设备在线,会先进行上载",IDC_STATIC,86,79,196,10,WS_BORDER
-    LTEXT           "自动上载参数",IDC_STATIC,7,80,53,10
-    LTEXT           "最小值50，最大值500",IDC_STATIC,136,41,146,10,WS_BORDER
-    LTEXT           "%",IDC_STATIC,125,42,10,10
-    LTEXT           "字体",IDC_STATIC,7,61,46,10
-    PUSHBUTTON      "设置",IDC_BT_FONT,67,59,55,13
-    CONTROL         "选中1",IDC_CHECK_SHOWADDR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,67,95,9,8
-    LTEXT           "显示设备地址",IDC_STATIC,7,95,53,10
-    LTEXT           "在拓扑图界面上直接显示设备地址",IDC_STATIC,86,94,196,10,WS_BORDER
-END
-
 IDD_SOFT_SET_SERVER DIALOGEX 0, 0, 288, 174
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -873,58 +795,6 @@ BEGIN
     CONTROL         "使用正则表达式",IDC_CHECK_REGEX,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,107,68,11
 END
 
-IDD_SOFT_SET_DEVICE DIALOGEX 0, 0, 291, 174
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    CONTROL         "",IDC_TREE_DEVICE,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,162,7,122,160
-    GROUPBOX        "添加设备",IDC_STATIC,7,7,147,160
-    LTEXT           "所属公司",IDC_STATIC,16,21,34,10
-    EDITTEXT        IDC_EDIT_PARENT,56,18,92,13,ES_AUTOHSCROLL | WS_DISABLED
-    EDITTEXT        IDC_EDIT_DEVICE,56,38,92,13,ES_AUTOHSCROLL | WS_DISABLED
-    PUSHBUTTON      "设备配置",IDC_BT_DEVINFO,15,58,46,14,NOT WS_VISIBLE | WS_DISABLED
-    PUSHBUTTON      "导入",IDC_BT_DEVIN,15,38,33,14
-    PUSHBUTTON      "移除设备",IDC_BT_DELDEV,103,58,47,14
-    PUSHBUTTON      "添加设备",IDC_BT_ADDDEV,15,58,47,14
-END
-
-IDD_SCAN_SET_DLG DIALOGEX 0, 0, 379, 151
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "扫描配置"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    COMBOBOX        IDC_COMBO_SCANLEVEL,16,31,46,62,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "启用以太网扫描",IDC_CHECK_ETHERNET,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,85,19,71,10
-    COMBOBOX        IDC_COMBO_COM,111,87,47,62,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    EDITTEXT        IDC_EDIT_ADDR_START,203,87,30,12,ES_AUTOHSCROLL | ES_NUMBER
-    EDITTEXT        IDC_EDIT_ADDR_END,268,87,30,12,ES_AUTOHSCROLL | ES_NUMBER
-    COMBOBOX        IDC_COMBO_BAUD,111,105,47,62,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    COMBOBOX        IDC_COMBO_PARITY,203,105,30,62,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    COMBOBOX        IDC_COMBO_DATABITS,268,105,30,62,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    COMBOBOX        IDC_COMBO_STOPBITS,335,105,30,62,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "重新扫描",ID_SCAN,75,130,46,14
-    DEFPUSHBUTTON   "确定",IDOK,275,130,46,14
-    PUSHBUTTON      "退出",IDCANCEL,326,130,46,14
-    GROUPBOX        "以太网",IDC_STATIC,76,7,296,49
-    LTEXT           "模块地址",IDC_STATIC,166,89,33,9
-    LTEXT           "～",IDC_STATIC,247,90,8,8
-    LTEXT           "波特率",IDC_STATIC,85,107,26,9
-    LTEXT           "检验方式",IDC_STATIC,166,107,34,9
-    GROUPBOX        "串口",IDC_STATIC,76,59,296,65
-    LTEXT           "(0~255)",IDC_STATIC,308,89,29,9
-    LTEXT           "数据位",IDC_STATIC,241,107,24,9
-    LTEXT           "停止位",IDC_STATIC,308,107,24,9
-    LTEXT           "扫描级数",IDC_STATIC,16,19,45,9
-    GROUPBOX        "基本配置",IDC_STATIC,7,7,62,137
-    LTEXT           "串口号",IDC_STATIC,85,89,26,9
-    CONTROL         "",IDC_IPSTART,"SysIPAddress32",WS_TABSTOP,123,36,73,12
-    CONTROL         "",IDC_IPEND,"SysIPAddress32",WS_TABSTOP,226,36,73,12
-    LTEXT           "扫描范围",IDC_STATIC,85,38,32,9
-    LTEXT           "～",IDC_STATIC,208,40,12,9
-    CONTROL         "启用串口扫描",IDC_CHECK_SERIAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,85,70,71,10
-    CONTROL         "将扫描的配置同步到工程师站配置中",IDC_CHECK_SYNC,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,17,57,46,35
-END
-
 IDD_SOFT_SET_COMPILE DIALOGEX 0, 0, 288, 174
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -937,8 +807,6 @@ BEGIN
     CONTROL         "",IDC_CHECK_ISOUTPUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,67,7,10,10
     CONTROL         "二进制文件",IDC_RADIO_CPL_BIT,"Button",BS_AUTORADIOBUTTON | WS_GROUP,67,39,52,11
     CONTROL         "描述文件",IDC_RADIO_CPL_XML,"Button",BS_AUTORADIOBUTTON,122,39,48,11
-    CONTROL         "二进制文件",IDC_RADIO_SCAN_BIT,"Button",BS_AUTORADIOBUTTON | WS_GROUP,67,56,54,11
-    CONTROL         "描述文件",IDC_RADIO_SCAN_XML,"Button",BS_AUTORADIOBUTTON,122,56,42,11
 END
 
 IDD_SOFTSETCOMPILEDLG DIALOG 0, 0, 186, 95
@@ -1100,14 +968,6 @@ BEGIN
         BOTTOMMARGIN, 135
     END
 
-    IDD_SERIAL_SET, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 284
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 171
-    END
-
     IDD_SERIALADDDEL_DLG, DIALOG
     BEGIN
         LEFTMARGIN, 7
@@ -1122,14 +982,6 @@ BEGIN
         RIGHTMARGIN, 220
         TOPMARGIN, 7
         BOTTOMMARGIN, 178
-    END
-
-    IDD_BEHAVIOR_PARAM_DLG, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 436
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 312
     END
 
     IDD_ETHERNET_SET, DIALOG
@@ -1172,14 +1024,6 @@ BEGIN
         BOTTOMMARGIN, 167
     END
 
-    IDD_SOFT_SET_TUOPU, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 282
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 168
-    END
-
     IDD_SOFT_SET_SERVER, DIALOG
     BEGIN
         LEFTMARGIN, 7
@@ -1206,22 +1050,6 @@ BEGIN
         BOTTOMMARGIN, 140
     END
 
-    IDD_SOFT_SET_DEVICE, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 284
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 167
-    END
-
-    IDD_SCAN_SET_DLG, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 372
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 144
-    END
-
     IDD_SOFT_SET_COMPILE, DIALOG
     BEGIN
         LEFTMARGIN, 7
@@ -1238,7 +1066,7 @@ BEGIN
         BOTTOMMARGIN, 88
     END
 
-	IDD_PMSPLASHDLG, DIALOG
+    IDD_PMSPLASHDLG, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 179
@@ -1246,7 +1074,7 @@ BEGIN
         BOTTOMMARGIN, 83
     END
 
-	IDD_PMHTMLDIALOG, DIALOG
+    IDD_PMHTMLDIALOG, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 441
@@ -1279,40 +1107,10 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Dialog Info
-//
-
-IDD_SOFT_SET_TUOPU DLGINIT
-BEGIN
-    IDC_COMBO_HV, 0x403, 5, 0
-0xe1ba, 0xf2cf, "\000" 
-    IDC_COMBO_HV, 0x403, 5, 0
-0xddd7, 0xf2cf, "\000" 
-    0
-END
-
-IDD_SCAN_SET_DLG DLGINIT
-BEGIN
-    IDC_COMBO_SCANLEVEL, 0x403, 2, 0
-0x0031, 
-    IDC_COMBO_SCANLEVEL, 0x403, 2, 0
-0x0032, 
-    IDC_COMBO_SCANLEVEL, 0x403, 2, 0
-0x0033, 
-    IDC_COMBO_SCANLEVEL, 0x403, 2, 0
-0x0034, 
-    IDC_COMBO_SCANLEVEL, 0x403, 2, 0
-0x0035, 
-    0
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // HTML
 //
 
-IDR_HTML_PMHTMLDIALOG HTML                    ".\\PMHtmlDialog.html"
+IDR_HTML_PMHTMLDIALOG   HTML                    ".\\PMHtmlDialog.html"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1332,7 +1130,7 @@ BEGIN
     ID_VIEW_TOOLBOX         "工具栏"
     ID_VIEW_PROJECT         "工程视图\n工程视图"
     ID_VIEW_ITEM            "变量视图\n变量视图"
-	IDS_PMCLIENT            "PMClient事件"
+    IDS_PMCLIENT            "PMClient事件"
     ID_HELP_DYNAMICHELP     "帮助"
     ID_VIEW_PROPERTIESWINDOW "属性"
     ID_SOLUTION_PROPERTIES  "解决方案属性"
@@ -1481,7 +1279,6 @@ STRINGTABLE
 BEGIN
     ID_PROJ_DEL             "删除工程\n删除"
     ID_IOSERVER             "变量与设备管理\n开发"
-    ID_HMI                  "HMI组态\nHMI"
     ID_RUN                  "运行\n运行"
 END
 
@@ -1513,7 +1310,6 @@ END
 STRINGTABLE
 BEGIN
     ID_PROJ_GUIDE           "工程导航\n工程导航"
-    ID_ADD_DEVICE           "添加设备\n添加设备"
     ID_ITEM_EDIT_ALL        "统一修改\n统一修改多个摄像头的属性"
 END
 
@@ -1546,24 +1342,11 @@ BEGIN
     ID_OUTPUT_CLEAR         "清空\n清空"
     ID_OUTPUT_LOCK          "锁定滚动\n锁定滚动"
     ID_DELETE               "移除\n移除"
-    ID_SCAN_SET             "配置配置\n配置配置"
 END
 
 STRINGTABLE
 BEGIN
     ID_FIND                 "查找\n查找"
-END
-
-STRINGTABLE
-BEGIN
-    ID_SCAN_START           "开始扫描，运行期间不可扫描\n开始扫描，运行期间不可扫描"
-    ID_SCAN_STOP            "停止扫描\n停止扫描"
-    ID_SCAN_ADD             "添加到工程\n添加到工程"
-    ID_HMI_START            "启动HMI\n启动HMI"
-    ID_HELP_FILE            "使用说明\n使用说明"
-    ID_H                    "横向"
-    ID_V                    "纵向"
-    ID_ADDINF2PROJ          "将扫描上线的通信接口加载到工程中(&I)"
 END
 
 STRINGTABLE
@@ -1574,7 +1357,6 @@ END
 STRINGTABLE
 BEGIN
     ID_STARTPAGE            "打开起始页"
-    ID_CAM_EDIT_ALL         "统一修改\n统一修改多个摄像头的属性"
     ID_PROGRAM              "对该设备编程"
 END
 

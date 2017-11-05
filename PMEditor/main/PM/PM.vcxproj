@@ -122,7 +122,6 @@
     <ClCompile Include="AddItemGroupDlg.cpp" />
     <ClCompile Include="AlarmProperty.cpp" />
     <ClCompile Include="CloneItemDlg.cpp" />
-    <ClCompile Include="Compiler.cpp" />
     <ClCompile Include="CreatProjectDlg.cpp" />
     <ClCompile Include="CustomItems.cpp" />
     <ClCompile Include="PMHtmlDialog.cpp" />
@@ -134,7 +133,6 @@
     <ClCompile Include="PMApp.cpp" />
     <ClCompile Include="FindDlg.cpp" />
     <ClCompile Include="Gbl.cpp" />
-    <ClCompile Include="Hmi.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemDoc.cpp" />
     <ClCompile Include="ItemFrame.cpp" />
@@ -162,7 +160,6 @@
     <ClCompile Include="ScriptEditDlg.cpp" />
     <ClCompile Include="ScriptItem.cpp" />
     <ClCompile Include="ScriptObject.cpp" />
-    <ClCompile Include="ServerCtrl.cpp" />
     <ClCompile Include="SoftInfo.cpp" />
     <ClCompile Include="SoftSetCompileDlg.cpp" />
     <ClCompile Include="SoftSetDlg.cpp" />
@@ -188,7 +185,6 @@
     <ClInclude Include="AddItemGroupDlg.h" />
     <ClInclude Include="AlarmProperty.h" />
     <ClInclude Include="CloneItemDlg.h" />
-    <ClInclude Include="Compiler.h" />
     <ClInclude Include="CreatProjectDlg.h" />
     <ClInclude Include="CustomItems.h" />
     <ClInclude Include="PMHtmlDialog.h" />
@@ -200,7 +196,6 @@
     <ClInclude Include="PMApp.h" />
     <ClInclude Include="FindDlg.h" />
     <ClInclude Include="Gbl.h" />
-    <ClInclude Include="Hmi.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemDoc.h" />
     <ClInclude Include="ItemFrame.h" />
@@ -229,7 +224,6 @@
     <ClInclude Include="ScriptEditDlg.h" />
     <ClInclude Include="ScriptItem.h" />
     <ClInclude Include="ScriptObject.h" />
-    <ClInclude Include="ServerCtrl.h" />
     <ClInclude Include="SoftInfo.h" />
     <ClInclude Include="SoftSetCompileDlg.h" />
     <ClInclude Include="SoftSetDlg.h" />

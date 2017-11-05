@@ -7,13 +7,13 @@ class CStringAddDelDlg : public CDialog
 {
 	DECLARE_DYNAMIC(CStringAddDelDlg)
 public:
-	CListBox m_OutList;				//!< 可添加的字符串
-	CListBox m_InList;				//!< 已添加的字符串
-	std::list<CString> m_ltOut;		//!< 可添加的字符串
-	std::list<CString> m_ltIn;		//!< 已添加的字符串
-	CString m_strOut;				//!< 可添加的标题
-	CString m_strIn;				//!< 已添加的标题
-	CString m_strTitle;				//!< 窗体的标题
+	CListBox m_OutList;				// 可添加的字符串
+	CListBox m_InList;				// 已添加的字符串
+	std::list<CString> m_ltOut;		// 可添加的字符串
+	std::list<CString> m_ltIn;		// 已添加的字符串
+	CString m_strOut;				// 可添加的标题
+	CString m_strIn;				// 已添加的标题
+	CString m_strTitle;				// 窗体的标题
 
 	CStringAddDelDlg(CWnd* pParent = NULL);   // 标准构造函数
 	virtual ~CStringAddDelDlg();

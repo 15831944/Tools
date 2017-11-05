@@ -41,7 +41,7 @@ CSpaceItem::~CSpaceItem(void)
 int CSpaceItem::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CWnd::OnCreate(lpCreateStruct) == -1)				return -1;
-	//!< Create a ToolBar as usual
+	// Create a ToolBar as usual
 	VERIFY(m_wndToolBar.CreateToolBar(WS_TABSTOP|WS_VISIBLE|WS_CHILD|CBRS_TOOLTIPS, this));
 	VERIFY(m_wndToolBar.LoadToolBar(IDR_PANE_ITEMVIEW));
 // 	if (!m_GroupTree.Create(WS_CLIPCHILDREN|WS_CLIPSIBLINGS|WS_VISIBLE|TVS_HASLINES|TVS_LINESATROOT|TVS_HASBUTTONS|TVS_SHOWSELALWAYS,
@@ -97,7 +97,7 @@ void CSpaceItem::OnTreeDblClick(CTreeCtrl* pTreeCtrl, HTREEITEM hItem)
 //	if(CProjectMgr::GetMe().IsWatch())				return;
 // 	if(hItem == m_AddNew)		OnGroupAdd();
 // 	else						OnGroupEdit();
-	if(hItem != m_AddNew){								//!< 显示某个组的变量
+	if(hItem != m_AddNew){								// 显示某个组的变量
 		std::shared_ptr<MVC::Item::CItemGroup> group = MVC::Item::CItemMgr::GetMe().GetGroup(pTreeCtrl->GetItemText(hItem));
 		if(!group)		return;
 		IntoGroup(group->getID());
@@ -108,7 +108,7 @@ void CSpaceItem::OnTreeDblClick(CTreeCtrl* pTreeCtrl, HTREEITEM hItem)
 
 void CSpaceItem::OnTreeLClick(CTreeCtrl* pTreeCtrl, HTREEITEM hItem)
 {
-// 	if(hItem != m_AddNew){								//!< 显示某个组的变量
+// 	if(hItem != m_AddNew){								// 显示某个组的变量
 // 		std::shared_ptr<MVC::Item::CItemGroup> group = MVC::Item::CItemMgr::GetMe().GetGroup(pTreeCtrl->GetItemText(hItem));
 // 		if(!group)		return;
 // 		IntoGroup(group->getID());
@@ -124,7 +124,7 @@ void CSpaceItem::OnTreeRClick(CTreeCtrl* pTreeCtrl, HTREEITEM hItem, CPoint poin
 	CMenu popMenu;
 	popMenu.LoadMenu(IDR_RBUTTON_MENU);
 	CMenu* menu =popMenu.GetSubMenu(1);
-	//!< 对于特殊地方的右键会出现不同的菜单项
+	// 对于特殊地方的右键会出现不同的菜单项
 	if(m_GroupTree.GetItemText(hItem) == _T("System")){
 		menu->DeleteMenu(ID_GROUP_EDIT, MF_BYCOMMAND);
 		menu->DeleteMenu(ID_GROUP_REMOVE, MF_BYCOMMAND);
@@ -141,7 +141,7 @@ void CSpaceItem::OnTreeKeyDown(CTreeCtrl* pTreeCtrl, HTREEITEM hItem, UINT nChar
 	else										OnTreeLClick(pTreeCtrl, hItem);
 }
 
-//!< 要显示某个变量组的变量
+// 要显示某个变量组的变量
 void CSpaceItem::IntoGroup(UINT groupid)
 {
 	std::shared_ptr<MVC::Item::CItemGroup> group = MVC::Item::CItemMgr::GetMe().GetGroup(groupid);
@@ -209,7 +209,7 @@ void CSpaceItem::OnGroupAdd()
 		UpdateTreeView();
 //		IntoGroup(group->getID());
 
-		//!< 高亮被修改的项
+		// 高亮被修改的项
 		SetFocus();
 		HTREEITEM hItem = m_GroupTree.GetItemFromName(group->getName());
 		if(hItem)		OnTreeLClick(&m_GroupTree, hItem);
@@ -220,19 +220,19 @@ void CSpaceItem::OnGroupEdit()
 {
 	if(CProjectMgr::GetMe().SayWatch())		return;
 
-	//!< 找到被选中的变量组
+	// 找到被选中的变量组
 	HTREEITEM hItem = m_GroupTree.GetSelectedItem();
 	if(!hItem)								return;
 	CString text = m_GroupTree.GetItemText(hItem);
 	MVC::Item::CItemMgr* itemMgr = &MVC::Item::CItemMgr::GetMe();
 	std::shared_ptr<MVC::Item::CItemGroup> group = itemMgr->GetGroup(text);
 	if(!group)								return;
-	if(group->getParentID() == UINT(-1))	return;		//!< System变量组不能被修改
+	if(group->getParentID() == UINT(-1))	return;		// System变量组不能被修改
 	std::shared_ptr<MVC::Item::CItemGroup> parentGroup = itemMgr->GetGroup(group->getParentID());
 	ASSERT(parentGroup);
 	Dialog::CAddItemGroupDlg* dlg = &Dialog::CAddItemGroupDlg::GetMe();
 
-	//!< 运行对话框
+	// 运行对话框
 	if(IDOK == dlg->DoModal(_T(""), group->getID())){
 		if (group->getName() != dlg->m_strGroupName ||
 			group->getParentID() != dlg->m_uiParentID)
@@ -241,7 +241,7 @@ void CSpaceItem::OnGroupEdit()
 		group->setParentID(dlg->m_uiParentID);
 		UpdateTreeView();
 
-		//!< 高亮被修改的项
+		// 高亮被修改的项
 		SetFocus();
 		hItem = m_GroupTree.GetItemFromName(group->getName());
 		if(hItem)		OnTreeLClick(&m_GroupTree, hItem);
@@ -252,7 +252,7 @@ void CSpaceItem::OnGroupRemove()
 {
 	if(CProjectMgr::GetMe().SayWatch())		return;
 
-	//!< 找到被选中的变量组
+	// 找到被选中的变量组
 	HTREEITEM hItem = m_GroupTree.GetSelectedItem();
 	if(!hItem)								return;
 	CString text = m_GroupTree.GetItemText(hItem);

@@ -8,9 +8,9 @@ namespace MVC{namespace Item{class CItem;}}
 namespace Dialog{
 typedef struct tagTextMemory
 {
-	CString text;	//!< 文本
-	long begin;		//!< 光标的起始位置
-	long end;		//!< 光标的终止位置
+	CString text;	// 文本
+	long begin;		// 光标的起始位置
+	long end;		// 光标的终止位置
 	tagTextMemory& operator = (tagTextMemory& item)
 	{
 		text = item.text;
@@ -90,28 +90,28 @@ private:
 	std::stack<STextMemory> m_strUndo;
 	std::stack<STextMemory> m_strRedo;
 	CRichEditCtrl m_ScriptTextCtrl;
-	STextMemory m_OldScript;							//!< 记录原来的
-	UINT m_NowEditType;									//!< 当前操作类型，0正常，1撤销中，2重复中，3初始化
+	STextMemory m_OldScript;							// 记录原来的
+	UINT m_NowEditType;									// 当前操作类型，0正常，1撤销中，2重复中，3初始化
 
 public:
 	CScriptObject m_ScriptMgr;
 	DReport::CDReport m_ItemCtrl;
 	CImageList m_ImgList;
-	CString m_strScriptText;							//!< 脚本内容
-	CString m_strItemName;								//!< 变量名称
-	CString m_strDescription;							//!< 变量注释
-	CComboBox m_cbItemGroup;							//!< 筛选-变量组
+	CString m_strScriptText;							// 脚本内容
+	CString m_strItemName;								// 变量名称
+	CString m_strDescription;							// 变量注释
+	CComboBox m_cbItemGroup;							// 筛选-变量组
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
-	void ReplaceSel(CString text, UINT backSelLen = 0, UINT selId = 0);	//!< 向脚本框中添加数据
-	void ScriptClear();									//!< 清空脚本内容
-	void ScriptMore();									//!< 更多内容
-	void SetUndoRedoState();							//!< 当数据改变时，判断并设置一下撤销和重复这两个按钮的状态
-	void ScriptUndo();									//!< 撤销
-	void ScriptRedo();									//!< 重复
-	bool CheckScript(CString strScript, CString& strError);			//!< 检查这个的脚本的正确定，返回正确与否，和错误信息
-	bool OnExcute(CString strScript, CString& strError);			//!< 执行脚本
+	void ReplaceSel(CString text, UINT backSelLen = 0, UINT selId = 0);	// 向脚本框中添加数据
+	void ScriptClear();									// 清空脚本内容
+	void ScriptMore();									// 更多内容
+	void SetUndoRedoState();							// 当数据改变时，判断并设置一下撤销和重复这两个按钮的状态
+	void ScriptUndo();									// 撤销
+	void ScriptRedo();									// 重复
+	bool CheckScript(CString strScript, CString& strError);			// 检查这个的脚本的正确定，返回正确与否，和错误信息
+	bool OnExcute(CString strScript, CString& strError);			// 执行脚本
 
 public:
 	virtual void OnReportDblClick(DReport::CDReport* report, UINT row);

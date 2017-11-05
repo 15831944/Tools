@@ -344,7 +344,7 @@ CItemGrid* CItemDoc::GetGrid()
 
 void CItemDoc::SerializeIn(TiXmlElement* pNode)
 {
-	//!< 这里可以导入var和vxpt两类文件,这两类文件的文件头略有不同,需要在这里判断一下
+	// 这里可以导入var和vxpt两类文件,这两类文件的文件头略有不同,需要在这里判断一下
 	if(!pNode->FirstAttribute() || (_T("ItemOutFile") != (CString)pNode->FirstAttribute()->Value() &&
 		_T("EditItemFile") != (CString)pNode->FirstAttribute()->Value()))		return;
 	Dialog::CItemInConfigDlg* dlg = &Dialog::CItemInConfigDlg::GetMe();
@@ -365,16 +365,16 @@ void CItemDoc::SerializeIn(TiXmlElement* pNode)
 		}
 		pChild = pChild->NextSiblingElement();
 	}
-	//!< 加载完毕，现在开始导入到表里
+	// 加载完毕，现在开始导入到表里
 	InItem(ltItem, dlg);
 }
 
-//!< 读取Config导出的变量表文件
+// 读取Config导出的变量表文件
 void CItemDoc::SerializeConfig(CString strPath, CString strTitle, CString strExt)
 {
 }
 
-//!< 添加多个变量
+// 添加多个变量
 void CItemDoc::InItem(std::list<std::shared_ptr<CItem> > ltItem, Dialog::CItemInConfigDlg* dlg)
 {
 	ItemInAdvanceOptions(ltItem);
@@ -385,13 +385,13 @@ void CItemDoc::InItem(std::list<std::shared_ptr<CItem> > ltItem, Dialog::CItemIn
 	SetUndoEnd();
 }
 
-//!< 变量导入或粘贴的高级选项处理
+// 变量导入或粘贴的高级选项处理
 bool CItemDoc::ItemInAdvanceOptions(std::list<std::shared_ptr<CItem> > ltItem)
 {
 	Dialog::CItemInConfigDlg* itemInInfo = &Dialog::CItemInConfigDlg::GetMe();
 	std::shared_ptr<CItem> item;
 	if(!itemInInfo->m_bUseAdvanceOptions)		return true;
-	//!< 指定编号
+	// 指定编号
 	if(itemInInfo->m_bUseBaseID)
 	{
 		int nBaseID = itemInInfo->m_nBaseID;
@@ -410,7 +410,7 @@ bool CItemDoc::ItemInAdvanceOptions(std::list<std::shared_ptr<CItem> > ltItem)
 			item->setID(id);
 		}
 	}
-	//!< 名称补加字符串
+	// 名称补加字符串
 	if(itemInInfo->m_bNameName)
 	{
 		for (auto item : ltItem){
@@ -418,7 +418,7 @@ bool CItemDoc::ItemInAdvanceOptions(std::list<std::shared_ptr<CItem> > ltItem)
 			else								item->setItemName(item->getName() + itemInInfo->m_strNameName);
 		}
 	}
-	//!< 标签补加字符串
+	// 标签补加字符串
 	if(itemInInfo->m_bTagName)
 	{
 		for (auto item : ltItem){
@@ -426,7 +426,7 @@ bool CItemDoc::ItemInAdvanceOptions(std::list<std::shared_ptr<CItem> > ltItem)
 			else								item->setTag(item->getTag() + itemInInfo->m_strTagName);
 		}
 	}
-	//!< 备注补加字符串
+	// 备注补加字符串
 	if(itemInInfo->m_bDespName)
 	{
 		for (auto item : ltItem){
@@ -437,7 +437,7 @@ bool CItemDoc::ItemInAdvanceOptions(std::list<std::shared_ptr<CItem> > ltItem)
 	return true;
 }
 
-//!< 导入变量，自动重命名重名的变量
+// 导入变量，自动重命名重名的变量
 void CItemDoc::ItemInRenameItem(std::list<std::shared_ptr<CItem> > ltItem, UINT groupID/* = 0 */)
 {
 	UINT i = 1;
@@ -456,21 +456,21 @@ void CItemDoc::ItemInRenameItem(std::list<std::shared_ptr<CItem> > ltItem, UINT 
 		}
 		i = 1;
 		if(Dialog::CItemInConfigDlg::GetMe().m_bUseAdvanceOptions && Dialog::CItemInConfigDlg::GetMe().m_bUseBaseID)
-		{	//!< 指定ID了
+		{	// 指定ID了
 			if(!AddItem(item->getID(), item, maxID, groupID, Dialog::CItemInConfigDlg::GetMe().m_nBaseIDSame))
 				return;
 		}
 		else
 		{
 			if(!itemMgr->AddItem(item, maxID, groupID))
-				return;		//!< 如果还返回错，证明是超界，以后的也不同再加了
+				return;		// 如果还返回错，证明是超界，以后的也不同再加了
 		}
 		itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_ADD, item, 0));
 		AddUndoMember(itemUndo);
 	}
 }
 
-//!< 导入变量，重名的补加字符串
+// 导入变量，重名的补加字符串
 void CItemDoc::ItemInRenameStrItem(std::list<std::shared_ptr<CItem> > ltItem, CString strName, UINT groupID/* = 0 */)
 {
 	UINT i = 1;
@@ -494,14 +494,14 @@ void CItemDoc::ItemInRenameStrItem(std::list<std::shared_ptr<CItem> > ltItem, CS
 			else					return;
 		}
 		if(Dialog::CItemInConfigDlg::GetMe().m_bUseAdvanceOptions && Dialog::CItemInConfigDlg::GetMe().m_bUseBaseID)
-		{	//!< 指定ID了
+		{	// 指定ID了
 			if(!AddItem(item->getID(), item, maxID, groupID, Dialog::CItemInConfigDlg::GetMe().m_nBaseIDSame))
 				return;
 		}
 		else
 		{
 			if(!itemMgr->AddItem(item, maxID, groupID)){
-				return;		//!< 如果还返回错，证明是超界，以后的也不同再加了
+				return;		// 如果还返回错，证明是超界，以后的也不同再加了
 			}
 		}
 		itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_ADD, item, 0));
@@ -509,7 +509,7 @@ void CItemDoc::ItemInRenameStrItem(std::list<std::shared_ptr<CItem> > ltItem, CS
 	}
 }
 
-//!< 导入变量，不导入重名的变量
+// 导入变量，不导入重名的变量
 void CItemDoc::ItemInDelFileItem(std::list<std::shared_ptr<CItem> > ltItem, UINT groupID/* = 0 */)
 {
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
@@ -519,7 +519,7 @@ void CItemDoc::ItemInDelFileItem(std::list<std::shared_ptr<CItem> > ltItem, UINT
 	{
 		if(itemMgr->GetItemFast(item->getName()))		continue;
 		if(Dialog::CItemInConfigDlg::GetMe().m_bUseAdvanceOptions && Dialog::CItemInConfigDlg::GetMe().m_bUseBaseID)
-		{	//!< 指定ID了
+		{	// 指定ID了
 			if(!AddItem(item->getID(), item, maxID, groupID, Dialog::CItemInConfigDlg::GetMe().m_nBaseIDSame))
 				return;
 		}
@@ -530,7 +530,7 @@ void CItemDoc::ItemInDelFileItem(std::list<std::shared_ptr<CItem> > ltItem, UINT
 	}
 }
 
-//!< 导入变量，重名时用导入的变量覆盖变量表中的变量
+// 导入变量，重名时用导入的变量覆盖变量表中的变量
 void CItemDoc::ItemInDelMgrItem(std::list<std::shared_ptr<CItem> > ltItem, UINT groupID/* = 0 */)
 {
 	std::shared_ptr<CItem> oldItem, newItem;
@@ -547,7 +547,7 @@ void CItemDoc::ItemInDelMgrItem(std::list<std::shared_ptr<CItem> > ltItem, UINT 
 			itemMgr->DeleteItem(oldItem->getID());
 
 			if(Dialog::CItemInConfigDlg::GetMe().m_bUseAdvanceOptions && Dialog::CItemInConfigDlg::GetMe().m_bUseBaseID)
-			{	//!< 指定ID了
+			{	// 指定ID了
 				if(!AddItem(newItem->getID(), newItem, maxID, groupID, Dialog::CItemInConfigDlg::GetMe().m_nBaseIDSame))
 					return;
 			}
@@ -560,7 +560,7 @@ void CItemDoc::ItemInDelMgrItem(std::list<std::shared_ptr<CItem> > ltItem, UINT 
 		else
 		{
 			if(Dialog::CItemInConfigDlg::GetMe().m_bUseAdvanceOptions && Dialog::CItemInConfigDlg::GetMe().m_bUseBaseID)
-			{	//!< 指定ID了
+			{	// 指定ID了
 				if(!AddItem(newItem->getID(), newItem, maxID, groupID, Dialog::CItemInConfigDlg::GetMe().m_nBaseIDSame))
 					return;
 			}
@@ -587,17 +587,17 @@ void MVC::Item::CItemDoc::SetTitle(LPCTSTR lpszTitle)
 	CDocument::SetTitle(strTitle);
 }
 
-//!< 添加变量，指定ID，如果存在是否询问，0问，1不问覆盖，2问跳过
-//!< 因为如果要覆盖变量时，需要再一次操作撤销栈，而在CItemMgr里就不行，所以我搬到这来添加了
+// 添加变量，指定ID，如果存在是否询问，0问，1不问覆盖，2问跳过
+// 因为如果要覆盖变量时，需要再一次操作撤销栈，而在CItemMgr里就不行，所以我搬到这来添加了
 bool MVC::Item::CItemDoc::AddItem(UINT id, std::shared_ptr<CItem> item, int maxID, UINT groupid/*=0*/, UINT uiAsk/*=0*/)
 {
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	if(!item)												return false;
 	if(!itemMgr->FindGroup(groupid))						return false;
 	item->setID(id);
-	if(itemMgr->FindItem(id))								//!< 变量已经存在
+	if(itemMgr->FindItem(id))								// 变量已经存在
 	{
-		if(uiAsk == 0)		//!< 重名询问如何处理
+		if(uiAsk == 0)		// 重名询问如何处理
 		{
 			CString str;
 			str.Format("编号为 %d 的变量已经存在，如何覆盖？\r\n是：覆盖\t否：跳过", id);
@@ -605,7 +605,7 @@ bool MVC::Item::CItemDoc::AddItem(UINT id, std::shared_ptr<CItem> item, int maxI
 			if(lr == IDYES)									goto COVER;
 			else											goto JUMPOUT;
 		}
-		else if(uiAsk == 1)	//!< 覆盖
+		else if(uiAsk == 1)	// 覆盖
 		{
 COVER:		std::shared_ptr<SItemUndo> itemUndo;
 			std::shared_ptr<CItem> oldItem = itemMgr->GetItem(id);
@@ -619,12 +619,12 @@ COVER:		std::shared_ptr<SItemUndo> itemUndo;
 			itemMgr->m_mpItem[item->getName()] = item;
 			return true;
 		}
-		else				//!< 跳过
+		else				// 跳过
 		{
 JUMPOUT:	return true;
 		}
 	}
-	else if(itemMgr->GetItemSize() >= maxID)				//!< 变量超过界限
+	else if(itemMgr->GetItemSize() >= maxID)				// 变量超过界限
 	{
 		CString strError;
 		strError.Format("数量超过了限制 %d 个，无法再添加变量！", maxID);
@@ -648,7 +648,7 @@ JUMPOUT:	return true;
 		itemMgr->m_mpItem[item->getName()] = item;
 		return true;
 	}
-	else													//!< 不存在，直接放就行了
+	else													// 不存在，直接放就行了
 	{
 //		itemMgr->m_vtItemGroup[groupid]->AddItem(id);
 //		item->AddGroup(groupid);

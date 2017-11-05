@@ -101,13 +101,13 @@ CXTPPropertyGridItem* CObjectInProperty::AddItemList(CXTPPropertyGridItem& paren
 	CXTPPropertyGridItemConstraints* pList = pItem->GetConstraints();
 	for (CString str : items)		pList->AddConstraint(str);
 
-	if(pList->GetCount() > 0)		pItem->SetFlags(xtpGridItemHasComboButton);	//!< 列出下拉按钮
-	if(def == -1)																//!< -1表示没有一个事默认值
+	if(pList->GetCount() > 0)		pItem->SetFlags(xtpGridItemHasComboButton);	// 列出下拉按钮
+	if(def == -1)																// -1表示没有一个事默认值
 	{
 		pItem->SetValue(_T(""));
 		pItem->SetDefaultValue(_T(""));
 	}
-	else if(def >= 0 && def < pList->GetCount())								//!< 存在一个默认值
+	else if(def >= 0 && def < pList->GetCount())								// 存在一个默认值
 	{
 		pList->SetCurrent(def);
 		pItem->SetValue(pList->GetAt(def));

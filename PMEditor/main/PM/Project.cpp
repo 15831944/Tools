@@ -4,16 +4,13 @@
 #include "MyHelp.h"
 #include "Gbl.h"
 #include "ProjectMgr.h"
-#include "ServerCtrl.h"
 #include "Project.h"
 #include "DTreeCtrl.h"
 #include "ItemMgr.h"
-#include "Compiler.h"
 #include "CreatProjectDlg.h"
 #include "ReNameDlg.h"
-#include "Hmi.h"
 
-//!< 打开工程时使用这个构造
+// 打开工程时使用这个构造
 
 const CString PROJ_EXPAND_NAME = _T("dsl");
 
@@ -32,20 +29,19 @@ const CString ITEM_PATH = _T("Path");
 const CString ITEM_VERSION = _T("Version");
 const CString EDIT_TIME = _T("EditTime");
 
-//!< 新建工程时使用这个构造
+// 新建工程时使用这个构造
 CProject::CProject()
-:m_bCompiled(false)			//!< 是否被编译过
+:m_bCompiled(false)			// 是否被编译过
 {
 	m_nProjectType = 0;
 	m_bModify = true;
-	m_bHmiModify = false;
 	GetLocalTime(&m_ctBuildTime);
 	m_ctUpdateTime = m_ctBuildTime;
 	m_strFileName = m_strProjName = m_strPath = m_strDescription = m_strAuthor = m_strVersion = _T("");
 }
 
 CProject::CProject(CString name,CString path,CString author,CString description,CString version)
-:m_bCompiled(false)			//!< 是否被编译过
+:m_bCompiled(false)			// 是否被编译过
 {
 	m_nProjectType = 0;
 	m_bModify = true;
@@ -59,7 +55,7 @@ CProject::CProject(CString name,CString path,CString author,CString description,
 }
 
 CProject::CProject(int type, CString name, CString path, CString author, CString description, CString version)
-	:m_bCompiled(false)			//!< 是否被编译过
+	:m_bCompiled(false)			// 是否被编译过
 {
 	m_nProjectType = type;
 	m_bModify = true;
@@ -82,13 +78,13 @@ bool CProject::IsModify()
 	return false;
 }
 
-//!< 获得文件的全路径路径
+// 获得文件的全路径路径
 CString CProject::GetWholePathName()
 {
 	return GetPath() + GetProjFileName() + _T(".") + PROJ_EXPAND_NAME;
 }
 
-//!< 创建工程，在这里生成一些工程所必须的文件
+// 创建工程，在这里生成一些工程所必须的文件
 bool CProject::CreateProject()
 {
 	MVC::Item::CItemMgr::GetMe().OnCreate();
@@ -97,7 +93,7 @@ bool CProject::CreateProject()
 	return true;
 }
 
-//!< 关闭工程时要处理的事情
+// 关闭工程时要处理的事情
 bool CProject::OnClose()
 {
 	MVC::Item::CItemMgr::GetMe().OnClose();
@@ -105,7 +101,7 @@ bool CProject::OnClose()
 	return true;
 }
 
-//!< 打开一个工程
+// 打开一个工程
 bool CProject::OpenProject(CString title, CString name,CString pathname)
 {
 	m_strFileName = title;
@@ -124,29 +120,29 @@ bool CProject::OpenProject(CString title, CString name,CString pathname)
 	return true;
 }
 
-//!< 保存本工程
+// 保存本工程
 bool CProject::SaveProject()
 {
-	//!< 保存工程前,如果有内容被修改了,则要设置系统为未编译状态
+	// 保存工程前,如果有内容被修改了,则要设置系统为未编译状态
 	if(CProjectMgr::GetMe().IsModify())			SetCompiled(false);
 
-	//!< 设置一下滚动条
+	// 设置一下滚动条
 	UINT processlen = 3;
 	processlen += MVC::Item::CItemMgr::GetMe().GetItemSize();
 	CGbl::SetProgressRange(processlen);
 
-	//!< 保存前更改一下修改时间，这个时间也可以通过别的来计算，因为保存时也许并没有修改
+	// 保存前更改一下修改时间，这个时间也可以通过别的来计算，因为保存时也许并没有修改
 	if (true)//IsModify())
 	{
 		CString path = m_strPath + m_strFileName + _T(".") + PROJ_EXPAND_NAME;
 		TiXmlDocument pTiXml(path);
-		TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "GB2312", "" );	//!< 起始声明
+		TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "GB2312", "" );	// 起始声明
 		pTiXml.LinkEndChild(decl);
-		TiXmlComment * comment = new TiXmlComment();							//!< 注释信息
+		TiXmlComment * comment = new TiXmlComment();							// 注释信息
 		comment->SetValue(_T("请勿手工编辑此文档"));
 		pTiXml.LinkEndChild(comment);
-		TiXmlElement *pRoot=new TiXmlElement("DocumentRoot");					//!< 写入根节点
-		SerializeXml(pRoot, false);												//!< 添加工程节点,写操作
+		TiXmlElement *pRoot=new TiXmlElement("DocumentRoot");					// 写入根节点
+		SerializeXml(pRoot, false);												// 添加工程节点,写操作
 		pTiXml.LinkEndChild(pRoot);
 		if(!pTiXml.SaveFile()){
 			int id = pTiXml.ErrorId();
@@ -163,11 +159,11 @@ bool CProject::SaveProject()
 	return true;
 }
 
-//!< 读写工程文件节点
+// 读写工程文件节点
 bool CProject::SerializeXml(TiXmlElement* pNode, bool bRead/* = true*/)
 {
 	if(bRead){
-		//!< 软件版本
+		// 软件版本
 		TiXmlAttribute* pAttr = pNode->FirstAttribute();
 		CString text, strValue;
 		CString itemPath, itemName, itemVer, itemTime;
@@ -232,13 +228,11 @@ bool CProject::SerializeXml(TiXmlElement* pNode, bool bRead/* = true*/)
 		pItem->SetAttribute(ITEM_PATH, itemMgr->getFileName());
 		pItem->SetAttribute(ITEM_VERSION, itemMgr->getVersion());
 		pItem->SetAttribute(EDIT_TIME, itemMgr->GetEditTime());
-
-		Servers::Compile::CCompiler::GetMe().SerializeXml(pNode, bRead);
 	}
 	return true;
 }
 
-//!< 备份工程，备份就是改了地址的保存，保存完再改回来
+// 备份工程，备份就是改了地址的保存，保存完再改回来
 bool CProject::BackUpProject(CString name,CString path)
 {
 	CString strOldName = m_strFileName;
@@ -254,19 +248,19 @@ bool CProject::BackUpProject(CString name,CString path)
 	return true;
 }
 
-//!< 接收回车消息
+// 接收回车消息
 void CProject::OnTreeEnter(CTreeCtrl* treeCtrl, HTREEITEM item)
 {
 	OnTreeDblClick(treeCtrl, item);
 }
 
-//!< 接收双击消息
+// 接收双击消息
 void CProject::OnTreeDblClick(CTreeCtrl* treeCtrl, HTREEITEM item)
 {
 	if(item == m_hItemItem)				MVC::Item::CItemMgr::GetMe().OpenDoc();
 }
 
-//!< 接收右键消息
+// 接收右键消息
 void CProject::OnTreeRClick(CTreeCtrl* treeCtrl, HTREEITEM item, CPoint point)
 {
 	if(item == m_hProjectItem){
@@ -278,7 +272,7 @@ void CProject::OnTreeRClick(CTreeCtrl* treeCtrl, HTREEITEM item, CPoint point)
 	}
 }
 
-//!< 刷新工程树，不用记录折没折叠，全部展开
+// 刷新工程树，不用记录折没折叠，全部展开
 void CProject::UpdateProjView(Tool::CDTreeCtrl& pTreeCtrl)
 {
 	switch (m_nProjectType)
@@ -299,7 +293,7 @@ void CProject::UpdateProjView(Tool::CDTreeCtrl& pTreeCtrl)
 	pTreeCtrl.Expand(m_hItemItem, TVM_EXPAND);
 }
 
-//!< 工程要重命名了
+// 工程要重命名了
 bool CProject::OnReName()
 {
 	Dialog::CReNameDlg dlg;
@@ -314,7 +308,7 @@ bool CProject::OnReName()
 	return false;
 }
 
-//!< 将工程定义为这个名字
+// 将工程定义为这个名字
 void CProject::ReName(CString nameNew)
 {
 	CString oldfilename = m_strPath + m_strFileName + _T(".") + PROJ_EXPAND_NAME;
@@ -345,12 +339,12 @@ void CProject::ShowInfo()
 	}
 }
 
-//!< 点击F1帮助
+// 点击F1帮助
 void CProject::OnHelpInfo(HTREEITEM hItem)
 {
 	if(hItem == NULL)	return;
 
 	SoftInfo::CMyHelp* pHelp = &SoftInfo::CMyHelp::GetMe();
-	if(hItem == m_hProjectItem)			pHelp->ShowHelp(_T("工程"));				//!< 工程在树中的节点
-	else if(hItem == m_hItemItem)		pHelp->ShowHelp(_T("变量"));				//!< 变量在树中的节点
+	if(hItem == m_hProjectItem)			pHelp->ShowHelp(_T("工程"));				// 工程在树中的节点
+	else if(hItem == m_hItemItem)		pHelp->ShowHelp(_T("变量"));				// 变量在树中的节点
 }

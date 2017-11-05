@@ -36,7 +36,7 @@ int CSpaceProject::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CWnd::OnCreate(lpCreateStruct) == -1)		return -1;
 
-	//!< Create a ToolBar as usual
+	// Create a ToolBar as usual
 	VERIFY(m_wndToolBar.CreateToolBar(WS_TABSTOP|WS_VISIBLE|WS_CHILD|CBRS_TOOLTIPS, this));
 	VERIFY(m_wndToolBar.LoadToolBar(IDR_PANE_SOLUTIONEXPLORER));
 

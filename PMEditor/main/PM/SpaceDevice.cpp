@@ -43,7 +43,7 @@ bool CSpaceDevice::CreateSpace()
 	SetIconSize(CSize(32, 32));
 //	SetIconSize(CSize(16, 16));
 
-	//!< 添加元素
+	// 添加元素
 	FreshCompanyDevice();
 	SetBehaviour(xtpTaskPanelBehaviourList);
 //	SetBehaviour(xtpTaskPanelBehaviourToolbox);

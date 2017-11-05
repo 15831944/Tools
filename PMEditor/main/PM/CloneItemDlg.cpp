@@ -23,7 +23,7 @@ CCloneItemDlg::CCloneItemDlg(CWnd* pParent /*=NULL*/)
 	, m_uiCloneNum(0)
 	, m_uiBaseNum(0)
 	, m_uiBaseFlt(16)
-	, m_uiAddrUnit(1)		//!< IO变量地址间隔
+	, m_uiAddrUnit(1)		// IO变量地址间隔
 	, m_nRadioType(1)
 	, m_pProcessDlg(NULL)	// 用于显示进度的对话框
 {
@@ -116,10 +116,10 @@ UINT CloneThread(LPVOID pParam)
 		if (dlg->m_pProcessDlg->m_bStop)	break;
 		newItem = std::shared_ptr<MVC::Item::CItem>(new MVC::Item::CItem(_T("")));
 		if (!item->OnCloneMe(*newItem, i + 1, dlg->m_uiAddrUnit, dlg->m_nRadioType))
-			continue;			//!< 如果此项没克隆成功，就克隆下一条
+			continue;			// 如果此项没克隆成功，就克隆下一条
 		if (!mgr->AddItemBack(newItem, maxID, item->getMyGroupID()))	// AddItemBack添加的速度比较快
 		{
-			i = dlg->m_uiCloneNum;	//!< 如果超界就不再继续遍历了
+			i = dlg->m_uiCloneNum;	// 如果超界就不再继续遍历了
 		}
 		else
 		{

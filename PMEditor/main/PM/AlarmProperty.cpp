@@ -29,15 +29,15 @@ CPropertyAlarm::CPropertyAlarm(CItem* item)
 {
 	m_pParent=item;
 
-	m_uiBitAlarmType = 0;		//!< 开关报警类型，0不报警，1开时报警，2关时报警，3开到关报警，4关到开报警，5变化就报警
-	m_uiDeadArea = 0;			//!< 死区，开始报警和恢复报警之间的界限，为了放置报警波动。真正的报警值和恢复值 = 报警值 ± 死区值
-	m_bLoloActive = FALSE;		//!< 下下限报警是否启动
-	m_bLowActive = FALSE;		//!< 下限报警是否启动
-	m_bHighActive = FALSE;		//!< 上限报警是否启动
-	m_bHihiActive = FALSE;		//!< 上上限报警是否启动
-	m_bAimActive = FALSE;		//!< 目标报警是否启动
-	m_bShiftActive = FALSE;		//!< 变化率报警是否启动
-	m_uiShiftTime = 10;			//!< 变化率报警的取值时间，单位秒
+	m_uiBitAlarmType = 0;		// 开关报警类型，0不报警，1开时报警，2关时报警，3开到关报警，4关到开报警，5变化就报警
+	m_uiDeadArea = 0;			// 死区，开始报警和恢复报警之间的界限，为了放置报警波动。真正的报警值和恢复值 = 报警值 ± 死区值
+	m_bLoloActive = FALSE;		// 下下限报警是否启动
+	m_bLowActive = FALSE;		// 下限报警是否启动
+	m_bHighActive = FALSE;		// 上限报警是否启动
+	m_bHihiActive = FALSE;		// 上上限报警是否启动
+	m_bAimActive = FALSE;		// 目标报警是否启动
+	m_bShiftActive = FALSE;		// 变化率报警是否启动
+	m_uiShiftTime = 10;			// 变化率报警的取值时间，单位秒
 
 	m_LoloValue = m_LowValue = m_HighValue = m_HihiValue = m_AimValue = m_AimPercent = m_AimDeadPercent = m_ShiftDelta = 0.0;
 }
@@ -104,7 +104,7 @@ bool CPropertyAlarm::SerializeXml(TiXmlElement* pNode, bool bRead)
 	return true;
 }
 
-//!< 解析数据源属性
+// 解析数据源属性
 void CPropertyAlarm::ReadFromPMExcel(std::vector<CString>& vtCell)
 {
 	m_uiBitAlarmType = (UINT)atoi(vtCell[24].Trim());
@@ -170,7 +170,7 @@ bool CPropertyAlarm::operator == (CPropertyAlarm& alarm)
 	return true;
 }
 
-//!< 获得当前位报警的字符串信息,参数表示当处于不报警时是否返回不报警字符串
+// 获得当前位报警的字符串信息,参数表示当处于不报警时是否返回不报警字符串
 CString CPropertyAlarm::GetBitAlarmInfo(bool bShowNone /* = true */)
 {
 	switch(m_uiBitAlarmType)

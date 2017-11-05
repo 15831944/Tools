@@ -135,7 +135,7 @@ BOOL CSoftSetItemGridDlg::DestroyWindow()
 	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_AIM].bShow, m_bCheck19, uiShowCount))		bNeedFresh = true;
 	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_SHIFT].bShow, m_bCheck20, uiShowCount))		bNeedFresh = true;
 
-	if(uiShowCount == 0)		//!< 必须显示1列
+	if(uiShowCount == 0)		// 必须显示1列
 		if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_NAME].bShow, TRUE, uiShowCount))			bNeedFresh = true;
 	if(m_uiFloatWidth < 1)		m_uiFloatWidth = 1;
 	if(m_uiFloatWidth > 12)		m_uiFloatWidth = 12;
@@ -151,7 +151,7 @@ BOOL CSoftSetItemGridDlg::DestroyWindow()
 	return CDialog::DestroyWindow();
 }
 
-//!< 将bShow赋值给bSrc，如果bShow，count自增，如果相同返回true
+// 将bShow赋值给bSrc，如果bShow，count自增，如果相同返回true
 bool SoftInfo::CSoftSetItemGridDlg::ChangeValue(bool& bSrc, BOOL bShow, UINT& count)
 {
 	if(bShow)					++count;

@@ -25,12 +25,12 @@ CPropertySource::CPropertySource(CItem* item)
 {
 	m_pParent = item;
 
-	m_strScriptText = _T("");		//!< 赋值脚本文本
-	m_uiIOType = 0;					//!< IO类型，具体内容看描述文件
-	m_uiFreshTime = 500;			//!< 变量刷新时间,单位 毫秒
-	m_uiConvertType = 0;			//!< 转换类型，0不转换，1是否取反(位变量使用)，1线性转换
+	m_strScriptText = _T("");		// 赋值脚本文本
+	m_uiIOType = 0;					// IO类型，具体内容看描述文件
+	m_uiFreshTime = 500;			// 变量刷新时间,单位 毫秒
+	m_uiConvertType = 0;			// 转换类型，0不转换，1是否取反(位变量使用)，1线性转换
 	float fDef = 0.0;
-	m_MaxProjectValue = m_MinProjectValue = m_MaxIOValue = m_MinIOValue = fDef;		//!< 量程转换都是浮点的
+	m_MaxProjectValue = m_MinProjectValue = m_MaxIOValue = m_MinIOValue = fDef;		// 量程转换都是浮点的
 }
 
 CPropertySource::~CPropertySource(void)
@@ -86,7 +86,7 @@ bool CPropertySource::SerializeXml(TiXmlElement* pNode, bool bRead, bool iExport
 	return true;
 }
 
-//!< 解析数据源属性
+// 解析数据源属性
 void CPropertySource::ReadFromPMExcel(std::vector<CString>& vtCell)
 {
 	m_strScriptText = vtCell[11].Trim();
@@ -101,7 +101,7 @@ void CPropertySource::ReadFromPMExcel(std::vector<CString>& vtCell)
 
 CPropertySource& CPropertySource::operator = (CPropertySource& src)
 {
-	//!< m_pParent不需要赋
+	// m_pParent不需要赋
 	m_strScriptText = src.getScriptText();
 	setFreshTime(src.getFreshTime());
 	m_uiIOType = src.getIOType();
@@ -115,7 +115,7 @@ CPropertySource& CPropertySource::operator = (CPropertySource& src)
 
 bool CPropertySource::operator == (CPropertySource& src)
 {
-	//!< m_pParent不需要赋
+	// m_pParent不需要赋
 	if(m_strScriptText != src.getScriptText())		return false;
 	if(m_uiFreshTime != src.getFreshTime())			return false;
 	if(m_uiIOType != src.getIOType())				return false;
@@ -127,10 +127,10 @@ bool CPropertySource::operator == (CPropertySource& src)
 	return true;
 }
 
-//!< 根据名称获得类型
+// 根据名称获得类型
 int MVC::Item::CPropertySource::GetTypeFromStr(CString strType)
 {
-	if(strType == _T("有符号双字节"))				return 3;		//!< 将最容易被用的放在上面,提高效率
+	if(strType == _T("有符号双字节"))				return 3;		// 将最容易被用的放在上面,提高效率
 	else if(strType == _T("无符号双字节"))			return 4;
 	else if(strType == _T("有符号四字节"))			return 5;
 	else if(strType == _T("无符号四字节"))			return 6;

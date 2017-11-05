@@ -19,7 +19,7 @@ const CString ITEM_TAG = _T("Tag");
 const CString ITEM_DESCRIPTION = _T("Description");
 const CString ITEM_VALTYPE = _T("ValType");
 const CString ITEM_SRCTYPE = _T("SrcType");
-const CString ITEM_ACCESSRIGHT = _T("OprAttribute");			//!< 可读可写，只读，只写
+const CString ITEM_ACCESSRIGHT = _T("OprAttribute");			// 可读可写，只读，只写
 const CString ITEM_DEFVALUE = _T("DefaultValue");
 const CString ITEM_RESFLAG = _T("ReservFlag");
 const CString ITEM_RESFDB = _T("ReservDB");
@@ -38,22 +38,22 @@ CItem::CItem(CString name)
 	m_strName = name;
 	m_strTag = _T("");
 	m_strDescription = _T("");
-	m_uiValType = 5;					//!< 默认成int32
+	m_uiValType = 5;					// 默认成int32
 	m_cvrValueOld = m_cvrValue = 0;
 	m_cvrIOValueOld = m_cvrIOValue = 0;
-	m_uiSrcType = 1;					//!< 默认成IO变量
-	m_uiGroupID = 0;					//!< 变量所属变量组的ID号
+	m_uiSrcType = 1;					// 默认成IO变量
+	m_uiGroupID = 0;					// 变量所属变量组的ID号
 	m_uiAccessRight = 0;
 	m_bReservFlag = FALSE;
 	m_bReservDB = FALSE;
-	m_bModbus485 = FALSE;				//!< 是否导出Modbus变量
-	m_bAlarmBit = false;				//!< 位变量是否报警
-	m_bAlarmLolo = false;				//!< 下下限是否报警
-	m_bAlarmLow = false;				//!< 下限是否报警
-	m_bAlarmHigh = false;				//!< 上限是否报警
-	m_bAlarmHihi = false;				//!< 上上限是否报警
-	m_bAlarmAim = false;				//!< 目标是否报警
-	m_bAlarmShift = false;				//!< 变化率是否报警
+	m_bModbus485 = FALSE;				// 是否导出Modbus变量
+	m_bAlarmBit = false;				// 位变量是否报警
+	m_bAlarmLolo = false;				// 下下限是否报警
+	m_bAlarmLow = false;				// 下限是否报警
+	m_bAlarmHigh = false;				// 上限是否报警
+	m_bAlarmHihi = false;				// 上上限是否报警
+	m_bAlarmAim = false;				// 目标是否报警
+	m_bAlarmShift = false;				// 变化率是否报警
 
 	m_spSrcInfo = std::shared_ptr<CPropertySource>(new CPropertySource(this));
 	m_spAlarmInfo = std::shared_ptr<CPropertyAlarm>(new CPropertyAlarm(this));
@@ -67,7 +67,7 @@ CItem::~CItem(void)
 {
 }
 
-//!< 保存xml格式的编辑信息,iExport=0正常，1导出，2导入
+// 保存xml格式的编辑信息,iExport=0正常，1导出，2导入
 bool CItem::SerializeXml(TiXmlElement* pNode, bool bRead, bool iExport/* = false*/)
 {
 	if(bRead)
@@ -91,7 +91,7 @@ bool CItem::SerializeXml(TiXmlElement* pNode, bool bRead, bool iExport/* = false
 			else if(name == ITEM_DEFVALUE)		{m_cvrDefaultValue = cv;}
 			else if(name == ITEM_RESFLAG)		{m_bReservFlag = (strValue == "1") ? TRUE : FALSE;}
 			else if(name == ITEM_RESFDB)		{m_bReservDB = (strValue == "1") ? TRUE : FALSE;}
-			else if(name == ITEM_MODBUS485)		{m_bModbus485 = (strValue == "1") ? TRUE : FALSE;}		//!< 是否导出Modbus变量}
+			else if(name == ITEM_MODBUS485)		{m_bModbus485 = (strValue == "1") ? TRUE : FALSE;}		// 是否导出Modbus变量}
 			else if(name == ITEM_DESCRIPTION)	{m_strDescription = cv;}
 			else if(name == ITEM_ARRAYFLAG)		{}
 			pAttr = pAttr->Next();
@@ -130,7 +130,7 @@ bool CItem::SerializeXml(TiXmlElement* pNode, bool bRead, bool iExport/* = false
 	return true;
 }
 
-//!< 从Config导出的变量表中读取变量
+// 从Config导出的变量表中读取变量
 bool MVC::Item::CItem::ReadFromConfig(CString strLine, int devID)
 {
 	std::vector<CString> vtCell;
@@ -140,20 +140,20 @@ bool MVC::Item::CItem::ReadFromConfig(CString strLine, int devID)
 	if (vtCell[0].Trim() == _T(""))						return false;
 	if (vtCell[3].Trim() == _T(""))						return false;
 
-	CString strAddr = vtCell[0].Trim();					//!< 变量地址
-	if(CGbl::GetMe().IsNumber(strAddr))  return false;	//!< 第一列为数字证明是PM导出的Excle格式文件
-	CString strType = vtCell[3].Trim();					//!< 变量类型
-	CString strName = vtCell[2].Trim();					//!< 变量名
+	CString strAddr = vtCell[0].Trim();					// 变量地址
+	if(CGbl::GetMe().IsNumber(strAddr))  return false;	// 第一列为数字证明是PM导出的Excle格式文件
+	CString strType = vtCell[3].Trim();					// 变量类型
+	CString strName = vtCell[2].Trim();					// 变量名
 	if (strName != _T(""))		setItemName(strName);
 	else						setItemName(strAddr);
-	setTag(vtCell[2].Trim());							//!< 变量标签
+	setTag(vtCell[2].Trim());							// 变量标签
 	if (vtCell.size() > 4)
-		setDescription(vtCell[4].Trim());				//!< 变量注释
-	setSrcType(CItem::SRC_TYPE_IO);						//!< 变量数据源类型
+		setDescription(vtCell[4].Trim());				// 变量注释
+	setSrcType(CItem::SRC_TYPE_IO);						// 变量数据源类型
 	return true;
 }
 
-//!< 从PM导出的变量表中读取变量
+// 从PM导出的变量表中读取变量
 bool MVC::Item::CItem::ReadFromPM(CString strLine, int devID)
 {
 	std::vector<CString> vtCell;
@@ -164,27 +164,27 @@ bool MVC::Item::CItem::ReadFromPM(CString strLine, int devID)
 	if (vtCell[6].Trim() == _T(""))						return false;
 	if (vtCell[7].Trim() == _T(""))						return false;
 
-	CString strID = vtCell[0].Trim();					//!< 变量编号
-	m_strName = vtCell[1].Trim();						//!< 变量名称
-	m_strTag = vtCell[2].Trim();						//!< 变量标签
-	m_strDescription = vtCell[3].Trim();				//!< 变量备注
-	setDefault(vtCell[5].Trim().GetBuffer());			//!< 变量默认值
-	setSrcType((UINT)atoi(vtCell[6].Trim()));			//!< 变量数据源类型
-	setAccessRight((UINT)atoi(vtCell[7].Trim()));		//!< 变量反问权限
-	setReservFlag(vtCell[8].Trim() == "1");				//!< 变量保留值
-	setReservDB(vtCell[9].Trim() == "1");				//!< 变量保留历史数据
+	CString strID = vtCell[0].Trim();					// 变量编号
+	m_strName = vtCell[1].Trim();						// 变量名称
+	m_strTag = vtCell[2].Trim();						// 变量标签
+	m_strDescription = vtCell[3].Trim();				// 变量备注
+	setDefault(vtCell[5].Trim().GetBuffer());			// 变量默认值
+	setSrcType((UINT)atoi(vtCell[6].Trim()));			// 变量数据源类型
+	setAccessRight((UINT)atoi(vtCell[7].Trim()));		// 变量反问权限
+	setReservFlag(vtCell[8].Trim() == "1");				// 变量保留值
+	setReservDB(vtCell[9].Trim() == "1");				// 变量保留历史数据
 
-	m_spSrcInfo->ReadFromPMExcel(vtCell);				//!< 解析数据源属性
-	m_spAlarmInfo->ReadFromPMExcel(vtCell);				//!< 解析报警属性
+	m_spSrcInfo->ReadFromPMExcel(vtCell);				// 解析数据源属性
+	m_spAlarmInfo->ReadFromPMExcel(vtCell);				// 解析报警属性
 
-	setValType((UINT)atoi(vtCell[4].Trim())); 			//!< 变量类型
+	setValType((UINT)atoi(vtCell[4].Trim())); 			// 变量类型
 	return true;
 }
 
-//!< 确认变量的类型
+// 确认变量的类型
 void CItem::SetVarType()
 {
-	//!< 修改VARIANT变量的类型
+	// 修改VARIANT变量的类型
 	if(m_uiValType == 0)			ChangeVarType(VT_BOOL);
 	else if(m_uiValType == 1)		ChangeVarType(VT_I1);
 	else if(m_uiValType == 2)		ChangeVarType(VT_UI1);
@@ -197,7 +197,7 @@ void CItem::SetVarType()
 	else							ChangeVarType(VT_BSTR);
 }
 
-//!< 根据valType定义的类型，将变量各种variant类型的属性转成真正对应的属性
+// 根据valType定义的类型，将变量各种variant类型的属性转成真正对应的属性
 void CItem::ChangeVarType(UINT type)
 {
 	if(type == VT_BOOL)			m_cvrDefaultValue = m_cvrValue = m_cvrValueOld = false;
@@ -211,7 +211,7 @@ void CItem::ChangeVarType(UINT type)
 	else if(type==VT_R8)		m_cvrDefaultValue = m_cvrValue = m_cvrValueOld = double(0.0);
 }
 
-//!< 设置变量的值类型
+// 设置变量的值类型
 void CItem::setValType(UINT type)
 {
 	if(m_uiValType != type){
@@ -227,7 +227,7 @@ void CItem::setValType(UINT type)
 		else if(m_uiValType == 8)		ChangeVarType(VT_R8);
 		else							ChangeVarType(VT_BSTR);
 	}
-	if(m_uiValType == 0){	//!< 位变量
+	if(m_uiValType == 0){	// 位变量
 		getSrcInfo()->setConvertType(0);
 		getAlarmInfo()->setLoloActive(false);
 		getAlarmInfo()->setLowActive(false);
@@ -242,7 +242,7 @@ void CItem::setValType(UINT type)
 	}
 }
 
-//!< 设置变量的值类型
+// 设置变量的值类型
 void CItem::setValType(CString strType)
 {
 	if (strType == _T("位变量"))					setValType(0);
@@ -275,31 +275,31 @@ CItem& CItem::operator = (CItem& item)
 
 bool CItem::operator == (CItem &item) const
 {
-	if (m_strName != item.getName())					return false;	//!< 变量名称
-	if (m_strTag != item.getTag())						return false;	//!< 变量标签
-	if (m_strDescription != item.getDescription())		return false;	//!< 变量备注
-	if (m_uiGroupID != item.getMyGroupID())				return false;	//!< 变量组
-	if (m_cvrDefaultValue != item.getDefault())			return false;	//!< 变量默认值
-	if (m_uiValType != item.getValType())				return false;	//!< 变量类型
-	if (m_uiSrcType != item.getSrcType())				return false;	//!< 数据源类型，0内存变量，1I/O变量
-	if (m_uiAccessRight != item.getAccessRight())		return false;	//!< 访问权限，0可读可写，1只读，只写
-	if (m_bReservFlag != item.getReservFlag())			return false;	//!< 是否设置成保留值，true设置，false不设置
-	if (m_bReservDB != item.getReservDB())				return false;	//!< 是否保存历史数据，true保留，false不保留
-	if (m_bModbus485 != item.getModbus485())			return false;	//!< 是否导出Modbus变量
+	if (m_strName != item.getName())					return false;	// 变量名称
+	if (m_strTag != item.getTag())						return false;	// 变量标签
+	if (m_strDescription != item.getDescription())		return false;	// 变量备注
+	if (m_uiGroupID != item.getMyGroupID())				return false;	// 变量组
+	if (m_cvrDefaultValue != item.getDefault())			return false;	// 变量默认值
+	if (m_uiValType != item.getValType())				return false;	// 变量类型
+	if (m_uiSrcType != item.getSrcType())				return false;	// 数据源类型，0内存变量，1I/O变量
+	if (m_uiAccessRight != item.getAccessRight())		return false;	// 访问权限，0可读可写，1只读，只写
+	if (m_bReservFlag != item.getReservFlag())			return false;	// 是否设置成保留值，true设置，false不设置
+	if (m_bReservDB != item.getReservDB())				return false;	// 是否保存历史数据，true保留，false不保留
+	if (m_bModbus485 != item.getModbus485())			return false;	// 是否导出Modbus变量
 
 	if (!(*m_spSrcInfo == *item.getSrcInfo()))			return false;
 	if (!(*m_spAlarmInfo == *item.getAlarmInfo()))		return false;
 	return true;
 }
 
-//!< 要克隆一个自己，变量组里还有一个变量的ID链表，这里管不了，得在别的地方做
+// 要克隆一个自己，变量组里还有一个变量的ID链表，这里管不了，得在别的地方做
 bool CItem::OnCloneMe(CItem& item, int index, int addrUnit, int nType /* = 0 */)
 {
 	item = *this;
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	item.setMyGroupID(getMyGroupID());
 
-	//!< 
+	// 
 	item.setID(UINT(-1));
 	CString name = getName();
 	CString text;
@@ -358,17 +358,17 @@ bool CItem::OnCloneMe(CItem& item, int index, int addrUnit, int nType /* = 0 */)
 	return true;
 }
 
-//!< 获得一个检验值
+// 获得一个检验值
 CString CItem::GetCheckValue()
 {
 	CString value;
-	value.Format("%d", getID() + 1);	//!< +1 是为了防止有些公式写0下去非法，比如除数不能是0
+	value.Format("%d", getID() + 1);	// +1 是为了防止有些公式写0下去非法，比如除数不能是0
 	if(m_uiValType == 0)			return _T("1.000001");
 	else							return _T("0.000001");
 	return value;
 }
 
-//!< 以字符串的形式返回工程值类型
+// 以字符串的形式返回工程值类型
 CString CItem::GetValTypeStr()
 {
 	CString type[] = {_T("位变量"), _T("有符号字节"), _T("无符号字节"), _T("有符号字"), _T("无符号字"), \
@@ -377,7 +377,7 @@ CString CItem::GetValTypeStr()
 	return type[m_uiValType];
 }
 
-//!< 返回变量所属组的名称
+// 返回变量所属组的名称
 CString CItem::GetGroupName()
 {
 	std::shared_ptr<CItemGroup> group = CItemMgr::GetMe().GetGroup(getMyGroupID());
@@ -386,12 +386,12 @@ CString CItem::GetGroupName()
 	return group->getName();
 }
 
-//!< 设置报警
+// 设置报警
 void CItem::SetAlarm(UINT type, bool alarm /* = false */)
 {
 	bool bAlarmOld = false, bAlarmNew = false;
 
-	//!< 获得原始的报警颜色
+	// 获得原始的报警颜色
 	bAlarmOld = IsAlarm();
 
 	if(type == 0)			m_bAlarmBit = alarm;
@@ -402,10 +402,10 @@ void CItem::SetAlarm(UINT type, bool alarm /* = false */)
 	else if(type == 5)		m_bAlarmAim = alarm;
 	else if(type == 6)		m_bAlarmShift = alarm;
 
-	//!< 获得现在的报警颜色
+	// 获得现在的报警颜色
 	bAlarmNew = IsAlarm();
 
-	//!< 颜色不同，证明需要重绘
+	// 颜色不同，证明需要重绘
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	if(bAlarmOld != bAlarmNew){
 		itemMgr->AddEditItem(getID());
@@ -419,19 +419,19 @@ bool CItem::IsAlarm()
 	return IsAlarmLolo() | IsAlarmLow() | IsAlarmHigh() | IsAlarmHihi() | IsAlarmAim() | IsAlarmShift();
 }
 
-//!< 监控初始化，清楚状态
+// 监控初始化，清楚状态
 void CItem::WatchInit()
 {
-	SetAlarm(0, false);		//!< 位变量是否报警
-	SetAlarm(1, false);		//!< 下下限是否报警
-	SetAlarm(2, false);		//!< 下限是否报警
-	SetAlarm(3, false);		//!< 上限是否报警
-	SetAlarm(4, false);		//!< 上上限是否报警
-	SetAlarm(5, false);		//!< 目标是否报警
-	SetAlarm(6, false);		//!< 变化率是否报警
+	SetAlarm(0, false);		// 位变量是否报警
+	SetAlarm(1, false);		// 下下限是否报警
+	SetAlarm(2, false);		// 下限是否报警
+	SetAlarm(3, false);		// 上限是否报警
+	SetAlarm(4, false);		// 上上限是否报警
+	SetAlarm(5, false);		// 目标是否报警
+	SetAlarm(6, false);		// 变化率是否报警
 }
 
-//!< 判断变量值是否改变
+// 判断变量值是否改变
 bool CItem::IsValueChange()
 {
 	int a[4], b[4];
@@ -443,7 +443,7 @@ bool CItem::IsValueChange()
 	return true;
 }
 
-//!< 判断变量原始值是否改变
+// 判断变量原始值是否改变
 bool CItem::IsIOValueChange()
 {
 	int a[4], b[4];
@@ -455,7 +455,7 @@ bool CItem::IsIOValueChange()
 	return true;
 }
 
-//!< 查找本变量，要匹配的文本，全字符匹配，大小写匹配
+// 查找本变量，要匹配的文本，全字符匹配，大小写匹配
 bool CItem::DoSearch(CString str, bool bMatchWhole, bool bAllCase, bool bRegex /* = false */)
 {
 	CString strInfo;
@@ -465,23 +465,23 @@ bool CItem::DoSearch(CString str, bool bMatchWhole, bool bAllCase, bool bRegex /
 	strInfo.Format("%d", m_uiID);
 	strInfo = _T("Information:变量") + strInfo + _T(":变量 ") + m_strName + _T(" （编号") + strInfo + _T("）  ——  ");
 
-	//!< 名称是否匹配
+	// 名称是否匹配
 	cvr = m_strName;
 	if(CGbl::SearchT(cvr, str, bMatchWhole, bAllCase, bRegex, _T("名称"), strInfo))		++nMatchCount;
 
-	//!< 编号是否匹配
+	// 编号是否匹配
 	cvr = m_uiID;
 	if(CGbl::SearchT(cvr, str, bMatchWhole, bAllCase, bRegex, _T("编号"), strInfo))		++nMatchCount;
 
-	//!< 标签是否匹配
+	// 标签是否匹配
 	cvr = m_strTag;
 	if(CGbl::SearchT(cvr, str, bMatchWhole, bAllCase, bRegex, _T("标签"), strInfo))		++nMatchCount;
 
-	//!< 备注是否匹配
+	// 备注是否匹配
 	cvr = m_strDescription;
 	if(CGbl::SearchT(cvr, str, bMatchWhole, bAllCase, bRegex, _T("备注"), strInfo))		++nMatchCount;
 
-	//!< 脚本是否匹配
+	// 脚本是否匹配
 	else if(getSrcType() == SRC_TYPE_MEM)
 	{
 		cvr = getSrcInfo()->getScriptText();

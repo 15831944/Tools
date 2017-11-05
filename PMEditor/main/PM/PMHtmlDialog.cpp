@@ -21,8 +21,8 @@ CPMHtmlDialog::CPMHtmlDialog(CWnd* pParent /*=NULL*/)
 	: CDHtmlDialog(CPMHtmlDialog::IDD, CPMHtmlDialog::IDH, pParent)
 {
 	m_pStartPageView=NULL;
-	m_LocalURL=m_HomeRUL="";//!< 当前网络地址, 主页地址
-	m_IsButtonLink=TRUE;	//!< 判断用户是否是点击按钮超链接，导致的网页跳转
+	m_LocalURL=m_HomeRUL="";// 当前网络地址, 主页地址
+	m_IsButtonLink=TRUE;	// 判断用户是否是点击按钮超链接，导致的网页跳转
 	m_pStartPageView=(CStartView *)pParent;
 }
 
@@ -107,7 +107,7 @@ void CPMHtmlDialog::OnOpenProjWith(IHTMLElement *pElement)
 		CProjectMgr::GetMe().OpenProject(fileName);
 	}
 	pElement=NULL;
-	if(g_App.GetStartPage()){				//!< 刷一下自己，以免变白屏
+	if(g_App.GetStartPage()){				// 刷一下自己，以免变白屏
 		g_App.GetStartPage()->SetFocus();
 		g_App.GetStartPage()->UpdateWindow();
 	}	

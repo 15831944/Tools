@@ -84,7 +84,7 @@ BOOL CAddItemGroupDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	MVC::Item::CItemMgr* mgr = &MVC::Item::CItemMgr::GetMe();
-	//!< 初始化名称
+	// 初始化名称
 	if(m_uiGroupID == -1)
 	{
 		if(m_strGroupName == _T(""))		m_strGroupName = _T("新建变量组");
@@ -94,7 +94,7 @@ BOOL CAddItemGroupDlg::OnInitDialog()
 			//if(CGbl::GetNumberFromString(strHead, id, 1))	++id;
 			CGbl::GetNumberFromString(strHead, id, 1);
 			CString name;
-			do {									//!< 这个函数是为了找到一个不重名，而且还是连续的变量组名称
+			do {									// 这个函数是为了找到一个不重名，而且还是连续的变量组名称
 				if(id == 0)		name = strHead;
 				else{
 					char tmp = strHead.GetAt(strHead.GetLength() - 1);
@@ -102,7 +102,7 @@ BOOL CAddItemGroupDlg::OnInitDialog()
 					name = strHead + name;
 				}
 				if(!mgr->GetGroup(name))			break;
-			} while (++id);							//!< 这个基本上就是死循环，所以后边不用考虑没找到的问题，一定能找到
+			} while (++id);							// 这个基本上就是死循环，所以后边不用考虑没找到的问题，一定能找到
 			m_strGroupName = name;
 		}
 		SetWindowText(_T("新建变量组"));
@@ -114,7 +114,7 @@ BOOL CAddItemGroupDlg::OnInitDialog()
 		UpdateData(FALSE);
 	}
 
-	//!< 初始化树形控件
+	// 初始化树形控件
 	m_CulItem = NULL;
 	m_GroupTree.InitImg();
 	std::shared_ptr<MVC::Item::CItemGroup> group = mgr->GetGroup(0);
@@ -130,7 +130,7 @@ BOOL CAddItemGroupDlg::OnInitDialog()
 		m_GroupTree.SelectDropTarget(m_CulItem);
 	}
 
-	//!< 初始化父组的名称
+	// 初始化父组的名称
 	if(!mgr->GetGroup(m_strParentName))
 	{
 		SetParentName(group->getName());
@@ -161,12 +161,12 @@ void CAddItemGroupDlg::OnBnClickedBtShowtree()
 {
 	CRect rect;
 	GetWindowRect(&rect);
-	if(m_bShowTree){		//!< 如果当前是显示，那么现在改成隐藏
+	if(m_bShowTree){		// 如果当前是显示，那么现在改成隐藏
 		GetDlgItem(IDC_GROUP_TREE)->ShowWindow(SW_HIDE);
 		GetDlgItem(IDC_BT_SHOWTREE)->SetWindowText(_T(">>"));
 		MoveWindow(rect.left, rect.top, 227, 152, TRUE);
 	}
-	else{					//!< 如果当前是隐藏，那么现在改成显示
+	else{					// 如果当前是隐藏，那么现在改成显示
 		GetDlgItem(IDC_GROUP_TREE)->ShowWindow(SW_SHOW);
 		GetDlgItem(IDC_BT_SHOWTREE)->SetWindowText(_T("<<"));
 		MoveWindow(rect.left, rect.top, 408, 260, TRUE);
@@ -195,8 +195,8 @@ void CAddItemGroupDlg::OnBnClickedOk()
 		GotoDlgCtrl(GetDlgItem(IDC_GROUP_NAME));
 		return;
 	}
-	if(m_uiGroupID == -1)		//!< 新建变量
-	{	//!< 看看新的变量名是否已经存在
+	if(m_uiGroupID == -1)		// 新建变量
+	{	// 看看新的变量名是否已经存在
 		std::shared_ptr<MVC::Item::CItemGroup> group = MVC::Item::CItemMgr::GetMe().GetGroup(m_strGroupName);
 		if(group && group->getID() != m_uiGroupID){
 			MessageBox(_T("名称为“") + m_strGroupName + _T("”的变量组已存在"), _T("错误"), MB_OK|MB_ICONEXCLAMATION);
@@ -204,7 +204,7 @@ void CAddItemGroupDlg::OnBnClickedOk()
 			return;
 		}
 	}
-	else						//!< 修改变量
+	else						// 修改变量
 	{
 		std::shared_ptr<MVC::Item::CItemGroup> group = MVC::Item::CItemMgr::GetMe().GetGroup(m_uiGroupID);
 		std::shared_ptr<MVC::Item::CItemGroup> parent = MVC::Item::CItemMgr::GetMe().GetGroup(m_strParentName);

@@ -7,11 +7,11 @@ class CWriteItemDlg : public CDialog
 {
 	DECLARE_DYNAMIC(CWriteItemDlg)
 public:
-	UINT m_uiID;							//!< 变量编号
-	CString m_strName;						//!< 变量名称
-	CString m_strType;						//!< 变量类型
-	CString m_strValueNew;					//!< 变量新值
-	BOOL m_bWriteIO;						//!< 是否写入工程值
+	UINT m_uiID;							// 变量编号
+	CString m_strName;						// 变量名称
+	CString m_strType;						// 变量类型
+	CString m_strValueNew;					// 变量新值
+	BOOL m_bWriteIO;						// 是否写入工程值
 
 private:
 	CWriteItemDlg(CWnd* pParent = NULL);   // 标准构造函数

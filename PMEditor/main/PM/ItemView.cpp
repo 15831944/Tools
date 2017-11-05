@@ -86,7 +86,7 @@ int CItemView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CScrollView::OnCreate(lpCreateStruct) == -1)		return -1;
 	m_ItemGrid.CreateGrid(WS_CHILD|WS_VISIBLE, CRect(0,0,0,0), this, 23433);
 	SetTimer(1, 1000, NULL);
-	OnTimer(1);		//!< 为了马上进行这个函数
+	OnTimer(1);		// 为了马上进行这个函数
 	return 0;
 }
 
@@ -332,18 +332,18 @@ void MVC::Item::CItemView::OnTimer(UINT_PTR nIDEvent)
 	CScrollView::OnTimer(nIDEvent);
 }
 
-//!< 判断自己是不是激活状态
+// 判断自己是不是激活状态
 bool MVC::Item::CItemView::IsActive()
 {
 	return !!IsWindowVisible();
 }
 
-//!< 显示这个编号的变量，如果没有，返回false
+// 显示这个编号的变量，如果没有，返回false
 bool MVC::Item::CItemView::ShowItem(UINT id)
 {
 	long row = m_ItemGrid.GetItemRow(id);
 	if(row == -1)	return false;
-	m_ItemGrid.m_GI->m_multiSelect->ClearAll();		//!< 清空所有选择的行
+	m_ItemGrid.m_GI->m_multiSelect->ClearAll();		// 清空所有选择的行
 	m_ItemGrid.SetFocus();
 	m_ItemGrid.SelectRowAt(row);
 	return true;

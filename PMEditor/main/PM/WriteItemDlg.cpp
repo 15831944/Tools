@@ -73,7 +73,7 @@ BOOL CWriteItemDlg::OnInitDialog()
 	m_strName = pItem->getName();
 	m_strType = pItem->GetValTypeStr();
 	CString title = m_strName;
-	if(pItem->getAccessRight() == 1)		//!< 如果是只读的
+	if(pItem->getAccessRight() == 1)		// 如果是只读的
 	{
 		title += _T(" (只读-无法写入)");
 		GetDlgItem(IDC_VALUE_NEW)->EnableWindow(FALSE);

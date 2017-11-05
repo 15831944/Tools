@@ -68,7 +68,7 @@ protected:
 	void RepositionTooBar();
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 	virtual void InitData();
-	virtual void FreshToolBar();			//!< 刷新所有toolbar的状态
+	virtual void FreshToolBar();			// 刷新所有toolbar的状态
 
 	DECLARE_MESSAGE_MAP()
 public:

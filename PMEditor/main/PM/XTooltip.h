@@ -3,11 +3,11 @@
 #include "../../Libs/XToolTip/XSuperTooltip.h"
 
 namespace Tool{
-//!< 帮助提示框文本结构体
+// 帮助提示框文本结构体
 typedef struct tagTooltipText{
-	CString txtHead;		//!< 标题
-	CString txtBody;		//!< 内容
-	CString txtRemark;		//!< 备注
+	CString txtHead;		// 标题
+	CString txtBody;		// 内容
+	CString txtRemark;		// 备注
 
 	tagTooltipText(){
 		txtHead="标题";
@@ -24,7 +24,7 @@ typedef struct tagTooltipText{
 }TooltipText,*PTooltipText;
 
 // CXTooltip
-//!< 提示框窗体类
+// 提示框窗体类
 class CXTooltip : public CXSuperTooltip
 {
 	DECLARE_DYNAMIC(CXTooltip)
@@ -36,7 +36,7 @@ public:
 	CXTooltip();
 	virtual ~CXTooltip();
 
-	void AddTooltipText(CWnd* pWnd,TooltipText& txtGroup);		//!< 添加提示框文本
+	void AddTooltipText(CWnd* pWnd,TooltipText& txtGroup);		// 添加提示框文本
 
 protected:
 	DECLARE_MESSAGE_MAP()

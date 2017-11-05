@@ -33,12 +33,12 @@ public:
 	virtual ~CDTreeCtrl();
 
 	virtual void InitImg();
-	virtual void PMDeleteItem(HTREEITEM item);					//!< 删除掉相应节点
-	virtual void PMDeleteItems(HTREEITEM item);					//!< 删除掉所有相应的子节点
-	virtual HTREEITEM GetItemFromName(CString text);				//!< 寻找名字等于 text 的节点
-	virtual HTREEITEM GetNextAny(HTREEITEM item,bool findchild=true);	//!< 得到它下边的节点，不管该节点在哪个级别上,findchild表示是否需要查找子节点
-	virtual HTREEITEM GetNextByLevel(HTREEITEM item, int level);	//!< 获得第level层的下一个节点，level从0开始
-	virtual int GetLevel(HTREEITEM item);							//!< 获得该节点所在第几层，从0开始
+	virtual void PMDeleteItem(HTREEITEM item);					// 删除掉相应节点
+	virtual void PMDeleteItems(HTREEITEM item);					// 删除掉所有相应的子节点
+	virtual HTREEITEM GetItemFromName(CString text);				// 寻找名字等于 text 的节点
+	virtual HTREEITEM GetNextAny(HTREEITEM item,bool findchild=true);	// 得到它下边的节点，不管该节点在哪个级别上,findchild表示是否需要查找子节点
+	virtual HTREEITEM GetNextByLevel(HTREEITEM item, int level);	// 获得第level层的下一个节点，level从0开始
+	virtual int GetLevel(HTREEITEM item);							// 获得该节点所在第几层，从0开始
 
 protected:
 	DECLARE_MESSAGE_MAP()

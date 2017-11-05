@@ -15,7 +15,7 @@ public:
 #endif
 #endif
 private:
-	UINT m_FreshTime;					//!< 记录了一下本类刷新数据的时间，如果变了要重新设定Timer，这个为了速度优化
+	UINT m_FreshTime;					// 记录了一下本类刷新数据的时间，如果变了要重新设定Timer，这个为了速度优化
 	int m_printPage;
 	BOOL m_isPrinting;
 	CRect m_drawRect;
@@ -30,7 +30,7 @@ protected:
 protected:
 	virtual void OnDraw(CDC* pDC);      // 重写以绘制该视图
 	virtual void OnInitialUpdate();     // 构造后的第一次
-	bool IsActive();					//!< 判断自己是不是激活状态
+	bool IsActive();					// 判断自己是不是激活状态
 
 	DECLARE_MESSAGE_MAP()
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -43,7 +43,7 @@ protected:
 	afx_msg void OnUpdateEditUndo(CCmdUI *pCmdUI);
 
 public:
-	bool ShowItem(UINT id);				//!< 显示这个编号的变量，如果没有，返回false
+	bool ShowItem(UINT id);				// 显示这个编号的变量，如果没有，返回false
 	afx_msg void OnSelectAll();
 	afx_msg void OnItemIn();
 	afx_msg void OnItemOut();
