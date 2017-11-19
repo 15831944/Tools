@@ -4,7 +4,6 @@ namespace MVC{
 namespace Item{
 class CItemGroup;
 class CPropertySource;
-class CPropertyAlarm;
 class CItem
 {
 public:
@@ -17,8 +16,8 @@ private:
 	UINT m_uiID;									// 变量ID号
 	CString m_strName;								// 变量名称
 	CString m_strTag;								// 变量标签
-	CString m_strValue;								// 字符串形式存储的变量值				
-	CString m_strIOValue;							// 字符串形式存储的变量原始值		
+	CString m_strValue;								// 字符串形式存储的变量值
+	CString m_strIOValue;							// 字符串形式存储的变量原始值
 	CString m_strDescription;						// 变量的备注信息
 	CComVariant m_cvrDefaultValue;					// 变量默认值
 	CComVariant m_cvrValue;							// 变量值
@@ -31,20 +30,11 @@ private:
 	UINT m_uiAccessRight;							// 访问权限，0可读可写，1只读，2只写，3无法访问
 	BOOL m_bReservFlag;								// 是否设置成保留值，true设置，false不设置
 	BOOL m_bReservDB;								// 是否保存历史数据
-	BOOL m_bModbus485;								// 是否导出Modbus变量,PAC增加了Modbus服务器功能,需要解析这个属性
 	std::shared_ptr<CPropertySource> m_spSrcInfo;	// 源属性
-	std::shared_ptr<CPropertyAlarm> m_spAlarmInfo;// 报警属性
 	SYSTEMTIME m_stUpdateTime;						// 最后一次修改时间
 	SYSTEMTIME m_stCreateTime;						// 创建时间
 
 	UINT m_uiIRefCount;								// 引用计数，就是被使用的次数
-	bool m_bAlarmBit;								// 位变量是否报警
-	bool m_bAlarmLolo;								// 下下限是否报警
-	bool m_bAlarmLow;								// 下限是否报警
-	bool m_bAlarmHigh;								// 上限是否报警
-	bool m_bAlarmHihi;								// 上上限是否报警
-	bool m_bAlarmAim;								// 目标是否报警
-	bool m_bAlarmShift;								// 变化率是否报警
 
 public:
 	UINT getID(){return m_uiID;}										// 获得变量ID编号
@@ -63,19 +53,9 @@ public:
 	UINT getAccessRight(){return m_uiAccessRight;}						// 获得变量的访问类型，0可读可写，1只读，2只写
 	BOOL getReservFlag(){return m_bReservFlag;}							// 获得变量是否设置为保留值
 	BOOL getReservDB(){return m_bReservDB;}								// 获得变量是否保存历史数据
-	BOOL getModbus485(){return m_bModbus485;}							// 是否导出Modbus变量
 	std::shared_ptr<CPropertySource> getSrcInfo(){return m_spSrcInfo;}	// 获得数据源属性对象的智能指针
-	std::shared_ptr<CPropertyAlarm> getAlarmInfo(){return m_spAlarmInfo;}	// 获得报警属性对象的智能指针
 	SYSTEMTIME getCreateTime(){return m_stCreateTime;}					// 获得变量的创建时间
 	SYSTEMTIME getUpdateTime(){return m_stUpdateTime;}					// 获得变量的修改时间
-
-	bool IsAlarmBit(){return m_bAlarmBit;}								// 判断变量是否处于报警状态
-	bool IsAlarmLolo(){return m_bAlarmLolo;}							// 判断变量是否处于报警状态
-	bool IsAlarmLow(){return m_bAlarmLow;}								// 判断变量是否处于报警状态
-	bool IsAlarmHigh(){return m_bAlarmHigh;}							// 判断变量是否处于报警状态
-	bool IsAlarmHihi(){return m_bAlarmHihi;}							// 判断变量是否处于报警状态
-	bool IsAlarmAim(){return m_bAlarmAim;}								// 判断变量是否处于报警状态
-	bool IsAlarmShift(){return m_bAlarmShift;}							// 判断变量是否处于报警状态
 
 	void setID(UINT id){m_uiID = id;}									// 设置变量的ID编号
 	void setItemName(CString name){m_strName = name;}					// 设置变量的名称
@@ -87,7 +67,6 @@ public:
 	void setAccessRight(UINT type){m_uiAccessRight = type;}				// 设置变量的访问权限
 	void setReservFlag(BOOL flag){m_bReservFlag = flag;}				// 设置变量是否保留值
 	void setReservDB(BOOL flag){m_bReservDB = flag;}					// 设置变量是否保存历史数据
-	void setModbus485(BOOL flag){m_bModbus485 = flag;}					// 是否导出Modbus变量
 	void OnUpdateInfo(){GetLocalTime(&m_stUpdateTime);}					// 设置变量被修改后的修改时间
 	void setUpdateTime(SYSTEMTIME st){m_stUpdateTime=st;}				// 设置更新时间
 	void setCreateTime(SYSTEMTIME st){m_stCreateTime=st;}				// 设置创建时间
@@ -118,8 +97,7 @@ public:
 	CString GetCheckValue();								// 获得一个检验值,用于内存脚本检验的
 	CString GetValTypeStr();								// 以字符串的形式返回工程值类型
 	CString GetGroupName();									// 返回变量所属组的名称
-	void SetAlarm(UINT type, bool alarm = false);			// 设置报警
-	bool IsAlarm();											// 判断是否在报警状态
+
 	bool IsValueChange();									// 判断变量值是否改变
 	bool IsIOValueChange();									// 判断变量原始值是否改变
 	void WatchInit();										// 监控初始化，清楚状态

@@ -22,23 +22,6 @@ private:
 	BOOL m_bMaxProj;			// 最大工程值是否相同
 	BOOL m_bMinIO;				// 最小原始值是否相同
 	BOOL m_bMaxIO;				// 最大原始值是否相同
-	BOOL m_bBitAlarmType;		// 开关报警类型是否相同
-	BOOL m_bDeadArea;			// 限值死区是否相同
-	BOOL m_bLoloActive;			// 下下限报警启动是否相同
-	BOOL m_bLoloValue;			// 下下限报警值是否相同
-	BOOL m_bLowActive;			// 下限报警启动是否相同
-	BOOL m_bLowValue;			// 下限报警值是否相同
-	BOOL m_bHighActive;			// 上限报警启动是否相同
-	BOOL m_bHighValue;			// 上限报警值是否相同
-	BOOL m_bHihiActive;			// 上上限报警启动是否相同
-	BOOL m_bHihiValue;			// 上上限报警值是否相同
-	BOOL m_bAimActive;			// 目标报警启动是否相同
-	BOOL m_bAimPercent;			// 目标报警百分比是否相同
-	BOOL m_bAimDeadPercent;		// 目标报警百分比死区是否相同
-	BOOL m_bAimValue;			// 目标报警值是否相同
-	BOOL m_bShiftActive;		// 变化率报警启动是否相同
-	BOOL m_bShiftPercent;		// 变化率报警百分比是否相同
-	BOOL m_bShiftTime;			// 变化率取值时间是否相同
 
 public:
 	CPropertyItems(void);

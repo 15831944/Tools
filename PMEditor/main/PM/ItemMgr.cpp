@@ -9,7 +9,6 @@
 
 #include "Item.h"
 #include "SourceProperty.h"
-#include "AlarmProperty.h"
 #include "ItemGroup.h"
 #include "ItemMgr.h"
 #include "ItemDoc.h"

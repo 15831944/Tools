@@ -17,7 +17,6 @@
 #include "Item.h"
 #include "ItemProperty.h"
 #include "SourceProperty.h"
-#include "AlarmProperty.h"
 
 #include "CloneItemDlg.h"
 #include "PropertyDlg.h"
@@ -161,7 +160,6 @@ bool CItemGrid::InitItemOne(UINT id, UINT row)
 	std::shared_ptr<CItem> item = CItemMgr::GetMe().GetItem(id);
 	if(!item)	return false;
 	std::shared_ptr<CPropertySource> src = item->getSrcInfo();
-	std::shared_ptr<CPropertyAlarm> alarm = item->getAlarmInfo();
 	bool bIsIO = false;
 	CComVariant cvr;
 	CUGCell cell;
@@ -180,7 +178,6 @@ bool CItemGrid::InitItemOne(UINT id, UINT row)
 	for(int i = 0; i < colCount; ++i)
 	{
 		colName = m_mpColName[i];
-		bool bAlarm = item->IsAlarm();
 		GetCell(i, row, &cell);
 		if(csi->m_vtColInfo[COL_NAME].name == colName)							// 名称
 		{
@@ -188,34 +185,34 @@ bool CItemGrid::InitItemOne(UINT id, UINT row)
 			cell.SetAlignment(UG_ALIGNLEFT | UG_ALIGNVCENTER);
 			if(bIsIO)		cell.SetBitmap(GetBitmap(0));
 			else			cell.SetBitmap(GetBitmap(1));
-			SetMyCell(i, row, &cell, id, bAlarm);
+			SetMyCell(i, row, &cell, id);
 		}
 		else if(csi->m_vtColInfo[COL_TAG].name == colName)						// 标签
 		{
 			cell.SetText(item->getTag());
-			SetMyCell(i, row, &cell, id, bAlarm);
+			SetMyCell(i, row, &cell, id);
 		}
 		else if(csi->m_vtColInfo[COL_ID].name == colName)						// 编号
 		{
 			cell.SetNumber(item->getID());
-			SetMyCell(i, row, &cell, id, bAlarm);
+			SetMyCell(i, row, &cell, id);
 		}
 		else if(csi->m_vtColInfo[COL_TYPE].name == colName)						// 数值类型
 		{
 			cell.SetText(VAL_TYPE[item->getValType() % 8]);
-			SetMyCell(i, row, &cell, id, bAlarm);
+			SetMyCell(i, row, &cell, id);
 		}
 		else if(csi->m_vtColInfo[COL_IOTYPE].name == colName)					// IO值类型
 		{
 			if(bIsIO)							cell.SetText(VAL_TYPE[src->getIOType() % 8]);
 			else								cell.SetText(_T(""));
-			SetMyCell(i, row, &cell, id, bAlarm);
+			SetMyCell(i, row, &cell, id);
 		}
 		else if(csi->m_vtColInfo[COL_SRC].name == colName)						// 数据源类型
 		{
 			if(bIsIO)							cell.SetText(_T("I/O变量"));
 			else								cell.SetText(_T("内存变量"));
-			SetMyCell(i, row, &cell, id, bAlarm);
+			SetMyCell(i, row, &cell, id);
 		}
 		else if(csi->m_vtColInfo[COL_ACCESS].name == colName)					// 访问权限
 		{
@@ -223,12 +220,12 @@ bool CItemGrid::InitItemOne(UINT id, UINT row)
 			else if(item->getAccessRight() == 1)text = _T("只读");
 			else								text = _T("只写");
 			cell.SetText(text);
-			SetMyCell(i, row, &cell, id, bAlarm);
+			SetMyCell(i, row, &cell, id);
 		}
 		else if(csi->m_vtColInfo[COL_DESCRIPT].name == colName)					// 备注信息
 		{
 			cell.SetText(item->getDescription());
-			SetMyCell(i, row, &cell, id, bAlarm);
+			SetMyCell(i, row, &cell, id);
 		}
 		else if(csi->m_vtColInfo[COL_VALUE].name == colName)					// 工程值
 		{
@@ -236,14 +233,14 @@ bool CItemGrid::InitItemOne(UINT id, UINT row)
 			if(text.GetAt(0) == '.')									text = _T("0") + text;
 			else if(text.GetAt(0) == '-' && text.GetAt(1) == '.')		text = _T("-0") + text.Right(text.GetLength() - 1);
 			cell.SetText(text);
-			SetMyCell(i, row, &cell, id, bAlarm);
+			SetMyCell(i, row, &cell, id);
 		}
 		else if(csi->m_vtColInfo[COL_GROUP].name == colName)					// 变量组
 		{
 			std::shared_ptr<CItemGroup> myGroup = CItemMgr::GetMe().GetGroup(item->getMyGroupID());
 			ASSERT(myGroup);
 			cell.SetText(myGroup->getName());
-			SetMyCell(i, row, &cell, id, bAlarm);
+			SetMyCell(i, row, &cell, id);
 		}
 		else if(csi->m_vtColInfo[COL_CONVERT].name == colName)					// 转换
 		{
@@ -266,7 +263,7 @@ bool CItemGrid::InitItemOne(UINT id, UINT row)
 					_T(",") + CString(minIO.bstrVal) + _T(",") + (CString)maxIO.bstrVal + _T(")");
 			}
 			cell.SetText(text);
-			SetMyCell(i, row, &cell, id, bAlarm);
+			SetMyCell(i, row, &cell, id);
 		}
 		else if(csi->m_vtColInfo[COL_IOVALUE].name == colName)					// IO值
 		{
@@ -277,92 +274,49 @@ bool CItemGrid::InitItemOne(UINT id, UINT row)
 			}
 			else														text = _T("");
 			cell.SetText(text);
-			SetMyCell(i, row, &cell, id, bAlarm);
+			SetMyCell(i, row, &cell, id);
 		}
 		else if(csi->m_vtColInfo[COL_DESCRIPT].name == colName)					// 备注
 		{
 			cell.SetText(item->getDescription());
-			SetMyCell(i, row, &cell, id, bAlarm);
+			SetMyCell(i, row, &cell, id);
 		}
 		else if(csi->m_vtColInfo[COL_SCRIPT].name == colName)					// 脚本
 		{
 			if(bIsIO)						cell.SetText(_T(""));
 			else							cell.SetText(src->getScriptText());
-			SetMyCell(i, row, &cell, id, bAlarm);
+			SetMyCell(i, row, &cell, id);
 		}
 		else if(csi->m_vtColInfo[COL_FRESHTIME].name == colName)				// 刷新时间
 		{
 			cell.SetNumber(src->getFreshTime());
-			SetMyCell(i, row, &cell, id, bAlarm);
-		}
-		else if(csi->m_vtColInfo[COL_BIT].name == colName)						// 位报警
-		{
-			if(item->getValType() != 0)		text = _T("");
-			else							text = alarm->GetBitAlarmInfo(false);
-			cell.SetText(text);
-			SetMyCell(i, row, &cell, id, bAlarm);
-		}
-		else if(csi->m_vtColInfo[COL_LOLO].name == colName)						// 下下限
-		{
-			if(alarm->getLoloActive())		cell.SetNumber(alarm->getLoloValue());
-			else							cell.SetText(_T(""));
-			SetMyCell(i, row, &cell, id, bAlarm);
-		}
-		else if(csi->m_vtColInfo[COL_LOW].name == colName)						// 下限
-		{
-			if(alarm->getLowActive())		cell.SetNumber(alarm->getLowValue());
-			else							cell.SetText(_T(""));
-			SetMyCell(i, row, &cell, id, bAlarm);
-		}
-		else if(csi->m_vtColInfo[COL_HIGH].name == colName)						// 上限
-		{
-			if(alarm->getHighActive())		cell.SetNumber(alarm->getHighValue());
-			else							cell.SetText(_T(""));
-			SetMyCell(i, row, &cell, id, bAlarm);
-		}
-		else if(csi->m_vtColInfo[COL_HIHI].name == colName)						// 上上限
-		{
-			if(alarm->getHihiActive())		cell.SetNumber(alarm->getHihiValue());
-			else							cell.SetText(_T(""));
-			SetMyCell(i, row, &cell, id, bAlarm);
-		}
-		else if(csi->m_vtColInfo[COL_AIM].name == colName)						// 目标
-		{
-			if(alarm->getAimActive())		cell.SetNumber(alarm->getAimValue());
-			else							cell.SetText(_T(""));
-			SetMyCell(i, row, &cell, id, bAlarm);
-		}
-		else if(csi->m_vtColInfo[COL_SHIFT].name == colName)					// 变化率
-		{
-			if(alarm->getShiftActive())		cell.SetNumber(alarm->getShiftDelta());
-			else							cell.SetText(_T(""));
-			SetMyCell(i, row, &cell, id, bAlarm);
+			SetMyCell(i, row, &cell, id);
 		}
 		else if (csi->m_vtColInfo[COL_REV_DB].name == colName)					// 保留历史数据
 		{
 			if (item->getReservDB())		cell.SetText(_T("1"));
 			else							cell.SetText(_T(""));
-			SetMyCell(i, row, &cell, id, bAlarm);
+			SetMyCell(i, row, &cell, id);
 		}
 	}
 	return true;
 }
 
-void CItemGrid::SetMyCell(int nCol, long lRow, CUGCell* cell, UINT id, bool bAlarm /* = fasle */)
+void CItemGrid::SetMyCell(int nCol, long lRow, CUGCell* cell, UINT id)
 {
 	cell->SetParam(id);
-	if(bAlarm){
-		if(CProjectMgr::GetMe().IsWatch()){			// 害怕编译器将这句先于bAlarm执行,所以将这两个本应该合在一起的语句分开,确保效率
-			COLORREF color1 = RGB(255,50,0);
-			COLORREF color2 = RGB(255,0,255);
-			cell->SetBackColor(color1);
-			cell->SetHBackColor(color2);
-		}
-	}
-	else{
-		cell->SetBackColor(::GetSysColor(COLOR_WINDOW));
-		cell->SetHBackColor(::GetSysColor(COLOR_HIGHLIGHT));
-	}
+	//if(bAlarm){
+	//	if(CProjectMgr::GetMe().IsWatch()){			// 害怕编译器将这句先于bAlarm执行,所以将这两个本应该合在一起的语句分开,确保效率
+	//		COLORREF color1 = RGB(255,50,0);
+	//		COLORREF color2 = RGB(255,0,255);
+	//		cell->SetBackColor(color1);
+	//		cell->SetHBackColor(color2);
+	//	}
+	//}
+	//else{
+	cell->SetBackColor(::GetSysColor(COLOR_WINDOW));
+	cell->SetHBackColor(::GetSysColor(COLOR_HIGHLIGHT));
+	//}
 	SetCell(nCol, lRow, cell);
 }
 
@@ -373,8 +327,8 @@ void CItemGrid::InitItemValue(UINT id, UINT row, CUGCell* cell)
 	if(!item || !cell)		return;
 	CString text;
 	COLORREF bkColor, hbkColor;
-	if(item->IsAlarm())		{bkColor = RGB(255,50,0);				hbkColor = RGB(255,0,255);}
-	else					{bkColor = ::GetSysColor(COLOR_WINDOW);	hbkColor = ::GetSysColor(COLOR_HIGHLIGHT);}
+	bkColor = ::GetSysColor(COLOR_WINDOW);
+	hbkColor = ::GetSysColor(COLOR_HIGHLIGHT);
 	SoftInfo::CSoftInfo *csi = &SoftInfo::CSoftInfo::GetMe();
 
 	// 工程值
@@ -589,7 +543,7 @@ void CItemGrid::ItemClone()
 		ASSERT(item);
 		undo = std::shared_ptr<SItemUndo>(new SItemUndo);
 		undo->m_Item = item;
-		undo->m_uiEditType = CGbl::UNDO_TYPE_ADD;
+		undo->m_uiEditType = CItemDoc::UNDO_TYPE_ADD;
 		pDoc->AddUndoMember(undo);
 	}
 	pDoc->SetUndoEnd();
@@ -680,7 +634,7 @@ void MVC::Item::CItemGrid::OnLButtonUp(int col, long row, RECT *rect, POINT *poi
 		ASSERT(item);
 		undo = std::shared_ptr<SItemUndo>(new SItemUndo);
 		undo->m_Item = item;
-		undo->m_uiEditType = CGbl::UNDO_TYPE_ADD;
+		undo->m_uiEditType = CItemDoc::UNDO_TYPE_ADD;
 		pDoc->AddUndoMember(undo);
 	}
 	pDoc->SetUndoEnd();
@@ -970,50 +924,6 @@ bool CItemGrid::SortItem(UINT& lth, UINT& rth)
 	{
 		bSort = lItem->getSrcInfo()->getFreshTime() <= rItem->getSrcInfo()->getFreshTime();
 	}
-	else if(m_strSortCol == csi->m_vtColInfo[COL_BIT].name)
-	{
-		if(lItem->getValType() != 0)											bSort = true;
-		else if(rItem->getValType() != 0)										bSort = false;
-		else if(!lItem->getAlarmInfo()->getLoloActive())						bSort = true;
-		else if(!rItem->getAlarmInfo()->getLoloActive())						bSort = false;
-		else	bSort = lItem->getAlarmInfo()->getBitAlarmType() <= rItem->getAlarmInfo()->getBitAlarmType();
-	}
-	else if(m_strSortCol == csi->m_vtColInfo[COL_LOLO].name)
-	{
-		if(!lItem->getAlarmInfo()->getLoloActive())								bSort = true;
-		else if(!rItem->getAlarmInfo()->getLoloActive())						bSort = false;
-		else	bSort = lItem->getAlarmInfo()->getLoloValue() <= rItem->getAlarmInfo()->getLoloValue();
-	}
-	else if(m_strSortCol == csi->m_vtColInfo[COL_LOW].name)
-	{
-		if(!lItem->getAlarmInfo()->getLowActive())								bSort = true;
-		else if(!rItem->getAlarmInfo()->getLowActive())						bSort = false;
-		else	bSort = lItem->getAlarmInfo()->getLowValue() <= rItem->getAlarmInfo()->getLowValue();
-	}
-	else if(m_strSortCol == csi->m_vtColInfo[COL_HIGH].name)
-	{
-		if(!lItem->getAlarmInfo()->getHighActive())								bSort = true;
-		else if(!rItem->getAlarmInfo()->getHighActive())						bSort = false;
-		else	bSort = lItem->getAlarmInfo()->getHighValue() <= rItem->getAlarmInfo()->getHighValue();
-	}
-	else if(m_strSortCol == csi->m_vtColInfo[COL_HIHI].name)
-	{
-		if(!lItem->getAlarmInfo()->getHihiActive())								bSort = true;
-		else if(!rItem->getAlarmInfo()->getHihiActive())						bSort = false;
-		else	bSort = lItem->getAlarmInfo()->getHihiValue() <= rItem->getAlarmInfo()->getHihiValue();
-	}
-	else if(m_strSortCol == csi->m_vtColInfo[COL_AIM].name)
-	{
-		if(!lItem->getAlarmInfo()->getAimActive())								bSort = true;
-		else if(!rItem->getAlarmInfo()->getAimActive())							bSort = false;
-		else	bSort = lItem->getAlarmInfo()->getAimValue() <= rItem->getAlarmInfo()->getAimValue();
-	}
-	else if(m_strSortCol == csi->m_vtColInfo[COL_SHIFT].name)
-	{
-		if(!lItem->getAlarmInfo()->getShiftActive())							bSort = true;
-		else if(!rItem->getAlarmInfo()->getShiftActive())						bSort = false;
-		else	bSort = lItem->getAlarmInfo()->getShiftDelta() <= rItem->getAlarmInfo()->getShiftDelta();
-	}
 	else if (m_strSortCol == csi->m_vtColInfo[COL_REV_DB].name)
 	{
 		if (!lItem->getReservDB())												bSort = true;
@@ -1161,8 +1071,8 @@ void MVC::Item::CItemGrid::ItemUp()
 	ASSERT(item1 && item2);
 
 	// 获得原始的变量数据，后边要压撤销栈
-	std::shared_ptr<SItemUndo> undo1 = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item1, 0));
-	std::shared_ptr<SItemUndo> undo2 = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item2, 0));
+	std::shared_ptr<SItemUndo> undo1 = std::shared_ptr<SItemUndo>(new SItemUndo(CItemDoc::UNDO_TYPE_UPD, item1, 0));
+	std::shared_ptr<SItemUndo> undo2 = std::shared_ptr<SItemUndo>(new SItemUndo(CItemDoc::UNDO_TYPE_UPD, item2, 0));
 
 	// 交换这两个变量
 	CItemMgr::GetMe().ExChangeItem(item1->getID(), item2->getID());
@@ -1196,8 +1106,8 @@ void MVC::Item::CItemGrid::ItemDown()
 	ASSERT(item1 && item2);
 
 	// 获得原始的变量数据，后边要压撤销栈
-	std::shared_ptr<SItemUndo> undo1 = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item1, 0));
-	std::shared_ptr<SItemUndo> undo2 = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item2, 0));
+	std::shared_ptr<SItemUndo> undo1 = std::shared_ptr<SItemUndo>(new SItemUndo(CItemDoc::UNDO_TYPE_UPD, item1, 0));
+	std::shared_ptr<SItemUndo> undo2 = std::shared_ptr<SItemUndo>(new SItemUndo(CItemDoc::UNDO_TYPE_UPD, item2, 0));
 
 	// 交换这两个变量
 	CItemMgr::GetMe().ExChangeItem(item1->getID(), item2->getID());
@@ -1259,7 +1169,7 @@ void MVC::Item::CItemGrid::ItemRemove(bool bAsk /* = true */)
 	{
 		undo = std::shared_ptr<SItemUndo>(new SItemUndo);
 		undo->m_Item = item;
-		undo->m_uiEditType = CGbl::UNDO_TYPE_DEL;
+		undo->m_uiEditType = CItemDoc::UNDO_TYPE_DEL;
 		undo->m_uiEditInfo = m_uiCulGroupID;
 		pDoc->AddUndoMember(undo);
 	}
@@ -1600,7 +1510,7 @@ void MVC::Item::CItemGrid::ItemEdit()
 	// 添加撤销对象
 	std::shared_ptr<SItemUndo> undo = std::shared_ptr<SItemUndo>(new SItemUndo);
 	undo->m_Item = oldItem;
-	undo->m_uiEditType = CGbl::UNDO_TYPE_UPD;
+	undo->m_uiEditType = CItemDoc::UNDO_TYPE_UPD;
 	undo->m_bEnd = true;
 	CItemDoc *pDoc = (CItemDoc *)((CItemView *)GetParent())->GetDocument();
 	pDoc->AddUndoMember(undo);
@@ -1656,7 +1566,7 @@ void MVC::Item::CItemGrid::ItemEditAll()
 		// 添加撤销对象
 		undo = std::shared_ptr<SItemUndo>(new SItemUndo);
 		undo->m_Item = vtOldItem[i];
-		undo->m_uiEditType = CGbl::UNDO_TYPE_UPD;
+		undo->m_uiEditType = CItemDoc::UNDO_TYPE_UPD;
 		pDoc->AddUndoMember(undo);
 	}
 	pDoc->SetUndoEnd();

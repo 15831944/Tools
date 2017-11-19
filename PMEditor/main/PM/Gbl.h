@@ -5,14 +5,6 @@
 */
 class CGbl
 {
-public:
-	enum EnumUndo{
-		UNDO_TYPE_ADD = 1,					// 添加
-		UNDO_TYPE_DEL = 2,					// 删除
-		UNDO_TYPE_UPD = 3,					// 修改
-
-		UNDO_INFO_EXCHANGE = 1,				// 交换
-	};
 private:
 	CGbl(void);
 	~CGbl(void);
@@ -91,7 +83,7 @@ public:
 	static bool RegexIP(CString ip);								//!<字符串是否是IP
 	static bool StartHighTime();						// 启动高精度定时器,用于统计程序效率
 	static double GetHighTime(bool bReStart = false);	// 获得定时器差值,并设置是否重新计时
-	bool IsNumber(CString str);					//!<是否是数字字符串
+	static bool IsNumber(CString str);					//!<是否是数字字符串
 //static void DNSError(int i_error);							//!<域名解析失败错误分析
 };
 

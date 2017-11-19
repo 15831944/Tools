@@ -29,7 +29,7 @@ bool CProjectMgr::IsModify()
 {
 	if(!GetProj())										return false;
 	if(GetProj()->IsModify())							return true;
-	if(MVC::Item::CItemMgr::GetMe().IsModify())			return true;
+	//if(MVC::Item::CItemMgr::GetMe().IsModify())			return true;
 	return false;
 }
 
@@ -158,24 +158,24 @@ void CProjectMgr::UpdateTreeView()
 // 设置/取消监控
 void CProjectMgr::SetWatch(const bool b)
 {
-	if(!GetProj())		return;		// 没有工程不能监控
-	if(m_bWatch == b)	return;
-	m_bWatch = b;
-	MVC::Item::CItemMgr::GetMe().SetItemWatch(b);
-	CMainFrame* mf = (CMainFrame*)g_App.GetMainWnd();
-	CComVariant cvr = 0;
-	if(b)
-	{
-		mf->InitCommerTime();
-		mf->SetTimer(CMainFrame::TIME_WATCH, SoftInfo::CSoftInfo::GetMe().getFreshDataTime(), NULL);
-	}
-	else
-	{
-		mf->KillTimer(CMainFrame::TIME_WATCH);
-	}
-
-	POSITION pos = g_App.m_pItemDocMgr->GetFirstDocPosition();
-	while(pos)		g_App.m_pItemDocMgr->GetNextDoc(pos)->SetTitle(_T(""));
+	//if(!GetProj())		return;		// 没有工程不能监控
+	//if(m_bWatch == b)	return;
+	//m_bWatch = b;
+	//MVC::Item::CItemMgr::GetMe().SetItemWatch(b);
+	//CMainFrame* mf = (CMainFrame*)g_App.GetMainWnd();
+	//CComVariant cvr = 0;
+	//if(b)
+	//{
+	//	mf->InitCommerTime();
+	//	mf->SetTimer(CMainFrame::TIME_WATCH, SoftInfo::CSoftInfo::GetMe().getFreshDataTime(), NULL);
+	//}
+	//else
+	//{
+	//	mf->KillTimer(CMainFrame::TIME_WATCH);
+	//}
+	//
+	//POSITION pos = g_App.m_pItemDocMgr->GetFirstDocPosition();
+	//while(pos)		g_App.m_pItemDocMgr->GetNextDoc(pos)->SetTitle(_T(""));
 }
 
 // 填出监控状态不能操作的提示

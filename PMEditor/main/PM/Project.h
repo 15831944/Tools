@@ -1,7 +1,7 @@
 #pragma once
 
-namespace MVC{namespace Item{class CItemDoc;}}
 namespace Tool{class CDTreeCtrl;}
+namespace Model{ class CModel; }
 
 class CProject
 {
@@ -20,6 +20,8 @@ private:
 
 	HTREEITEM m_hProjectItem;	// 工程在树中的节点
 	HTREEITEM m_hItemItem;		// 变量在树中的节点
+
+	std::shared_ptr<Model::CModel> m_Model;
 
 public:
 	bool IsCompiled(){return m_bCompiled;}
@@ -44,7 +46,6 @@ private:
 
 public:
 	CProject();
-	CProject(CString name,CString path,CString author,CString description,CString version);
 	CProject(int type, CString name, CString path, CString author, CString description, CString version);
 	~CProject(void);
 

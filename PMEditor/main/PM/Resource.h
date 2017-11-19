@@ -273,17 +273,13 @@
 #define IDC_CHECK_ITEM_FRESHTIME        1143
 #define IDC_RADIO_DESP_BACK             1143
 #define IDC_CHECK_WHOLEMATCH15          1144
-#define IDC_CHECK_ITEM_ALARMONOFF       1144
 #define IDC_CHECK_WHOLEMATCH16          1145
-#define IDC_CHECK_ITEM_ALARMLIMIT       1145
 #define IDC_RADIO_NUMBER                1145
 #define IDC_RADIO_FLOAT                 1146
 #define IDC_CHECK_WHOLEMATCH17          1146
-#define IDC_CHECK_ITEM_ALARMAIM         1146
 #define IDC_RADIO_SAMENAME_FRONT        1146
 #define IDC_CHECK_PASTE                 1146
 #define IDC_CHECK_WHOLEMATCH18          1147
-#define IDC_CHECK_ITEM_ALARMSHIFT       1147
 #define IDC_RADIO_SAMENAME_BACK         1147
 #define IDC_CHECK_ITEMIN                1147
 #define IDC_CHECK_WHOLEMATCH19          1148

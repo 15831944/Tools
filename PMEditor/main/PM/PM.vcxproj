@@ -120,10 +120,14 @@
   <ItemGroup>
     <ClCompile Include="AboutDlg.cpp" />
     <ClCompile Include="AddItemGroupDlg.cpp" />
-    <ClCompile Include="AlarmProperty.cpp" />
     <ClCompile Include="CloneItemDlg.cpp" />
     <ClCompile Include="CreatProjectDlg.cpp" />
     <ClCompile Include="CustomItems.cpp" />
+    <ClCompile Include="Guid.cpp" />
+    <ClCompile Include="Model\Model.cpp" />
+    <ClCompile Include="Model\Tag.cpp" />
+    <ClCompile Include="Model\TagGroup.cpp" />
+    <ClCompile Include="Model\TagMgr.cpp" />
     <ClCompile Include="PMHtmlDialog.cpp" />
     <ClCompile Include="PMSplash.cpp" />
     <ClCompile Include="PMSplashDlg.cpp" />
@@ -182,10 +186,14 @@
   <ItemGroup>
     <ClInclude Include="AboutDlg.h" />
     <ClInclude Include="AddItemGroupDlg.h" />
-    <ClInclude Include="AlarmProperty.h" />
     <ClInclude Include="CloneItemDlg.h" />
     <ClInclude Include="CreatProjectDlg.h" />
     <ClInclude Include="CustomItems.h" />
+    <ClInclude Include="Guid.h" />
+    <ClInclude Include="Model\Model.h" />
+    <ClInclude Include="Model\Tag.h" />
+    <ClInclude Include="Model\TagGroup.h" />
+    <ClInclude Include="Model\TagMgr.h" />
     <ClInclude Include="PMHtmlDialog.h" />
     <ClInclude Include="PMSplash.h" />
     <ClInclude Include="PMSplashDlg.h" />

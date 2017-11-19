@@ -27,7 +27,7 @@ tagItemUndo::tagItemUndo()
 
 tagItemUndo::tagItemUndo(UINT type, std::shared_ptr<CItem> item, UINT info)
 {
-	if(type == CGbl::UNDO_TYPE_UPD){
+	if (type == CItemDoc::UNDO_TYPE_UPD){
 		m_Item = std::shared_ptr<CItem>(new CItem(_T("")));
 		*m_Item = *item;
 	}
@@ -137,9 +137,9 @@ void CItemDoc::OnUndo()
 	itemGrid->EnableUpdate(FALSE);
 	do{
 		undo = m_stItemUndo.top();
-		if(undo->m_uiEditType == CGbl::UNDO_TYPE_ADD)		UndoAdd();
-		if(undo->m_uiEditType == CGbl::UNDO_TYPE_DEL)		UndoDel();
-		if(undo->m_uiEditType == CGbl::UNDO_TYPE_UPD)		UndoUpd();
+		if(undo->m_uiEditType == UNDO_TYPE_ADD)		UndoAdd();
+		if(undo->m_uiEditType == UNDO_TYPE_DEL)		UndoDel();
+		if(undo->m_uiEditType == UNDO_TYPE_UPD)		UndoUpd();
 		itemMgr->AddEditItem(undo->m_Item->getID());
 	}
 	while(!m_stItemUndo.empty() && !m_stItemUndo.top()->m_bEnd);
@@ -186,7 +186,7 @@ void CItemDoc::UndoDel()
 // 	std::shared_ptr<CItemGroup> group = itemMgr->GetGroup(undo->m_uiEditInfo);
 // 	ASSERT(group);
 // 
-// 	if(undo->m_uiEditType == CGbl::UNDO_TYPE_GUP_DEL){
+// 	if(undo->m_uiEditType == UNDO_TYPE_GUP_DEL){
 // //		group->AddItem(undo->m_Item->getID());
 // 		undo->m_Item->setMyGroupID(undo->m_uiEditInfo);
 // 	}
@@ -204,7 +204,7 @@ void CItemDoc::UndoUpd()
 //	std::shared_ptr<CItemGroup> group;
 
 	std::shared_ptr<CItem> item = itemMgr->GetItem(undo->m_Item->getID());
-	std::shared_ptr<SItemUndo> redo = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item, 0));
+	std::shared_ptr<SItemUndo> redo = std::shared_ptr<SItemUndo>(new SItemUndo(UNDO_TYPE_UPD, item, 0));
 	redo->m_bEnd = undo->m_bEnd;
 	m_stItemRedo.push(redo);
 
@@ -234,16 +234,16 @@ void CItemDoc::OnRedo()
 	itemGrid->EnableUpdate(FALSE);
 	while(!m_stItemRedo.empty() && !m_stItemRedo.top()->m_bEnd){
 		redo = m_stItemRedo.top();
-		if(redo->m_uiEditType == CGbl::UNDO_TYPE_ADD)		RedoAdd();
-		if(redo->m_uiEditType == CGbl::UNDO_TYPE_DEL)		RedoDel();
-		if(redo->m_uiEditType == CGbl::UNDO_TYPE_UPD)		RedoUpd();
+		if (redo->m_uiEditType == UNDO_TYPE_ADD)		RedoAdd();
+		if (redo->m_uiEditType == UNDO_TYPE_DEL)		RedoDel();
+		if (redo->m_uiEditType == UNDO_TYPE_UPD)		RedoUpd();
 		itemMgr->AddEditItem(redo->m_Item->getID());
 	}
 	if(!m_stItemRedo.empty() && m_stItemRedo.top()->m_bEnd){
 		redo = m_stItemRedo.top();
-		if(redo->m_uiEditType == CGbl::UNDO_TYPE_ADD)		RedoAdd();
-		if(redo->m_uiEditType == CGbl::UNDO_TYPE_DEL)		RedoDel();
-		if(redo->m_uiEditType == CGbl::UNDO_TYPE_UPD)		RedoUpd();
+		if(redo->m_uiEditType == UNDO_TYPE_ADD)		RedoAdd();
+		if(redo->m_uiEditType == UNDO_TYPE_DEL)		RedoDel();
+		if(redo->m_uiEditType == UNDO_TYPE_UPD)		RedoUpd();
 		itemMgr->AddEditItem(redo->m_Item->getID());
 	}
 	itemGrid->EnableUpdate(TRUE);
@@ -283,7 +283,7 @@ void CItemDoc::RedoDel()
 // 	std::shared_ptr<CItemGroup> group = itemMgr->GetGroup(redo->m_uiEditInfo);
 // 	ASSERT(group);
 // 
-// 	if(redo->m_uiEditType == CGbl::UNDO_TYPE_GUP_DEL){
+// 	if(redo->m_uiEditType == UNDO_TYPE_GUP_DEL){
 // //		group->RemoveItem(redo->m_Item->getID());
 // 	}
 // 	else{
@@ -301,7 +301,7 @@ void CItemDoc::RedoUpd()
 //	std::shared_ptr<CItemGroup> group;
 
 	std::shared_ptr<CItem> item = itemMgr->GetItem(redo->m_Item->getID());
-	std::shared_ptr<SItemUndo> undo = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_UPD, item, 0));
+	std::shared_ptr<SItemUndo> undo = std::shared_ptr<SItemUndo>(new SItemUndo(UNDO_TYPE_UPD, item, 0));
 	undo->m_bEnd = redo->m_bEnd;
 	m_stItemUndo.push(undo);
 
@@ -465,7 +465,7 @@ void CItemDoc::ItemInRenameItem(std::list<std::shared_ptr<CItem> > ltItem, UINT 
 			if(!itemMgr->AddItem(item, maxID, groupID))
 				return;		// 如果还返回错，证明是超界，以后的也不同再加了
 		}
-		itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_ADD, item, 0));
+		itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(UNDO_TYPE_ADD, item, 0));
 		AddUndoMember(itemUndo);
 	}
 }
@@ -504,7 +504,7 @@ void CItemDoc::ItemInRenameStrItem(std::list<std::shared_ptr<CItem> > ltItem, CS
 				return;		// 如果还返回错，证明是超界，以后的也不同再加了
 			}
 		}
-		itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_ADD, item, 0));
+		itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(UNDO_TYPE_ADD, item, 0));
 		AddUndoMember(itemUndo);
 	}
 }
@@ -525,7 +525,7 @@ void CItemDoc::ItemInDelFileItem(std::list<std::shared_ptr<CItem> > ltItem, UINT
 		}
 		else if(!itemMgr->AddItem(item, maxID, groupID))
 			return;
-		itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_ADD, item, 0));
+		itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(UNDO_TYPE_ADD, item, 0));
 		AddUndoMember(itemUndo);
 	}
 }
@@ -542,7 +542,7 @@ void CItemDoc::ItemInDelMgrItem(std::list<std::shared_ptr<CItem> > ltItem, UINT 
 		oldItem = itemMgr->GetItemFast(newItem->getName());
 		if(oldItem)
 		{
-			itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_DEL, oldItem, 0));
+			itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(UNDO_TYPE_DEL, oldItem, 0));
 			AddUndoMember(itemUndo);
 			itemMgr->DeleteItem(oldItem->getID());
 
@@ -554,7 +554,7 @@ void CItemDoc::ItemInDelMgrItem(std::list<std::shared_ptr<CItem> > ltItem, UINT 
 			else{
 				itemMgr->AddItem(newItem, maxID, groupID);
 			}
-			itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_ADD, newItem, 0));
+			itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(UNDO_TYPE_ADD, newItem, 0));
 			AddUndoMember(itemUndo);
 		}
 		else
@@ -566,7 +566,7 @@ void CItemDoc::ItemInDelMgrItem(std::list<std::shared_ptr<CItem> > ltItem, UINT 
 			}
 			else if(!itemMgr->AddItem(newItem, maxID, groupID))
 				continue;
-			itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_ADD, newItem, 0));
+			itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(UNDO_TYPE_ADD, newItem, 0));
 			AddUndoMember(itemUndo);
 		}
 	}
@@ -609,7 +609,7 @@ bool MVC::Item::CItemDoc::AddItem(UINT id, std::shared_ptr<CItem> item, int maxI
 		{
 COVER:		std::shared_ptr<SItemUndo> itemUndo;
 			std::shared_ptr<CItem> oldItem = itemMgr->GetItem(id);
-			itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(CGbl::UNDO_TYPE_DEL, oldItem, 0));
+			itemUndo = std::shared_ptr<SItemUndo>(new SItemUndo(UNDO_TYPE_DEL, oldItem, 0));
 			AddUndoMember(itemUndo);
 			itemMgr->DeleteItem(id);
 //			itemMgr->m_vtItemGroup[groupid]->AddItem(id);
@@ -624,7 +624,7 @@ COVER:		std::shared_ptr<SItemUndo> itemUndo;
 JUMPOUT:	return true;
 		}
 	}
-	else if(itemMgr->GetItemSize() >= maxID)				// 变量超过界限
+	else if((int)itemMgr->GetItemSize() >= maxID)				// 变量超过界限
 	{
 		CString strError;
 		strError.Format("数量超过了限制 %d 个，无法再添加变量！", maxID);

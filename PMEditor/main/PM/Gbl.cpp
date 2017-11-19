@@ -904,3 +904,4 @@ bool CGbl::IsNumber(CString str)
 	}
 	return true;
 }
+

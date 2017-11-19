@@ -6,7 +6,6 @@
 #include "ItemProperty.h"
 #include "Item.h"
 #include "SourceProperty.h"
-#include "AlarmProperty.h"
 #include "ItemMgr.h"
 #include "ItemGrid.h"
 #include "ItemGroup.h"
@@ -40,8 +39,6 @@ const CString ITEM_RESERVE = _T("是否保留值");
 const CString ITEM_RESERVE_TOOLTIP = _T("是否保留值");
 const CString ITEM_RESFDB = _T("是否保存历史数据");
 const CString ITEM_RESFDB_TOOLTIP = _T("是否保存历史数据");
-const CString ITEM_MODBUS485 = _T("是否导出Modbus变量");
-const CString ITEM_MODBUS485_TOOLTIP = _T("虚拟串口485服务会对导出的变量提供Modbus协议访问服务");
 
 const CString SRC_INFO = _T("数据源信息");
 const CString SRC_INFO_TOOLTIP = _T("数据源信息");
@@ -64,46 +61,6 @@ const CString SRC_MINIO_TOOLTIP = _T("最小原始值");
 const CString SRC_MAXIO = _T("最大原始值");
 const CString SRC_MAXIO_TOOLTIP = _T("最大原始值");
 
-const CString ALARM_INFO = _T("报警属性");
-const CString ALARM_INFO_TOOLTIP = _T("报警属性");
-const CString ALARM_BITTYPE = _T("开关报警类型");
-const CString ALARM_BITTYPE_TOOLTIP = _T("开关报警类型");
-const CString ALARM_DEADAREA = _T("限值死区");
-const CString ALARM_DEADAREA_TOOLTIP = _T("限值死区");
-const CString ALARM_LOLOACTIVE = _T("下下限报警激活");
-const CString ALARM_LOLOACTIVE_TOOLTIP = _T("下下限报警激活");
-const CString ALARM_LOLOVALUE = _T("下下限报警值");
-const CString ALARM_LOLOVALUE_TOOLTIP = _T("下限报警值");
-const CString ALARM_LOWACTIVE = _T("下限报警激活");
-const CString ALARM_LOWACTIVE_TOOLTIP = _T("下限报警激活");
-const CString ALARM_LOWVALUE = _T("下限报警值");
-const CString ALARM_LOWVALUE_TOOLTIP = _T("下限报警值");
-const CString ALARM_HIGHACTIVE = _T("上限报警激活");
-const CString ALARM_HIGHACTIVE_TOOLTIP = _T("上限报警激活");
-const CString ALARM_HIGHVALUE = _T("上限报警值");
-const CString ALARM_HIGHVALUE_TOOLTIP = _T("上限报警值");
-const CString ALARM_HIHIACTIVE = _T("上上限报警激活");
-const CString ALARM_HIHIACTIVE_TOOLTIP = _T("上上限报警激活");
-const CString ALARM_HIHIVALUE = _T("上上限报警值");
-const CString ALARM_HIHIVALUE_TOOLTIP = _T("上上限报警值");
-const CString ALARM_AIMACTIVE = _T("目标报警激活");
-const CString ALARM_AIMACTIVE_TOOLTIP = _T("目标报警激活");
-const CString ALARM_AIMVALUE = _T("目标报警值");
-const CString ALARM_AIMVALUE_TOOLTIP = _T("目标报警值");
-const CString ALARM_AIMPERCENT = _T("偏差值");
-const CString ALARM_AIMPERCENT_TOOLTIP = _T("目标报警偏差值，表示达到目标值上下浮动范围内时报警");
-const CString ALARM_AIMDEAD = _T("目标报警死区值");
-const CString ALARM_AIMDEAD_TOOLTIP = _T("目标报警死区值");
-const CString ALARM_SHIFTACTIVE = _T("变化率报警激活");
-const CString ALARM_SHIFTACTIVE_TOOLTIP = _T("最大变化量X，变化时间T秒，每次取值与上一次取值的差的绝对值为△x，\
-两次取值的时间差为△t秒，则当且仅当 (△x/△t)>=(X/T) 时报警。");
-const CString ALARM_SHIFTDELTA = _T("最大变化量");
-const CString ALARM_SHIFTDELTA_TOOLTIP = _T("最大变化量X，变化时间T秒，每次取值与上一次取值的差的绝对值为△x，\
-两次取值的时间差为△t秒，则当且仅当 (△x/△t)>=(X/T) 时报警。");
-const CString ALARM_SHIFTTIME = _T("变化时间，单位秒");
-const CString ALARM_SHIFTTIME_TOOLTIP = _T("最大变化量X，变化时间T秒，每次取值与上一次取值的差的绝对值为△x，\
-两次取值的时间差为△t秒，则当且仅当 (△x/△t)>=(X/T) 时报警。");
-
 const UINT ITEM_NAME_ID = 1;
 const UINT ITEM_TAG_ID = ITEM_NAME_ID + 1;
 const UINT ITEM_DESCRIPTION_ID = ITEM_TAG_ID + 1;
@@ -122,24 +79,6 @@ const UINT SRC_MINPROJ_ID = SRC_CONVERT_ID + 1;
 const UINT SRC_MAXPROJ_ID = SRC_MINPROJ_ID + 1;
 const UINT SRC_MINIO_ID = SRC_MAXPROJ_ID + 1;
 const UINT SRC_MAXIO_ID = SRC_MINIO_ID + 1;
-
-const UINT ALARM_BITTYPE_ID = 201;
-const UINT ALARM_DEADAREA_ID = ALARM_BITTYPE_ID + 1;
-const UINT ALARM_LOLOACTIVE_ID = ALARM_DEADAREA_ID + 1;
-const UINT ALARM_LOLOVALUE_ID = ALARM_LOLOACTIVE_ID + 1;
-const UINT ALARM_LOWACTIVE_ID = ALARM_LOLOVALUE_ID + 1;
-const UINT ALARM_LOWVALUE_ID = ALARM_LOWACTIVE_ID + 1;
-const UINT ALARM_HIGHACTIVE_ID = ALARM_LOWVALUE_ID + 1;
-const UINT ALARM_HIGHVALUE_ID = ALARM_HIGHACTIVE_ID + 1;
-const UINT ALARM_HIHIACTIVE_ID = ALARM_HIGHVALUE_ID + 1;
-const UINT ALARM_HIHIVALUE_ID = ALARM_HIHIACTIVE_ID + 1;
-const UINT ALARM_AIMACTIVE_ID = ALARM_HIHIVALUE_ID + 1;
-const UINT ALARM_AIMVALUE_ID = ALARM_AIMACTIVE_ID + 1;
-const UINT ALARM_AIMPERCENT_ID = ALARM_AIMVALUE_ID + 1;
-const UINT ALARM_AIMDEAD_ID = ALARM_AIMPERCENT_ID + 1;
-const UINT ALARM_SHIFTACTIVE_ID = ALARM_AIMDEAD_ID + 1;
-const UINT ALARM_SHIFTDELTA_ID = ALARM_SHIFTACTIVE_ID + 1;
-const UINT ALARM_SHIFTTIME_ID = ALARM_SHIFTDELTA_ID + 1;
 
 using namespace MVC;
 using namespace Item;
@@ -179,10 +118,8 @@ void MVC::Item::CPropertyItem::ShowInfo(CXTPPropertyGrid& grid)
 	CXTPPropertyGridInplaceButton* pButton;
 	std::shared_ptr<XmlInfo::CXmlMgr> xmlMgr = ((CPMApp *)AfxGetApp())->m_XmlMgr;		// 描述信息
 	std::shared_ptr<CPropertySource> showSrc = m_ShowItem->getSrcInfo();
-	std::shared_ptr<CPropertyAlarm> showAlarm = m_ShowItem->getAlarmInfo();
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	ASSERT(showSrc);
-	ASSERT(showAlarm);
 	std::list<CString> strList, boolList;			// 下拉列表的内容
 	boolList.push_back(_T("No"));
 	boolList.push_back(_T("Yes"));
@@ -282,69 +219,6 @@ void MVC::Item::CPropertyItem::ShowInfo(CXTPPropertyGrid& grid)
 
 	// 最大IO值
 	AddItemVariant(*pGroup, SRC_MAXIO, SRC_MAXIO_TOOLTIP, showSrc->getIOMax(), SRC_MAXIO_ID);
-
-	// 变量报警属性
-	pGroup = grid.AddCategory(ALARM_INFO);
-	pGroup->SetTooltip(ALARM_INFO_TOOLTIP);
-	pGroup->Expand();
-
-	// 位变量报警类型
-	strList.clear();
-	strList.push_back(_T("不报警"));
-	strList.push_back(_T("开时报警"));
-	strList.push_back(_T("关时报警"));
-	strList.push_back(_T("开到关时报警"));
-	strList.push_back(_T("关到开时报警"));
-	strList.push_back(_T("变化就报警"));
-	AddItemList(*pGroup, ALARM_BITTYPE, ALARM_BITTYPE_TOOLTIP, strList, showAlarm->getBitAlarmType(), ALARM_BITTYPE_ID);
-
-	// 上下限报警死区值
-	AddItemNumber(*pGroup, ALARM_DEADAREA, ALARM_DEADAREA_TOOLTIP, showAlarm->getDeadArea(), ALARM_DEADAREA_ID);
-
-	// 下下限报警激活
-	AddItemList(*pGroup, ALARM_LOLOACTIVE, ALARM_LOLOACTIVE_TOOLTIP, boolList, showAlarm->getLoloActive()?1:0, ALARM_LOLOACTIVE_ID);
-
-	// 下下限报警值
-	AddItemVariant(*pGroup, ALARM_LOLOVALUE, ALARM_LOLOVALUE_TOOLTIP, showAlarm->getLoloValue(), ALARM_LOLOVALUE_ID);
-
-	// 下限报警激活
-	AddItemList(*pGroup, ALARM_LOWACTIVE, ALARM_LOWACTIVE_TOOLTIP, boolList, showAlarm->getLowActive()?1:0, ALARM_LOWACTIVE_ID);
-
-	// 下限报警值
-	AddItemVariant(*pGroup, ALARM_LOWVALUE, ALARM_LOWVALUE_TOOLTIP, showAlarm->getLowValue(), ALARM_LOWVALUE_ID);
-
-	// 上限报警激活
-	AddItemList(*pGroup, ALARM_HIGHACTIVE, ALARM_HIGHACTIVE_TOOLTIP, boolList, showAlarm->getHighActive()?1:0, ALARM_HIGHACTIVE_ID);
-
-	// 上限报警值
-	AddItemVariant(*pGroup, ALARM_HIGHVALUE, ALARM_HIGHVALUE_TOOLTIP, showAlarm->getHighValue(), ALARM_HIGHVALUE_ID);
-
-	// 上上限报警激活
-	AddItemList(*pGroup, ALARM_HIHIACTIVE, ALARM_HIHIACTIVE_TOOLTIP, boolList, showAlarm->getHihiActive()?1:0, ALARM_HIHIACTIVE_ID);
-
-	// 上上限报警值
-	AddItemVariant(*pGroup, ALARM_HIHIVALUE, ALARM_HIHIVALUE_TOOLTIP, showAlarm->getHihiValue(), ALARM_HIHIVALUE_ID);
-
-	// 目标报警激活
-	AddItemList(*pGroup, ALARM_AIMACTIVE, ALARM_AIMACTIVE_TOOLTIP, boolList, showAlarm->getAimActive()?1:0, ALARM_AIMACTIVE_ID);
-
-	// 目标值
-	AddItemVariant(*pGroup, ALARM_AIMVALUE, ALARM_AIMVALUE_TOOLTIP, showAlarm->getAimValue(), ALARM_AIMVALUE_ID);
-
-	// 目标报警偏移比率
-	AddItemDouble(*pGroup, ALARM_AIMPERCENT, ALARM_AIMPERCENT_TOOLTIP, showAlarm->getAimPercent(), ALARM_AIMPERCENT_ID);
-
-	// 目标报警死区
-	AddItemDouble(*pGroup, ALARM_AIMDEAD, ALARM_AIMDEAD_TOOLTIP, showAlarm->getAimDeadPercent(), ALARM_AIMDEAD_ID);
-
-	// 变化率报警激活
-	AddItemList(*pGroup, ALARM_SHIFTACTIVE, ALARM_SHIFTACTIVE_TOOLTIP, boolList, showAlarm->getShiftActive()?1:0, ALARM_SHIFTACTIVE_ID);
-
-	// 报警变化比率
-	AddItemDouble(*pGroup, ALARM_SHIFTDELTA, ALARM_SHIFTDELTA_TOOLTIP, showAlarm->getShiftDelta(), ALARM_SHIFTDELTA_ID);
-
-	// 取值时间数值
-	AddItemNumber(*pGroup, ALARM_SHIFTTIME, ALARM_SHIFTTIME_TOOLTIP, showAlarm->getShiftTime(), ALARM_SHIFTTIME_ID);
 }
 
 void MVC::Item::CPropertyItem::OnGridFirstShow(CXTPPropertyGrid& grid)
@@ -409,20 +283,6 @@ void MVC::Item::CPropertyItem::ShowAndHide(CXTPPropertyGrid& grid)
 	itemProjType = grid.FindItem(ITEM_VALTYPE_ID);
 	itemSrc = grid.FindItem(ITEM_SRCTYPE_ID);
 	if(!itemProjType || !itemSrc)						return;
-
-	// 报警显示哪些
-	if(itemProjType->GetConstraints()->GetCurrent() == 0){		// 位
-		tmp = grid.FindItem(ALARM_BITTYPE_ID);			if(tmp)		tmp->SetHidden(FALSE);	// 显示报警位项
-		for(int i = ALARM_DEADAREA_ID; i <= ALARM_SHIFTTIME_ID; ++i){
-			tmp = grid.FindItem(i);						if(tmp)		tmp->SetHidden(TRUE);	// 隐藏报警其它项
-		}
-	}
-	else{
-		tmp = grid.FindItem(ALARM_BITTYPE_ID);			if(tmp)		tmp->SetHidden(TRUE);	// 隐藏报警位项
-		for(int i = ALARM_DEADAREA_ID; i <= ALARM_SHIFTTIME_ID; ++i){
-			tmp = grid.FindItem(i);						if(tmp)		tmp->SetHidden(FALSE);	// 显示报警其它项
-		}
-	}
 }
 
 // 在这里统一使能
@@ -444,33 +304,6 @@ void MVC::Item::CPropertyItem::EnableAndDisenable(CXTPPropertyGrid& grid)
 		tmp = grid.FindItem(SRC_MINIO_ID);				if(tmp)		tmp->SetReadOnly(FALSE);
 		tmp = grid.FindItem(SRC_MAXIO_ID);				if(tmp)		tmp->SetReadOnly(FALSE);
 	}
-
-	// 上上限报警
-	item = grid.FindItem(ALARM_LOLOACTIVE_ID);
-	tmp = grid.FindItem(ALARM_LOLOVALUE_ID);			if(tmp)		tmp->SetReadOnly(!item->GetConstraints()->GetCurrent());
-
-	// 上限报警
-	item = grid.FindItem(ALARM_LOWACTIVE_ID);
-	tmp = grid.FindItem(ALARM_LOWVALUE_ID);				if(tmp)		tmp->SetReadOnly(!item->GetConstraints()->GetCurrent());
-
-	// 下限报警
-	item = grid.FindItem(ALARM_HIGHACTIVE_ID);
-	tmp = grid.FindItem(ALARM_HIGHVALUE_ID);			if(tmp)		tmp->SetReadOnly(!item->GetConstraints()->GetCurrent());
-
-	// 下下限报警
-	item = grid.FindItem(ALARM_HIHIACTIVE_ID);
-	tmp = grid.FindItem(ALARM_HIHIVALUE_ID);			if(tmp)		tmp->SetReadOnly(!item->GetConstraints()->GetCurrent());
-
-	// 目标报警
-	item = grid.FindItem(ALARM_AIMACTIVE_ID);
-	tmp = grid.FindItem(ALARM_AIMVALUE_ID);				if(tmp)		tmp->SetReadOnly(!item->GetConstraints()->GetCurrent());
-	tmp = grid.FindItem(ALARM_AIMPERCENT_ID);			if(tmp)		tmp->SetReadOnly(!item->GetConstraints()->GetCurrent());
-	tmp = grid.FindItem(ALARM_AIMDEAD_ID);				if(tmp)		tmp->SetReadOnly(!item->GetConstraints()->GetCurrent());
-
-	// 变化率报警
-	item = grid.FindItem(ALARM_SHIFTACTIVE_ID);
-	tmp = grid.FindItem(ALARM_SHIFTDELTA_ID);			if(tmp)		tmp->SetReadOnly(!item->GetConstraints()->GetCurrent());
-	tmp = grid.FindItem(ALARM_SHIFTTIME_ID);			if(tmp)		tmp->SetReadOnly(!item->GetConstraints()->GetCurrent());
 }
 
 // 这个函数专门负责响应用户对变量的修改
@@ -487,21 +320,6 @@ void MVC::Item::CPropertyItem::OnItemModify(CXTPPropertyGrid& grid, UINT id)
 		if(uiVal < 10)	 ((CXTPPropertyGridItemNumber *)item)->SetNumber(10);
 	}
 
-	// 死区必须为正数
-	if(id == ALARM_DEADAREA_ID){
-		int iVal = ((CXTPPropertyGridItemNumber *)item)->GetNumber();
-		if(iVal < 0){
-			iVal = abs(iVal);
-			((CXTPPropertyGridItemNumber *)item)->SetNumber(iVal);
-		}
-	}
-	else if(id == ALARM_AIMDEAD_ID || id == ALARM_AIMPERCENT_ID){
-		double fVal = ((CXTPPropertyGridItemDouble*)item)->GetDouble();
-		if(fVal < 0){
-			fVal = abs(fVal);
-			((CXTPPropertyGridItemDouble*)item)->SetDouble(fVal);
-		}
-	}
 	ShowAndHide(grid);
 	EnableAndDisenable(grid);
 }
@@ -514,10 +332,8 @@ bool MVC::Item::CPropertyItem::OnSaveModify(CXTPPropertyGrid& grid)
 	UINT itemID;
 	CComVariant cvr;
 	std::shared_ptr<CPropertySource> showSrc = m_ShowItem->getSrcInfo();
-	std::shared_ptr<CPropertyAlarm> showAlarm = m_ShowItem->getAlarmInfo();
 	CItemMgr* itemMgr = &CItemMgr::GetMe();
 	ASSERT(showSrc);
-	ASSERT(showAlarm);
 	for(int i = 0; i < num; ++i){
 		item = grid.GetItem(i);
 		if(!item->IsValueChanged())		continue;			// 只有被修改的才会进行保存，优化了一下
@@ -604,57 +420,6 @@ bool MVC::Item::CPropertyItem::OnSaveModify(CXTPPropertyGrid& grid)
 			CComVariant cvrMaxIO = item->GetValue();
 			cvrMaxIO.ChangeType(m_ShowItem->getDefault().vt);
 			showSrc->setIOMax(cvrMaxIO);
-		}
-		else if(itemID == ALARM_BITTYPE_ID){				// = _T("开关报警类型");
-			showAlarm->setBitAlarmType(item->GetConstraints()->GetCurrent());
-		}
-		else if(itemID == ALARM_DEADAREA_ID){				// = _T("限值死区");
-			showAlarm->setDeadArea(((CXTPPropertyGridItemNumber *)item)->GetNumber());
-		}
-		else if(itemID == ALARM_LOLOACTIVE_ID){				// = _T("下下限报警激活");
-			showAlarm->setLoloActive(item->GetConstraints()->GetCurrent());
-		}
-		else if(itemID == ALARM_LOLOVALUE_ID){				// = _T("下限报警值");
-			showAlarm->setLoloValue((float)((CXTPPropertyGridItemDouble *)item)->GetDouble());
-		}
-		else if(itemID == ALARM_LOWACTIVE_ID){				// = _T("下限报警激活");
-			showAlarm->setLowActive(item->GetConstraints()->GetCurrent());
-		}
-		else if(itemID == ALARM_LOWVALUE_ID){				// = _T("下限报警值");
-			showAlarm->setLowValue((float)((CXTPPropertyGridItemDouble *)item)->GetDouble());
-		}
-		else if(itemID == ALARM_HIGHACTIVE_ID){				// = _T("上限报警激活");
-			showAlarm->setHighActive(item->GetConstraints()->GetCurrent());
-		}
-		else if(itemID == ALARM_HIGHVALUE_ID){				// = _T("上限报警值");
-			showAlarm->setHighValue((float)((CXTPPropertyGridItemDouble *)item)->GetDouble());
-		}
-		else if(itemID == ALARM_HIHIACTIVE_ID){				// = _T("上上限报警激活");
-			showAlarm->setHihiActive(item->GetConstraints()->GetCurrent());
-		}
-		else if(itemID == ALARM_HIHIVALUE_ID){				// = _T("上上限报警值");
-			showAlarm->setHihiValue((float)((CXTPPropertyGridItemDouble *)item)->GetDouble());
-		}
-		else if(itemID == ALARM_AIMACTIVE_ID){				// = _T("目标报警激活");
-			showAlarm->setAimActive(item->GetConstraints()->GetCurrent());
-		}
-		else if(itemID == ALARM_AIMVALUE_ID){				// = _T("目标报警值");
-			showAlarm->setAimValue((float)((CXTPPropertyGridItemDouble *)item)->GetDouble());
-		}
-		else if(itemID == ALARM_AIMPERCENT_ID){				// = _T("目标报警偏差值");
-			showAlarm->setAimPercent((float)((CXTPPropertyGridItemDouble *)item)->GetDouble());
-		}
-		else if(itemID == ALARM_AIMDEAD_ID){				// = _T("目标报警死区值");
-			showAlarm->setAimDeadPercent((float)((CXTPPropertyGridItemDouble *)item)->GetDouble());
-		}
-		else if(itemID == ALARM_SHIFTACTIVE_ID){			// = _T("变化率报警激活");
-			showAlarm->setShiftActive(item->GetConstraints()->GetCurrent());
-		}
-		else if(itemID == ALARM_SHIFTDELTA_ID){			// = _T("变化率报警变化比率");
-			showAlarm->setShiftDelta((float)((CXTPPropertyGridItemDouble *)item)->GetDouble());
-		}
-		else if(itemID == ALARM_SHIFTTIME_ID){				// = _T("变化率报警取值时间长度");
-			showAlarm->setShiftTime(((CXTPPropertyGridItemNumber *)item)->GetNumber());
 		}
 		item->SetDefaultValue(item->GetValue());
 	}

@@ -29,13 +29,6 @@ public:
 		COL_DESCRIPT,		// 备注信息
 		COL_SCRIPT,			// 脚本
 		COL_FRESHTIME,		// 刷新时间
-		COL_BIT,			// 变量报警
-		COL_LOLO,			// 下下限
-		COL_LOW,			// 下限
-		COL_HIGH,			// 上限
-		COL_HIHI,			// 上上限
-		COL_AIM,			// 目标
-		COL_SHIFT,			// 变化量
 		COL_REV_DB,			// 保留历史
 	};
 	UINT m_uiShowType;				// 显示类型，0所有变量，1内存，2IO，3变量分组
@@ -73,7 +66,7 @@ private:
 	void InitCol();							// 初始化列标题
 	void InitAddRow();						// 初始化默认“添加变量”一项
 	void SortGrid();						// 排序表格
-	void SetMyCell(int nCol, long lRow, CUGCell* cell, UINT id, bool bAlarm = false);
+	void SetMyCell(int nCol, long lRow, CUGCell* cell, UINT id);
 
 	void WriteValue();						// 写变量的实时值
 	void EditItem(std::shared_ptr<CItem> item);					// 编辑变量基本属性

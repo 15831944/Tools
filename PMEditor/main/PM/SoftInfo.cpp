@@ -27,13 +27,6 @@ CSoftInfo::CSoftInfo(void)
 	m_vtColInfo[MVC::Item::CItemGrid::COL_DESCRIPT].Init(_T("备注"), false, 100);
 	m_vtColInfo[MVC::Item::CItemGrid::COL_SCRIPT].Init(_T("脚本"), false, 100);
 	m_vtColInfo[MVC::Item::CItemGrid::COL_FRESHTIME].Init(_T("刷新时间"), true, 60);
-	m_vtColInfo[MVC::Item::CItemGrid::COL_BIT].Init(_T("位报警"), true, 100);
-	m_vtColInfo[MVC::Item::CItemGrid::COL_LOLO].Init(_T("下下限"), true, 50);
-	m_vtColInfo[MVC::Item::CItemGrid::COL_LOW].Init(_T("下限"), true, 50);
-	m_vtColInfo[MVC::Item::CItemGrid::COL_HIGH].Init(_T("上限"), true, 50);
-	m_vtColInfo[MVC::Item::CItemGrid::COL_HIHI].Init(_T("上上限"), true, 50);
-	m_vtColInfo[MVC::Item::CItemGrid::COL_AIM].Init(_T("目标"), true, 50);
-	m_vtColInfo[MVC::Item::CItemGrid::COL_SHIFT].Init(_T("变化率"), true, 50);
 	m_vtColInfo[MVC::Item::CItemGrid::COL_REV_DB].Init(_T("保留历史"), true, 40);
 
 	m_bTooltip = true;														// 悬停提示，要不要有
@@ -153,20 +146,6 @@ void CSoftInfo::SerializeItem(TiXmlElement *pNode, bool bRead)
 				m_vtColInfo[MVC::Item::CItemGrid::COL_SCRIPT].bShow = (value == _T("1")?true:false);
 			else if(name == m_vtColInfo[MVC::Item::CItemGrid::COL_FRESHTIME].name)
 				m_vtColInfo[MVC::Item::CItemGrid::COL_FRESHTIME].bShow = (value == _T("1")?true:false);
-			else if(name == m_vtColInfo[MVC::Item::CItemGrid::COL_BIT].name)
-				m_vtColInfo[MVC::Item::CItemGrid::COL_BIT].bShow = (value == _T("1")?true:false);
-			else if(name == m_vtColInfo[MVC::Item::CItemGrid::COL_LOLO].name)
-				m_vtColInfo[MVC::Item::CItemGrid::COL_LOLO].bShow = (value == _T("1")?true:false);
-			else if(name == m_vtColInfo[MVC::Item::CItemGrid::COL_LOW].name)
-				m_vtColInfo[MVC::Item::CItemGrid::COL_LOW].bShow = (value == _T("1")?true:false);
-			else if(name == m_vtColInfo[MVC::Item::CItemGrid::COL_HIGH].name)
-				m_vtColInfo[MVC::Item::CItemGrid::COL_HIGH].bShow = (value == _T("1")?true:false);
-			else if(name == m_vtColInfo[MVC::Item::CItemGrid::COL_HIHI].name)
-				m_vtColInfo[MVC::Item::CItemGrid::COL_HIHI].bShow = (value == _T("1")?true:false);
-			else if(name == m_vtColInfo[MVC::Item::CItemGrid::COL_AIM].name)
-				m_vtColInfo[MVC::Item::CItemGrid::COL_AIM].bShow = (value == _T("1")?true:false);
-			else if(name == m_vtColInfo[MVC::Item::CItemGrid::COL_SHIFT].name)
-				m_vtColInfo[MVC::Item::CItemGrid::COL_SHIFT].bShow = (value == _T("1")?true:false);
 			else if (name == m_vtColInfo[MVC::Item::CItemGrid::COL_REV_DB].name)
 				m_vtColInfo[MVC::Item::CItemGrid::COL_REV_DB].bShow = (value == _T("1") ? true : false);
 			else if(name == _T("CloneNumber"))		m_uiCloneNumber = (UINT)atoi(value);
@@ -192,13 +171,6 @@ void CSoftInfo::SerializeItem(TiXmlElement *pNode, bool bRead)
 		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_DESCRIPT].name, m_vtColInfo[MVC::Item::CItemGrid::COL_DESCRIPT].bShow?1:0);
 		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_SCRIPT].name, m_vtColInfo[MVC::Item::CItemGrid::COL_SCRIPT].bShow?1:0);
 		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_FRESHTIME].name, m_vtColInfo[MVC::Item::CItemGrid::COL_FRESHTIME].bShow?1:0);
-		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_BIT].name, m_vtColInfo[MVC::Item::CItemGrid::COL_BIT].bShow?1:0);
-		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_LOLO].name, m_vtColInfo[MVC::Item::CItemGrid::COL_LOLO].bShow?1:0);
-		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_LOW].name, m_vtColInfo[MVC::Item::CItemGrid::COL_LOW].bShow?1:0);
-		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_HIGH].name, m_vtColInfo[MVC::Item::CItemGrid::COL_HIGH].bShow?1:0);
-		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_HIHI].name, m_vtColInfo[MVC::Item::CItemGrid::COL_HIHI].bShow?1:0);
-		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_AIM].name, m_vtColInfo[MVC::Item::CItemGrid::COL_AIM].bShow?1:0);
-		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_SHIFT].name, m_vtColInfo[MVC::Item::CItemGrid::COL_SHIFT].bShow?1:0);
 		pNode->SetAttribute(m_vtColInfo[MVC::Item::CItemGrid::COL_REV_DB].name, m_vtColInfo[MVC::Item::CItemGrid::COL_REV_DB].bShow ? 1 : 0);
 		pNode->SetAttribute(_T("CloneNumber"), m_uiCloneNumber);
 		pNode->SetAttribute(_T("CloneFloat"), m_uiCloneFloat);

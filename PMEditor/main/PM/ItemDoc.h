@@ -24,6 +24,13 @@ class CItemDoc : public CDocument
 {
 	DECLARE_DYNCREATE(CItemDoc)
 public:
+	enum
+	{
+		UNDO_TYPE_ADD,
+		UNDO_TYPE_DEL,
+		UNDO_TYPE_UPD,
+	};
+public:
 	CItemDoc();
 	virtual ~CItemDoc();
 

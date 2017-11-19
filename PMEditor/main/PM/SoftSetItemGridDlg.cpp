@@ -91,13 +91,6 @@ BOOL CSoftSetItemGridDlg::OnInitDialog()
 	m_bCheck9 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_DESCRIPT].bShow;
 	m_bCheck10 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_SCRIPT].bShow;
 	m_bCheck13 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_FRESHTIME].bShow;
-	m_bCheck14 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_BIT].bShow;
-	m_bCheck15 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_LOLO].bShow;
-	m_bCheck16 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_LOW].bShow;
-	m_bCheck17 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_HIGH].bShow;
-	m_bCheck18 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_HIHI].bShow;
-	m_bCheck19 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_AIM].bShow;
-	m_bCheck20 = !!csi->m_vtColInfo[MVC::Item::CItemGrid::COL_SHIFT].bShow;
 	m_uiFloatWidth = csi->getItemFloatWidth();
 	Dialog::CItemInConfigDlg *itemIn = &Dialog::CItemInConfigDlg::GetMe();
 	m_bCheckPaste = itemIn->m_bKeepPaste;
@@ -127,13 +120,6 @@ BOOL CSoftSetItemGridDlg::DestroyWindow()
 	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_DESCRIPT].bShow, m_bCheck9, uiShowCount))	bNeedFresh = true;
 	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_SCRIPT].bShow, m_bCheck10, uiShowCount))		bNeedFresh = true;
 	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_FRESHTIME].bShow, m_bCheck13, uiShowCount))	bNeedFresh = true;
-	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_BIT].bShow, m_bCheck14, uiShowCount))		bNeedFresh = true;
-	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_LOLO].bShow, m_bCheck15, uiShowCount))		bNeedFresh = true;
-	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_LOW].bShow, m_bCheck16, uiShowCount))		bNeedFresh = true;
-	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_HIGH].bShow, m_bCheck17, uiShowCount))		bNeedFresh = true;
-	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_HIHI].bShow, m_bCheck18, uiShowCount))		bNeedFresh = true;
-	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_AIM].bShow, m_bCheck19, uiShowCount))		bNeedFresh = true;
-	if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_SHIFT].bShow, m_bCheck20, uiShowCount))		bNeedFresh = true;
 
 	if(uiShowCount == 0)		// ±ØÐëÏÔÊ¾1ÁÐ
 		if(!ChangeValue(csi->m_vtColInfo[MVC::Item::CItemGrid::COL_NAME].bShow, TRUE, uiShowCount))			bNeedFresh = true;
@@ -145,7 +131,7 @@ BOOL CSoftSetItemGridDlg::DestroyWindow()
 	itemIn->m_bKeepPaste = m_bCheckPaste;
 	itemIn->m_bKeepItemIn = m_bCheckItemIn;
 
-	csi->setShowHex(m_bCheckHex);
+	csi->setShowHex(!!m_bCheckHex);
 
 	if(bNeedFresh)				MVC::Item::CItemMgr::GetMe().FreshAllGrid();
 	return CDialog::DestroyWindow();

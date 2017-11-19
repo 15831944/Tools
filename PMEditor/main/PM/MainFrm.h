@@ -77,7 +77,6 @@ public:
 	afx_msg void OnProjSave();					// 保存工程
 	afx_msg void OnProjBackUp();				// 备份工程
 	afx_msg void OnProjClose();					// 关闭工程
-	afx_msg BOOL OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct);		// 接收被启动程序传回来的数据
 	afx_msg void OnAddItem();
 	afx_msg void OnRename();					// 重命名工程名
 	afx_msg void OnProjInfo();

@@ -248,7 +248,7 @@ void CSpaceOutput::ShowItem(CString strAddr)
 {
 	if(strAddr.Trim() == _T(""))		return;
 	UINT id = (UINT)atoi(strAddr);
-	MVC::Item::CItemMgr::GetMe().ShowItem(id);
+	//MVC::Item::CItemMgr::GetMe().ShowItem(id);
 }
 
 void Space::CSpaceOutput::OnOutputClear()

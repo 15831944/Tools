@@ -5,7 +5,6 @@
 #include "Item.h"
 #include "ItemMgr.h"
 #include "ItemDoc.h"
-#include "AlarmProperty.h"
 #include "SourceProperty.h"
 #include "ItemGroup.h"
 
@@ -23,11 +22,9 @@ const CString ITEM_ACCESSRIGHT = _T("OprAttribute");			// 可读可写，只读，只写
 const CString ITEM_DEFVALUE = _T("DefaultValue");
 const CString ITEM_RESFLAG = _T("ReservFlag");
 const CString ITEM_RESFDB = _T("ReservDB");
-const CString ITEM_MODBUS485 = _T("Modbus485");
 const CString ITEM_ARRAYFLAG = _T("ArrayFlag");
 
 const CString SRC = _T("SrcProp");
-const CString ALARM = _T("AlarmProp");
 
 const CString VAL_TYPE[] = {_T("位变量"), _T("有符号字节"), _T("无符号字节"), _T("有符号单字"), _T("无符号单字"),
 _T("有符号双字"), _T("无符号双字"), _T("单精度浮点")/*, _T("双精度浮点")*/};
@@ -46,17 +43,8 @@ CItem::CItem(CString name)
 	m_uiAccessRight = 0;
 	m_bReservFlag = FALSE;
 	m_bReservDB = FALSE;
-	m_bModbus485 = FALSE;				// 是否导出Modbus变量
-	m_bAlarmBit = false;				// 位变量是否报警
-	m_bAlarmLolo = false;				// 下下限是否报警
-	m_bAlarmLow = false;				// 下限是否报警
-	m_bAlarmHigh = false;				// 上限是否报警
-	m_bAlarmHihi = false;				// 上上限是否报警
-	m_bAlarmAim = false;				// 目标是否报警
-	m_bAlarmShift = false;				// 变化率是否报警
 
 	m_spSrcInfo = std::shared_ptr<CPropertySource>(new CPropertySource(this));
-	m_spAlarmInfo = std::shared_ptr<CPropertyAlarm>(new CPropertyAlarm(this));
 
 	ChangeVarType(VT_I4);
 	::GetLocalTime(&m_stCreateTime);
@@ -91,7 +79,6 @@ bool CItem::SerializeXml(TiXmlElement* pNode, bool bRead, bool iExport/* = false
 			else if(name == ITEM_DEFVALUE)		{m_cvrDefaultValue = cv;}
 			else if(name == ITEM_RESFLAG)		{m_bReservFlag = (strValue == "1") ? TRUE : FALSE;}
 			else if(name == ITEM_RESFDB)		{m_bReservDB = (strValue == "1") ? TRUE : FALSE;}
-			else if(name == ITEM_MODBUS485)		{m_bModbus485 = (strValue == "1") ? TRUE : FALSE;}		// 是否导出Modbus变量}
 			else if(name == ITEM_DESCRIPTION)	{m_strDescription = cv;}
 			else if(name == ITEM_ARRAYFLAG)		{}
 			pAttr = pAttr->Next();
@@ -102,7 +89,6 @@ bool CItem::SerializeXml(TiXmlElement* pNode, bool bRead, bool iExport/* = false
 		{
 			name = pChild->Value();
 			if(name == SRC)				m_spSrcInfo->SerializeXml(pChild, bRead, iExport);
-			else if(name == ALARM)		m_spAlarmInfo->SerializeXml(pChild, bRead);
 			pChild = pChild->NextSiblingElement();
 		}
 	}
@@ -120,12 +106,10 @@ bool CItem::SerializeXml(TiXmlElement* pNode, bool bRead, bool iExport/* = false
 		pNode->SetAttribute(ITEM_DEFVALUE, (CString)m_cvrDefaultValue.bstrVal);
 		pNode->SetAttribute(ITEM_RESFLAG, getReservFlag()?1:0);
 		pNode->SetAttribute(ITEM_RESFDB, getReservDB()?1:0);
-		pNode->SetAttribute(ITEM_MODBUS485, getModbus485()?1:0);
 		pNode->SetAttribute(ITEM_GROUP, getMyGroupID());
 		m_cvrDefaultValue.ChangeType(t);
 
 		m_spSrcInfo->SerializeXml(pNode->AddTiXmlChild((LPCTSTR)SRC), bRead, iExport);
-		m_spAlarmInfo->SerializeXml(pNode->AddTiXmlChild((LPCTSTR)ALARM), bRead);
 	}
 	return true;
 }
@@ -175,7 +159,6 @@ bool MVC::Item::CItem::ReadFromPM(CString strLine, int devID)
 	setReservDB(vtCell[9].Trim() == "1");				// 变量保留历史数据
 
 	m_spSrcInfo->ReadFromPMExcel(vtCell);				// 解析数据源属性
-	m_spAlarmInfo->ReadFromPMExcel(vtCell);				// 解析报警属性
 
 	setValType((UINT)atoi(vtCell[4].Trim())); 			// 变量类型
 	return true;
@@ -229,16 +212,6 @@ void CItem::setValType(UINT type)
 	}
 	if(m_uiValType == 0){	// 位变量
 		getSrcInfo()->setConvertType(0);
-		getAlarmInfo()->setLoloActive(false);
-		getAlarmInfo()->setLowActive(false);
-		getAlarmInfo()->setHighActive(false);
-		getAlarmInfo()->setHihiActive(false);
-		getAlarmInfo()->setAimActive(false);
-		getAlarmInfo()->setShiftActive(false);
-	}
-	else
-	{
-		getAlarmInfo()->setBitAlarmType(0);
 	}
 }
 
@@ -266,10 +239,8 @@ CItem& CItem::operator = (CItem& item)
 	setAccessRight(item.getAccessRight());
 	setReservFlag(item.getReservFlag());
 	setReservDB(item.getReservDB());
-	setModbus485(item.getModbus485());
 
 	(*m_spSrcInfo) = (*item.getSrcInfo());
-	(*m_spAlarmInfo) = (*item.getAlarmInfo());
 	return *this;
 }
 
@@ -285,10 +256,8 @@ bool CItem::operator == (CItem &item) const
 	if (m_uiAccessRight != item.getAccessRight())		return false;	// 访问权限，0可读可写，1只读，只写
 	if (m_bReservFlag != item.getReservFlag())			return false;	// 是否设置成保留值，true设置，false不设置
 	if (m_bReservDB != item.getReservDB())				return false;	// 是否保存历史数据，true保留，false不保留
-	if (m_bModbus485 != item.getModbus485())			return false;	// 是否导出Modbus变量
 
 	if (!(*m_spSrcInfo == *item.getSrcInfo()))			return false;
-	if (!(*m_spAlarmInfo == *item.getAlarmInfo()))		return false;
 	return true;
 }
 
@@ -386,49 +355,9 @@ CString CItem::GetGroupName()
 	return group->getName();
 }
 
-// 设置报警
-void CItem::SetAlarm(UINT type, bool alarm /* = false */)
-{
-	bool bAlarmOld = false, bAlarmNew = false;
-
-	// 获得原始的报警颜色
-	bAlarmOld = IsAlarm();
-
-	if(type == 0)			m_bAlarmBit = alarm;
-	else if(type == 1)		m_bAlarmLolo = alarm;
-	else if(type == 2)		m_bAlarmLow = alarm;
-	else if(type == 3)		m_bAlarmHigh = alarm;
-	else if(type == 4)		m_bAlarmHihi = alarm;
-	else if(type == 5)		m_bAlarmAim = alarm;
-	else if(type == 6)		m_bAlarmShift = alarm;
-
-	// 获得现在的报警颜色
-	bAlarmNew = IsAlarm();
-
-	// 颜色不同，证明需要重绘
-	CItemMgr* itemMgr = &CItemMgr::GetMe();
-	if(bAlarmOld != bAlarmNew){
-		itemMgr->AddEditItem(getID());
-	}
-	itemMgr->SetEditEnd();
-}
-
-bool CItem::IsAlarm()
-{
-	if(getValType() == 0)		return IsAlarmBit();
-	return IsAlarmLolo() | IsAlarmLow() | IsAlarmHigh() | IsAlarmHihi() | IsAlarmAim() | IsAlarmShift();
-}
-
 // 监控初始化，清楚状态
 void CItem::WatchInit()
 {
-	SetAlarm(0, false);		// 位变量是否报警
-	SetAlarm(1, false);		// 下下限是否报警
-	SetAlarm(2, false);		// 下限是否报警
-	SetAlarm(3, false);		// 上限是否报警
-	SetAlarm(4, false);		// 上上限是否报警
-	SetAlarm(5, false);		// 目标是否报警
-	SetAlarm(6, false);		// 变化率是否报警
 }
 
 // 判断变量值是否改变

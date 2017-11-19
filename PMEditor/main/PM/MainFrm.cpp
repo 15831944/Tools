@@ -489,39 +489,10 @@ void CMainFrame::CompileRun(bool bRunServer /* = false */)
 {
 }
 
-// 接收被启动程序传回来的数据
-BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
-{
-	if(pCopyDataStruct)
-	{
-		if(PRINT == (UINT)pCopyDataStruct->dwData)
-		{
-			char *data = new char[pCopyDataStruct->cbData + 1];
-			memcpy(data, pCopyDataStruct->lpData, pCopyDataStruct->cbData);
-			data[pCopyDataStruct->cbData] = 0;
-			CString msg = data;
-			CGbl::PrintOut(msg, 0);
-			m_paneManager.ShowPane(ID_VIEW_OUTPUT);
-			delete[] data;
-		}
-		else if (SHOW_ITEM == (UINT)pCopyDataStruct->dwData)
-		{
-			MVC::Item::CItemMgr::GetMe().ShowItem(-1);
-			m_paneManager.HidePane(ID_VIEW_OUTPUT);
-			m_paneManager.HidePane(ID_VIEW_PROJECT);
-			m_paneManager.HidePane(ID_VIEW_ITEM);
-			ShowWindow(SW_SHOWMAXIMIZED);
-		}
-	}
-	return CXTPMDIFrameWnd::OnCopyData(pWnd, pCopyDataStruct);
-}
-
 void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 {
 	if(nIDEvent == TIME_WATCH)// && SoftInfo::CSoftInfo::GetMe().getHDevMap() == 1)		// 监控的时间
 	{
-		MVC::Item::CItemMgr::GetMe().ReadItemValue(true);
-		MVC::Item::CItemMgr::GetMe().ReadItemValue(false);
 	}
 	else if(nIDEvent == TIME_LIMIT)
 	{
@@ -567,9 +538,9 @@ void CMainFrame::OnAddItem()
 			return;
 		}
 	}
-	MVC::Item::CItemMgr* itemMgr = &MVC::Item::CItemMgr::GetMe();
-	itemMgr->OpenDoc();
-	itemMgr->m_pItemDoc->GetView()->OnItemAdd();
+	//MVC::Item::CItemMgr* itemMgr = &MVC::Item::CItemMgr::GetMe();
+	//itemMgr->OpenDoc();
+	//itemMgr->m_pItemDoc->GetView()->OnItemAdd();
 }
 
 // 重命名工程名

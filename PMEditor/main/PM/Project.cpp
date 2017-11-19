@@ -10,6 +10,8 @@
 #include "CreatProjectDlg.h"
 #include "ReNameDlg.h"
 
+#include "Model/Model.h"
+
 // 打开工程时使用这个构造
 
 const CString PROJ_EXPAND_NAME = _T("dsl");
@@ -38,20 +40,7 @@ CProject::CProject()
 	GetLocalTime(&m_ctBuildTime);
 	m_ctUpdateTime = m_ctBuildTime;
 	m_strFileName = m_strProjName = m_strPath = m_strDescription = m_strAuthor = m_strVersion = _T("");
-}
-
-CProject::CProject(CString name,CString path,CString author,CString description,CString version)
-:m_bCompiled(false)			// 是否被编译过
-{
-	m_nProjectType = 0;
-	m_bModify = true;
-	GetLocalTime(&m_ctBuildTime);
-	m_ctUpdateTime = m_ctBuildTime;
-	m_strFileName = m_strProjName = name;
-	m_strPath = path;
-	m_strDescription = description;
-	m_strAuthor = author;
-	m_strVersion = version;
+	m_Model = std::shared_ptr<Model::CModel>(new Model::CModel());
 }
 
 CProject::CProject(int type, CString name, CString path, CString author, CString description, CString version)
@@ -87,7 +76,7 @@ CString CProject::GetWholePathName()
 // 创建工程，在这里生成一些工程所必须的文件
 bool CProject::CreateProject()
 {
-	MVC::Item::CItemMgr::GetMe().OnCreate();
+	//MVC::Item::CItemMgr::GetMe().OnCreate();
 	SaveProject();	//新建的工程需要立即保存一下才能算是成功
 	SetModify(true);
 	return true;
@@ -96,7 +85,7 @@ bool CProject::CreateProject()
 // 关闭工程时要处理的事情
 bool CProject::OnClose()
 {
-	MVC::Item::CItemMgr::GetMe().OnClose();
+	//MVC::Item::CItemMgr::GetMe().OnClose();
 	SetModify(false);
 	return true;
 }
@@ -128,7 +117,7 @@ bool CProject::SaveProject()
 
 	// 设置一下滚动条
 	UINT processlen = 3;
-	processlen += MVC::Item::CItemMgr::GetMe().GetItemSize();
+	//processlen += MVC::Item::CItemMgr::GetMe().GetItemSize();
 	CGbl::SetProgressRange(processlen);
 
 	// 保存前更改一下修改时间，这个时间也可以通过别的来计算，因为保存时也许并没有修改
@@ -153,7 +142,7 @@ bool CProject::SaveProject()
 	}
 	CGbl::SetProgressStep(1);
 
-	MVC::Item::CItemMgr::GetMe().SaveItemFile();
+	//MVC::Item::CItemMgr::GetMe().SaveItemFile();
 	CGbl::SetProgressEnd();
 	SetModify(false);
 	return true;
@@ -207,8 +196,8 @@ bool CProject::SerializeXml(TiXmlElement* pNode, bool bRead/* = true*/)
 			}
 			pChild = pChild->NextSiblingElement();
 		}
-		if(!MVC::Item::CItemMgr::GetMe().OpenItemFile(itemName, m_strPath + itemPath, itemVer, itemTime))
-			return false;
+		//if(!MVC::Item::CItemMgr::GetMe().OpenItemFile(itemName, m_strPath + itemPath, itemVer, itemTime))
+		//	return false;
 	}
 	else{
 		pNode->SetAttribute(_T("FileType"), _T("EditorProjectFile"));
@@ -223,11 +212,11 @@ bool CProject::SerializeXml(TiXmlElement* pNode, bool bRead/* = true*/)
 
 
 		TiXmlElement* pItem = pNode->AddTiXmlChild((LPCTSTR)ITEM);
-		MVC::Item::CItemMgr* itemMgr = &MVC::Item::CItemMgr::GetMe();
-		pItem->SetAttribute(ITEM_NAME, itemMgr->getName());
-		pItem->SetAttribute(ITEM_PATH, itemMgr->getFileName());
-		pItem->SetAttribute(ITEM_VERSION, itemMgr->getVersion());
-		pItem->SetAttribute(EDIT_TIME, itemMgr->GetEditTime());
+		//MVC::Item::CItemMgr* itemMgr = &MVC::Item::CItemMgr::GetMe();
+		//pItem->SetAttribute(ITEM_NAME, itemMgr->getName());
+		//pItem->SetAttribute(ITEM_PATH, itemMgr->getFileName());
+		//pItem->SetAttribute(ITEM_VERSION, itemMgr->getVersion());
+		//pItem->SetAttribute(EDIT_TIME, itemMgr->GetEditTime());
 	}
 	return true;
 }
@@ -257,7 +246,7 @@ void CProject::OnTreeEnter(CTreeCtrl* treeCtrl, HTREEITEM item)
 // 接收双击消息
 void CProject::OnTreeDblClick(CTreeCtrl* treeCtrl, HTREEITEM item)
 {
-	if(item == m_hItemItem)				MVC::Item::CItemMgr::GetMe().OpenDoc();
+	//if(item == m_hItemItem)				MVC::Item::CItemMgr::GetMe().OpenDoc();
 }
 
 // 接收右键消息

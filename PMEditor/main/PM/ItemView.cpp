@@ -133,7 +133,7 @@ void MVC::Item::CItemView::OnItemAdd()
 	if(!item)		return;
 	std::shared_ptr<SItemUndo> undo = std::shared_ptr<SItemUndo>(new SItemUndo);
 	undo->m_bEnd = true;
-	undo->m_uiEditType = CGbl::UNDO_TYPE_ADD;
+	undo->m_uiEditType = CItemDoc::UNDO_TYPE_ADD;
 	undo->m_Item = item;
 	CItemDoc* pDoc = (CItemDoc *)GetDocument();
 	pDoc->AddUndoMember(undo);
