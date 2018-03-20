@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "Player.h"
+#include "AnalyzeMgr.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -14,7 +15,7 @@ CString CPlayer::GetName()
 	//return _T("AI0-AlwaysFollow");
 	//return _T("AI1-Bet30FirstAndFollow");
 	//return _T("AI2-AlwaysGiveup");
-	return _T("AI3-CleverOne");
+	return _T("Atlas Liu");
 }
 
 // It's a event at first time
@@ -26,11 +27,19 @@ void CPlayer::OnInitPlayer()
 		- how many players in the game
 		- bet unit money (the bet money must be integer multiple of unit money every time)
 	*/
+	Analyze::AnalyzeMgr::GetMe().OnInitPlayers(
+		m_PlayerInfo->GetID(),
+		m_PlayerInfo->GetTotalMoney(),
+		m_PlayerInfo->GetPlayCount(),
+		m_PlayerInfo->GetBetUnitMoney(),
+		m_PlayerInfo->GetGameCount()
+	);
 }
 
 // When one game begin
 void CPlayer::OnOneGameBegin()
 {
+	Analyze::AnalyzeMgr::GetMe().OnGameBegin();
 }
 
 // When you get pokers from server
@@ -43,6 +52,12 @@ void CPlayer::OnReceivePokers()
 		- int id = game->GetBankerID();					// you will know who it the banker, the banker will give bet money at first time
 		- int id = game->GetGameID();					// current game id, from 0
 	*/
+	IGame *game = m_PlayerInfo->GetCurrentGame();
+	int n = 0;
+	Analyze::AnalyzeMgr::GetMe().OnReceivePoker(
+		game->GetPoker(n),
+		game->GetBankerID()
+	);
 }
 
 // Need you give the delta bet money to server. The value you return is the delta bet money, this value + nMyBet will be all your bet in this game
@@ -177,6 +192,9 @@ int CPlayer::RequireBetMoney(int nMax, int nPrevBet, int nMyBet, int nTotal, CSt
 		default:
 			nDeltaBet = -1;
 		}
+	}
+	else if (GetName().Find(_T("Atlas")) == 0){
+		nDeltaBet = Analyze::AnalyzeMgr::GetMe().GetBet(nMax, nPrevBet, nMyBet, nTotal, strAllBet);
 	}
 	return nDeltaBet;
 }

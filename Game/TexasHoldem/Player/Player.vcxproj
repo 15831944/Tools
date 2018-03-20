@@ -79,12 +79,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Gbl.h" />
+    <ClInclude Include="Habit.h" />
+    <ClInclude Include="HabitInfo.h" />
     <ClInclude Include="Include.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="AnalyzeMgr.h" />
+    <ClInclude Include="Plyer.h" />
+    <ClInclude Include="PokerMgr.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Gbl.cpp" />
+    <ClCompile Include="Habit.cpp" />
+    <ClCompile Include="HabitInfo.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="AnalyzeMgr.cpp" />
+    <ClCompile Include="Plyer.cpp" />
+    <ClCompile Include="PokerMgr.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

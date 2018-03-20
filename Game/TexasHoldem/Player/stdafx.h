@@ -29,6 +29,11 @@
 // Windows Header Files:
 #include <windows.h>
 
+#include <map>
 #include <list>
 #include <vector>
-#include <map>
+#include <memory>
+#include <hash_map>
+#include <algorithm>
+
+#include "Gbl.h"
