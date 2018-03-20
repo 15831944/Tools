@@ -13,10 +13,10 @@ namespace AI{
 
 	public:
 		double GetEstiVal(){ return m_weight * m_value; }
-		void SetEstiResult(double deltaResult, int count)
+		void SetEstiResult(double lostResult, int count)
 		{
 			// 计算代价和
-			m_estiSum += (deltaResult * m_value);
+			m_estiSum += (lostResult * m_value);
 			// 计算梯度
 			m_gradient = m_estiSum / count;
 			// 重新计算权重 = 原权重-梯度

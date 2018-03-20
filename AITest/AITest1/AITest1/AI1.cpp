@@ -43,6 +43,6 @@ void AI1::AddSample(std::shared_ptr<Sample> sample)
 	// 计算梯度，和新的权值
 	for (int i = 0; i < m_Params.size(); i++)
 	{
-		m_Params[i]->SetEstiResult(estimateVal, m_Samples.size());
+		m_Params[i]->SetEstiResult(sample->m_lostResult, m_Samples.size());
 	}
 }
