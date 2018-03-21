@@ -24,14 +24,17 @@ void AnalyzeMgr::OnInitPlayers(int id, int totalMoney, int playCount, int betUni
 	m_gameCount = gameCount;
 	m_gameIndex = 0;
 
-	m_ltPlayer.clear();
-
-	for (int i = 0; i < playCount; ++i)
+	//m_ltPlayer.clear();
+	if (m_vtPlayer.size() != playCount)
 	{
-		m_ltPlayer.push_back(std::shared_ptr<Player>(new Player(i, this)));
-		if (i == id) {
-			m_Me = m_ltPlayer.back();
-			m_Me->SetMeFlag(true);
+		m_vtPlayer.resize(playCount);
+		for (int i = 0; i < playCount; ++i)
+		{
+			m_vtPlayer[i] = std::shared_ptr<Player>(new Player(i, this));
+			if (i == id) {
+				m_Me = m_vtPlayer[i];
+				m_Me->SetMeFlag(true);
+			}
 		}
 	}
 }

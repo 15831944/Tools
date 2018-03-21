@@ -13,6 +13,7 @@ Player::Player(int id, AnalyzeMgr *mgr)
 	, m_bMe(false)
 {
 	m_habit = std::shared_ptr<Habit>(new Habit());
+	m_curMoney = m_Mgr->GetTotalMoney();
 }
 
 
@@ -23,8 +24,33 @@ Player::~Player()
 void Player::InitPokers(byte *p)
 {
 	memcpy(m_curPoker, p, 5);
-	m_curWinRate = Poker::PokerMgr::GetWinRate(p);
-	m_winRateList.push_back(m_curWinRate);
+	m_curWinRateOne = Poker::PokerMgr::GetWinRate(p);
+	m_curWinRateAll = m_curWinRateOne;
+	m_winRateList.push_back(m_curWinRateOne);
+	for (int i = 1; i < m_Mgr->GetPlayCount() - 1; i++){
+		m_curWinRateAll = m_curWinRateAll *  m_curWinRateOne;
+	}
+	m_curWinRateAll = m_curWinRateAll + 0.1 - GetWinState();
+	if (m_curWinRateAll < 0.35)			{ m_betMax = -1; m_betMul = 0; m_betDelta = 0; m_catchMax = 0; }		// 放弃
+	else if (m_curWinRateAll < 0.4)		{ m_betMax = 10; m_betMul = 1; m_betDelta = 10; m_catchMax = 0; }		// 押到10 不跟
+	else if (m_curWinRateAll < 0.45)	{ m_betMax = 50; m_betMul = 1; m_betDelta = 20; m_catchMax = 60; }		// 押到50 跟到60
+	else if (m_curWinRateAll < 0.5)		{ m_betMax = 80; m_betMul = 1; m_betDelta = 30; m_catchMax = 100; }
+	else if (m_curWinRateAll < 0.6)		{ m_betMax = 100; m_betMul = 2; m_betDelta = 30; m_catchMax = 150; }
+	else if (m_curWinRateAll < 0.7)		{ m_betMax = 150; m_betMul = 2; m_betDelta = 50; m_catchMax = 300; }
+	else if (m_curWinRateAll < 0.8)		{ m_betMax = 200; m_betMul = 2; m_betDelta = 50; m_catchMax = 500; }
+	else if (m_curWinRateAll < 0.9)		{ m_betMax = 400; m_betMul = 2; m_betDelta = 60; m_catchMax = 1000; }
+	else if (m_curWinRateAll >= 0.9)	{ m_betMax = 90000000; m_betMul = 2; m_betDelta = 60; m_catchMax = 90000000; }
+}
+
+// 当前的状态0~0.2，默认0.1，0表示岌岌可危，必须冲，0.2表示胜券在握，需要稳
+double Player::GetWinState()
+{
+	double x = m_curMoney / m_Mgr->GetTotalMoney();
+	if (x <= 0.5)	return 0.0;
+	if (x >= 2.0)	return 2.0;
+
+	// 10y = -2x*x/3 + 3x - 4/3
+	return (((-2.0 * x * x) / 3.0) + (3.0 * x) - (4.0 / 3.0)) / 10.0;
 }
 
 /*
@@ -50,5 +76,25 @@ void Player::InitPokers(byte *p)
 int Player::GetBet(int nMax, int nPrevBet, int nMyBet, int nTotal, CString strAllBet)
 {
 	// return = -1 or nPrevBet <= return + nMyBet <= nMax
-	return -1;
+	if (m_betMax <= 0)	return -1;
+	int nBet = m_betDelta;		// 这个是我当前要押的注
+	m_betDelta *= m_betMul;		// 下次要押的值
+
+	// 看看押注超过了押注额度
+	if ((nBet + nMyBet) > m_betMax)
+		nBet = m_betMax - nMyBet;		// 这个是目前可以压的最大押注额度
+
+	// 看看押注是否不够满足下注的要求
+	if ((nBet + nMyBet) < nPrevBet)
+	{
+		// 判断跟注额度是否可以满足要求
+		if (m_catchMax >= nPrevBet)
+			nBet = nPrevBet - nMyBet;		// 跟注的值
+		else
+			return -1;			// 超过了跟注能力，放弃
+	}
+
+	if ((nBet + nMyBet) > nMax)
+		nBet = nMax - nMyBet;	// 如果押注值，超过了规则，降低到规则的档位
+	return nBet;
 }

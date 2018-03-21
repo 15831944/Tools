@@ -4,7 +4,7 @@ namespace Analyze{
 	class AnalyzeMgr
 	{
 	private:
-		std::list<std::shared_ptr<Player>> m_ltPlayer;
+		std::vector<std::shared_ptr<Player>> m_vtPlayer;
 		std::shared_ptr<Player> m_Me;
 		int m_curID;
 		int m_totalMoney;
@@ -16,6 +16,18 @@ namespace Analyze{
 		int m_curBankerID;
 		int m_curPlayLeft;		// 本局还剩多少个对手
 		bool m_gameBeginning;	// 是否是开局的首次下注
+
+	public:
+		int GetCurID(){ return m_curID; }
+		int GetTotalMoney(){ return m_totalMoney; }
+		int GetPlayCount(){ return m_playCount; }
+		int GetBetUnit(){ return m_betUnit; }
+		int GetGameCount(){ return m_gameCount; }
+		int GetGameIndex(){ return m_gameIndex; }
+
+		int GetCurBankerID(){ return m_curBankerID; }
+		int GetPlayLeft(){ return m_curPlayLeft; }		// 本局还剩多少个对手
+		bool IsGameBeginning(){ return m_gameBeginning; }	// 是否是开局的首次下注
 
 	private:
 		AnalyzeMgr();
