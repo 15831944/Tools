@@ -24,22 +24,24 @@ Player::~Player()
 void Player::InitPokers(byte *p)
 {
 	memcpy(m_curPoker, p, 5);
-	m_curWinRateOne = Poker::PokerMgr::GetWinRate(p);
+	Poker::PokerMgr::GetWinRate(p, m_curWinRateOne, m_curPokerPowerAvg);
 	m_curWinRateAll = m_curWinRateOne;
 	m_winRateList.push_back(m_curWinRateOne);
-	for (int i = 1; i < m_Mgr->GetPlayCount() - 1; i++){
+	int nCount = m_Mgr->GetPlayCount() - 1;
+	if (nCount < 7)	nCount = 7;
+	for (int i = 1; i < nCount; i++){
 		m_curWinRateAll = m_curWinRateAll *  m_curWinRateOne;
 	}
 	m_curWinRateAll = m_curWinRateAll + 0.1 - GetWinState();
-	if (m_curWinRateAll < 0.35)			{ m_betMax = -1; m_betMul = 0; m_betDelta = 0; m_catchMax = 0; }		// 放弃
-	else if (m_curWinRateAll < 0.4)		{ m_betMax = 10; m_betMul = 1; m_betDelta = 10; m_catchMax = 0; }		// 押到10 不跟
-	else if (m_curWinRateAll < 0.45)	{ m_betMax = 50; m_betMul = 1; m_betDelta = 20; m_catchMax = 60; }		// 押到50 跟到60
-	else if (m_curWinRateAll < 0.5)		{ m_betMax = 80; m_betMul = 1; m_betDelta = 30; m_catchMax = 100; }
-	else if (m_curWinRateAll < 0.6)		{ m_betMax = 100; m_betMul = 2; m_betDelta = 30; m_catchMax = 150; }
-	else if (m_curWinRateAll < 0.7)		{ m_betMax = 150; m_betMul = 2; m_betDelta = 50; m_catchMax = 300; }
-	else if (m_curWinRateAll < 0.8)		{ m_betMax = 200; m_betMul = 2; m_betDelta = 50; m_catchMax = 500; }
-	else if (m_curWinRateAll < 0.9)		{ m_betMax = 400; m_betMul = 2; m_betDelta = 60; m_catchMax = 1000; }
-	else if (m_curWinRateAll >= 0.9)	{ m_betMax = 90000000; m_betMul = 2; m_betDelta = 60; m_catchMax = 90000000; }
+	if (m_curWinRateAll < 0.5)			{ m_betMax = -1; m_betMul = 0.0; m_betDelta = 0; m_catchMax = 0; }		// 放弃
+	else if (m_curWinRateAll < 0.6)		{ m_betMax = 10; m_betMul = 1.0; m_betDelta = 10; m_catchMax = 0; }		// 押到10 不跟
+	else if (m_curWinRateAll < 0.7)		{ m_betMax = 30; m_betMul = 1.0; m_betDelta = 20; m_catchMax = 40; }		// 押到50 跟到60
+	else if (m_curWinRateAll < 0.78)	{ m_betMax = 50; m_betMul = 1.0; m_betDelta = 20; m_catchMax = 80; }
+	else if (m_curWinRateAll < 0.85)	{ m_betMax = 80; m_betMul = m_curPokerPowerAvg; m_betDelta = 30 * m_curPokerPowerAvg; m_catchMax = 120; }
+	else if (m_curWinRateAll < 0.89)	{ m_betMax = 120; m_betMul = m_curPokerPowerAvg; m_betDelta = 50 * m_curPokerPowerAvg; m_catchMax = 200; }
+	else if (m_curWinRateAll < 0.92)	{ m_betMax = 200; m_betMul = m_curPokerPowerAvg; m_betDelta = 55 * m_curPokerPowerAvg; m_catchMax = 500; }
+	else if (m_curWinRateAll < 0.94)	{ m_betMax = 400; m_betMul = m_curPokerPowerAvg; m_betDelta = 68 * m_curPokerPowerAvg; m_catchMax = 1000; }
+	else if (m_curWinRateAll >= 0.94)	{ m_betMax = 90000000; m_betMul = m_curPokerPowerAvg; m_betDelta = 75 * m_curPokerPowerAvg; m_catchMax = 90000000; }
 }
 
 // 当前的状态0~0.2，默认0.1，0表示岌岌可危，必须冲，0.2表示胜券在握，需要稳
@@ -77,8 +79,9 @@ int Player::GetBet(int nMax, int nPrevBet, int nMyBet, int nTotal, CString strAl
 {
 	// return = -1 or nPrevBet <= return + nMyBet <= nMax
 	if (m_betMax <= 0)	return -1;
-	int nBet = m_betDelta;		// 这个是我当前要押的注
+	int nBet = (int)(m_betDelta / m_Mgr->GetBetUnit()) * m_Mgr->GetBetUnit();	// 这个是我当前要押的注
 	m_betDelta *= m_betMul;		// 下次要押的值
+	m_betMul -= 0.1;
 
 	// 看看押注超过了押注额度
 	if ((nBet + nMyBet) > m_betMax)

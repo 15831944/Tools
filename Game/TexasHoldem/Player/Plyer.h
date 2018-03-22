@@ -28,11 +28,12 @@ namespace Analyze{
 		byte m_curPoker[5];
 		double m_curWinRateOne;		// 我的1v1胜率
 		double m_curWinRateAll;		// 我的1vn胜率
+		double m_curPokerPowerAvg;	// 对方的平均牌力值
 		//BET_IDEA m_BetIdea;			// 下注的策略
 
 		int m_betDelta;				// 下注的差值
 		int m_betMax;				// 下注的最大值
-		int m_betMul;				// 乘法系数
+		double m_betMul;			// 乘法系数
 		int m_catchMax;				// 跟注的最大值
 
 	public:

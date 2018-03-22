@@ -23,6 +23,6 @@ namespace Poker{
 		static PokerMgr& GetMe(){ static PokerMgr one; return one; }
 		static CString GetPokerString(byte* p);
 		static __int64 GetPokerValue(byte* p);
-		static double GetWinRate(byte* pokers);
+		static void GetWinRate(byte* pokers, double& winRate, double& pokerPowerAvg);
 	};
 }

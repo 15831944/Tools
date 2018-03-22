@@ -146,8 +146,10 @@ CString PokerMgr::GetPokerString(byte* p)
 	return strPoker;
 }
 
-double PokerMgr::GetWinRate(byte* pokers)
+void PokerMgr::GetWinRate(byte* pokers, double& winRate, double& pokerPowerAvg)
 {
+	winRate = pokerPowerAvg = 0.0;
+	double pokerPowerSum = 0.0;
 	double rate = 0.0;
 	std::list<byte> ltpk;
 
@@ -156,7 +158,7 @@ double PokerMgr::GetWinRate(byte* pokers)
 	for (byte i = 0; i < POKER_COUNT; i++) ltpk.remove(pokers[i]);
 
 	__int64 pkVal = PokerMgr::GetPokerValue(pokers);
-	if (g_mpIntResult.find(pkVal) == g_mpIntResult.end()) { ASSERT(FALSE); return 0.0; }
+	if (g_mpIntResult.find(pkVal) == g_mpIntResult.end()) { ASSERT(FALSE); return; }
 	int vL = g_mpIntResult[pkVal];
 
 	// loop for all other pks
@@ -173,16 +175,19 @@ double PokerMgr::GetWinRate(byte* pokers)
 		{
 			pkCmp[1] = *iter_j;
 			__int64 pkValR = PokerMgr::GetPokerValue(pkCmp);
-			if (g_mpIntResult.find(pkValR) == g_mpIntResult.end()) { ASSERT(FALSE); return 0.0; }
+			if (g_mpIntResult.find(pkValR) == g_mpIntResult.end()) { ASSERT(FALSE); return; }
 			int vR = g_mpIntResult[pkValR];
+			//pokerPowerSum += vR;
+			pokerPowerSum += (1.0 / (double)vR);
 
 			if (vL <= vR)	winCount++;
 			else			loseCount++;
 			iter_j++;
 		}
 	}
-
-	return (double)winCount / (double)baseCount;
+	winRate = (double)winCount / (double)baseCount;
+	//pokerPowerAvg = (double)pokerPowerSum / (double)(baseCount);
+	pokerPowerAvg = pokerPowerSum * (double)3000.0 / (double)baseCount;
 }
 
 PokerMgr::PokerMgr()
