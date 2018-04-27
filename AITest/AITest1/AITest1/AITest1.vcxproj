@@ -102,6 +102,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AI1.h" />
+    <ClInclude Include="AI1Test.h" />
+    <ClInclude Include="AI2.h" />
+    <ClInclude Include="AI2Test.h" />
     <ClInclude Include="AITest1.h" />
     <ClInclude Include="AITest1Dlg.h" />
     <ClInclude Include="Param.h" />
@@ -109,13 +112,15 @@
     <ClInclude Include="Sample.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Value.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AI1.cpp" />
+    <ClCompile Include="AI1Test.cpp" />
+    <ClCompile Include="AI2.cpp" />
+    <ClCompile Include="AI2Test.cpp" />
     <ClCompile Include="AITest1.cpp" />
     <ClCompile Include="AITest1Dlg.cpp" />
-    <ClCompile Include="Param.cpp" />
-    <ClCompile Include="Sample.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
