@@ -35,13 +35,13 @@ void Player::InitPokers(byte *p)
 	m_curWinRateAll = m_curWinRateAll + 0.1 - GetWinState();
 	if (m_curWinRateAll < 0.5)			{ m_betMax = -1; m_betMul = 0.0; m_betDelta = 0; m_catchMax = 0; }		// 放弃
 	else if (m_curWinRateAll < 0.6)		{ m_betMax = 10; m_betMul = 1.0; m_betDelta = 10; m_catchMax = 0; }		// 押到10 不跟
-	else if (m_curWinRateAll < 0.7)		{ m_betMax = 30; m_betMul = 1.0; m_betDelta = 20; m_catchMax = 40; }		// 押到50 跟到60
+	else if (m_curWinRateAll < 0.7)		{ m_betMax = 30; m_betMul = 1.0; m_betDelta = 20; m_catchMax = 40; }	// 押到50 跟到60
 	else if (m_curWinRateAll < 0.78)	{ m_betMax = 50; m_betMul = 1.0; m_betDelta = 20; m_catchMax = 80; }
 	else if (m_curWinRateAll < 0.85)	{ m_betMax = 80; m_betMul = m_curPokerPowerAvg; m_betDelta = 30 * m_curPokerPowerAvg; m_catchMax = 120; }
 	else if (m_curWinRateAll < 0.89)	{ m_betMax = 120; m_betMul = m_curPokerPowerAvg; m_betDelta = 50 * m_curPokerPowerAvg; m_catchMax = 200; }
 	else if (m_curWinRateAll < 0.92)	{ m_betMax = 200; m_betMul = m_curPokerPowerAvg; m_betDelta = 55 * m_curPokerPowerAvg; m_catchMax = 500; }
-	else if (m_curWinRateAll < 0.94)	{ m_betMax = 400; m_betMul = m_curPokerPowerAvg; m_betDelta = 68 * m_curPokerPowerAvg; m_catchMax = 1000; }
-	else if (m_curWinRateAll >= 0.94)	{ m_betMax = 90000000; m_betMul = m_curPokerPowerAvg; m_betDelta = 75 * m_curPokerPowerAvg; m_catchMax = 90000000; }
+	else if (m_curWinRateAll < 0.95)	{ m_betMax = 400; m_betMul = m_curPokerPowerAvg; m_betDelta = 68 * m_curPokerPowerAvg; m_catchMax = 1000; }
+	else if (m_curWinRateAll >= 0.95)	{ m_betMax = 90000000; m_betMul = 2.0; m_betDelta = 100; m_catchMax = 90000000; }
 }
 
 // 当前的状态0~0.2，默认0.1，0表示岌岌可危，必须冲，0.2表示胜券在握，需要稳
@@ -49,8 +49,9 @@ double Player::GetWinState()
 {
 	double x = m_curMoney / m_Mgr->GetTotalMoney();
 	if (x <= 0.5)	return 0.0;
-	if (x >= 2.0)	return 2.0;
+	if (x >= 1.5)	return 2.0;
 
+	//double state = (x - 0.5) * 2;
 	// 10y = -2x*x/3 + 3x - 4/3
 	return (((-2.0 * x * x) / 3.0) + (3.0 * x) - (4.0 / 3.0)) / 10.0;
 }
