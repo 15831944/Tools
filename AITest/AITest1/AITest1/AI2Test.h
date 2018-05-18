@@ -1,7 +1,7 @@
 #pragma once
 
-namespace AI2{
-	class AI2Test
+namespace LeastSquare{
+	class LeastSquareTest
 	{
 	private:
 		static void TestCase1();

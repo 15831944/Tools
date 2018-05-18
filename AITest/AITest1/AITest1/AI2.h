@@ -1,10 +1,11 @@
 #pragma once
 
-namespace AI2{
-	class AIMgr
+namespace LeastSquare{
+	// 最小二乘法
+	class CLeastSquare
 	{
 	public:
-		AIMgr(){ ; }
+		CLeastSquare(){ ; }
 		static void CalEResult(std::vector<double> arrX, std::vector<double> arrY, int ecount, std::vector<double>& result);
 	};
 }

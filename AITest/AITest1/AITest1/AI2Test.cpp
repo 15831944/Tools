@@ -2,13 +2,13 @@
 #include "AI2Test.h"
 #include "AI2.h"
 
-using namespace AI2;
+using namespace LeastSquare;
 
 // y = 2*x + 7 (1,000 cases)
-//void AI2Test::TestCase1()
+//void LeastSquareTest::TestCase1()
 //{
 //	auto y = [](double x) -> double {return x * 2.0 + 7.0; };
-//	AIMgr mgr;
+//	CLeastSquare mgr;
 //
 //	std::vector<double> vx, vy, result;
 //
@@ -25,10 +25,10 @@ using namespace AI2;
 //}
 //
 //// y = 5*x^2 + 9*x + 22 (1,000 cases)
-//void AI2Test::TestCase2()
+//void LeastSquareTest::TestCase2()
 //{
 //	auto y = [](double x) -> double {return 5.0 * x * x + 9.0 * x + 22.0; };
-//	AIMgr mgr;
+//	CLeastSquare mgr;
 //
 //	std::vector<double> vx, vy, result;
 //
@@ -46,10 +46,10 @@ using namespace AI2;
 //}
 //
 //// y = 11*x^3 + 21*x^2 + 74*x + 17 (1,000 cases)
-//void AI2Test::TestCase3()
+//void LeastSquareTest::TestCase3()
 //{
 //	auto y = [](double x) -> double {return 11.0 * x * x * x + 21.0 * x * x + 74.0 * x + 17.0; };
-//	AIMgr mgr;
+//	CLeastSquare mgr;
 //
 //	std::vector<double> vx, vy, result;
 //
@@ -67,10 +67,10 @@ using namespace AI2;
 //}
 //
 //// y = 11*x^3 + 74*x + 17 (1,000 cases)
-//void AI2Test::TestCase4()
+//void LeastSquareTest::TestCase4()
 //{
 //	auto y = [](double x) -> double {return 11.0 * x * x * x + 74.0 * x + 17.0; };
-//	AIMgr mgr;
+//	CLeastSquare mgr;
 //	auto ecount = 3;
 //
 //	std::vector<double> vx, vy, result;
@@ -89,7 +89,7 @@ using namespace AI2;
 //}
 
 // y = (n)*x^(n-1) + (n-1)*x^(n-2) + ... + 2*x^1 + 1
-void AI2Test::TestCaseN(int n)
+void LeastSquareTest::TestCaseN(int n)
 {
 	// y = 1 - 2x + 3x^2 - 4x^3 + 5x^4 ...
 	auto y = [](double x, int n) -> double {
@@ -123,7 +123,7 @@ void AI2Test::TestCaseN(int n)
 		//TRACE(str);
 		input += 2.0;
 	}
-	AIMgr::CalEResult(vx, vy, ecount + 1, result);
+	CLeastSquare::CalEResult(vx, vy, ecount + 1, result);
 
 	//CString str;
 	//str.Format(_T("样本个数 %d, 拟合方程为：y = %lf"), vx.size(), result[1]);
@@ -141,7 +141,7 @@ void AI2Test::TestCaseN(int n)
 	//TRACE("拟合方程为：y = %lf + %lfx + %lfx^2 + %lfx^3 \n", result[1], result[2], result[3], result[4]);
 }
 
-void AI2Test::StartTest()
+void LeastSquareTest::StartTest()
 {
 	//TestCase1();
 	//TestCase2();

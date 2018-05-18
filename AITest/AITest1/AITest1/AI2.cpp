@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "AI2.h"
 
-using namespace AI2;
+using namespace LeastSquare;
 std::vector<std::vector<double>> _eMatrix;
 
 //ecount次方和
@@ -60,7 +60,7 @@ void CalEquation(int ecount, std::vector<double>& result)
 }
 
 //计算方程组的增广矩阵  
-void AIMgr::CalEResult(std::vector<double> arrX, std::vector<double> arrY, int ecount, std::vector<double>& result)
+void CLeastSquare::CalEResult(std::vector<double> arrX, std::vector<double> arrY, int ecount, std::vector<double>& result)
 {
 	// 初始化 _eMatrix
 	_eMatrix.resize(ecount + 1);

@@ -9,6 +9,7 @@
 
 #include "AI1Test.h"
 #include "AI2Test.h"
+#include "PidTest.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -101,7 +102,8 @@ BOOL CAITest1Dlg::OnInitDialog()
 
 	// TODO:  在此添加额外的初始化代码
 	//AI1::AI1Test::StartTest();
-	AI2::AI2Test::StartTest();
+	//LeastSquare::LeastSquareTest::StartTest();
+	PID::CPidTest::StartTest();
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
