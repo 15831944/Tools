@@ -1,0 +1,81 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace LDesigner
+{
+	public partial class MainFrame : Form
+	{
+		public MainFrame()
+		{
+			InitializeComponent();
+		}
+
+		private void _btTestRun_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void AddControl(Type t, int count)
+		{
+			if (count < 1) return;
+			List<Control> ctrls = new List<Control>();
+			for (int i = 0; i < count; i++)
+			{
+				Control ctrl = t.Assembly.CreateInstance(t.ToString()) as Control;
+				if (ctrl == null) return;
+				string tn = t.ToString();
+				int nidx = tn.LastIndexOf('.');
+				if (nidx > 0)
+					tn = tn.Substring(nidx + 1);
+
+				ctrl.Name = _designer.GetNewControlName(tn);
+				ctrl.Text = ctrl.Name;
+				ctrl.Size = new Size(100, 40);
+				ctrls.Add(ctrl);
+			}
+			_designer.AddControl(ctrls);
+		}
+
+		private void _btButton_Click(object sender, EventArgs e)
+		{
+			AddControl(typeof(Button), 1);
+		}
+
+		private void _btTextBox_Click(object sender, EventArgs e)
+		{
+			AddControl(typeof(TextBox), 1);
+		}
+
+		private void _btCheckBox_Click(object sender, EventArgs e)
+		{
+			AddControl(typeof(CheckBox), 1);
+		}
+
+		private void _btRadioButton_Click(object sender, EventArgs e)
+		{
+			AddControl(typeof(RadioButton), 3);
+		}
+
+		private void _btComboBox_Click(object sender, EventArgs e)
+		{
+			AddControl(typeof(ComboBox), 1);
+		}
+
+		private void _btPicture_Click(object sender, EventArgs e)
+		{
+			AddControl(typeof(PictureBox), 1);
+		}
+
+		private void _designer_Load(object sender, EventArgs e)
+		{
+
+		}
+	}
+}
