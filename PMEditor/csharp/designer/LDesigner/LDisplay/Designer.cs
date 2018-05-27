@@ -17,7 +17,7 @@ namespace LDisplay
 			InitializeComponent();
 		}
 
-		public void AddControl(List<Control> ctrls)
+		public void AddControl(List<IComponent> ctrls)
 		{
 			_display.AddControl(ctrls);
 			string selStr = "";

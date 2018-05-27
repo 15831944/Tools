@@ -25,20 +25,24 @@ namespace LDesigner
 		private void AddControl(Type t, int count)
 		{
 			if (count < 1) return;
-			List<Control> ctrls = new List<Control>();
+            List<IComponent> ctrls = new List<IComponent>();
 			for (int i = 0; i < count; i++)
 			{
-				Control ctrl = t.Assembly.CreateInstance(t.ToString()) as Control;
-				if (ctrl == null) return;
+				var obj = t.Assembly.CreateInstance(t.ToString()) as IComponent;
+				if (obj == null) return;
 				string tn = t.ToString();
 				int nidx = tn.LastIndexOf('.');
 				if (nidx > 0)
 					tn = tn.Substring(nidx + 1);
 
-				ctrl.Name = _designer.GetNewControlName(tn);
-				ctrl.Text = ctrl.Name;
-				ctrl.Size = new Size(100, 40);
-				ctrls.Add(ctrl);
+                if (obj is Control)
+                {
+                    var ctrl = obj as Control;
+                    ctrl.Name = _designer.GetNewControlName(tn);
+                    ctrl.Text = ctrl.Name;
+                    ctrl.Size = new Size(100, 40);
+                }
+                ctrls.Add(obj);
 			}
 			_designer.AddControl(ctrls);
 		}
@@ -72,6 +76,11 @@ namespace LDesigner
 		{
 			AddControl(typeof(PictureBox), 1);
 		}
+
+        private void _btGrid_Click(object sender, EventArgs e)
+        {
+            AddControl(typeof(MyControls.Grid.DGridView), 1);
+        }
 
 		private void _designer_Load(object sender, EventArgs e)
 		{

@@ -29,7 +29,7 @@ namespace LDisplay
 			}
 		}
 
-		internal void AddControl(List<Control> ctrls)
+		internal void AddControl(List<IComponent> ctrls)
 		{
 			foreach (var ctrl in ctrls)
 			{
@@ -39,7 +39,7 @@ namespace LDisplay
 			}
 		}
 
-		internal Control GetCtrl(string info)
+		internal IComponent GetCtrl(string info)
 		{
 			if (_components.ContainsKey(info))
 				return _components[info].Ctrl;

@@ -24,11 +24,15 @@ namespace LDisplay
 			return _ctrlMgr.GetNewControlName(name);
 		}
 
-		internal void AddControl(List<Control> ctrls)
+		internal void AddControl(List<IComponent> ctrls)
 		{
 			_ctrlMgr.AddControl(ctrls);
 			this.SuspendLayout();
-			Controls.AddRange(ctrls.ToArray());
+            foreach (var obj in ctrls)
+            {
+                if (obj is Control)
+                    Controls.Add(obj as Control);
+            }
 			this.ResumeLayout(false);
 		}
 
