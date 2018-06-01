@@ -7,7 +7,7 @@ using System.Windows.Forms.Design;
 using System.Drawing;
 
 
-namespace pF.DesignSurfaceExt {
+namespace DesignUI {
 
 internal class DesignerOptionServiceExt4SnapLines : DesignerOptionService {
 public DesignerOptionServiceExt4SnapLines() : base() { }

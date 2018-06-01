@@ -77,9 +77,9 @@
     <Content Include="design.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DesignSurfaceExt\DesignSurfaceExt\DesignSurfaceExt.csproj">
-      <Project>{E96C74BA-9F74-4289-BF72-45CAD472D3D2}</Project>
-      <Name>DesignSurfaceExt</Name>
+    <ProjectReference Include="..\..\DesignSurfaceExt\DesignSurfaceExt\DesignUI.csproj">
+      <Project>{e96c74ba-9f74-4289-bf72-45cad472d3d2}</Project>
+      <Name>DesignUI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

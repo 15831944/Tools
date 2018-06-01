@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Reflection;
-using pF.DesignSurfaceExt;
+using DesignUI;
 
 using Designer;
 
@@ -107,7 +107,7 @@ namespace UView
         {
             try
             {
-                Form rootComponent = surface.GetIDesignerHost().RootComponent as Form;
+                var rootComponent = surface.GetIDesignerHost().RootComponent as ContainerControl;
                 switch (n)
                 {
                     case 1:

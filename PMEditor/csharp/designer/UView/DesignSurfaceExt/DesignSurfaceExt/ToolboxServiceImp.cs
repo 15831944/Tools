@@ -7,7 +7,8 @@ using System.ComponentModel.Design;
 using System.Windows.Forms;
 using System.Collections;
 
-namespace pF.DesignSurfaceExt {
+namespace DesignUI
+{
 
     //- It is the gateway between the toolbox user interface 
     //- in the development environment and the designers. 

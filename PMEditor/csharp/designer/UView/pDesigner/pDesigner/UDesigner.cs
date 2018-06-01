@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 
-using pF.DesignSurfaceExt;
+using DesignUI;
 using pF.DesignSurfaceManagerExt;
 
 namespace Designer

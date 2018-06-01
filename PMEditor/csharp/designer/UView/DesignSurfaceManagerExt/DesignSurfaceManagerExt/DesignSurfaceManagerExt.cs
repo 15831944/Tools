@@ -12,7 +12,7 @@ using System.ComponentModel.Design.Serialization;
 using System.Drawing.Design;
 using System.Collections;
    
-using pF.DesignSurfaceExt;
+using DesignUI;
 
 //- this class manages a collection of DesignSurfaceExt2 instances
 //- this class adds to

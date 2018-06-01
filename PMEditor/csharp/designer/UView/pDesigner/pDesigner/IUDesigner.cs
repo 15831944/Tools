@@ -9,7 +9,7 @@ using System.ComponentModel.Design;
 using System.ComponentModel.Design.Serialization;
 using System.Drawing.Design;
 
-using pF.DesignSurfaceExt;
+using DesignUI;
 using pF.DesignSurfaceManagerExt;
 
 namespace Designer

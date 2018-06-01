@@ -5,7 +5,8 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.ComponentModel.Design;
 
-namespace pF.DesignSurfaceExt {
+namespace DesignUI
+{
 
     class MenuCommandServiceExt : IMenuCommandService {
 

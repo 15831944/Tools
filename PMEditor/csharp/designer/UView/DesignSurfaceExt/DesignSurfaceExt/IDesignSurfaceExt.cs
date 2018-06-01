@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel.Design;
 using System.Windows.Forms;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.ComponentModel.Design.Serialization;
 
-namespace pF.DesignSurfaceExt {
+namespace DesignUI
+{
 public interface IDesignSurfaceExt {
 
     //- perform Cut/Copy/Paste/Delete commands

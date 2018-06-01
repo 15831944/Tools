@@ -97,9 +97,9 @@
     <Content Include="design.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DesignSurfaceExt\DesignSurfaceExt\DesignSurfaceExt.csproj">
+    <ProjectReference Include="..\..\DesignSurfaceExt\DesignSurfaceExt\DesignUI.csproj">
       <Project>{E96C74BA-9F74-4289-BF72-45CAD472D3D2}</Project>
-      <Name>DesignSurfaceExt</Name>
+      <Name>DesignUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\DesignSurfaceManagerExt\DesignSurfaceManagerExt\DesignSurfaceManagerExt.csproj">
       <Project>{2EBA814A-C9D9-4AE1-934B-0E5ACFFD247E}</Project>

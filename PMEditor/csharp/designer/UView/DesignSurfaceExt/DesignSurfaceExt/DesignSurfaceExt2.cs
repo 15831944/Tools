@@ -8,7 +8,8 @@ using System.ComponentModel.Design;
 using System.Drawing;
 using System.ComponentModel;
 
-namespace pF.DesignSurfaceExt {
+namespace DesignUI
+{
 
 //- this class adds to
 //-     DesignSurfaceExt instance

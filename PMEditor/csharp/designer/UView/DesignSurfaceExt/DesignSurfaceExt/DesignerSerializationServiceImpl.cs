@@ -9,7 +9,8 @@ using System.Windows.Forms;
 using System.ComponentModel.Design.Serialization;
 using System.Collections;
 
-namespace pF.DesignSurfaceExt {
+namespace DesignUI
+{
 
 internal class DesignerSerializationServiceImpl : IDesignerSerializationService {
 

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel.Design;
 using System.Drawing;
 using System.ComponentModel;
@@ -9,7 +6,8 @@ using System.Windows.Forms;
 using System.ComponentModel.Design.Serialization;
 using System.Diagnostics;
 
-namespace pF.DesignSurfaceExt {
+namespace DesignUI
+{
 
 //- this class adds to a .NET 
 //-     DesignSurface instance

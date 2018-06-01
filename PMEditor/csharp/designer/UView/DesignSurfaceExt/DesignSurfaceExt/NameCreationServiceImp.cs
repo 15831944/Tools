@@ -9,7 +9,8 @@ using System.ComponentModel;
 //- The INameCreationService interface is used to supply a name to the control just created
 //- In the CreateName() we use the same naming algorithm used by Visual Studio: just
 //- increment an integer counter until we find a name that isn't already in use.
-namespace pF.DesignSurfaceExt {
+namespace DesignUI
+{
 internal class NameCreationServiceImp : INameCreationService {
     private const string _Name_ = "NameCreationServiceImp";
 

@@ -10,7 +10,8 @@ using System.Drawing;
 using System.Reflection;
 using System.Diagnostics;
 
-namespace pF.DesignSurfaceExt {
+namespace DesignUI
+{
 public class TabOrderHooker {
     private const string _Name_ = "TabOrderHooker";
 

@@ -8,7 +8,8 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace pF.DesignSurfaceExt  {
+namespace DesignUI
+{
 public class UndoEngineExt : UndoEngine {
     private string _Name_ = "UndoEngineExt";
 
