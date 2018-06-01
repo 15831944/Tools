@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Design;
 
 namespace MyControls.Grid
 {
@@ -16,7 +17,8 @@ namespace MyControls.Grid
 
         public DGridView()
         {
-            _site = new MySite(this);
+            _site = new DGridViewSite(this);
+            //_site = new DataGridViewComponentPropertyGridSite(this, this);
         }
 
         //public event EventHandler Disposed;
@@ -27,9 +29,16 @@ namespace MyControls.Grid
             set { _site = value; }
         }
 
-        //public string Name { get; set; }
-
-        //public void Dispose() { }
-
+        //
+        // Summary:
+        //     Gets a collection that contains all the columns in the control.
+        //
+        // Returns:
+        //     The System.Windows.Forms.DataGridViewColumnCollection that contains all the columns
+        //     in the System.Windows.Forms.DataGridView control.
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Editor(typeof(DataGridViewColumnCollectionEditor), typeof(UITypeEditor))]
+        [MergableProperty(false)]
+        public DataGridViewColumnCollection Columns { get; }
     }
 }

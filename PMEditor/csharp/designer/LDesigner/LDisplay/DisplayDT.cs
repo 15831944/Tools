@@ -34,8 +34,18 @@ namespace LDisplay
                     Controls.Add(obj as Control);
             }
 			this.ResumeLayout(false);
+            IsInDesignMode();
 		}
 
 		internal CtrlMgr CtrlMgr { get { return _ctrlMgr; } }
+
+        public static bool IsInDesignMode()
+        {
+            if (Application.ExecutablePath.IndexOf("devenv.exe", StringComparison.OrdinalIgnoreCase) > -1)
+            {
+                return true;
+            }
+            return false;
+        }
 	}
 }

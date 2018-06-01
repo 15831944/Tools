@@ -41,9 +41,9 @@ namespace LDisplay
 			var ctrl = _display.CtrlMgr.GetCtrl(str);
 			if (ctrl != null)
 			{
-				_propGrid.BindObj(ctrl);
-				_eventGrid.BindObj(ctrl);
-				_methodGrid.BindObj(ctrl);
+				//_propGrid.BindObj(ctrl);
+				//_eventGrid.BindObj(ctrl);
+				//_methodGrid.BindObj(ctrl);
 			}
 		}
 	}

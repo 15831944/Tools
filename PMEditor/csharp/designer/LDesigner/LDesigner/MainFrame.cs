@@ -24,27 +24,28 @@ namespace LDesigner
 
 		private void AddControl(Type t, int count)
 		{
-			if (count < 1) return;
-            List<IComponent> ctrls = new List<IComponent>();
-			for (int i = 0; i < count; i++)
-			{
-				var obj = t.Assembly.CreateInstance(t.ToString()) as IComponent;
-				if (obj == null) return;
-				string tn = t.ToString();
-				int nidx = tn.LastIndexOf('.');
-				if (nidx > 0)
-					tn = tn.Substring(nidx + 1);
-
-                if (obj is Control)
-                {
-                    var ctrl = obj as Control;
-                    ctrl.Name = _designer.GetNewControlName(tn);
-                    ctrl.Text = ctrl.Name;
-                    ctrl.Size = new Size(100, 40);
-                }
-                ctrls.Add(obj);
-			}
-			_designer.AddControl(ctrls);
+			//if (count < 1) return;
+            //List<IComponent> ctrls = new List<IComponent>();
+			//for (int i = 0; i < count; i++)
+			//{
+			//	var obj = t.Assembly.CreateInstance(t.ToString()) as IComponent;
+			//	if (obj == null) return;
+			//	string tn = t.ToString();
+			//	int nidx = tn.LastIndexOf('.');
+			//	if (nidx > 0)
+			//		tn = tn.Substring(nidx + 1);
+            //
+            //    if (obj is Control)
+            //    {
+            //        var ctrl = obj as Control;
+            //        ctrl.Name = _designer.GetNewControlName(tn);
+            //        ctrl.Text = ctrl.Name;
+            //        ctrl.Size = new Size(100, 40);
+            //        ctrl.Site = this.Site;
+            //    }
+            //    ctrls.Add(obj);
+			//}
+			//_designer.AddControl(ctrls);
 		}
 
 		private void _btButton_Click(object sender, EventArgs e)

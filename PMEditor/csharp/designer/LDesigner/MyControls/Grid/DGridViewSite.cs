@@ -9,10 +9,10 @@ using System.Windows.Forms;
 
 namespace MyControls.Grid
 {
-    public class MySite : ISite, IMenuCommandService, IEventBindingService
+    public class DGridViewSite : ISite, IMenuCommandService, IEventBindingService
     {
         private IComponent _control;
-        public MySite(IComponent obj) { this._control = obj; }
+        public DGridViewSite(IComponent obj) { this._control = obj; }
 
         // ISite实现
         public IComponent Component { get { return this._control; } }
@@ -40,20 +40,15 @@ namespace MyControls.Grid
             {
                 return new DesignerVerbCollection(new DesignerVerb[]
                 { 
-                    new DesignerVerb("添加结点", new EventHandler(this.onVerbAdd)),
-                    new DesignerVerb("说你好", new EventHandler(this.onVerbHello)),
+                    new DesignerVerb("Column Setting", new EventHandler(this.OnColumnSetting)),
                 });
             }
         }
-        private void onVerbAdd(object sender, EventArgs e)
+        private void OnColumnSetting(object sender, EventArgs e)
         {
-            MessageBox.Show("添加结点");
+            //System.Windows.Forms.Design.DataGridViewColumnCollectionEditor editor = new System.Windows.Forms.Design.DataGridViewColumnCollectionEditor();
+            //MessageBox.Show("Column Setting");
         }
-        private void onVerbHello(object sender, EventArgs e)
-        {
-            MessageBox.Show(string.Format("我是{0}。", _control.ToString()));
-        }
-
 
         public string CreateUniqueMethodName(IComponent component, EventDescriptor e)
         {
