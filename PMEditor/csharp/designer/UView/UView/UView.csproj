@@ -83,6 +83,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,21 +99,24 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DesignSurfaceExt\DesignSurfaceExt\DesignUI.csproj">
-      <Project>{E96C74BA-9F74-4289-BF72-45CAD472D3D2}</Project>
+    <ProjectReference Include="..\DesignUIMgr\DesignUIMgr.csproj">
+      <Project>{2eba814a-c9d9-4ae1-934b-0e5acffd247e}</Project>
+      <Name>DesignUIMgr</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DesignUI\DesignUI.csproj">
+      <Project>{e96c74ba-9f74-4289-bf72-45cad472d3d2}</Project>
       <Name>DesignUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DesignSurfaceManagerExt\DesignSurfaceManagerExt\DesignSurfaceManagerExt.csproj">
-      <Project>{2EBA814A-C9D9-4AE1-934B-0E5ACFFD247E}</Project>
-      <Name>DesignSurfaceManagerExt</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\pDesigner\pDesigner\UDesigner.csproj">
-      <Project>{A1255440-79A2-4330-AD80-89F0BAFCE73F}</Project>
+    <ProjectReference Include="..\UDesigner\UDesigner.csproj">
+      <Project>{a1255440-79a2-4330-ad80-89f0bafce73f}</Project>
       <Name>UDesigner</Name>
     </ProjectReference>
   </ItemGroup>
