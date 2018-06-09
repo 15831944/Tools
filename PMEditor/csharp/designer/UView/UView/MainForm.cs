@@ -2,11 +2,9 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Design;
+using System.ComponentModel.Design;
 
 using Designer;
-using System.ComponentModel.Design;
-using DesignUI.Service;
-using System.ComponentModel;
 
 namespace UView
 {
@@ -36,10 +34,27 @@ namespace UView
         public MainForm()
         {
             InitializeComponent();
+            InitMenuText();
 
             //- the control: (UDesigner)_designer 
-            (_idesigner as UDesigner).Parent = pnl4pDesigner;
+            (_idesigner as UDesigner).Parent = designerPanel;
 
+            InitToolBox();
+        }
+
+        private void InitMenuText()
+        {
+            ToolStripMenuItemCut.Text = UResource.Properties.Resource.EDIT_CUT;
+            ToolStripMenuItemCopy.Text = UResource.Properties.Resource.EDIT_COPY;
+            ToolStripMenuItemPaste.Text = UResource.Properties.Resource.EDIT_PASTE;
+            ToolStripMenuItemDelete.Text = UResource.Properties.Resource.EDIT_DELETE;
+            ToolStripMenuItemSelectAll.Text = UResource.Properties.Resource.EDIT_SELECTALL;
+            ToolStripMenuItemUnDo.Text = UResource.Properties.Resource.EDIT_UNDO;
+            ToolStripMenuItemReDo.Text = UResource.Properties.Resource.EDIT_REDO;
+        }
+
+        private void InitToolBox()
+        {
             //- Add the toolboxItems to the future toolbox 
             //- the pointer
             ToolboxItem toolPointer = new System.Drawing.Design.ToolboxItem();
@@ -83,23 +98,16 @@ namespace UView
             _idesigner.RemoveDesignSurface(_idesigner.ActiveDesignSurface);
         }
 
-        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _idesigner.UndoOnDesignSurface();
-        }
-
-        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _idesigner.RedoOnDesignSurface();
-        }
-
         private void OnMenuClick(object sender, EventArgs e)
         {
             string cmd = (sender as ToolStripMenuItem).Text;
-            if (cmd == "Cut")               _idesigner.CutOnDesignSurface();
-            else if (cmd == "Copy")         _idesigner.CopyOnDesignSurface();
-            else if (cmd == "Paste")        _idesigner.PasteOnDesignSurface();
-            else if (cmd == "Delete")       _idesigner.DeleteOnDesignSurface();
+            if (cmd == UResource.Properties.Resource.EDIT_CUT) _idesigner.ActionCommandOnDesignSurface(StandardCommands.Cut);
+            else if (cmd == UResource.Properties.Resource.EDIT_COPY) _idesigner.ActionCommandOnDesignSurface(StandardCommands.Copy);
+            else if (cmd == UResource.Properties.Resource.EDIT_PASTE) _idesigner.ActionCommandOnDesignSurface(StandardCommands.Paste);
+            else if (cmd == UResource.Properties.Resource.EDIT_DELETE) _idesigner.ActionCommandOnDesignSurface(StandardCommands.Delete);
+            else if (cmd == UResource.Properties.Resource.EDIT_SELECTALL) _idesigner.ActionCommandOnDesignSurface(StandardCommands.SelectAll);
+            else if (cmd == UResource.Properties.Resource.EDIT_UNDO) _idesigner.ActionCommandOnDesignSurface(StandardCommands.Undo);
+            else if (cmd == UResource.Properties.Resource.EDIT_REDO) _idesigner.ActionCommandOnDesignSurface(StandardCommands.Redo);
         }
 
         private void toolStripMenuItemTabOrder_Click(object sender, EventArgs e)

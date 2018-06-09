@@ -274,53 +274,20 @@ namespace Designer
             }
         }
 
-        public void UndoOnDesignSurface()
+        public void ActionCommandOnDesignSurface(CommandID command)
         {
-            IDesignSurfaceUView isurf = DesignSurfaceManager.ActiveDesignSurface;
-            if (null != isurf)
-                isurf.GetUndoService().Undo();
-        }
-
-        public void RedoOnDesignSurface()
-        {
-            IDesignSurfaceUView isurf = DesignSurfaceManager.ActiveDesignSurface;
-            if (null != isurf)
-                isurf.GetUndoService().Redo();
-        }
-
-        public void CutOnDesignSurface()
-        {
-            IDesignSurfaceBase isurf = DesignSurfaceManager.ActiveDesignSurface;
-            if (null != isurf)
-                isurf.DoAction("Cut");
-        }
-
-        public void CopyOnDesignSurface()
-        {
-            IDesignSurfaceBase isurf = DesignSurfaceManager.ActiveDesignSurface;
-            if (null != isurf)
-                isurf.DoAction("Copy");
-        }
-
-        public void PasteOnDesignSurface()
-        {
-            IDesignSurfaceBase isurf = DesignSurfaceManager.ActiveDesignSurface;
-            if (null != isurf)
-                isurf.DoAction("Paste");
-        }
-
-        public void DeleteOnDesignSurface()
-        {
-            IDesignSurfaceBase isurf = DesignSurfaceManager.ActiveDesignSurface;
-            if (null != isurf)
-                isurf.DoAction("Delete");
+            if (command == StandardCommands.Undo)
+                DesignSurfaceManager.ActiveDesignSurface?.GetUndoService()?.Undo();
+            else if (command == StandardCommands.Redo)
+                DesignSurfaceManager.ActiveDesignSurface?.GetUndoService()?.Redo();
+            else
+                DesignSurfaceManager.ActiveDesignSurface?.DoAction(command);
         }
 
         public void SwitchTabOrder()
         {
             IDesignSurfaceBase isurf = DesignSurfaceManager.ActiveDesignSurface;
-            if (null != isurf)
-                isurf.SwitchTabOrder();
+            isurf?.SwitchTabOrder();
         }
 
         public void SetGrid(Size size)

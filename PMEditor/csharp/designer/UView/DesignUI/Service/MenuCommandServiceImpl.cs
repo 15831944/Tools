@@ -41,18 +41,18 @@ namespace DesignUI.Service
             ContextMenuStrip contextMenu = new ContextMenuStrip();
 
             // Add the standard commands
-            AddSubMenuItem(contextMenu, StandardCommands.Cut, "&Cut", "Ctrl + X", IsEnableCut());
-            AddSubMenuItem(contextMenu, StandardCommands.Copy, "&Copy", "Ctrl + C");
-            AddSubMenuItem(contextMenu, StandardCommands.Paste, "&Paste", "Ctrl + V");
-            AddSubMenuItem(contextMenu, StandardCommands.Delete, "&Delete", "Delete");
+            AddSubMenuItem(contextMenu, StandardCommands.Cut, UResource.Properties.Resource.EDIT_CUT + " (&X)", "Ctrl + X", IsEnableCut());
+            AddSubMenuItem(contextMenu, StandardCommands.Copy, UResource.Properties.Resource.EDIT_COPY + " (&C)", "Ctrl + C");
+            AddSubMenuItem(contextMenu, StandardCommands.Paste, UResource.Properties.Resource.EDIT_PASTE + " (&P)", "Ctrl + V");
+            AddSubMenuItem(contextMenu, StandardCommands.Delete, UResource.Properties.Resource.EDIT_DELETE + " (&D)", "Delete");
 
             contextMenu.Items.Add(new ToolStripSeparator());
-            AddSubMenuItem(contextMenu, StandardCommands.SelectAll, "&Select All", "Ctrl + A");
-            AddSubMenuItem(contextMenu, StandardCommands.TabOrder, "&Tab");
+            AddSubMenuItem(contextMenu, StandardCommands.SelectAll, UResource.Properties.Resource.EDIT_SELECTALL + " (&S)", "Ctrl + A");
+            AddSubMenuItem(contextMenu, StandardCommands.TabOrder, "Tab (&T)");
 
             contextMenu.Items.Add(new ToolStripSeparator());
-            AddSubMenuItem(contextMenu, StandardCommands.BringToFront, "Set&Front");
-            AddSubMenuItem(contextMenu, StandardCommands.SendToBack, "Set&Bottom");
+            AddSubMenuItem(contextMenu, StandardCommands.BringToFront, UResource.Properties.Resource.EDIT_SETFRONT + " (&F)");
+            AddSubMenuItem(contextMenu, StandardCommands.SendToBack, UResource.Properties.Resource.EDIT_SETBOTTOM + " (&B)");
 
             //- Show the contexteMenu
             DesignSurface surface = (DesignSurface)_serviceProvider;

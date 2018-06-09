@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.ComponentModel.Design;
+using System.Drawing;
 using System.Windows.Forms;
 
 using DesignUI;
@@ -44,12 +45,7 @@ namespace Designer
         void RemoveDesignSurface ( DesignSurfaceUView activeSurface );
 
         //- Editing section  ----------------------------------------------------------------------
-        void UndoOnDesignSurface();
-        void RedoOnDesignSurface();
-        void CutOnDesignSurface();
-        void CopyOnDesignSurface();
-        void PasteOnDesignSurface();
-        void DeleteOnDesignSurface();
+        void ActionCommandOnDesignSurface(CommandID command);
         void SwitchTabOrder();
         void SetGrid(Size size);
         void SaveCurrent();

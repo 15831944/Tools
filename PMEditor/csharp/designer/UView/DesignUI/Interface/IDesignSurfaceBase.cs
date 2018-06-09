@@ -9,8 +9,9 @@ namespace DesignUI
 {
     public interface IDesignSurfaceBase
     {
-        //- perform Cut/Copy/Paste/Delete commands
+        //- perform Cut/Copy/Paste/Delete... commands
         void DoAction(string command);
+        void DoAction(CommandID command);
 
         //- de/activate the TabOrder facility
         void SwitchTabOrder();

@@ -8,20 +8,15 @@ namespace DesignUI.Service
     public class UndoServiceImpl : UndoEngine
     {
         private string _name = "UndoServiceImpl";
+        private bool _lock = false;
         private Stack<UndoUnit> _undoStack = new Stack<UndoUnit>();
         private Stack<UndoUnit> _redoStack = new Stack<UndoUnit>();
 
         public UndoServiceImpl(IServiceProvider provider) : base(provider) { }
 
-        public bool EnableUndo
-        {
-            get { return _undoStack.Count > 0; }
-        }
+        public bool EnableUndo { get { return _undoStack.Count > 0; } }
 
-        public bool EnableRedo
-        {
-            get { return _redoStack.Count > 0; }
-        }
+        public bool EnableRedo { get { return _redoStack.Count > 0; } }
 
         public void Undo()
         {
@@ -69,10 +64,15 @@ namespace DesignUI.Service
             }
         }
 
+        public bool LockUndoService { get { return _lock; } set { _lock = value; } }
+
         protected override void AddUndoUnit(UndoEngine.UndoUnit unit)
         {
-            _undoStack.Push(unit);
-            _redoStack.Clear();
+            if (!_lock)
+            {
+                _undoStack.Push(unit);
+                _redoStack.Clear();
+            }
         }
     }
 }

@@ -83,11 +83,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="TestForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="TestForm.Designer.cs">
+      <DependentUpon>TestForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -99,8 +99,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="TestForm.resx">
+      <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -118,6 +118,10 @@
     <ProjectReference Include="..\UDesigner\UDesigner.csproj">
       <Project>{a1255440-79a2-4330-ad80-89f0bafce73f}</Project>
       <Name>UDesigner</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UViewResource\UResource.csproj">
+      <Project>{f54646f4-ca85-4906-b793-8b795e53fd67}</Project>
+      <Name>UResource</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

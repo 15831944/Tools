@@ -81,7 +81,12 @@
   <ItemGroup>
     <Content Include="design.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\UViewResource\UResource.csproj">
+      <Project>{f54646f4-ca85-4906-b793-8b795e53fd67}</Project>
+      <Name>UResource</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

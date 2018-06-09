@@ -314,17 +314,22 @@ namespace DesignUI
         public void DoAction(string command)
         {
             if (string.IsNullOrEmpty(command)) return;
+            switch (command.ToUpper()) {
+                case "CUT":         DoAction(StandardCommands.Cut); break;
+                case "COPY":        DoAction(StandardCommands.Copy); break;
+                case "PASTE":       DoAction(StandardCommands.Paste); break;
+                case "DELETE":      DoAction(StandardCommands.Delete); break;
+                case "SELECT ALL":  DoAction(StandardCommands.SelectAll); break;
+                default:            break;  // do nothing;
+            }
+        }
 
-            IMenuCommandService ims = this.GetService(typeof(IMenuCommandService)) as IMenuCommandService;
-            if (null == ims) return;
-            try {
-                switch (command.ToUpper()) {
-                    case "CUT":     ims.GlobalInvoke(StandardCommands.Cut); break;
-                    case "COPY":    ims.GlobalInvoke(StandardCommands.Copy); break;
-                    case "PASTE":   ims.GlobalInvoke(StandardCommands.Paste); break;
-                    case "DELETE":  ims.GlobalInvoke(StandardCommands.Delete); break;
-                    default:        break;  // do nothing;
-                }
+        public void DoAction(CommandID command)
+        {
+            try
+            {
+                IMenuCommandService ims = this.GetService(typeof(IMenuCommandService)) as IMenuCommandService;
+                ims?.GlobalInvoke(command);
             }
             catch (Exception exx)
             {
