@@ -29,7 +29,7 @@ namespace DesignUI
 
         IComponent CreateRootComponent(DesignerLoader loader, Size controlSize);
 
-        Control CreateControl(Type controlType, Size controlSize, Point controlLocation);
+        IComponent CreateControl(Type controlType, Size controlSize, Point controlLocation);
 
         //- Get the UndoEngineExtended object
         Service.UndoServiceImpl GetUndoService();
@@ -42,5 +42,7 @@ namespace DesignUI
         //- (you can dock it and add it to another Control just to display it)
         //- Get the HostControl
         Control GetView();
+
+        void Save();
     }
 }

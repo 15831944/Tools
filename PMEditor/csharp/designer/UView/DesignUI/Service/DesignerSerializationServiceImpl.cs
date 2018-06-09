@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Forms;
 using System.ComponentModel.Design.Serialization;
 using System.Collections;
 
@@ -7,14 +6,21 @@ namespace DesignUI.Service
 {
     internal class DesignerSerializationServiceImpl : IDesignerSerializationService
     {
+        private string _fileName;
         private IServiceProvider _serviceProvider;
 
-        public DesignerSerializationServiceImpl(IServiceProvider serviceProvider)
+        public DesignerSerializationServiceImpl(IServiceProvider serviceProvider) : this(serviceProvider, "")
+        {}
+
+        public DesignerSerializationServiceImpl(IServiceProvider serviceProvider, string fileName)
         {
+            this._fileName = fileName;
             this._serviceProvider = serviceProvider;
         }
 
-        public System.Collections.ICollection Deserialize(object serializationData)
+        public string FileName { get { return _fileName; } set { _fileName = value; } }
+
+        public ICollection Deserialize(object serializationData)
         {
             SerializationStore serializationStore = serializationData as SerializationStore;
             if (serializationStore != null)
@@ -26,7 +32,7 @@ namespace DesignUI.Service
             return new object[] { };
         }
 
-        public object Serialize(System.Collections.ICollection objects)
+        public object Serialize(ICollection objects)
         {
             ComponentSerializationService componentSerializationService = _serviceProvider.GetService(typeof(ComponentSerializationService)) as ComponentSerializationService;
             SerializationStore returnObject = null;
@@ -34,8 +40,7 @@ namespace DesignUI.Service
             {
                 foreach (object obj in objects)
                 {
-                    if (obj is Control)
-                        componentSerializationService.Serialize(serializationStore, obj);
+                    componentSerializationService.Serialize(serializationStore, obj);
                 }
                 returnObject = serializationStore;
             }

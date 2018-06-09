@@ -6,6 +6,8 @@ using System.ComponentModel.Design;
 using System.Diagnostics;
 
 using DesignUI;
+using System.IO;
+using System.ComponentModel.Design.Serialization;
 
 namespace Designer
 {
@@ -331,6 +333,33 @@ namespace Designer
             else
                 isurf.UseGrid(size);
             //isurf.Flush();
+        }
+
+        public void SaveCurrent()
+        {
+            IDesignSurfaceUView isurf = DesignSurfaceManager.ActiveDesignSurface;
+            if (null == isurf) return;
+
+            isurf.Save();
+        }
+
+        public void SaveAll()
+        {
+            foreach (IDesignSurfaceUView isurf in DesignSurfaceManager.DesignSurfaces)
+            {
+                isurf?.Save();
+            }
+        }
+
+        public void Open(string strFile)
+        {
+            //DesignSurfaceManager.CreateDesignSurfaceUView();
+            //FileStream fileStream = new FileStream("D:\\disp.txt", FileMode.Open, FileAccess.Read, FileShare.Read);
+            //SerializationStore store = new SerializationStore();
+            //fileStream.
+            //fileStream.Close();
+            var surface = AddDesignSurface<Display>(640, 480, AlignmentModeEnum.SnapLines, new Size(1, 1));
+            surface.Open(strFile);
         }
         #endregion
     }

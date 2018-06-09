@@ -200,6 +200,27 @@ namespace UView
             }
         }
 
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _idesigner.SaveCurrent();
+        }
+
+        private void saveAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _idesigner.SaveAll();
+        }
+
+        private void openStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fd = new OpenFileDialog();
+            fd.InitialDirectory = "D:\\";
+            fd.Filter = "Display file(*.disp)|*.disp";
+            if (fd.ShowDialog() == DialogResult.OK)
+            {
+                var fName = fd.FileName;
+                _idesigner.Open(fName);
+            }
+        }
         //private void useGridWithoutSnappingToolStripMenuItem_Click(object sender, EventArgs e)
         //{
         //    _idesigner.AddDesignSurface<Display>(640, 480, AlignmentModeEnum.GridWithoutSnapping, new Size(8, 8));

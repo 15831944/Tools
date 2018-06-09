@@ -52,5 +52,8 @@ namespace Designer
         void DeleteOnDesignSurface();
         void SwitchTabOrder();
         void SetGrid(Size size);
+        void SaveCurrent();
+        void SaveAll();
+        void Open(string strFile);
     }
 }
