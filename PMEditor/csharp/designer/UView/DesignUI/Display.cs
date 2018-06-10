@@ -1,8 +1,9 @@
 ﻿using System.Windows.Forms;
 
-namespace Designer
+namespace DesignUI
 {
     public class Display : UserControl
     {
+        public Display() { }
     }
 }

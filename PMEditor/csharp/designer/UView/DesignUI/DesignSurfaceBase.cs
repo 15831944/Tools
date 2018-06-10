@@ -1,13 +1,14 @@
 ﻿using System;
-using System.ComponentModel.Design;
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.ComponentModel.Design.Serialization;
-using System.Diagnostics;
-using DesignUI.Service.OptionService;
 using System.IO;
+using System.Drawing;
+using System.Windows.Forms;
+using System.ComponentModel;
+using System.ComponentModel.Design;
+using System.ComponentModel.Design.Serialization;
 using System.Collections.Generic;
+using System.Diagnostics;
+
+using DesignUI.Service.OptionService;
 
 namespace DesignUI
 {
@@ -86,7 +87,7 @@ namespace DesignUI
                 if (null != loader) this.BeginLoad(loader);
                 else                this.BeginLoad(controlType);
                 if (this.LoadErrors.Count > 0)
-                    throw new Exception(_signature_ + " - Exception: the BeginLoad failed!");
+                    throw new Exception(_signature_ + $" - Exception: the BeginLoad failed!");
 
                 //- step.3
                 //- try to modify the Size of the object just created

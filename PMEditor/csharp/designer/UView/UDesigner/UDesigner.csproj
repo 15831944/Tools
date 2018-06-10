@@ -79,9 +79,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Display.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="IUDesigner.cs" />
     <Compile Include="UDesigner.cs">
       <SubType>UserControl</SubType>

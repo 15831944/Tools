@@ -87,7 +87,7 @@ namespace DesignUI.Service
 
             //-  Use our existing method to check, if it's invalid throw an exception
             if (!(IsValidName(name)))
-                throw new ArgumentException(_signature_ + " - Exception: Invalid name: " + name);
+                throw new ArgumentException(_signature_ + $" - Exception: Invalid name: " + name);
         }
     }
 }

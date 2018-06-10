@@ -32,17 +32,18 @@ namespace Designer
 
         //- DesignSurfaces management section -----------------------------------------------------
         DesignSurfaceUView ActiveDesignSurface { get; }
+
         //- Create the DesignSurface and the rootComponent (a .NET Control)
         //- using IDesignSurfaceBase.CreateRootComponent() 
         //- if the alignmentMode doesn't use the GRID, then the gridSize param is ignored
         //- Note:
         //-     the generics param is used to know which type of control to use as RootComponent
         //-     TT is requested to be derived from .NET Control class 
-        DesignSurfaceUView AddDesignSurface<TT>(
-                                               int startingFormWidth, int startingFormHeight,
-                                               AlignmentModeEnum alignmentMode, Size gridSize
-                                              ) where TT : Control;
-        void RemoveDesignSurface ( DesignSurfaceUView activeSurface );
+        DesignSurfaceUView AddDesignSurface<TT>
+            (int startingFormWidth, int startingFormHeight, AlignmentModeEnum alignmentMode, Size gridSize)
+            where TT : Control;
+
+        void RemoveDesignSurface(DesignSurfaceUView activeSurface);
 
         //- Editing section  ----------------------------------------------------------------------
         void ActionCommandOnDesignSurface(CommandID command);

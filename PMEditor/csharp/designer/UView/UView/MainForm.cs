@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Drawing.Design;
 using System.ComponentModel.Design;
 
+using USolution;
 using Designer;
 
 namespace UView
@@ -11,6 +12,7 @@ namespace UView
     public partial class MainForm : Form
     {
         private string _version = string.Empty;
+        private Solution _solution;
         private IUDesigner _idesigner = new UDesigner();
 
         public string Version
@@ -58,7 +60,7 @@ namespace UView
             //- Add the toolboxItems to the future toolbox 
             //- the pointer
             ToolboxItem toolPointer = new System.Drawing.Design.ToolboxItem();
-            toolPointer.DisplayName = "<Pointer>";
+            toolPointer.DisplayName = $"<Pointer>";
             toolPointer.Bitmap = new System.Drawing.Bitmap(16, 16);
             _ctrlToolBox.Items.Add(toolPointer);
             _ctrlToolBox.Items.Add(new ToolboxItem(typeof(Button)));
@@ -117,28 +119,28 @@ namespace UView
 
         private void OnAbout(object sender, EventArgs e)
         {
-            MessageBox.Show("UViewDesigner.\r\nVersion: " + Version, "UView Designer", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"UViewDesigner.\r\nVersion: " + Version, $"UView Designer", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         #endregion
 
         private void displayToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _idesigner.AddDesignSurface<Display>(640, 480, AlignmentModeEnum.SnapLines, new Size(1, 1));
+            _idesigner.AddDesignSurface<DesignUI.Display>(480, 320, AlignmentModeEnum.SnapLines, new Size(1, 1));
         }
 
         private void formToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _idesigner.AddDesignSurface<Form>(640, 480, AlignmentModeEnum.SnapLines, new Size(1, 1));
+            _idesigner.AddDesignSurface<DesignUI.Dialog> (480, 320, AlignmentModeEnum.SnapLines, new Size(1, 1));
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            _idesigner.AddDesignSurface<Display>(640, 480, AlignmentModeEnum.SnapLines, new Size(1, 1));
+            _idesigner.AddDesignSurface<DesignUI.Display>(480, 320, AlignmentModeEnum.SnapLines, new Size(1, 1));
         }
 
         private void useGridToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _idesigner.AddDesignSurface<Display>(640, 480, AlignmentModeEnum.Grid, new Size(8, 8));
+            _idesigner.AddDesignSurface<DesignUI.Display>(480, 320, AlignmentModeEnum.Grid, new Size(8, 8));
         }
 
         private void gridNoneToolStripMenuItem_Click(object sender, EventArgs e)
@@ -208,6 +210,18 @@ namespace UView
             }
         }
 
+        private void solutionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_solution == null)
+            {
+                CreateSolutionDialog dlg = new CreateSolutionDialog();
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    _solution = Solution.CreateSolution(dlg.FileName, dlg.FilePath);
+                }
+            }
+        }
+
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _idesigner.SaveCurrent();
@@ -222,7 +236,7 @@ namespace UView
         {
             OpenFileDialog fd = new OpenFileDialog();
             fd.InitialDirectory = "D:\\";
-            fd.Filter = "Display file(*.disp)|*.disp";
+            fd.Filter = $"Display file(*.disp)|*.disp";
             if (fd.ShowDialog() == DialogResult.OK)
             {
                 var fName = fd.FileName;

@@ -103,9 +103,9 @@ namespace Designer
         //- Note:
         //-     the generics param is used to know which type of control to use as RootComponent
         //-     TT is requested to be derived from .NET Control class 
-        public DesignSurfaceUView AddDesignSurface<TT>(int startingFormWidth, int startingFormHeight,
-                                                      AlignmentModeEnum alignmentMode, Size gridSize
-                                                      ) where TT : Control
+        public DesignSurfaceUView AddDesignSurface<TT>
+            (int startingFormWidth, int startingFormHeight, AlignmentModeEnum alignmentMode, Size gridSize )
+            where TT : Control
         {
             const string _signature_ = _name + @"::AddDesignSurface<>()";
 

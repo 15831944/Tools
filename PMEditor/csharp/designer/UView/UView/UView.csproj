@@ -83,6 +83,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateSolutionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateSolutionDialog.Designer.cs">
+      <DependentUpon>CreateSolutionDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="TestForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +105,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CreateSolutionDialog.resx">
+      <DependentUpon>CreateSolutionDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TestForm.resx">
       <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -119,9 +128,13 @@
       <Project>{a1255440-79a2-4330-ad80-89f0bafce73f}</Project>
       <Name>UDesigner</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UViewResource\UResource.csproj">
+    <ProjectReference Include="..\UResource\UResource.csproj">
       <Project>{f54646f4-ca85-4906-b793-8b795e53fd67}</Project>
       <Name>UResource</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\USolution\USolution.csproj">
+      <Project>{5766d47d-2930-49bb-b487-e167c65c8999}</Project>
+      <Name>USolution</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
