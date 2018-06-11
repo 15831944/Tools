@@ -24,7 +24,7 @@ namespace UView
         {
             try
             {
-                Console.WriteLine("Begin the demo pF p(ico)F(orm)Designer...");
+                Console.WriteLine("Begin UView...");
 
                 // always show accelerator underlines
                 SystemParametersInfo(SPI_SETKEYBOARDCUES, 0, 1, 0);

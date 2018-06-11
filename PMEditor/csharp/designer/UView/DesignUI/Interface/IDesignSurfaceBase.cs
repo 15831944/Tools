@@ -23,9 +23,9 @@ namespace DesignUI.Interface
         void DoAction(CommandID command);
 
         //- method usefull to create control without the ToolBox facility
-        IComponent CreateRootComponent(Type controlType, Size controlSize);
+        IComponent CreateRootComponent(Type type, string name, Size size);
 
-        IComponent CreateRootComponent(DesignerLoader loader, Size controlSize);
+        IComponent CreateRootComponent(DesignerLoader loader, Size size);
 
         IComponent CreateControl(Type controlType, Size controlSize, Point controlLocation);
 

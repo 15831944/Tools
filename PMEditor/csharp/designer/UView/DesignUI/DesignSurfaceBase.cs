@@ -59,14 +59,14 @@ namespace DesignUI
             }
         }
 
-        public IComponent CreateRootComponent(Type controlType, Size controlSize)
+        public IComponent CreateRootComponent(Type type, string name, Size size)
         {
-            return CreateRootComponentCore(controlType, controlSize, null);
+            return CreateRootComponentCore(type, name, size, null);
         }
 
-        public IComponent CreateRootComponent(DesignerLoader loader, Size controlSize)
+        public IComponent CreateRootComponent(DesignerLoader loader, Size size)
         {
-            return CreateRootComponentCore(null, controlSize, loader);
+            return CreateRootComponentCore(null, "", size, loader);
         }
 
         public IComponent CreateControl(Type controlType, Size controlSize, Point controlLocation)

@@ -32,7 +32,7 @@ namespace DesignUI
             serviceProvider.AddService(typeof(DesignerOptionService), opsServiceNew);
         }
 
-        private IComponent CreateRootComponentCore(Type controlType, Size controlSize, DesignerLoader loader)
+        private IComponent CreateRootComponentCore(Type controlType, string name, Size controlSize, DesignerLoader loader)
         {
             const string _signature_ = _name + @"::CreateRootComponentCore()";
             try
@@ -69,6 +69,11 @@ namespace DesignUI
                 else     //- Undefined Host Type
                 {
                     ctrl.BackColor = Color.Red;
+                }
+                if (!string.IsNullOrEmpty(name))
+                {
+                    if (host.RootComponent.Site != null)
+                        host.RootComponent.Site.Name = name;
                 }
                 return host.RootComponent;
             }

@@ -96,9 +96,7 @@ namespace DesignUI
         public void UpdatePropertyGridHost(DesignSurfaceUView surface)
         {
             IDesignerHost host = (IDesignerHost)surface.GetService(typeof(IDesignerHost));
-            if (null == host)
-                return;
-            if (null == host.RootComponent)
+            if (null == host || null == host.RootComponent)
                 return;
 
             //- sync the PropertyGridHost
@@ -157,7 +155,10 @@ namespace DesignUI
 
                     ArrayList comps = new ArrayList();
                     comps.AddRange(selectService.GetSelectedComponents());
-                    propertyGrid.SelectedObjects = comps.ToArray();
+                    if (comps.Count == 1)
+                        propertyGrid.SelectedObject = comps[0];
+                    else
+                        propertyGrid.SelectedObjects = comps.ToArray();
                 };
             }
             DesignSurfaceUViewCollection.Add(surface);
@@ -214,8 +215,8 @@ namespace DesignUI
             //- therefore using a "Form", without an underscore char as trailer,
             //- cause some troubles when we have to decide if a name is used or not
             //- using a different building pattern (with the underscore) avoid this issue
-            string newFormNameHeader = $"{type}_";
-            int newFormNametrailer = -1;
+            string newFormNameHeader = $"{type}";
+            int newFormNametrailer = 0;
             string newFormName = string.Empty;
             bool isNew = true;
             do
@@ -226,10 +227,10 @@ namespace DesignUI
                 foreach (DesignSurfaceUView item in DesignSurfaceUViewCollection)
                 {
                     var designHost = item.GetService(typeof(IDesignerHost)) as IDesignerHost;
-                    string currentFormName = designHost?.RootComponent.Site.Name;
+                    if (designHost == null || designHost.RootComponent == null) continue;
+                    string currentFormName = designHost.RootComponent.Site.Name;
                     isNew &= ((newFormName == currentFormName) ? false : true);
                 }
-
             } while (!isNew);
             return newFormName;
         }

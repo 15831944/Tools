@@ -105,8 +105,7 @@ namespace DesignUI.View
         //- Note:
         //-     the generics param is used to know which type of control to use as RootComponent
         //-     TT is requested to be derived from .NET Control class 
-        public DesignSurfaceUView AddDesignSurface<TT>
-            (int startingFormWidth, int startingFormHeight, Interface.AlignmentModeEnum alignmentMode)
+        public DesignSurfaceUView AddDesignSurface<TT>(int width, int height, Interface.AlignmentModeEnum alignmentMode)
             where TT : Control
         {
             const string _signature_ = _name + @"::AddDesignSurface<>()";
@@ -140,12 +139,12 @@ namespace DesignUI.View
             Control rootComponent = null;
             //- cast to .NET Control because the TT object 
             //- has a constraint: to be a ".NET Control"
-            rootComponent = surface.CreateRootComponent(typeof(TT), new Size(startingFormWidth, startingFormHeight)) as Control;
+            rootComponent = surface.CreateRootComponent(typeof(TT), DesignSurfaceManager.GetValidName(typeof(TT).Name), new Size(width, height)) as Control;
             //- rename the Sited component
             //- (because the user may add more then one Form
             //- and every new Form will be called "Form1"
             //- if we don't set its Name)
-            rootComponent.Site.Name = this.DesignSurfaceManager.GetValidName(typeof(TT).Name);
+            //rootComponent.Site.Name = this.DesignSurfaceManager.GetValidName(typeof(TT).Name);
 
             //- step.5
             //- enable the Drag&Drop on RootComponent
@@ -186,6 +185,7 @@ namespace DesignUI.View
 
             //- step.9
             //- finally return the DesignSurface created to let it be modified again by user
+            DesignSurfaceManager.UpdatePropertyGridHost(surface);
             return surface;
         }
 
