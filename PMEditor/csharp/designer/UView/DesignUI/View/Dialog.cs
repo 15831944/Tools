@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace DesignUI
+namespace DesignUI.View
 {
     public class Dialog : Form
     {

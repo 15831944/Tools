@@ -27,7 +27,7 @@ namespace DesignUI
     //-             |
     //-             +--|Cut/Copy/Paste/Delete commands|
     //-
-    public class DesignSurfaceUView : DesignSurfaceBase, IDesignSurfaceUView
+    public class DesignSurfaceUView : DesignSurfaceBase
     {
         private const string _name = "DesignSurfaceUView";
 
@@ -50,10 +50,8 @@ namespace DesignUI
             ctrl.DragDrop += new DragEventHandler(OnDragDrop);
 
             //- enable the Dragitem inside the our Toolbox
-            Service.ToolboxServiceImp tbs = this.GetIToolboxService();
-            if (null == tbs)
-                return;
-            if (null == tbs.Toolbox)
+            Service.ToolboxServiceImp tbs = GetService(typeof(IToolboxService)) as Service.ToolboxServiceImp;
+            if (null == tbs || null == tbs.Toolbox)
                 return;
             tbs.Toolbox.MouseDown += new MouseEventHandler(OnListboxMouseDown);
         }
@@ -61,12 +59,8 @@ namespace DesignUI
         //- Management of the Drag&Drop of the toolboxItems contained inside our Toolbox
         private void OnListboxMouseDown(object sender, MouseEventArgs e)
         {
-            Service.ToolboxServiceImp tbs = this.GetIToolboxService();
-            if (null == tbs)
-                return;
-            if (null == tbs.Toolbox)
-                return;
-            if (null == tbs.Toolbox.SelectedItem)
+            Service.ToolboxServiceImp tbs = GetService(typeof(IToolboxService)) as Service.ToolboxServiceImp;
+            if (null == tbs || null == tbs.Toolbox || null == tbs.Toolbox.SelectedItem)
                 return;
 
             tbs.Toolbox.DoDragDrop(tbs.Toolbox.SelectedItem, DragDropEffects.Copy | DragDropEffects.Move);
@@ -85,7 +79,7 @@ namespace DesignUI
             //- now retrieve the data node
             ToolboxItem item = e.Data.GetData(typeof(ToolboxItem)) as ToolboxItem;
             e.Effect = DragDropEffects.Copy;
-            item.CreateComponents(this.GetIDesignerHost());
+            item.CreateComponents(GetService(typeof(IDesignerHost)) as IDesignerHost);
 
         }
         #endregion
@@ -181,7 +175,7 @@ namespace DesignUI
             }
 
             //- IToolboxService
-            _toolboxService = new Service.ToolboxServiceImp(this.GetIDesignerHost());
+            _toolboxService = new Service.ToolboxServiceImp(GetService(typeof(IDesignerHost)) as IDesignerHost);
             if (_toolboxService != null)
             {
                 this.ServiceContainer.RemoveService(typeof(IToolboxService), false);

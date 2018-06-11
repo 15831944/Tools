@@ -8,8 +8,10 @@ using System.Diagnostics;
 using DesignUI;
 using System.IO;
 using System.ComponentModel.Design.Serialization;
+using DesignUI.Service;
+using System.Drawing.Design;
 
-namespace Designer
+namespace DesignUI.View
 {
     //- [Note FROM MSDN]:
     //- The DesignSurfaceManager.ActiveDesignSurface property should be set
@@ -26,14 +28,14 @@ namespace Designer
     //       };
     //-
     //- UDesigner class
-    public partial class UDesigner : UserControl, IUDesigner
+    public partial class UDesigner : UserControl, Interface.IUDesigner
     {
         private const string _name = "UDesigner";
 
         //- the DesignUIMgr instance must be an OBSERVER
         //- of the UI event which change the active DesignSurface
         //- DesignSurfaceManager is exposed as public getter properties as test facility
-        public DesignUIMgr.DesignUIMgr DesignSurfaceManager { get; private set; }
+        public DesignUIMgr DesignSurfaceManager { get; private set; }
 
         #region ctors
         //- usage:
@@ -57,7 +59,7 @@ namespace Designer
         {
             InitializeComponent();
 
-            DesignSurfaceManager = new DesignUIMgr.DesignUIMgr();
+            DesignSurfaceManager = new DesignUIMgr();
             DesignSurfaceManager.PropertyGridHost.Parent = this.splitterpDesigner.Panel2;
 
             Toolbox = null;
@@ -87,7 +89,7 @@ namespace Designer
             get { return this.tbCtrlpDesigner; }
         }
 
-        public DesignUIMgr.PropertyGridHost PropertyGridHost
+        public View.PropertyGridHost PropertyGridHost
         {
             get { return DesignSurfaceManager.PropertyGridHost; }
         }
@@ -104,7 +106,7 @@ namespace Designer
         //-     the generics param is used to know which type of control to use as RootComponent
         //-     TT is requested to be derived from .NET Control class 
         public DesignSurfaceUView AddDesignSurface<TT>
-            (int startingFormWidth, int startingFormHeight, AlignmentModeEnum alignmentMode, Size gridSize )
+            (int startingFormWidth, int startingFormHeight, Interface.AlignmentModeEnum alignmentMode)
             where TT : Control
         {
             const string _signature_ = _name + @"::AddDesignSurface<>()";
@@ -119,33 +121,16 @@ namespace Designer
 
             //- step.1
             //- choose an alignment mode...
-            switch (alignmentMode)
-            {
-                case AlignmentModeEnum.SnapLines:
-                    surface.UseSnapLines();
-                    break;
-                case AlignmentModeEnum.Grid:
-                    surface.UseGrid(gridSize);
-                    break;
-                //case AlignmentModeEnum.GridWithoutSnapping:
-                //    surface.UseGridWithoutSnapping(gridSize);
-                //    break;
-                //case AlignmentModeEnum.NoGuides:
-                //    surface.UseNoGuides();
-                //    break;
-                default:
-                    surface.UseSnapLines();
-                    break;
-            }
+            surface.UseOptionService(alignmentMode);
 
             //- step.2
             //- enable the UndoEngine
-            ((IDesignSurfaceBase)surface).GetUndoService().Enabled = true;
+            (surface.GetService(typeof(UndoEngine)) as UndoEngine).Enabled = true;
 
             //- step.3
             //- Select the service IToolboxService
             //- and hook it to our ListBox
-            var tbox = ((IDesignSurfaceUView)surface).GetIToolboxService() as DesignUI.Service.ToolboxServiceImp;
+            var tbox = surface.GetService(typeof(IToolboxService)) as ToolboxServiceImp;
             //- we don't check if Toolbox is null because the very first check: if(!this)...
             if (null != tbox)
                 tbox.Toolbox = this.Toolbox;
@@ -164,7 +149,7 @@ namespace Designer
 
             //- step.5
             //- enable the Drag&Drop on RootComponent
-            ((DesignSurfaceUView)surface).EnableDragandDrop();
+            surface.EnableDragandDrop();
 
             //- step.6
             //- IComponentChangeService is marked as Non replaceable service
@@ -243,7 +228,8 @@ namespace Designer
                 //-     that Designsurface continue to exist but it is no more reachable
                 //-     this fact is usefull when generate new names for Designsurfaces just created
                 //-     avoiding name clashing
-                string dsRootComponentName = surfaceToErase.GetIDesignerHost().RootComponent.Site.Name;
+                var designHost = surfaceToErase.GetService(typeof(IDesignerHost)) as IDesignerHost;
+                string dsRootComponentName = designHost?.RootComponent.Site.Name;
                 TabPage tpToRemove = null;
                 foreach (TabPage tp in this.tbCtrlpDesigner.TabPages)
                 {
@@ -276,45 +262,34 @@ namespace Designer
 
         public void ActionCommandOnDesignSurface(CommandID command)
         {
+            var surf = DesignSurfaceManager.ActiveDesignSurface;
+            if (surf == null) return;
             if (command == StandardCommands.Undo)
-                DesignSurfaceManager.ActiveDesignSurface?.GetUndoService()?.Undo();
+                (surf.GetService(typeof(UndoEngine)) as UndoServiceImpl)?.Undo();
             else if (command == StandardCommands.Redo)
-                DesignSurfaceManager.ActiveDesignSurface?.GetUndoService()?.Redo();
+                (surf.GetService(typeof(UndoEngine)) as UndoServiceImpl)?.Redo();
             else
                 DesignSurfaceManager.ActiveDesignSurface?.DoAction(command);
         }
 
         public void SwitchTabOrder()
         {
-            IDesignSurfaceBase isurf = DesignSurfaceManager.ActiveDesignSurface;
+            Interface.IDesignSurfaceBase isurf = DesignSurfaceManager.ActiveDesignSurface;
             isurf?.SwitchTabOrder();
-        }
-
-        public void SetGrid(Size size)
-        {
-            //MessageBox.Show($"Want to show grid w={size.Width}, h={size.Height}");
-            IDesignSurfaceBase isurf = DesignSurfaceManager.ActiveDesignSurface;
-            if (isurf == null) return;
-            if (size.Width <= 0 || size.Height <= 0)
-                isurf.UseSnapLines();
-            else
-                isurf.UseGrid(size);
-            //isurf.Flush();
         }
 
         public void SaveCurrent()
         {
-            IDesignSurfaceUView isurf = DesignSurfaceManager.ActiveDesignSurface;
-            if (null == isurf) return;
+            if (null == DesignSurfaceManager.ActiveDesignSurface) return;
 
-            isurf.Save();
+            //isurf.Save();
         }
 
         public void SaveAll()
         {
-            foreach (IDesignSurfaceUView isurf in DesignSurfaceManager.DesignSurfaces)
+            foreach (var isurf in DesignSurfaceManager.DesignSurfaces)
             {
-                isurf?.Save();
+                //isurf?.Save();
             }
         }
 
@@ -325,8 +300,8 @@ namespace Designer
             //SerializationStore store = new SerializationStore();
             //fileStream.
             //fileStream.Close();
-            var surface = AddDesignSurface<Display>(640, 480, AlignmentModeEnum.SnapLines, new Size(1, 1));
-            surface.Open(strFile);
+            var surface = AddDesignSurface<Display>(640, 480, Interface.AlignmentModeEnum.SnapLines);
+            //surface.Open(strFile);
         }
         #endregion
     }

@@ -1,11 +1,10 @@
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Design;
 using System.ComponentModel.Design;
 
 using USolution;
-using Designer;
+using DesignUI.Service;
 
 namespace UView
 {
@@ -13,7 +12,7 @@ namespace UView
     {
         private string _version = string.Empty;
         private Solution _solution;
-        private IUDesigner _idesigner = new UDesigner();
+        private DesignUI.Interface.IUDesigner _idesigner = new DesignUI.View.UDesigner();
 
         public string Version
         {
@@ -29,7 +28,7 @@ namespace UView
             }
         }
 
-        public IUDesigner Designer { get { return _idesigner; } }
+        public DesignUI.Interface.IUDesigner Designer { get { return _idesigner; } }
 
         #region Init
         //- ctor
@@ -39,7 +38,7 @@ namespace UView
             InitMenuText();
 
             //- the control: (UDesigner)_designer 
-            (_idesigner as UDesigner).Parent = designerPanel;
+            (_idesigner as DesignUI.View.UDesigner).Parent = designerPanel;
 
             InitToolBox();
         }
@@ -125,52 +124,22 @@ namespace UView
 
         private void displayToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _idesigner.AddDesignSurface<DesignUI.Display>(480, 320, AlignmentModeEnum.SnapLines, new Size(1, 1));
+            _idesigner.AddDesignSurface<DesignUI.View.Display>(480, 320, DesignUI.Interface.AlignmentModeEnum.SnapLines);
         }
 
         private void formToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _idesigner.AddDesignSurface<DesignUI.Dialog> (480, 320, AlignmentModeEnum.SnapLines, new Size(1, 1));
+            _idesigner.AddDesignSurface<DesignUI.View.Dialog> (480, 320, DesignUI.Interface.AlignmentModeEnum.SnapLines);
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            _idesigner.AddDesignSurface<DesignUI.Display>(480, 320, AlignmentModeEnum.SnapLines, new Size(1, 1));
+            _idesigner.AddDesignSurface<DesignUI.View.Display>(480, 320, DesignUI.Interface.AlignmentModeEnum.SnapLines);
         }
 
         private void useGridToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _idesigner.AddDesignSurface<DesignUI.Display>(480, 320, AlignmentModeEnum.Grid, new Size(8, 8));
-        }
-
-        private void gridNoneToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _idesigner.SetGrid(new Size(0, 0));
-        }
-
-        private void x1ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _idesigner.SetGrid(new Size(1, 1));
-        }
-
-        private void x4ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _idesigner.SetGrid(new Size(4, 4));
-        }
-
-        private void x8ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _idesigner.SetGrid(new Size(8, 8));
-        }
-
-        private void x16ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _idesigner.SetGrid(new Size(16, 16));
-        }
-
-        private void x32ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _idesigner.SetGrid(new Size(32, 32));
+            _idesigner.AddDesignSurface<DesignUI.View.Display>(480, 320, DesignUI.Interface.AlignmentModeEnum.Grid);
         }
 
         private void editToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
@@ -190,9 +159,12 @@ namespace UView
             var surface = _idesigner.ActiveDesignSurface;
             if (surface != null)
             {
-                var undoMgr = surface.GetUndoService();
-                ToolStripMenuItemUnDo.Enabled = undoMgr.EnableUndo;
-                ToolStripMenuItemReDo.Enabled = undoMgr.EnableRedo;
+                var undoMgr = surface.GetService(typeof(UndoEngine)) as UndoServiceImpl;
+                if (undoMgr != null)
+                {
+                    ToolStripMenuItemUnDo.Enabled = !undoMgr.UndoEmpty;
+                    ToolStripMenuItemReDo.Enabled = !undoMgr.RedoEmpty;
+                }
 
                 var selectionService = (ISelectionService)(surface.GetService(typeof(ISelectionService)));
                 if (selectionService != null && selectionService.SelectionCount > 0)

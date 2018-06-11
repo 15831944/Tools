@@ -116,17 +116,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DesignUIMgr\DesignUIMgr.csproj">
-      <Project>{2eba814a-c9d9-4ae1-934b-0e5acffd247e}</Project>
-      <Name>DesignUIMgr</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DesignUI\DesignUI.csproj">
       <Project>{e96c74ba-9f74-4289-bf72-45cad472d3d2}</Project>
       <Name>DesignUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UDesigner\UDesigner.csproj">
-      <Project>{a1255440-79a2-4330-ad80-89f0bafce73f}</Project>
-      <Name>UDesigner</Name>
     </ProjectReference>
     <ProjectReference Include="..\UResource\UResource.csproj">
       <Project>{f54646f4-ca85-4906-b793-8b795e53fd67}</Project>

@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 
-namespace DesignUIMgr
+namespace DesignUI.View
 {
     public partial class PropertyGridHost : UserControl
     {

@@ -4,9 +4,7 @@ using System.Windows.Forms;
 using System.ComponentModel.Design;
 using System.Collections;
 
-using DesignUI;
-
-namespace DesignUIMgr
+namespace DesignUI
 {
     //- this class manages a collection of DesignSurfaceUView instances
     //- this class adds to
@@ -56,7 +54,7 @@ namespace DesignUIMgr
         //-     that are currently hosted by the DesignSurfaceManager but is readonly
         private List<DesignSurfaceUView> DesignSurfaceUViewCollection = new List<DesignSurfaceUView>();
 
-        public PropertyGridHost PropertyGridHost { get; private set; }
+        public View.PropertyGridHost PropertyGridHost { get; private set; }
 
         #region ctors
         //- ctors
@@ -77,7 +75,7 @@ namespace DesignUIMgr
 
         private void Init()
         {
-            this.PropertyGridHost = new PropertyGridHost(this);
+            this.PropertyGridHost = new View.PropertyGridHost(this);
             //- add the PropertyGridHost and ComboBox as services
             //- to let them available for every DesignSurface
             //- (the DesignSurface need a PropertyGridHost/ComboBox not a the UserControl hosting them so
@@ -227,7 +225,8 @@ namespace DesignUIMgr
                 newFormName = newFormNameHeader + newFormNametrailer;
                 foreach (DesignSurfaceUView item in DesignSurfaceUViewCollection)
                 {
-                    string currentFormName = item.GetIDesignerHost().RootComponent.Site.Name;
+                    var designHost = item.GetService(typeof(IDesignerHost)) as IDesignerHost;
+                    string currentFormName = designHost?.RootComponent.Site.Name;
                     isNew &= ((newFormName == currentFormName) ? false : true);
                 }
 

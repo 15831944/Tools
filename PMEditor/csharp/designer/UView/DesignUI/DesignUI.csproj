@@ -62,10 +62,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dialog.cs">
+    <Compile Include="DesignSurfaceBase.Internal.cs" />
+    <Compile Include="DesignUIMgr.cs" />
+    <Compile Include="Interface\IUDesigner.cs" />
+    <Compile Include="View\Dialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Display.cs">
+    <Compile Include="View\Display.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Service\OptionService\GridWithoutSnapping.cs" />
@@ -75,7 +78,6 @@
     <Compile Include="DesignSurfaceBase.cs" />
     <Compile Include="DesignSurfaceUView.cs" />
     <Compile Include="Interface\IDesignSurfaceBase.cs" />
-    <Compile Include="Interface\IDesignSurfaceUView.cs" />
     <Compile Include="Service\MenuCommandServiceImpl.cs" />
     <Compile Include="Service\NameCreationServiceImp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,6 +85,18 @@
     <Compile Include="Service\ToolboxServiceImp.cs" />
     <Compile Include="Service\OptionService\Grid.cs" />
     <Compile Include="Service\UndoServiceImpl.cs" />
+    <Compile Include="View\PropertyGridHost.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\PropertyGridHost.Designer.cs">
+      <DependentUpon>PropertyGridHost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\UDesigner.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\UDesigner.Designer.cs">
+      <DependentUpon>UDesigner.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="design.ico" />
@@ -92,6 +106,14 @@
       <Project>{f54646f4-ca85-4906-b793-8b795e53fd67}</Project>
       <Name>UResource</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="View\PropertyGridHost.resx">
+      <DependentUpon>PropertyGridHost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\UDesigner.resx">
+      <DependentUpon>UDesigner.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,4 +1,4 @@
-﻿namespace DesignUIMgr
+﻿namespace DesignUI.View
 {
     partial class PropertyGridHost
     {

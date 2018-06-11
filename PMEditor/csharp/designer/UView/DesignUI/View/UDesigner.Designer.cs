@@ -1,4 +1,4 @@
-﻿namespace Designer
+﻿namespace DesignUI.View
 {
     partial class UDesigner
     {

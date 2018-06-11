@@ -26,10 +26,8 @@ namespace DesignUI
     //-     +--|UndoEngine|
     //-     +--|Cut/Copy/Paste/Delete commands|
     //-
-    public class DesignSurfaceBase : DesignSurface, IDesignSurfaceBase
+    public partial class DesignSurfaceBase : DesignSurface, Interface.IDesignSurfaceBase
     {
-        private const string _name = "DesignSurfaceBase";
-
         #region IDesignSurfaceBase Members
         public void SwitchTabOrder()
         {
@@ -37,85 +35,27 @@ namespace DesignUI
             else InvokeTabOrder();
         }
 
-        private void UseNewOptionService(DesignerOptionService opsServiceNew)
+        //public void UseSnapLines()
+        public void UseOptionService(Interface.AlignmentModeEnum option)
         {
-            IServiceContainer serviceProvider = this.GetService(typeof(IServiceContainer)) as IServiceContainer;
-            DesignerOptionService opsService = serviceProvider.GetService(typeof(DesignerOptionService)) as DesignerOptionService;
-            if (null != opsService) serviceProvider.RemoveService(typeof(DesignerOptionService));
-            serviceProvider.AddService(typeof(DesignerOptionService), opsServiceNew);
-        }
-
-        public void UseSnapLines()
-        {
-            UseNewOptionService(new DesignerOptionServiceSnapLines());
-        }
-
-        public void UseGrid(Size gridSize)
-        {
-            UseNewOptionService(new DesignerOptionServiceGrid(gridSize));
-        }
-
-        public void UseGridWithoutSnapping(Size gridSize)
-        {
-            UseNewOptionService(new DesignerOptionServiceGridWithoutSnapping(gridSize));
-        }
-
-        public void UseNoGuides()
-        {
-            UseNewOptionService(new DesignerOptionServiceNoGuides());
-        }
-
-        public Service.UndoServiceImpl GetUndoService()
-        {
-            return this._undoService;
-        }
-
-        private IComponent CreateRootComponentCore(Type controlType, Size controlSize, DesignerLoader loader)
-        {
-            const string _signature_ = _name + @"::CreateRootComponentCore()";
-            try
-            {   //- step.1
-                //- Get the IDesignerHost, if we are not not able to get it, then rollback (return without do nothing)
-                //- Check if the root component has already been set, if so then rollback (return without do nothing)
-                IDesignerHost host = GetIDesignerHost();
-                if (null == host || null != host.RootComponent) return null;
-
-
-                //- step.2
-                //- Create a new root component and initialize it via its designer, if the component has not a designer
-                //- then rollback (return without do nothing), else do the initialization
-                if (null != loader) this.BeginLoad(loader);
-                else                this.BeginLoad(controlType);
-                if (this.LoadErrors.Count > 0)
-                    throw new Exception(_signature_ + $" - Exception: the BeginLoad failed!");
-
-                //- step.3
-                //- try to modify the Size of the object just created
-                //IDesignerHost ihost = GetIDesignerHost();
-                //- Set the backcolor and the Size
-                Control ctrl = this.View as Control;
-                if (host.RootComponent is Control) // Form, UserControl, Panel, Control
-                {
-                    ctrl.BackColor = Color.LightGray;
-                    PropertyDescriptorCollection pdc = TypeDescriptor.GetProperties(ctrl);  //- set the Size
-                    pdc.Find("Size", false)?.SetValue(host.RootComponent, controlSize);
-                }
-                else if (host.RootComponent is Component) // Timer, ImageList
-                {
-                    ctrl.BackColor = Color.White;
-                }
-                else     //- Undefined Host Type
-                {
-                    ctrl.BackColor = Color.Red;
-                }
-                return host.RootComponent;
-            }
-            catch (Exception exx)
+            //UseNewOptionService(new DesignerOptionServiceSnapLines());
+            switch (option)
             {
-                Debug.WriteLine(exx.Message);
-                if (null != exx.InnerException)
-                    Debug.WriteLine(exx.InnerException.Message);
-                throw;
+                case Interface.AlignmentModeEnum.SnapLines:
+                    UseNewOptionService(new DesignerOptionServiceSnapLines());
+                    break;
+                case Interface.AlignmentModeEnum.Grid:
+                    UseNewOptionService(new DesignerOptionServiceGrid(new Size(8, 8)));
+                    break;
+                //case AlignmentModeEnum.GridWithoutSnapping:
+                //    UseNewOptionService(new DesignerOptionServiceGridWithoutSnapping(new Size(4, 4)));
+                //    break;
+                //case AlignmentModeEnum.NoGuides:
+                //    UseNewOptionService(new DesignerOptionServiceNoGuides());
+                //    break;
+                default:
+                    UseNewOptionService(new DesignerOptionServiceSnapLines());
+                    break;
             }
         }
 
@@ -136,7 +76,7 @@ namespace DesignUI
                 //- step.1
                 //- Get the IDesignerHost, if we are not able to get it, then rollback (return without do nothing)
                 //- check if the root component has already been set if not so then rollback (return without do nothing)
-                IDesignerHost host = GetIDesignerHost();
+                IDesignerHost host = GetService(typeof(IDesignerHost)) as IDesignerHost;
                 if (null == host || null == host.RootComponent) return null;
 
                 //- step.2
@@ -173,11 +113,6 @@ namespace DesignUI
             }
         }
 
-        public IDesignerHost GetIDesignerHost()
-        {
-            return (IDesignerHost)(this.GetService(typeof(IDesignerHost)));
-        }
-
         public Control GetView()
         {
             Control ctrl = this.View as Control;
@@ -187,9 +122,7 @@ namespace DesignUI
         }
         #endregion
 
-        #region TabOrder
-        private TabOrderHooker _tabOrder = null;
-        private bool _tabOrderMode = false;
+        #region TabOrder        
 
         public bool IsTabOrderMode
         {
@@ -208,22 +141,15 @@ namespace DesignUI
 
         public void InvokeTabOrder()
         {
-            TabOrder.HookTabOrder(this.GetIDesignerHost());
+            TabOrder.HookTabOrder(GetService(typeof(IDesignerHost)) as IDesignerHost);
             _tabOrderMode = true;
         }
 
         public void DisposeTabOrder()
         {
-            TabOrder.HookTabOrder(this.GetIDesignerHost());
+            TabOrder.HookTabOrder(GetService(typeof(IDesignerHost)) as IDesignerHost);
             _tabOrderMode = false;
         }
-        #endregion
-
-        #region  UndoEngine
-        private Service.UndoServiceImpl _undoService = null;
-        private Service.NameCreationServiceImp _nameCreationService = null;
-        private Service.DesignerSerializationServiceImpl _designerSerializationService = null;
-        private CodeDomComponentSerializationService _codeDomComponentSerializationService = null;
         #endregion
 
         #region ctors
@@ -269,46 +195,6 @@ namespace DesignUI
         //-   System.ArgumentNullException: rootComponent is null.
         //-   System.ObjectDisposedException: The System.ComponentModel.Design.IDesignerHost attached to the System.ComponentModel.Design.DesignSurface has been disposed.
         public DesignSurfaceBase(IServiceProvider parentProvider, Type rootComponentType) : base(parentProvider, rootComponentType) { InitServices(); }
-
-        //- The DesignSurface class provides several design-time services automatically. The DesignSurface class adds all of its services in its constructor.
-        //- Most of these services can be overridden by replacing them in the protected ServiceContainer property.To replace a service, override the constructor,
-        //- call base, and make any changes through the protected ServiceContainer property.
-        private void InitServices()
-        {
-            //- Each DesignSurface has its own default services, We can leave the default services in their present state,
-            //- or we can remove them and replace them with our own. Now add our own services using IServiceContainer.
-
-            //- Note, before loading the root control in the design surface, we must add an instance of naming service to the service container.
-            //- otherwise the root component did not have a name and this caused troubles when we try to use the UndoEngine
-
-            //- 1. NameCreationService
-            _nameCreationService = new Service.NameCreationServiceImp();
-            InitServier(typeof(INameCreationService), _nameCreationService);
-
-            //- 2. CodeDomComponentSerializationService, the CodeDomComponentSerializationService is ready to be replaced
-            _codeDomComponentSerializationService = new CodeDomComponentSerializationService(this.ServiceContainer);
-            InitServier(typeof(ComponentSerializationService), _codeDomComponentSerializationService);
-
-            //- 3. IDesignerSerializationService, the IDesignerSerializationService is ready to be replaced
-            _designerSerializationService = new Service.DesignerSerializationServiceImpl(this.ServiceContainer);
-            InitServier(typeof(IDesignerSerializationService), _designerSerializationService);
-
-            //- 4. UndoEngine, the UndoEngine is ready to be replaced
-            _undoService = new Service.UndoServiceImpl(this.ServiceContainer);
-            _undoService.Enabled = false;   //- disable the UndoEngine
-            InitServier(typeof(UndoEngine), _undoService);
-
-            //- 5. IMenuCommandService
-            InitServier(typeof(IMenuCommandService), new MenuCommandService(this));
-        }
-
-        private void InitServier(Type t, object s)
-        {
-            if (s != null) {
-                ServiceContainer.RemoveService(t, false);
-                ServiceContainer.AddService(t, s);
-            }
-        }
         #endregion
 
         //- do some Edit menu command using the MenuCommandServiceImp
@@ -341,67 +227,67 @@ namespace DesignUI
             }
         }
 
-        private void SaveToFile(string strFile)
-        {
-            var service = this.GetService(typeof(IDesignerSerializationService)) as Service.DesignerSerializationServiceImpl;
-            var host = GetIDesignerHost();
-            List<IComponent> ltcomps = new List<IComponent>();
-            foreach (IComponent p in host.Container.Components)
-            {
-                ltcomps.Add(p);
-            }
-            //ltcomps.RemoveAt(0);
-            //var store = service.Serialize(host.Container.Components);
-            var store = service.Serialize(ltcomps);
-            var serializeStore = store as SerializationStore;
-
-            MemoryStream memoryStream = new MemoryStream();
-
-            using (FileStream fileStream = new FileStream(strFile, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write))
-            {
-                serializeStore.Save(fileStream);
-            }
-        }
-
-        public void Save()
-        {
-            SaveToFile(@"D:\\disp.disp");
-        }
-
-        public void Open(string strFile)
-        {
-            using (FileStream fileStream = new FileStream(strFile, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                ComponentSerializationService componentStoreService = this.GetService(typeof(ComponentSerializationService)) as ComponentSerializationService;
-                using (SerializationStore serializationStore = componentStoreService.LoadStore(fileStream))
-                {
-                    var service = this.GetService(typeof(IDesignerSerializationService)) as Service.DesignerSerializationServiceImpl;
-                    var designer = GetIDesignerHost();
-                    var components = componentStoreService.Deserialize(serializationStore, designer.Container);
-                
-                    // reset parent
-                    var rootComponent = designer.RootComponent as ContainerControl;
-                    foreach (var p in components)
-                    {
-                        if (p is Control)
-                            rootComponent.Controls.Add(p as Control);
-                    }
-                }
-                //ComponentSerializationService componentStoreService = this.GetService(typeof(ComponentSerializationService)) as ComponentSerializationService;
-                //using (SerializationStore serializationStore = componentStoreService.LoadStore(fileStream))
-                //{
-                //    var service = this.GetService(typeof(IDesignerSerializationService)) as Service.DesignerSerializationServiceImpl;
-                //    var designer = GetIDesignerHost();
-                //    var components = service.Deserialize(serializationStore);
-                //
-                //    var rootComponent = designer.RootComponent as ContainerControl;
-                //    foreach (var p in components)
-                //    {
-                //        if (p is Control)
-                //            rootComponent.Controls.Add(p as Control);
-                //    }
-                //}
-            }
-        }
+        //private void SaveToFile(string strFile)
+        //{
+        //    var service = this.GetService(typeof(IDesignerSerializationService)) as Service.DesignerSerializationServiceImpl;
+        //    var host = GetIDesignerHost();
+        //    List<IComponent> ltcomps = new List<IComponent>();
+        //    foreach (IComponent p in host.Container.Components)
+        //    {
+        //        ltcomps.Add(p);
+        //    }
+        //    //ltcomps.RemoveAt(0);
+        //    //var store = service.Serialize(host.Container.Components);
+        //    var store = service.Serialize(ltcomps);
+        //    var serializeStore = store as SerializationStore;
+        //
+        //    MemoryStream memoryStream = new MemoryStream();
+        //
+        //    using (FileStream fileStream = new FileStream(strFile, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write))
+        //    {
+        //        serializeStore.Save(fileStream);
+        //    }
+        //}
+        //
+        //public void Save()
+        //{
+        //    SaveToFile(@"D:\\disp.disp");
+        //}
+        //
+        //public void Open(string strFile)
+        //{
+        //    using (FileStream fileStream = new FileStream(strFile, FileMode.Open, FileAccess.Read, FileShare.Read))
+        //    {
+        //        ComponentSerializationService componentStoreService = this.GetService(typeof(ComponentSerializationService)) as ComponentSerializationService;
+        //        using (SerializationStore serializationStore = componentStoreService.LoadStore(fileStream))
+        //        {
+        //            var service = this.GetService(typeof(IDesignerSerializationService)) as Service.DesignerSerializationServiceImpl;
+        //            var designer = GetIDesignerHost();
+        //            var components = componentStoreService.Deserialize(serializationStore, designer.Container);
+        //        
+        //            // reset parent
+        //            var rootComponent = designer.RootComponent as ContainerControl;
+        //            foreach (var p in components)
+        //            {
+        //                if (p is Control)
+        //                    rootComponent.Controls.Add(p as Control);
+        //            }
+        //        }
+        //        //ComponentSerializationService componentStoreService = this.GetService(typeof(ComponentSerializationService)) as ComponentSerializationService;
+        //        //using (SerializationStore serializationStore = componentStoreService.LoadStore(fileStream))
+        //        //{
+        //        //    var service = this.GetService(typeof(IDesignerSerializationService)) as Service.DesignerSerializationServiceImpl;
+        //        //    var designer = GetIDesignerHost();
+        //        //    var components = service.Deserialize(serializationStore);
+        //        //
+        //        //    var rootComponent = designer.RootComponent as ContainerControl;
+        //        //    foreach (var p in components)
+        //        //    {
+        //        //        if (p is Control)
+        //        //            rootComponent.Controls.Add(p as Control);
+        //        //    }
+        //        //}
+        //    }
+        //}
     }
 }

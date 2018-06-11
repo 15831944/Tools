@@ -6,7 +6,7 @@ using System.Drawing.Design;
 using System.Reflection;
 using DesignUI;
 
-using Designer;
+//using Designer;
 
 namespace UView
 {
@@ -31,6 +31,7 @@ namespace UView
 
                 //- create the Form
                 MainForm f = new MainForm();
+                #region AddDemo
                 //var designer = f.Designer as UDesigner;
                 //f.Size = new Size(1200, 800);
 
@@ -64,7 +65,7 @@ namespace UView
                 //RaiseEventViaReflection(designer.TabControlHostingDesignSurfaces);
 
                 //display3.UseGrid(new Size(16, 16));
-
+                #endregion
                 f.ShowDialog();
             }
             catch (Exception ex)

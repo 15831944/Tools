@@ -2,13 +2,8 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-using DesignUI;
-using DesignUIMgr;
-
-namespace Designer
+namespace DesignUI.Interface
 {
-    public enum AlignmentModeEnum : int { SnapLines = 0, Grid }//, GridWithoutSnapping, NoGuides };
-
     //- Interface used to
     //-     * hosts: Toolbox;DesignSurfaces;PropertyGrid
     //-     * add/remove DesignSurfaces
@@ -28,7 +23,7 @@ namespace Designer
         //-     +-------------+-----------------------------+-----------+
         ListBox Toolbox { get; set; }                       //- TOOLBOX
         TabControl TabControlHostingDesignSurfaces { get; } //- DESIGNSURFACES HOST
-        PropertyGridHost PropertyGridHost { get; }          //- PROPERTYGRID
+        View.PropertyGridHost PropertyGridHost { get; }          //- PROPERTYGRID
 
         //- DesignSurfaces management section -----------------------------------------------------
         DesignSurfaceUView ActiveDesignSurface { get; }
@@ -40,7 +35,7 @@ namespace Designer
         //-     the generics param is used to know which type of control to use as RootComponent
         //-     TT is requested to be derived from .NET Control class 
         DesignSurfaceUView AddDesignSurface<TT>
-            (int startingFormWidth, int startingFormHeight, AlignmentModeEnum alignmentMode, Size gridSize)
+            (int startingFormWidth, int startingFormHeight, AlignmentModeEnum alignmentMode)
             where TT : Control;
 
         void RemoveDesignSurface(DesignSurfaceUView activeSurface);
@@ -48,7 +43,6 @@ namespace Designer
         //- Editing section  ----------------------------------------------------------------------
         void ActionCommandOnDesignSurface(CommandID command);
         void SwitchTabOrder();
-        void SetGrid(Size size);
         void SaveCurrent();
         void SaveAll();
         void Open(string strFile);
