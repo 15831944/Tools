@@ -43,11 +43,12 @@ int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
 {
 	if (!AfxWinInit(::GetModuleHandle(NULL), NULL, ::GetCommandLine(), 0))	return 1;
 	CGreedyMgr mgr;
-	mgr.Init(10000, 255);
+	mgr.Init(10, 255);
 	StartHighTime();
-	mgr.Start2GreedyGroup();
+
+	int n = mgr.Start2GreedyGroup();
+
 	double t = GetHighTime(false);
-	mgr.Uninit();
 	std::cout<<"Time="<<t<<"  Count="<<NCOUNT<<std::endl;
 	std::cin>>t;
 	return 0;

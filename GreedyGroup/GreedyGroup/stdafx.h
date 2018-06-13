@@ -46,8 +46,7 @@
 #include <list>
 #include <vector>
 #include <map>
-#include <boost/shared_ptr.hpp>
-#include <boost/foreach.hpp>
+#include <memory>
 
 #define foreach BOOST_FOREACH
 
