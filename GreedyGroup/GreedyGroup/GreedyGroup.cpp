@@ -36,20 +36,24 @@ double GetHighTime(bool bReStart)
 
 CWinApp theApp;
 
-using namespace std;
-int NCOUNT = 0;
-
 int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
 {
 	if (!AfxWinInit(::GetModuleHandle(NULL), NULL, ::GetCommandLine(), 0))	return 1;
 	CGreedyMgr mgr;
-	mgr.Init(10, 255);
+	mgr.Init(12, 255, 100);
+	int tT1 = 0, tT2 = 0;
+
 	StartHighTime();
+	int n1 = mgr.Start2GreedyGroup(tT1);
+	double t1 = GetHighTime(false);
 
-	int n = mgr.Start2GreedyGroup();
+	StartHighTime();
+	int n2 = mgr.Start2FinalSolution(tT2);
+	double t2 = GetHighTime(false);
 
-	double t = GetHighTime(false);
-	std::cout<<"Time="<<t<<"  Count="<<NCOUNT<<std::endl;
-	std::cin>>t;
+	std::cout << "Time1=" << t1 << "  Count1=" << n1 << "  Throughout=" << tT1 << std::endl;
+	std::cout << "Time2=" << t2 << "  Count2=" << n2 << "  Throughout=" << tT2 << std::endl;
+
+	std::cin>>n1;
 	return 0;
 }

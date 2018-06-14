@@ -13,7 +13,11 @@ private:
 
 public:
 	std::list<std::shared_ptr<CTag>> m_ltTag;
-	std::list<std::shared_ptr<CGroup>> m_ltGroup;
+	std::list<std::shared_ptr<CGroup>> m_ltGroup;	// 用于贪婪算法的列表
+	std::list<CGroup*> m_ResultGroup;				// 用于贪婪算法的返回列表
+
+	std::list<std::shared_ptr<CGroup>> m_ltGroupFinal;		// 用于最优解的链表
+	std::list<std::shared_ptr<CGroup>> m_ResultGroupFinal;	// 用于最优解结果的链表
 
 public:
 	int GetCount(){return m_nCount;}
@@ -24,10 +28,15 @@ public:
 	int GetReqUnit() { return m_nReqUnit; }			// 获得请求单位时间
 	int GetHandleUnit() { return m_nHandleUnit; }	// 获得处理单位时间
 
+private:
+	void InitBase(int ruleSize, int headWidth);
+	bool FinalSolution();								// 寻找最优解，true表示找到
+
 public:
 	CGreedyMgr(void);
 	~CGreedyMgr(void);
 
-	void Init(int count, int ruleSize);				// 初始化数据
-	int Start2GreedyGroup();						// 开始贪婪的分组吧
+	void Init(int count, int ruleSize, int headWidth);	// 初始化数据
+	int Start2GreedyGroup(int& tOut);					// 开始贪婪的分组吧
+	int Start2FinalSolution(int& tOut);					// 寻找最优解
 };
