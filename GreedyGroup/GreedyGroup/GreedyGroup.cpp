@@ -40,8 +40,8 @@ int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
 {
 	if (!AfxWinInit(::GetModuleHandle(NULL), NULL, ::GetCommandLine(), 0))	return 1;
 	CGreedyMgr mgr;
-	mgr.Init(12, 255, 100);
-	int tT1 = 0, tT2 = 0;
+	mgr.Init(2000, 1024, 300);
+	int tT1 = 0, tT2 = 0, tT3 = 0;
 
 	StartHighTime();
 	int n1 = mgr.Start2GreedyGroup(tT1);
@@ -51,8 +51,13 @@ int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
 	int n2 = mgr.Start2FinalSolution(tT2);
 	double t2 = GetHighTime(false);
 
+	StartHighTime();
+	int n3 = mgr.Start2FinalSolutionFast(tT3);
+	double t3 = GetHighTime(false);
+
 	std::cout << "Time1=" << t1 << "  Count1=" << n1 << "  Throughout=" << tT1 << std::endl;
 	std::cout << "Time2=" << t2 << "  Count2=" << n2 << "  Throughout=" << tT2 << std::endl;
+	std::cout << "Time3=" << t3 << "  Count3=" << n3 << "  Throughout=" << tT3 << std::endl;
 
 	std::cin>>n1;
 	return 0;

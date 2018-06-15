@@ -10,6 +10,10 @@ CGroup::CGroup(CGreedyMgr* mgr, std::shared_ptr<CTag> tag)
 	, m_pNext(nullptr)
 {
 	m_ltTag.push_back(tag);	// 默认至少包含1个tag
+	m_nThroughput = tag->GetFrashRate() * (tag->GetWidth() +
+		m_Mgr->GetPackHead() +
+		m_Mgr->GetReqUnit() +
+		m_Mgr->GetHandleUnit());
 }
 
 CGroup::~CGroup()
@@ -17,7 +21,7 @@ CGroup::~CGroup()
 }
 
 // 获得大部分信息
-void CGroup::GetGroupInfo(int& start, int& end, int& width, int& rate)
+int CGroup::GetGroupInfo(int& start, int& end, int& width, int& rate)
 {
 	start = end = -1;
 	width = rate = 0;
@@ -32,43 +36,53 @@ void CGroup::GetGroupInfo(int& start, int& end, int& width, int& rate)
 		rate = max(rate, tag->GetFrashRate());
 	}
 	width = end - start;
+
+	return rate * (width +
+		m_Mgr->GetPackHead() +
+		m_Mgr->GetReqUnit() +
+		m_Mgr->GetHandleUnit());
 }
 
 // 是否超出了规定长度
-bool CGroup::IsOutsize()
+bool CGroup::IsOutsize(int& thoughput)
 {
 	int start, end, width, rate;
-	GetGroupInfo(start, end, width, rate);
-	return width > m_Mgr->GetRuleSize();
+	thoughput = GetGroupInfo(start, end, width, rate);
+	if (width > m_Mgr->GetRuleSize()) return true;
+
+	return false;
 }
 
 // 获取吞吐量
-int CGroup::GetThroughput()
-{
-	int start, end, width, rate;
-	GetGroupInfo(start, end, width, rate);
-
-	return rate * ( width + 
-					m_Mgr->GetPackHead() +
-					m_Mgr->GetReqUnit() + 
-					m_Mgr->GetHandleUnit());
-}
+//int CGroup::GetThroughput()
+//{
+//	int start, end, width, rate;
+//	GetGroupInfo(start, end, width, rate);
+//
+//	return rate * ( width + 
+//					m_Mgr->GetPackHead() +
+//					m_Mgr->GetReqUnit() + 
+//					m_Mgr->GetHandleUnit());
+//}
 
 // 获得尝试合并后的吞吐量，并获得是否超界的标志，不是真合并
 int CGroup::GetThroughputIfMerge(CGroup *g, bool& outofSize)
 {
 	std::list<std::shared_ptr<CTag>> ltTag = m_ltTag;
 	for (auto tag : g->m_ltTag)	m_ltTag.push_back(tag);	// 吞并后的链表
-	int n = GetThroughput();
-	outofSize = IsOutsize();
+	int t = 0;
+	outofSize = IsOutsize(t);
 	m_ltTag = ltTag;
-	return n;
+	return t;
 }
 
 // 吞并这个组
 void CGroup::AddGroup(CGroup *g)
 {
 	for (auto tag : g->m_ltTag)	m_ltTag.push_back(tag);	// 吞并后的链表
+
+	int start, end, width, rate;
+	m_nThroughput = GetGroupInfo(start, end, width, rate);
 }
 
 // 试图吞并后边的结点，返回false：吞并后一个失败
