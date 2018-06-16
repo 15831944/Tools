@@ -22,6 +22,7 @@ namespace DesignUI
         private Service.UndoServiceImpl _undoService = null;
         private Service.NameCreationServiceImp _nameCreationService = null;
         private Service.DesignerSerializationServiceImpl _designerSerializationService = null;
+        private Service.EventBindingServiceImpl _eventService = null;
         private CodeDomComponentSerializationService _codeDomComponentSerializationService = null;
 
         private void UseNewOptionService(DesignerOptionService opsServiceNew)
@@ -108,6 +109,9 @@ namespace DesignUI
             //- 3. IDesignerSerializationService, the IDesignerSerializationService is ready to be replaced
             _designerSerializationService = new Service.DesignerSerializationServiceImpl(this.ServiceContainer);
             InitServier(typeof(IDesignerSerializationService), _designerSerializationService);
+
+            _eventService = new Service.EventBindingServiceImpl(this.ServiceContainer);
+            InitServier(typeof(IEventBindingService), _eventService);
 
             //- 4. UndoEngine, the UndoEngine is ready to be replaced
             _undoService = new Service.UndoServiceImpl(this.ServiceContainer);

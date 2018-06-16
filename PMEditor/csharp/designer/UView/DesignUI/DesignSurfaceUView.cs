@@ -51,19 +51,19 @@ namespace DesignUI
 
             //- enable the Dragitem inside the our Toolbox
             Service.ToolboxServiceImp tbs = GetService(typeof(IToolboxService)) as Service.ToolboxServiceImp;
-            if (null == tbs || null == tbs.Toolbox)
+            if (null == tbs || null == tbs.CtrlToolbox)
                 return;
-            tbs.Toolbox.MouseDown += new MouseEventHandler(OnListboxMouseDown);
+            tbs.CtrlToolbox.MouseDown += new MouseEventHandler(OnListboxMouseDown);
         }
 
         //- Management of the Drag&Drop of the toolboxItems contained inside our Toolbox
         private void OnListboxMouseDown(object sender, MouseEventArgs e)
         {
             Service.ToolboxServiceImp tbs = GetService(typeof(IToolboxService)) as Service.ToolboxServiceImp;
-            if (null == tbs || null == tbs.Toolbox || null == tbs.Toolbox.SelectedItem)
+            if (null == tbs || null == tbs.CtrlToolbox || null == tbs.CtrlToolbox.SelectedItem)
                 return;
 
-            tbs.Toolbox.DoDragDrop(tbs.Toolbox.SelectedItem, DragDropEffects.Copy | DragDropEffects.Move);
+            tbs.CtrlToolbox.DoDragDrop(tbs.CtrlToolbox.SelectedItem, DragDropEffects.Copy | DragDropEffects.Move);
         }
 
         //- Management of the drag and drop of the toolboxItems

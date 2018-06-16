@@ -62,9 +62,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DesignSurfaceBase.Internal.cs" />
     <Compile Include="DesignUIMgr.cs" />
+    <Compile Include="DesignUIMgr.Internal.cs">
+      <DependentUpon>DesignUIMgr.cs</DependentUpon>
+	</Compile>
     <Compile Include="Interface\IUDesigner.cs" />
+    <Compile Include="Service\SampleEventBindingService.cs" />
     <Compile Include="View\Dialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +79,9 @@
     <Compile Include="Service\OptionService\SnapLines.cs" />
     <Compile Include="Service\DesignerSerializationServiceImpl.cs" />
     <Compile Include="DesignSurfaceBase.cs" />
+    <Compile Include="DesignSurfaceBase.Internal.cs">
+      <DependentUpon>DesignSurfaceBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="DesignSurfaceUView.cs" />
     <Compile Include="Interface\IDesignSurfaceBase.cs" />
     <Compile Include="Service\MenuCommandServiceImpl.cs" />

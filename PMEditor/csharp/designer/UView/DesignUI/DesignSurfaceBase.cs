@@ -1,11 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.ComponentModel.Design.Serialization;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 using DesignUI.Service.OptionService;

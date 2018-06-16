@@ -21,7 +21,7 @@ namespace DesignUI.Interface
         //-     |             ||                          | |   GRID    |
         //-     |             ||__________________________| |     |     |
         //-     +-------------+-----------------------------+-----------+
-        ListBox Toolbox { get; set; }                       //- TOOLBOX
+        ListBox CtrlToolbox { get; set; }                       //- TOOLBOX
         TabControl TabControlHostingDesignSurfaces { get; } //- DESIGNSURFACES HOST
         View.PropertyGridHost PropertyGridHost { get; }          //- PROPERTYGRID
 

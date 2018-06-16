@@ -22,7 +22,7 @@ namespace DesignUI.Service
         public IDesignerHost DesignerHost { get; private set; }
 
         //- our real Toolbox
-        public ListBox Toolbox { get; set; }
+        public ListBox CtrlToolbox { get; set; }
 
         //- ctor
         public ToolboxServiceImp(IDesignerHost host)
@@ -30,7 +30,7 @@ namespace DesignUI.Service
             this.DesignerHost = host;
 
             //- Our MainForm adds our ToolboxPane to the DesignerHost's services.
-            Toolbox = null;
+            CtrlToolbox = null;
         }
 
         #region IToolboxService Members
@@ -74,7 +74,7 @@ namespace DesignUI.Service
         //- Add a ToolboxItem to our Toolbox.
         void IToolboxService.AddToolboxItem(ToolboxItem toolboxItem)
         {
-            Toolbox.Items.Add(toolboxItem);
+            CtrlToolbox.Items.Add(toolboxItem);
         }
 
         //- Our toolbox has categories akin to those of Visual Studio, but you
@@ -108,10 +108,10 @@ namespace DesignUI.Service
         //- Return the selected ToolboxItem in our Toolbox
         ToolboxItem IToolboxService.GetSelectedToolboxItem()
         {
-            if (null == Toolbox || null == Toolbox.SelectedItem)
+            if (null == CtrlToolbox || null == CtrlToolbox.SelectedItem)
                 return null;
 
-            ToolboxItem tbItem = (ToolboxItem)Toolbox.SelectedItem;
+            ToolboxItem tbItem = (ToolboxItem)CtrlToolbox.SelectedItem;
             if (tbItem.DisplayName.ToUpper().Contains("POINTER"))
                 return null;
 
@@ -141,10 +141,10 @@ namespace DesignUI.Service
         //- Get all of the tools
         ToolboxItemCollection IToolboxService.GetToolboxItems()
         {
-            if (null == Toolbox) return null;
+            if (null == CtrlToolbox) return null;
 
-            ToolboxItem[] arr = new ToolboxItem[Toolbox.Items.Count];
-            Toolbox.Items.CopyTo(arr, 0);
+            ToolboxItem[] arr = new ToolboxItem[CtrlToolbox.Items.Count];
+            CtrlToolbox.Items.CopyTo(arr, 0);
 
             return new ToolboxItemCollection(arr);
         }
@@ -185,7 +185,7 @@ namespace DesignUI.Service
         //- Refreshes the Toolbox
         void IToolboxService.Refresh()
         {
-            Toolbox.Refresh();
+            CtrlToolbox.Refresh();
         }
 
         //- Remove the creator for the specified format, associated with a particular host.
@@ -211,10 +211,10 @@ namespace DesignUI.Service
         //- Remove a ToolboxItem from our Toolbox.
         void IToolboxService.RemoveToolboxItem(ToolboxItem toolboxItem)
         {
-            if (null == Toolbox) return;
+            if (null == CtrlToolbox) return;
 
-            Toolbox.SelectedItem = null;
-            Toolbox.Items.Remove(toolboxItem);
+            CtrlToolbox.SelectedItem = null;
+            CtrlToolbox.Items.Remove(toolboxItem);
         }
 
         //- If your toolbox is categorized, then it's good for others to know
@@ -236,9 +236,9 @@ namespace DesignUI.Service
         //- In our case, we select the pointer. 
         void IToolboxService.SelectedToolboxItemUsed()
         {
-            if (null == Toolbox) return;
+            if (null == CtrlToolbox) return;
 
-            Toolbox.SelectedItem = null;
+            CtrlToolbox.SelectedItem = null;
         }
 
         //- Serialize the toolboxItem necessary for the Drag&Drop
@@ -257,15 +257,15 @@ namespace DesignUI.Service
         //- can set the cursor in some default manor.
         bool IToolboxService.SetCursor()
         {
-            if (null == Toolbox || null == Toolbox.SelectedItem)
+            if (null == CtrlToolbox || null == CtrlToolbox.SelectedItem)
                 return false;
 
             //- <Pointer> is not a tool
-            ToolboxItem tbItem = (ToolboxItem)Toolbox.SelectedItem;
+            ToolboxItem tbItem = (ToolboxItem)CtrlToolbox.SelectedItem;
             if (tbItem.DisplayName.ToUpper().Contains("POINTER"))
                 return false;
 
-            if (null != Toolbox.SelectedItem)
+            if (null != CtrlToolbox.SelectedItem)
             {
                 Cursor.Current = Cursors.Cross;
                 return true;
@@ -277,10 +277,10 @@ namespace DesignUI.Service
         //- Set the selected ToolboxItem in our Toolbox.
         void IToolboxService.SetSelectedToolboxItem(ToolboxItem toolboxItem)
         {
-            if (null == Toolbox)
+            if (null == CtrlToolbox)
                 return;
 
-            Toolbox.SelectedItem = toolboxItem;
+            CtrlToolbox.SelectedItem = toolboxItem;
         }
         #endregion
     }

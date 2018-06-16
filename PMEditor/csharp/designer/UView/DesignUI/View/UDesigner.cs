@@ -51,7 +51,7 @@ namespace DesignUI.View
             //- the object 'd' must be correctly initialized
             //isValid &= ((null == d.Toolbox) ? false : true);
             //return isValid;
-            return d.Toolbox != null;
+            return d.CtrlToolbox != null;
         }
 
         //- ctor
@@ -62,7 +62,7 @@ namespace DesignUI.View
             DesignSurfaceManager = new DesignUIMgr();
             DesignSurfaceManager.PropertyGridHost.Parent = this.splitterpDesigner.Panel2;
 
-            Toolbox = null;
+            CtrlToolbox = null;
             this.Dock = DockStyle.Fill;
         }
         #endregion
@@ -82,7 +82,7 @@ namespace DesignUI.View
 
         #region IUDesigner Members
         //- to get and set the real Toolbox which is provided by the user
-        public ListBox Toolbox { get; set; }
+        public ListBox CtrlToolbox { get; set; }
 
         public TabControl TabControlHostingDesignSurfaces
         {
@@ -115,7 +115,7 @@ namespace DesignUI.View
 
             //- step.0
             //- create a DesignSurface
-            DesignSurfaceUView surface = DesignSurfaceManager.CreateDesignSurfaceUView();
+            DesignSurfaceUView surface = DesignSurfaceManager.CreateDesignSurfaceEx() as DesignSurfaceUView;
             this.DesignSurfaceManager.ActiveDesignSurface = surface;
 
             //- step.1
@@ -132,7 +132,7 @@ namespace DesignUI.View
             var tbox = surface.GetService(typeof(IToolboxService)) as ToolboxServiceImp;
             //- we don't check if Toolbox is null because the very first check: if(!this)...
             if (null != tbox)
-                tbox.Toolbox = this.Toolbox;
+                tbox.CtrlToolbox = this.CtrlToolbox;
 
             //- step.4
             //- create the Root compoment, in these cases a Form
