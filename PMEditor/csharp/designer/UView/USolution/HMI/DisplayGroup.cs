@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using USolution.Interface;
 
 namespace USolution.HMI
 {
-    internal class DisplayGroup : Interface.IGroup
+    internal class DisplayGroup : Interface.IUGroup
     {
         private string _name;
         private Guid _id;
-        private Interface.IGroup _parent;
-        private List<Interface.IGroup> _children = new List<Interface.IGroup>();
-        private List<Display> _displays = new List<Display>();
+        private IUGroup _parent;
+        private List<IUGroup> _groups = new List<IUGroup>();
+        private List<IUChild> _displays = new List<IUChild>();
 
         public DisplayGroup(string name)
         {
@@ -20,35 +22,42 @@ namespace USolution.HMI
             _id = Guid.NewGuid();
         }
 
-        public static Interface.IGroup LoadGroup()
+        public static IUGroup LoadGroup()
         {
             DisplayGroup group;
             return null;
         }
 
-        public bool AddChildGroup(Interface.IGroup group)
+        public bool AddChildGroup(Interface.IUGroup group)
         {
             if (IsNameExist(group.Name)) return false;
             group.Parent = this;
-            _children.Add(group);
+            _groups.Add(group);
             return true;
         }
 
-        public void RemoveGroup(Interface.IGroup group)
+        public void RemoveGroup(Interface.IUGroup group)
         {
-            _children.Remove(group);
+            _groups.Remove(group);
         }
 
         public bool IsNameExist(string name)
         {
-            foreach (var g in _children)
+            foreach (var g in _groups)
                 if (g.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
                     return true;
             return false;
         }
 
+        [XmlElement("Name")]
         public string Name { get { return _name; } }
+        [XmlElement("ID")]
         public Guid ID { get { return _id; } }
-        public Interface.IGroup Parent { get { return _parent; } set { if (_parent != value) _parent?.RemoveGroup(this as Interface.IGroup); _parent = value; } }
+        [XmlElement("Parent")]
+        public IUGroup Parent { get => _parent; set { if (_parent != value) _parent?.RemoveGroup(this as Interface.IUGroup); _parent = value; } }
+        [XmlElement("Groups")]
+        public List<IUGroup> Groups { get => _groups; }
+        [XmlElement("Children")]
+        public List<IUChild> Children { get => _displays; }
     }
 }

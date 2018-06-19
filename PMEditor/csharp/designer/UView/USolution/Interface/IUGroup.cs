@@ -6,15 +6,21 @@ using System.Threading.Tasks;
 
 namespace USolution.Interface
 {
-    public interface IGroup
+    public interface IUGroup
     {
         string Name { get; }
+
         Guid ID { get; }
-        IGroup Parent { get; set; }
 
-        bool AddChildGroup(IGroup group);
+        IUGroup Parent { get; set; }
 
-        void RemoveGroup(IGroup group);
+        List<IUGroup> Groups { get; }
+
+        List<IUChild> Children { get; }
+
+        bool AddChildGroup(IUGroup group);
+
+        void RemoveGroup(IUGroup group);
 
         bool IsNameExist(string name);
     }

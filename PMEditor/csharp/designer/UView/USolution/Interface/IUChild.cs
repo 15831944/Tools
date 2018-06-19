@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace USolution.Interface
 {
-    public interface IUServer
+    public interface IUChild
     {
         string Name { get; }
 
         Guid ID { get; }
 
-        List<IUGroup> Groups { get; }
+        IUGroup Parent { get; set; }
     }
 }

@@ -302,6 +302,18 @@ namespace UView
 
         private void solutionToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (_solution != null)
+            {
+                DialogResult ret = MessageBox.Show("Do you want close and save current solution?", "Question", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                if (DialogResult.Cancel == ret) return;
+                if (DialogResult.Yes == ret)
+                    _solution.Save();
+                _solution.Close();
+                _solutionNode.Nodes.Clear();
+                _solutionNode.Tag = null;
+                _solutionNode.Text = "Solution";
+            }
+
             if (_solution == null)
             {
                 CreateSolutionDialog dlg = new CreateSolutionDialog();
@@ -310,6 +322,8 @@ namespace UView
                     _solution = Solution.CreateSolution(dlg.FileName, dlg.FilePath);
                 }
             }
+
+            _solution.InitTreeNode(_solutionNode);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -325,6 +339,18 @@ namespace UView
         private void openStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog fd = new OpenFileDialog();
+            fd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            fd.Filter = $"Solution file(*.usl)|*.usl";
+            if (fd.ShowDialog() == DialogResult.OK)
+            {
+                var fName = fd.FileName;
+                _idesigner.Open(fName);
+            }
+        }
+
+        private void importStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fd = new OpenFileDialog();
             fd.InitialDirectory = "D:\\";
             fd.Filter = $"Display file(*.disp)|*.disp";
             if (fd.ShowDialog() == DialogResult.OK)
@@ -333,14 +359,5 @@ namespace UView
                 _idesigner.Open(fName);
             }
         }
-        //private void useGridWithoutSnappingToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    _idesigner.AddDesignSurface<Display>(640, 480, AlignmentModeEnum.GridWithoutSnapping, new Size(8, 8));
-        //}
-        //
-        //private void useNoGuidesToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    _idesigner.AddDesignSurface<Form>(640, 480, AlignmentModeEnum.NoGuides, new Size(1, 1));
-        //}
     }
 }

@@ -3,32 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using USolution.Interface;
 
 namespace USolution
 {
-    public class Solution
+    public partial class Solution
     {
-        private string _path;
-        private string _name;
-        private Guid _id;
-        private List<Interface.IUServer> _sevList = new List<Interface.IUServer>();  // Server list
-
         private Solution()
-        { }
-
-        public static Solution LoadSolution(string strSlnFile)
         {
-            Solution sln;
-            return null;
+            _id = Guid.NewGuid();
         }
 
-        public static Solution CreateSolution(string strFileName, string strFilePath)
+        public void Save()
         {
-            Solution sln = new Solution();
-            sln._name = strFileName;
-            sln._path = strFilePath;
-            sln._id = Guid.NewGuid();
-            return sln;
+        }
+
+        public void Close()
+        {
+        }
+
+        public void InitTreeNode(System.Windows.Forms.TreeNode node)
+        {
+            node.Text += $" ({_name})";
+            node.Tag = this;
+            node.ToolTipText = _path;
+            for (var sev in _sevList)
+            {
+
+                node.Nodes.Add
+}
         }
     }
 }
