@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using System.Drawing.Design;
 using System.ComponentModel.Design;
 
-using USolution;
+using UCore;
 using DesignUI.Service;
 using System.Drawing;
 using System.ComponentModel;
@@ -328,12 +328,13 @@ namespace UView
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _idesigner.SaveCurrent();
+            _solution?.Save();
+            //_idesigner.SaveCurrent();
         }
 
         private void saveAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _idesigner.SaveAll();
+            //_idesigner.SaveAll();
         }
 
         private void openStripMenuItem_Click(object sender, EventArgs e)

@@ -124,9 +124,9 @@
       <Project>{f54646f4-ca85-4906-b793-8b795e53fd67}</Project>
       <Name>UResource</Name>
     </ProjectReference>
-    <ProjectReference Include="..\USolution\USolution.csproj">
+    <ProjectReference Include="..\UCore\UCore.csproj">
       <Project>{5766d47d-2930-49bb-b487-e167c65c8999}</Project>
-      <Name>USolution</Name>
+      <Name>UCore</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

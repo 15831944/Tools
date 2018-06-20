@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
-namespace USolution.Interface
+namespace UCore.Interface
 {
-    public interface IUServer
+    public interface IUChild
     {
         string Name { get; }
 
         Guid ID { get; }
 
-        List<IUGroup> Groups { get; }
+        IUGroup Parent { get; set; }
+
+        void InitTreeNode(TreeNode node);
     }
 }

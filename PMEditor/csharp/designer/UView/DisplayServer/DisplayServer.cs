@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace USolution.HMI
+namespace DispServer
 {
-    internal class DisplayMgr
+    public class DisplayServer : UCore.Server.UServerBase
     {
     }
 }

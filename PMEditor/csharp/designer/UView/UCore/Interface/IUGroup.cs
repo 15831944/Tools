@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
-namespace USolution.Interface
+namespace UCore.Interface
 {
     public interface IUGroup
     {
@@ -23,5 +24,7 @@ namespace USolution.Interface
         void RemoveGroup(IUGroup group);
 
         bool IsNameExist(string name);
+
+        void InitTreeNode(TreeNode node);
     }
 }

@@ -18,6 +18,7 @@ namespace UView
         public CreateSolutionDialog()
         {
             InitializeComponent();
+            FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\UView\\Solution";
         }
 
         private void CreateSolutionDialog_Load(object sender, EventArgs e)
