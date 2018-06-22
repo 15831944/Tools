@@ -63,8 +63,34 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationFramework">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    <Reference Include="DevExpress.Data">
+      <HintPath>..\Devexpress\10.1\DevExpress.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v10.1, Version=10.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Devexpress\10.1\DevExpress.Data.v10.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.OfficeSkins.v10.1">
+      <HintPath>..\Devexpress\10.1\DevExpress.OfficeSkins.v10.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v10.1, Version=10.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Devexpress\10.1\DevExpress.Utils.v10.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraBars.v10.1">
+      <HintPath>..\Devexpress\10.1\DevExpress.XtraBars.v10.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v10.1">
+      <HintPath>..\Devexpress\10.1\DevExpress.XtraEditors.v10.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraNavBar.v10.1">
+      <HintPath>..\Devexpress\10.1\DevExpress.XtraNavBar.v10.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraTreeList.v10.1">
+      <HintPath>..\Devexpress\10.1\DevExpress.XtraTreeList.v10.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraWizard.v10.1">
+      <HintPath>..\Devexpress\10.1\DevExpress.XtraWizard.v10.1.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -83,11 +109,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreateSolutionDialog.cs">
+    <Compile Include="View\SolutionDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CreateSolutionDialog.Designer.cs">
-      <DependentUpon>CreateSolutionDialog.cs</DependentUpon>
+    <Compile Include="View\SolutionDialog.Designer.cs">
+      <DependentUpon>SolutionDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\MainEditor.Designer.cs">
+      <DependentUpon>MainEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="TestForm.cs">
       <SubType>Form</SubType>
@@ -103,10 +135,25 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\Panel\PanelMgr.cs" />
+    <Compile Include="View\Panel\PanelOutput.cs" />
+    <Compile Include="View\Panel\PanelProperty.cs" />
+    <Compile Include="View\Panel\PanelControl.cs" />
+    <Compile Include="View\Panel\PanelSolution.cs" />
+    <Compile Include="View\Panel\PanelFind.cs" />
+    <Compile Include="View\SolutionTree.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="View\SolutionTree.Designer.cs">
+      <DependentUpon>SolutionTree.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CreateSolutionDialog.resx">
-      <DependentUpon>CreateSolutionDialog.cs</DependentUpon>
+    <EmbeddedResource Include="View\SolutionDialog.resx">
+      <DependentUpon>SolutionDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\MainEditor.resx">
+      <DependentUpon>MainEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TestForm.resx">
       <DependentUpon>TestForm.cs</DependentUpon>
@@ -127,6 +174,10 @@
     <ProjectReference Include="..\UCore\UCore.csproj">
       <Project>{5766d47d-2930-49bb-b487-e167c65c8999}</Project>
       <Name>UCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UTools\UTools.csproj">
+      <Project>{c968d0ac-f268-410e-94fc-0cbd47ddc354}</Project>
+      <Name>UTools</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

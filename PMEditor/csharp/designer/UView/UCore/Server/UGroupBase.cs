@@ -11,17 +11,12 @@ namespace UCore.Server
 {
     public abstract class UGroupBase : IUGroup
     {
-        private string _name;
-        private Guid _id;
         private IUGroup _parent;
         private List<IUGroup> _groups = new List<IUGroup>();
         private List<IUChild> _children = new List<IUChild>();
 
-        public UGroupBase(string name)
-        {
-            _name = name;
-            _id = Guid.NewGuid();
-        }
+        public UGroupBase()
+        {}
 
         public static IUGroup LoadGroup()
         {
@@ -29,9 +24,9 @@ namespace UCore.Server
             return null;
         }
 
-        public bool AddChildGroup(Interface.IUGroup group)
+        public bool AddChildGroup(IUGroup group)
         {
-            if (IsNameExist(group.Name)) return false;
+            if (IsNameExist(group.HeadInfo.Name)) return false;
             group.Parent = this;
             _groups.Add(group);
             return true;
@@ -45,18 +40,18 @@ namespace UCore.Server
         public bool IsNameExist(string name)
         {
             foreach (var g in _groups)
-                if (g.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                if (g.HeadInfo.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
                     return true;
             return false;
         }
 
         public virtual void InitTreeNode(TreeNode node)
         {
-            node.Text = _name;
+            node.Text = HeadInfo.Name;
             node.Tag = this;
 
             var listG = _groups;
-            listG.Sort((l, r) => l.Name.CompareTo(r.Name));
+            listG.Sort((l, r) => l.HeadInfo.Name.CompareTo(r.HeadInfo.Name));
             foreach (var group in listG)
             {
                 var childNode = new TreeNode();
@@ -66,7 +61,7 @@ namespace UCore.Server
             }
 
             var listC = _children;
-            listC.Sort((l, r) => l.Name.CompareTo(r.Name));
+            listC.Sort((l, r) => l.HeadInfo.Name.CompareTo(r.HeadInfo.Name));
             foreach (var child in listC)
             {
                 var childNode = new TreeNode();
@@ -76,15 +71,13 @@ namespace UCore.Server
             }
         }
 
-        [XmlElement("Name")]
-        public string Name { get { return _name; } }
-        [XmlElement("ID")]
-        public Guid ID { get { return _id; } }
         [XmlElement("Parent")]
         public IUGroup Parent { get { return _parent; } set { if (_parent != value) _parent?.RemoveGroup(this as Interface.IUGroup); _parent = value; } }
         [XmlElement("Groups")]
         public List<IUGroup> Groups { get { return _groups; } }
         [XmlElement("Children")]
         public List<IUChild> Children { get { return _children; } }
+
+        public IUHeadInfo HeadInfo { get; set; }
     }
 }

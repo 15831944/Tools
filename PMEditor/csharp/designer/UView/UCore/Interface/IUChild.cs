@@ -9,11 +9,7 @@ namespace UCore.Interface
 {
     public interface IUChild
     {
-        string Name { get; }
-
-        Guid ID { get; }
-
-        IUGroup Parent { get; set; }
+        IUHeadInfo HeadInfo { get; set; }
 
         void InitTreeNode(TreeNode node);
     }

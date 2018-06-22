@@ -30,7 +30,8 @@ namespace UView
                 SystemParametersInfo(SPI_SETKEYBOARDCUES, 0, 1, 0);
 
                 //- create the Form
-                MainForm f = new MainForm();
+                //MainForm f = new MainForm();
+                View.MainEditor editor = new View.MainEditor();
                 #region AddDemo
                 //var designer = f.Designer as UDesigner;
                 //f.Size = new Size(1200, 800);
@@ -66,7 +67,7 @@ namespace UView
 
                 //display3.UseGrid(new Size(16, 16));
                 #endregion
-                f.ShowDialog();
+                editor.ShowDialog();
             }
             catch (Exception ex)
             {

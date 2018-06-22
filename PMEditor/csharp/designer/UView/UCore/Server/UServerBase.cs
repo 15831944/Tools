@@ -8,13 +8,11 @@ namespace UCore.Server
 {
     public abstract class UServerBase : IUServer
     {
-        private Guid _id = Guid.NewGuid();
-        private string _name;
         private List<IUGroup> _groups = new List<IUGroup>();
 
         public virtual void InitTreeNode(TreeNode node)
         {
-            node.Text = _name;
+            node.Text = HeadInfo.Name;
             node.Tag = this;
             foreach (var group in _groups)
             {
@@ -25,11 +23,9 @@ namespace UCore.Server
             };
         }
 
-        [XmlElement("Name")]
-        public string Name { get { return _name; } }
-        [XmlElement("ID")]
-        public Guid ID { get { return _id; } }
         [XmlElement("Groups")]
         public List<IUGroup> Groups { get { return _groups; } }
+
+        public IUHeadInfo HeadInfo { get; set; }
     }
 }

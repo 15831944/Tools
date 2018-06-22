@@ -1,17 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5766D47D-2930-49BB-B487-E167C65C8999}</ProjectGuid>
+    <ProjectGuid>{C968D0AC-F268-410E-94FC-0CBD47DDC354}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UCore</RootNamespace>
-    <AssemblyName>UCore</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <RootNamespace>UTools</RootNamespace>
+    <AssemblyName>UTools</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,28 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interface\IUHeadInfo.cs" />
-    <Compile Include="HeadInfo.cs" />
-    <Compile Include="Server\ServerType.cs" />
-    <Compile Include="Server\UChildBase.cs" />
-    <Compile Include="Server\UGroupBase.cs" />
-    <Compile Include="Server\ServerMgr.cs" />
-    <Compile Include="Interface\IUChild.cs" />
-    <Compile Include="Interface\IUGroup.cs" />
-    <Compile Include="Interface\IUServer.cs" />
-    <Compile Include="Server\UServerBase.cs" />
-    <Compile Include="Solution.cs" />
+    <Compile Include="Crc32.cs" />
+    <Compile Include="EncryptHelper.cs" />
+    <Compile Include="FileHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Solution.Data.cs">
-      <DependentUpon>Solution.cs</DependentUpon>
+    <Compile Include="TreeCtrl.cs">
+      <SubType>Component</SubType>
     </Compile>
-    <Compile Include="SolutionMgr.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\UTools\UTools.csproj">
-      <Project>{c968d0ac-f268-410e-94fc-0cbd47ddc354}</Project>
-      <Name>UTools</Name>
-    </ProjectReference>
+    <Compile Include="XmlHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

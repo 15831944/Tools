@@ -9,9 +9,7 @@ namespace UCore.Interface
 {
     public interface IUGroup
     {
-        string Name { get; }
-
-        Guid ID { get; }
+        IUHeadInfo HeadInfo { get; set; }
 
         IUGroup Parent { get; set; }
 

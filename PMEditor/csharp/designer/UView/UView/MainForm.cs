@@ -316,11 +316,11 @@ namespace UView
 
             if (_solution == null)
             {
-                CreateSolutionDialog dlg = new CreateSolutionDialog();
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
-                    _solution = Solution.CreateSolution(dlg.FileName, dlg.FilePath);
-                }
+                //SolutionDialog dlg = new SolutionDialog();
+                //if (dlg.ShowDialog() == DialogResult.OK)
+                //{
+                //    _solution = Solution.CreateSolution(dlg.FileName, dlg.FilePath);
+                //}
             }
 
             _solution.InitTreeNode(_solutionNode);

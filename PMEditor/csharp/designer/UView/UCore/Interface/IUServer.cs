@@ -6,9 +6,7 @@ namespace UCore.Interface
 {
     public interface IUServer
     {
-        string Name { get; }
-
-        Guid ID { get; }
+        IUHeadInfo HeadInfo { get; set; }
 
         List<IUGroup> Groups { get; }
 

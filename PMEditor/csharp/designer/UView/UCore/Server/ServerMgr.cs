@@ -14,5 +14,11 @@ namespace UCore.Server
 
         [XmlElement("ServerList")]
         public List<IUServer> ServerList { get { return _sevList; } }
+
+        internal bool AddServer(Interface.IUServer sev)
+        {
+            //var sev
+            return true;
+        }
     }
 }
