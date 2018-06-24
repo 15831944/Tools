@@ -22,7 +22,7 @@ namespace UView.View.Panel
             this._tree.Name = "_tree";
             this._tree.Size = new System.Drawing.Size(228, 277);
             this._tree.TabIndex = 1;
-            InitializeCtrl(this._tree, "Solution", DevExpress.XtraBars.Docking.DockingStyle.Left);
+            InitializeCtrl(this._tree, "Solution", $"Solution", DevExpress.XtraBars.Docking.DockingStyle.Left);
         }
 
         public SolutionTree SlnTree { get { return _tree; } }

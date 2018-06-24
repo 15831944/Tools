@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace UCore
 {
@@ -19,7 +20,7 @@ namespace UCore
             try
             {
                 string xml = UTools.XmlHelper.XmlSerialize(_solutionHeadList, Encoding.UTF8);
-                UTools.FileHelper.WriteFileStr("ServerHeak.slh", xml);
+                UTools.FileHelper.WriteFileStr("ServerHead.slh", xml);
                 //byte[] data;
                 //EncryptHelper.EncryptResult res = EncryptHelper.Encrypt(xml, "ProjectHeadInfo", out data);
                 //
@@ -62,7 +63,11 @@ namespace UCore
         {
             var sln = _solutionList.Find(x => x.HeadInfo == hi);
             if (sln != null) return true;
-            _solutionList.Add(new Solution(hi));
+            sln = Solution.LoadSolution(hi);
+            if (sln == null)
+                CreateSolution(hi);
+            else
+                _solutionList.Add(sln);
             return true;
         }
 
@@ -74,9 +79,14 @@ namespace UCore
                 Comment = strComment
             };
             _solutionHeadList.Add(hi);
+            CreateSolution(hi);
+        }
 
+        private void CreateSolution(HeadInfo hi)
+        {
             var sln = new Solution(hi);
             _solutionList.Add(sln);
+            sln.Save();
         }
 
         public bool IfSolutionExist(string strName)
@@ -86,16 +96,16 @@ namespace UCore
 
         public Solution FirstSolution { get { return _solutionList.Count > 0 ? _solutionList[0] : null; } }
 
-        //public TreeNode InitProjTree(View.ProjectTree treeCtrl)
-        //{
-        //	TreeNode node = treeCtrl.AddNode(this, "Projects", null);
-        //	foreach(var proj in _solutionList)
-        //	{
-        //		proj.InitProjTree(treeCtrl, node);
-        //	}
-        //	node.ExpandAll();
-        //	return node;
-        //}
+        public TreeNode InitSolutionTree(UTools.TreeCtrl treeCtrl)
+        {
+        	TreeNode node = treeCtrl.AddNode(this, "Solution", null);
+        	foreach(var sln in _solutionList)
+        	{
+        		sln.InitTreeNode(node);
+        	}
+        	node.ExpandAll();
+        	return node;
+        }
 
         //public MainEditor Editor { get; set; }
 

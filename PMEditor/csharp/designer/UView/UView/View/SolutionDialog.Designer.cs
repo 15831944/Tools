@@ -31,10 +31,6 @@
             this._tabCtrl = new System.Windows.Forms.TabControl();
             this._tabOpen = new System.Windows.Forms.TabPage();
             this._dgProj = new System.Windows.Forms.DataGridView();
-            this._colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._colNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._colTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._colComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._tabCreate = new System.Windows.Forms.TabPage();
             this._btPath = new System.Windows.Forms.Button();
             this._commentBox = new System.Windows.Forms.TextBox();
@@ -44,6 +40,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this._btOK = new System.Windows.Forms.Button();
+            this._colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._colPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._colNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._colTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._colComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._tabCtrl.SuspendLayout();
             this._tabOpen.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dgProj)).BeginInit();
@@ -52,8 +53,8 @@
             // 
             // _tabCtrl
             // 
-            this._tabCtrl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this._tabCtrl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._tabCtrl.Controls.Add(this._tabOpen);
             this._tabCtrl.Controls.Add(this._tabCreate);
@@ -80,6 +81,7 @@
             this._dgProj.AllowUserToResizeRows = false;
             this._dgProj.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this._colName,
+            this._colPath,
             this._colNo,
             this._colTime,
             this._colComment});
@@ -93,35 +95,6 @@
             this._dgProj.TabIndex = 1;
             this._dgProj.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this._dgProj_CellFormatting);
             this._dgProj.DoubleClick += new System.EventHandler(this._dgProj_DoubleClick);
-            // 
-            // _colName
-            // 
-            this._colName.Frozen = true;
-            this._colName.HeaderText = "Name";
-            this._colName.Name = "_colName";
-            this._colName.ReadOnly = true;
-            // 
-            // _colNo
-            // 
-            this._colNo.Frozen = true;
-            this._colNo.HeaderText = "No";
-            this._colNo.Name = "_colNo";
-            this._colNo.ReadOnly = true;
-            this._colNo.Width = 240;
-            // 
-            // _colTime
-            // 
-            this._colTime.HeaderText = "Time";
-            this._colTime.Name = "_colTime";
-            this._colTime.ReadOnly = true;
-            this._colTime.Width = 120;
-            // 
-            // _colComment
-            // 
-            this._colComment.HeaderText = "Comment";
-            this._colComment.Name = "_colComment";
-            this._colComment.ReadOnly = true;
-            this._colComment.Width = 200;
             // 
             // _tabCreate
             // 
@@ -142,7 +115,7 @@
             // 
             // _btPath
             // 
-            this._btPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._btPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._btPath.Location = new System.Drawing.Point(558, 47);
             this._btPath.Name = "_btPath";
             this._btPath.Size = new System.Drawing.Size(41, 23);
@@ -153,8 +126,8 @@
             // 
             // _commentBox
             // 
-            this._commentBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this._commentBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._commentBox.Location = new System.Drawing.Point(13, 98);
             this._commentBox.Multiline = true;
@@ -164,7 +137,7 @@
             // 
             // _pathBox
             // 
-            this._pathBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._pathBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._pathBox.Location = new System.Drawing.Point(78, 48);
             this._pathBox.Name = "_pathBox";
@@ -173,7 +146,7 @@
             // 
             // _nameBox
             // 
-            this._nameBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this._nameBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._nameBox.Location = new System.Drawing.Point(78, 17);
             this._nameBox.Name = "_nameBox";
@@ -218,7 +191,42 @@
             this._btOK.UseVisualStyleBackColor = true;
             this._btOK.Click += new System.EventHandler(this._btOK_Click);
             // 
-            // ProjectForm
+            // _colName
+            // 
+            this._colName.Frozen = true;
+            this._colName.HeaderText = "Name";
+            this._colName.Name = "_colName";
+            this._colName.ReadOnly = true;
+            // 
+            // _colPath
+            // 
+            this._colPath.HeaderText = "Path";
+            this._colPath.Name = "_colPath";
+            this._colPath.ReadOnly = true;
+            this._colPath.Width = 240;
+            // 
+            // _colNo
+            // 
+            this._colNo.HeaderText = "No";
+            this._colNo.Name = "_colNo";
+            this._colNo.ReadOnly = true;
+            this._colNo.Width = 200;
+            // 
+            // _colTime
+            // 
+            this._colTime.HeaderText = "Time";
+            this._colTime.Name = "_colTime";
+            this._colTime.ReadOnly = true;
+            this._colTime.Width = 120;
+            // 
+            // _colComment
+            // 
+            this._colComment.HeaderText = "Comment";
+            this._colComment.Name = "_colComment";
+            this._colComment.ReadOnly = true;
+            this._colComment.Width = 200;
+            // 
+            // SolutionDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -227,7 +235,7 @@
             this.Controls.Add(this._tabCtrl);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ProjectForm";
+            this.Name = "SolutionDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ProjectForm";
             this.Load += new System.EventHandler(this.SolutionCreater_Load);
@@ -247,10 +255,6 @@
         private System.Windows.Forms.DataGridView _dgProj;
         private System.Windows.Forms.TabPage _tabCreate;
         private System.Windows.Forms.Button _btOK;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _colName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _colNo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _colTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _colComment;
         private System.Windows.Forms.TextBox _commentBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button _btPath;
@@ -258,5 +262,10 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox _nameBox;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _colName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _colPath;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _colNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _colTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _colComment;
     }
 }

@@ -5,27 +5,28 @@ namespace UView.View.Panel
 {
     internal class PanelMgr
     {
-        private List<View.Panel.PanelControl> _ltPanel = new List<View.Panel.PanelControl>();
+        private Dictionary<string, View.Panel.PanelControl> _mpPanel = new Dictionary<string, PanelControl>();
 
-        internal List<View.Panel.PanelControl> LtPanel { get { return _ltPanel; } }
+        //internal List<View.Panel.PanelControl> LtPanel { get { return _ltPanel; } }
 
         private delegate void AddPanel(PanelControl p);
 
-        internal void CreatePanels(MainEditor editor)
+        internal void InitPanels(MainEditor editor)
         {
             List<PanelControl> lefts = new List<PanelControl>();
             List<PanelControl> rights = new List<PanelControl>();
             List<PanelControl> tops = new List<PanelControl>();
             List<PanelControl> buttoms = new List<PanelControl>();
 
-            AddPanel add_panel = p => { p.InitializeComponent(editor); _ltPanel.Add(p); };
+            AddPanel add_panel = p => { p.InitializeComponent(editor); _mpPanel[p.DockPanel.Name] = p; };
             add_panel(new PanelSolution());
             add_panel(new PanelProperty());
             add_panel(new PanelOutput());
             add_panel(new PanelFind());
 
-            foreach (var ctrl in _ltPanel)
+            foreach (var item in _mpPanel)
             {
+                var ctrl = item.Value;
                 switch (ctrl.DockPanel.Dock)
                 {
                     case DevExpress.XtraBars.Docking.DockingStyle.Left:
@@ -94,7 +95,8 @@ namespace UView.View.Panel
 
         internal View.Panel.PanelControl GetPanel(string name)
         {
-            return LtPanel.Find(x => (string.Compare(x.DockPanel.Text, name, true) == 0));
+            if (_mpPanel.ContainsKey(name)) return _mpPanel[name];
+            return null;
         }
     }
 }

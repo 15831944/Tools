@@ -20,6 +20,7 @@ namespace UView.View
 
         private MdiClient _mdiClient;
         private Panel.PanelMgr _panelMgr = new Panel.PanelMgr();
+        private Menu.MenuMgr _menuMgr = new Menu.MenuMgr();
 
         internal DevExpress.XtraBars.Docking.DockManager DockMgr { get { return _dockMgr; } }
 
@@ -35,7 +36,8 @@ namespace UView.View
             //splash.ShowInfo("正在初始化功能控件");
             InitializeComponent();
 
-            _panelMgr.CreatePanels(this);
+            _panelMgr.InitPanels(this);
+            _menuMgr.InitMainMenu(this._menuBar);
 
             foreach (var c in Controls)
             {
@@ -131,13 +133,13 @@ namespace UView.View
                 Close(); return;
             }
 
-            var pan = _panelMgr.GetPanel("Solution") as Panel.PanelSolution;
-            if (pan != null)
+            var panel = _panelMgr.GetPanel("Solution") as Panel.PanelSolution;
+            if (panel != null)
             {
-                //pan.SlnTree.Nodes.Add(_projMgr.InitProjTree(pan.SlnTree));
+                _slnMgr.InitSolutionTree(panel.SlnTree);
                 //pan.SlnTree.InitProjTree(_projMgr);
                 //PrintOutput(Language.LanguageHelper.Data(Language.Resource.LOAD_PROJ_SUCCEED));
-                //PrintOutput("加载工程成功！");
+                PrintOutput("加载工程成功！");
             }
         }
 

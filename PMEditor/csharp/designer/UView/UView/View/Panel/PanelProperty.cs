@@ -24,7 +24,7 @@ namespace UView.View.Panel
             this._propertyGrid.TabIndex = 0;
             this._propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this._propertyGrid_PropertyValueChanged);
             this._propertyGrid.Enter += new System.EventHandler(this._propertyGrid_Enter);
-            InitializeCtrl(this._propertyGrid, "Property", DevExpress.XtraBars.Docking.DockingStyle.Right);
+            InitializeCtrl(this._propertyGrid, "Property", $"Property", DevExpress.XtraBars.Docking.DockingStyle.Right);
         }
 
         /// <summary>

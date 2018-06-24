@@ -7,6 +7,8 @@ namespace UCore
 {
     public partial class Solution
     {
+        public Solution() { }
+
         public Solution(Interface.IUHeadInfo hi)
         {
             HeadInfo = hi;
@@ -16,9 +18,11 @@ namespace UCore
         {
             try
             {
-                var xml = UTools.XmlHelper.XmlSerialize(this, Encoding.UTF8);
+                var xml = ToXml();  //UTools.XmlHelper.XmlSerialize(this, Encoding.UTF8);
                 UTools.FileHelper.CreatePath(HeadInfo.Path);
                 UTools.FileHelper.WriteFileStr(PathName, xml);
+
+                ServerMgr.Save();
             }
             catch (Exception e)
             {
@@ -26,11 +30,11 @@ namespace UCore
             }
         }
 
-        public static Solution LoadSolution(string PathName)
+        public static Solution LoadSolution(HeadInfo hi)
         {
             try
             {
-                var xml = UTools.FileHelper.ReadFileStr(PathName);
+                var xml = UTools.FileHelper.ReadFileStr(hi.Path + hi.Name + "." + _ext);
                 Solution sln = UTools.XmlHelper.XmlDeserialize<Solution>(xml, Encoding.UTF8) as Solution;
                 return sln;
             }
@@ -94,7 +98,6 @@ namespace UCore
         internal bool IfServerExist(string strName)
         {
             return _sevMgr.ServerList.Find(x => (string.Compare(x.HeadInfo.Name, strName, true) == 0)) != null;
-            //return _sevMgr.Find(x => (string.Compare(x.Name, strName, true) == 0)) != null;
         }
     }
 }

@@ -21,5 +21,10 @@ namespace UCore.Server
             node.Text = HeadInfo.Name;
             node.Tag = this;
         }
+
+        public virtual void Save()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

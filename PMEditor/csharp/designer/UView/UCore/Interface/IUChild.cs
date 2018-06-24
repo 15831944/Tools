@@ -12,5 +12,6 @@ namespace UCore.Interface
         IUHeadInfo HeadInfo { get; set; }
 
         void InitTreeNode(TreeNode node);
+        void Save();
     }
 }

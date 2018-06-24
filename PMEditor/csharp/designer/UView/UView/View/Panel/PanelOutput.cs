@@ -22,7 +22,7 @@ namespace UView.View.Panel
             this._output.Size = new System.Drawing.Size(799, 82);
             this._output.TabIndex = 3;
             this._output.Text = "";
-            InitializeCtrl(this._output, "Output", DevExpress.XtraBars.Docking.DockingStyle.Bottom);
+            InitializeCtrl(this._output, "Output", $"Output", DevExpress.XtraBars.Docking.DockingStyle.Bottom);
         }
 
         public void PrintOutput(string strOutput)

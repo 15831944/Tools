@@ -21,7 +21,7 @@ namespace UView.View.Panel
             this._listFind.Size = new System.Drawing.Size(799, 82);
             this._listFind.TabIndex = 4;
             this._listFind.Text = "";
-            InitializeCtrl(this._listFind, "Find", DevExpress.XtraBars.Docking.DockingStyle.Bottom);
+            InitializeCtrl(this._listFind, "Find", $"Find", DevExpress.XtraBars.Docking.DockingStyle.Bottom);
         }
 
         public System.Windows.Forms.ListBox ListFind { get { return _listFind; } }

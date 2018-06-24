@@ -66,7 +66,7 @@ namespace UView.View
                     _nameBox.SelectAll();
                     return;
                 }
-                strPath = strPath + "\\" + strName;
+                strPath = strPath + "\\" + strName + "\\";
                 if (!UTools.FileHelper.CreatePath(strPath))
                 {
                     MessageBox.Show(this, "Create path failed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -93,6 +93,10 @@ namespace UView.View
             else if (string.Compare(name, "_colName", true) == 0)
             {
                 e.Value = hi.Name;
+            }
+            else if (string.Compare(name, "_colPath", true) == 0)
+            {
+                e.Value = hi.Path;
             }
             else if (string.Compare(name, "_colTime", true) == 0)
             {

@@ -11,7 +11,7 @@ namespace UView.View.Panel
 
         internal abstract void InitializeComponent(MainEditor editor);
 
-        internal void InitializeCtrl(Control ctrl, string name, DevExpress.XtraBars.Docking.DockingStyle dock)
+        internal void InitializeCtrl(Control ctrl, string name, string text, DevExpress.XtraBars.Docking.DockingStyle dock)
         {
             // 
             // _container
@@ -28,10 +28,10 @@ namespace UView.View.Panel
             this._dockPanel.Dock = dock;
             this._dockPanel.ID = Guid.NewGuid();
             this._dockPanel.Location = new System.Drawing.Point(3, 25);
-            this._dockPanel.Name = "_dockPanel";
+            this._dockPanel.Name = name;
             this._dockPanel.OriginalSize = new System.Drawing.Size(199, 554);
             this._dockPanel.Size = new System.Drawing.Size(199, 554);
-            this._dockPanel.Text = name;
+            this._dockPanel.Text = text;
         }
 
         public DevExpress.XtraBars.Docking.ControlContainer Container { get { return _container; } }

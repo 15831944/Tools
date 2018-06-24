@@ -10,6 +10,10 @@ namespace UCore.Interface
 
         List<IUGroup> Groups { get; }
 
+        List<IUChild> Children { get; }
+
         void InitTreeNode(TreeNode node);
+
+        void Save();
     }
 }

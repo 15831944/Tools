@@ -91,20 +91,20 @@
             // barDockControlBottom
             // 
             this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.barDockControlBottom.Location = new System.Drawing.Point(0, 834);
+            this.barDockControlBottom.Location = new System.Drawing.Point(0, 730);
             this.barDockControlBottom.Size = new System.Drawing.Size(1008, 0);
             // 
             // barDockControlLeft
             // 
             this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.barDockControlLeft.Location = new System.Drawing.Point(0, 0);
-            this.barDockControlLeft.Size = new System.Drawing.Size(0, 834);
+            this.barDockControlLeft.Size = new System.Drawing.Size(0, 730);
             // 
             // barDockControlRight
             // 
             this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
             this.barDockControlRight.Location = new System.Drawing.Point(1008, 0);
-            this.barDockControlRight.Size = new System.Drawing.Size(0, 834);
+            this.barDockControlRight.Size = new System.Drawing.Size(0, 730);
             // 
             // _dockMgr
             // 
@@ -118,9 +118,9 @@
             // 
             // MainEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1008, 834);
+            this.ClientSize = new System.Drawing.Size(1008, 730);
             this.Controls.Add(this.barDockControlLeft);
             this.Controls.Add(this.barDockControlRight);
             this.Controls.Add(this.barDockControlBottom);
@@ -130,7 +130,7 @@
             this.LookAndFeel.SkinName = "Black";
             this.Name = "MainEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CraneView";
+            this.Text = "UView";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainEditor_FormClosed);
             this.Load += new System.EventHandler(this.MainEditor_Load);
