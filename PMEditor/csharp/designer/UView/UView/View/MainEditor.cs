@@ -23,6 +23,9 @@ namespace UView.View
         private Menu.MenuMgr _menuMgr = new Menu.MenuMgr();
 
         internal DevExpress.XtraBars.Docking.DockManager DockMgr { get { return _dockMgr; } }
+        internal DevExpress.XtraBars.BarManager BarMgr { get { return _barMgr; } }
+        private static int _itemID = 0;
+        public static int GetItemID() { _itemID++; return _itemID; }
 
         public MainEditor()
         {
@@ -37,16 +40,14 @@ namespace UView.View
             InitializeComponent();
 
             _panelMgr.InitPanels(this);
-            _menuMgr.InitMainMenu(this._menuBar);
+            _menuMgr.InitMainMenu(this);
 
             foreach (var c in Controls)
             {
-                if (c is MdiClient)
-                {
-                    _mdiClient = c as MdiClient;
-                    _mdiClient.Paint += new PaintEventHandler(MdiClient_Paint);
-                    break;
-                }
+                if (!(c is MdiClient)) continue;
+                _mdiClient = c as MdiClient;
+                _mdiClient.Paint += new PaintEventHandler(MdiClient_Paint);
+                break;
             }
 
             //VarTableUITypeEditor.GetVar = new GetVarTable(CForDCCEControl.GetVarTableEvent);
@@ -201,8 +202,11 @@ namespace UView.View
                 }
             }
         }
+
         private void MdiClient_Paint(object sender, PaintEventArgs e)
-        { }
+        {
+        }
+
         public void PrintOutput(string strOutput)
         {
             var pan = _panelMgr.GetPanel("Output") as View.Panel.PanelOutput;

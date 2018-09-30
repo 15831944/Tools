@@ -109,6 +109,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="View\Menu\IMenuGroup.cs" />
+    <Compile Include="View\Menu\MenuGroupBase.cs" />
+    <Compile Include="View\Menu\MenuGroupFile.cs" />
     <Compile Include="View\Menu\MenuMgr.cs" />
     <Compile Include="View\SolutionDialog.cs">
       <SubType>Form</SubType>

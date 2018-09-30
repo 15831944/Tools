@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UCore;
 
-namespace DispServer
+namespace UView.View.Menu
 {
-    public class DisplayServer : UCore.Server.UServerBase
+    interface IMenuGroup
     {
+        void InitMenu(MainEditor editor);
     }
 }
