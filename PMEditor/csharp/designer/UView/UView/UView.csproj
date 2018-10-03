@@ -151,6 +151,10 @@
     <Compile Include="View\SolutionTree.Designer.cs">
       <DependentUpon>SolutionTree.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\Toolbar\IToolbar.cs" />
+    <Compile Include="View\Toolbar\ToolbarBase.cs" />
+    <Compile Include="View\Toolbar\ToolbarMgr.cs" />
+    <Compile Include="View\Toolbar\ToolbarStandard.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />
@@ -171,6 +175,10 @@
     <ProjectReference Include="..\DesignUI\DesignUI.csproj">
       <Project>{e96c74ba-9f74-4289-bf72-45cad472d3d2}</Project>
       <Name>DesignUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UImageResource\UImageResource.csproj">
+      <Project>{0a4ea258-1fa4-4592-9e9c-cdc834887814}</Project>
+      <Name>UImageResource</Name>
     </ProjectReference>
     <ProjectReference Include="..\UResource\UResource.csproj">
       <Project>{f54646f4-ca85-4906-b793-8b795e53fd67}</Project>
@@ -198,6 +206,7 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

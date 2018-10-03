@@ -21,9 +21,11 @@ namespace UView.View
         private MdiClient _mdiClient;
         private Panel.PanelMgr _panelMgr = new Panel.PanelMgr();
         private Menu.MenuMgr _menuMgr = new Menu.MenuMgr();
+        private Toolbar.ToolbarMgr _toolbarMgr = new Toolbar.ToolbarMgr();
 
         internal DevExpress.XtraBars.Docking.DockManager DockMgr { get { return _dockMgr; } }
         internal DevExpress.XtraBars.BarManager BarMgr { get { return _barMgr; } }
+
         private static int _itemID = 0;
         public static int GetItemID() { _itemID++; return _itemID; }
 
@@ -41,6 +43,7 @@ namespace UView.View
 
             _panelMgr.InitPanels(this);
             _menuMgr.InitMainMenu(this);
+            _toolbarMgr.InitToolbar(this);
 
             foreach (var c in Controls)
             {

@@ -7,8 +7,6 @@ namespace UView.View.Panel
     {
         private Dictionary<string, View.Panel.PanelControl> _mpPanel = new Dictionary<string, PanelControl>();
 
-        //internal List<View.Panel.PanelControl> LtPanel { get { return _ltPanel; } }
-
         private delegate void AddPanel(PanelControl p);
 
         internal void InitPanels(MainEditor editor)

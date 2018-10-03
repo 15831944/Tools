@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UView", "UView\UView.csproj", "{60F0E327-D216-4BF1-9B2B-0BEA1D0103F6}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisplayServer", "DisplayServer\DisplayServer.csproj", "{22A0FCFE-74B0-4574-B472-5BC6979750C5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UTools", "UTools\UTools.csproj", "{C968D0AC-F268-410E-94FC-0CBD47DDC354}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UImageResource", "UImageResource\UImageResource.csproj", "{0A4EA258-1FA4-4592-9E9C-CDC834887814}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{C968D0AC-F268-410E-94FC-0CBD47DDC354}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C968D0AC-F268-410E-94FC-0CBD47DDC354}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C968D0AC-F268-410E-94FC-0CBD47DDC354}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A4EA258-1FA4-4592-9E9C-CDC834887814}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A4EA258-1FA4-4592-9E9C-CDC834887814}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A4EA258-1FA4-4592-9E9C-CDC834887814}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A4EA258-1FA4-4592-9E9C-CDC834887814}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

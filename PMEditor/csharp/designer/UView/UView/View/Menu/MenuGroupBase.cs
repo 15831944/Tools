@@ -9,6 +9,8 @@ namespace UView.View.Menu
     internal abstract class MenuGroupBase : IMenuGroup
     {
         protected MainEditor _editor;
+        protected DevExpress.XtraBars.BarSubItem _itemGroup;
+        protected List<DevExpress.XtraBars.BarButtonItem> _itemList = new List<DevExpress.XtraBars.BarButtonItem>();
 
         void IMenuGroup.InitMenu(MainEditor editor)
         {
@@ -18,7 +20,7 @@ namespace UView.View.Menu
         
         protected virtual void InitMenuButton() { }
 
-        protected DevExpress.XtraBars.BarButtonItem InitMenuButton(DevExpress.XtraBars.BarSubItem parent, string caption, string name, bool bGroup = false, DevExpress.XtraBars.BarShortcut st = null)
+        protected DevExpress.XtraBars.BarButtonItem InitMenuButton(string caption, string name, bool bGroup = false, DevExpress.XtraBars.BarShortcut st = null)
         {
             DevExpress.XtraBars.BarButtonItem btItem = new DevExpress.XtraBars.BarButtonItem()
             {
@@ -30,7 +32,8 @@ namespace UView.View.Menu
             btItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.ButtonItemClick);
 
             _editor.BarMgr.Items.Add(btItem);
-            parent.LinksPersistInfo.Add(new DevExpress.XtraBars.LinkPersistInfo(btItem, bGroup));
+            _itemGroup.LinksPersistInfo.Add(new DevExpress.XtraBars.LinkPersistInfo(btItem, bGroup));
+            _itemList.Add(btItem);
             return btItem;
         }
 
