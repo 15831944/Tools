@@ -12,6 +12,7 @@ namespace UCore.Interface
         string Name { get; set; }
         string Path { get; set; }
         string Comment { get; set; }
+        string Type { get; set; }
         DateTime Time { get; set; }
     }
 }

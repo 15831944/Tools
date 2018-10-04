@@ -73,11 +73,7 @@ namespace UCore
 
         public void CreateSolution(string strName, string strPath, string strComment)
         {
-            var hi = new HeadInfo() {
-                Name = strName,
-                Path = strPath,
-                Comment = strComment
-            };
+            var hi = new HeadInfo(strName, strPath, strComment, "Solution");
             _solutionHeadList.Add(hi);
             CreateSolution(hi);
         }
@@ -107,11 +103,8 @@ namespace UCore
         	return node;
         }
 
-        //public MainEditor Editor { get; set; }
-
         public List<HeadInfo> SolutionHeadList { get { return _solutionHeadList; } }
 
         public List<Solution> Solutions { get { return _solutionList; } }
     }
-
 }
